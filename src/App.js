@@ -1,8 +1,14 @@
 import "./App.css";
-import LinksComponent from "./LinksComponent";
+import HomePage from "./Home";
+import "@rainbow-me/rainbowkit/styles.css";
+import WalletWrapper from "./WalletWrapper";
 
-function App() {
-  return <LinksComponent />;
-}
+const App = () => {
+  return (
+    <WalletWrapper>
+      <HomePage />
+    </WalletWrapper>
+  );
+};
 
 export default App;
