@@ -1,5 +1,4 @@
 import "./App.css";
-import HomePage from "./Home";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
@@ -17,17 +16,15 @@ const { connectors } = getDefaultWallets({
   chains,
 });
 const wagmiClient = createClient({
-  autoConnect: true,
+  autoConnect: false,
   connectors,
   provider,
 });
 
-const App = ({children}) => {
+const App = ({ children }) => {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-      {children}
-      </RainbowKitProvider>
+    <WagmiConfig client={wagmiClient} >
+      <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
     </WagmiConfig>
   );
 };

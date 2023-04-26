@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchData, truncateAddress } from "./helpers";
+import { useDisconnect } from "wagmi";
+import { Oval } from "react-loader-spinner";
 
 function LinksComponent() {
   const location = useLocation();
   const query = location.pathname.slice(10);
   const [userData, setUserData] = useState([]);
+  const { disconnect } = useDisconnect();
 
   useEffect(() => {
     async function getUserData() {
       const response = await fetchData(query);
       setUserData(response);
-      console.log(response);
     }
     getUserData();
   }, [query]);
@@ -19,10 +21,29 @@ function LinksComponent() {
   return (
     <div className="container">
       <p className="public-key"> {truncateAddress(query || "")} </p>
-      {userData === [] ? (
-        <Message message={"Fetching User Data..."} />
-      ) : userData === undefined ? (
-        <Message message={"User Data not Found"} />
+      {userData.length === 0 ? (
+        <Message>
+          {" "}
+          <Oval
+            height={80}
+            width={80}
+            color="#ffffff"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#ffffff"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        </Message>
+      ) : userData === "Error" ? (
+        <Message>
+          <span>User Data not Found</span>{" "}
+          <a href="/" onClick={() => disconnect()} className="text-mint">
+            Go Home
+          </a>
+        </Message>
       ) : (
         <>
           {" "}
@@ -50,7 +71,10 @@ function LinksComponent() {
       )}
       <div className="footer">
         Link Tree{" "}
-        <a href="https://www.koii.network/" className="by-koii">
+        <a
+          href="https://www.koii.network/"
+          className="by-koii"
+        >
           By Koii Network
         </a>
       </div>
@@ -60,10 +84,6 @@ function LinksComponent() {
 
 export default LinksComponent;
 
-const Message = ({ message }) => {
-  return (
-    <div className="message-container">
-      <p>{message}</p>
-    </div>
-  );
+const Message = ({ children }) => {
+  return <div className="message-container">{children}</div>;
 };
