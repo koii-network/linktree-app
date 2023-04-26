@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Sora";
+  src: url("/public/fonts/sora/Sora-VariableFont_wght.ttf") format("truetype");
+}
+
+body {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  overflow: hidden;
+  background-color: var(--koii-blue);
+}
+
+:root {
+  --koii-blue: #171753;
+  --koii-mint: #9be7c4;
+  --koii-white: #ecfffe;
+}
