@@ -164,6 +164,10 @@ p {
   color: white;
 }
 
+.text-mint {
+  color: var(--koii-mint);
+}
+
 .error {
   font-size: 14px;
   color: rgb(247, 104, 104);

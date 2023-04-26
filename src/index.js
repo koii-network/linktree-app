@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LinksComponent from "./LinksComponent";
+import WalletWrapper from "./WalletWrapper";
+import "@rainbow-me/rainbowkit/styles.css";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +20,9 @@ const router = createBrowserRouter([
 
 ReactDOM.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <WalletWrapper>
+      <RouterProvider router={router} />
+    </WalletWrapper>
   </React.StrictMode>,
   document.getElementById("root")
 );
