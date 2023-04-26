@@ -15,6 +15,6 @@ export const fetchData = async (publicKey) => {
     const userData = response.data.data.linktree;
     return userData;
   } catch (error) {
-    console.log(error);
+    return 'Error'
   }
 };

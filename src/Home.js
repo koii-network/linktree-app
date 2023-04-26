@@ -14,19 +14,18 @@ const HomePage = () => {
     address && navigate(`/linktree/${address}`);
   }, [address, navigate]);
 
-  console.log(address);
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      await fetchData(publicKey);
-      setPublicKey(publicKey);
-      setError(false);
-      navigate(`/linktree/${publicKey}`);
+      const res = await fetchData(publicKey);
+      if (res === "Error") {
+        setError(true);
+        setPublicKey("");
+      } else {
+        navigate(`/linktree/${publicKey}`);
+      }
     } catch (error) {
-      console.error("Error fetching data:", error);
       setError(true);
-      setPublicKey("");
     }
   };
 
@@ -37,7 +36,7 @@ const HomePage = () => {
           <ConnectWallet />
 
           <p className="title-1">OR</p>
-          <form className="input-container">
+          <form className="input-container" onSubmit={handleSubmit}>
             <input
               required
               className="public-key-input"
@@ -45,14 +44,11 @@ const HomePage = () => {
               value={publicKey}
               onChange={(e) => setPublicKey(e.target.value)}
             />
-            <button
+            <input
               type="submit"
-              onClick={handleSubmit}
+              value="Go"
               className="public-key-input submit"
-            >
-              {" "}
-              GO
-            </button>
+            />
           </form>
           {error && (
             <p className="error">

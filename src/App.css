@@ -168,6 +168,7 @@ p {
   font-size: 14px;
   color: rgb(247, 104, 104);
   text-align: left;
+  margin-top: 10px;
 }
 
 @media screen and (max-width: 768px) {
