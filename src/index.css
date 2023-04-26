@@ -6,8 +6,11 @@
 body {
   margin: 0;
   font-family: "Sora", sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
   background-color: var(--koii-blue);
+  color: var(--koii-white);
+  display: flex;
+  justify-content: center;
 }
 
 :root {
