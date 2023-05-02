@@ -2,10 +2,10 @@
 
 This is a Koii task called linktree 
 
-To run the app locally 
+To run the app locally:
 
-## `yarn start`
+`yarn start`
 
-To access the backend code 
+To access the backend code:
 
-## `cd task-template-linktree`
+`cd task-template-linktree`
