@@ -15,23 +15,25 @@ try {
 
   const data = {
       uuid: uuidv4(),
-      linktree: [
-        {
-          key: 'official',
-          label: 'Official Website',
-          redirectUrl: 'https://spheron.network/',
-        },
-        {
-          key: 'twitter',
-          label: 'Twitter',
-          redirectUrl: 'https://twitter.com/blockchainbalak',
-        },
-        {
-          key: 'github',
-          label: 'GitHub',
-          redirectUrl: 'https://github.com/spheronFdn/',
-        },
-      ],
+      linktree:
+    {
+    name: 'Linktree test',
+    description: "Linktree test description",
+    image: 'https://www.koii.network/_next/image?url=%2FKoiiNetwork-logo_128.png&w=48&q=75',
+    background: '',
+    links: [
+      {
+        key: 'official',
+        label: 'Koii Network',
+        redirectUrl: 'https://www.koii.network/',
+      },
+      {
+        key: 'website',
+        label: 'Koii Docs',
+        redirectUrl: 'https://docs.koii.network/',
+      },
+    ],
+  },
       timestamp: Date.now(),
   };
 
@@ -40,16 +42,18 @@ try {
   );
   const signedMessage = nacl.sign(messageUint8Array, privateKey);
   const signature = signedMessage.slice(0, nacl.sign.signatureLength);
+  const pubkey = bs58.encode(publicKey)
+  const sign = bs58.encode(signature)
   const payload = {
     data,
-    publicKey: bs58.encode(publicKey),
-    signature: bs58.encode(signature),
+    publicKey: pubkey,
+    signature: sign,
   };
-  console.log(bs58.encode(publicKey))
+  console.log(pubkey)
 
 
   // Check payload
-  // console.log(payload);
+  console.log(payload);
   
   await axios
     .post('https://k2-tasknet-ports-2.koii.live/task/HjWJmb2gcwwm99VhyNVJZir3ToAJTfUB4j7buWnMMUEP/linktree', {payload})
