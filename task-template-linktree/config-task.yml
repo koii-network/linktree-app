@@ -5,13 +5,13 @@ task_name: 'linktree-task'
 task_description: 'linktree task'
 
 # network value can be DEVELOPMENT , ARWEAVE or IPFS
-task_executable_network: 'DEVELOPMENT'
+task_executable_network: 'IPFS'
 
 # Provide your web3.storage key as it is needed for uploading your metadata
 secret_web3_storage_key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGY0ODYxMzAzOTdDNTY1QzlDYTRCOTUzZTA2RWQ4NUI4MGRBQzRkYTIiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjYzNjU1OTk5MDMsIm5hbWUiOiJTb21hIn0.TU-KUFS9vjI9blN5dx6VsLLuIjJnpjPrxDHBvjXQUxw'
 
 # Path to your executable webpack if the selected network is IPFS otherwise leave blank
-task_audit_program: ''
+task_audit_program: '/home/soma/koii/linktree-app/task-template-linktree/dist/main.js'
 
 # Provide your transaction ID in case of ARWEAVE and in case of DEVELOPMENT give your executable name as main otherwise leave blank
 task_audit_program_id: 'main'
@@ -43,15 +43,12 @@ space: 3
 
 author: 'Soma'
 description: 'linktree-task'
-repositoryUrl: 'https://github.com/somali0128/task-template-linktree'
+repositoryUrl: 'https://github.com/koii-network/linktree-app'
 imageUrl: 'https://www.koii.network/images/iceberg_desktop.svg'
 requirementsTags:
-  - type: GLOBAL_VARIABLE
-    value: 'WEB3.STORAGE SECRET KEY'
-    description: 'used to connect web3.storage'
   - type: TASK_VARIABLE
-    value: 'SCAPING URL'
-    description: 'url from which you want to scrape'
+    value: SECRET_WEB3_STORAGE_KEY
+    description: 'used to connect web3.storage'
   - type: CPU
     value: '4-core'
   - type: RAM
