@@ -8,13 +8,27 @@ export const truncateAddress = (address) => {
 };
 
 export const fetchData = async (publicKey) => {
+  let nodeList = []
+  let nodeResponse = await axios.get(
+    'https://k2-tasknet.koii.live/nodes/HjWJmb2gcwwm99VhyNVJZir3ToAJTfUB4j7buWnMMUEP'
+  );
+  for (let i = 0; i < nodeResponse.data.length; i++) {
+    nodeList.push(nodeResponse.data[i].data.url);
+    }
+  console.log(nodeList)
+
+  for (let i = 0; i < nodeList.length; i++) {
   try {
-    const response = await axios.get(
-      `https://k2-tasknet-ports-3.koii.live/task/HjWJmb2gcwwm99VhyNVJZir3ToAJTfUB4j7buWnMMUEP/linktree/get/${publicKey}`
-    );
-    const userData = response.data.data.linktree;
-    return userData;
+    const response = await axios.get(`${nodeList[i]}/task/HjWJmb2gcwwm99VhyNVJZir3ToAJTfUB4j7buWnMMUEP/linktree/get/${publicKey}`);
+    if (response.data && response.data.data) {
+      console.log(`Data found in node ${i}:`, response.data.data);
+      const userData = response.data.data.linktree;
+      return userData;
+    }
   } catch (error) {
     return 'Error'
   }
+}
+  return "Error";
+
 };
