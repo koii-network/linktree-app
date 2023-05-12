@@ -1,7 +1,4 @@
-const levelup = require('levelup');
-const leveldown = require('leveldown');
 const { namespaceWrapper } = require('./namespaceWrapper');
-const fs = require('fs');
 
 // db functions for linktree
 const getLinktree = async (publicKey) => {

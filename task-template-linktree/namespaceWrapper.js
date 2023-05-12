@@ -1,23 +1,24 @@
 const { default: axios } = require('axios');
-const levelup = require('levelup');
-const leveldown = require('leveldown');
-const BASE_ROOT_URL = 'http://localhost:8080/namespace-wrapper';
-const { TASK_ID, SECRET_KEY } = require('./init');
+const { TASK_ID, SECRET_KEY, TASK_NODE_PORT } = require('./init');
 const { Connection, PublicKey, Keypair } = require('@_koi/web3.js');
 const taskNodeAdministered = !!TASK_ID;
+const BASE_ROOT_URL = `http://localhost:${TASK_NODE_PORT}/namespace-wrapper`;
+const Datastore = require('nedb-promises');
 class NamespaceWrapper {
-  levelDB;
+  db;
 
   constructor() {
-    if(taskNodeAdministered){
-      this.getTaskLevelDBPath().then((path)=>{
-        this.levelDB = levelup(leveldown(path));
-      }).catch((err)=>{
-        console.error(err)
-        this.levelDB=levelup(leveldown(`../namespace/${TASK_ID}/KOIILevelDB`))
-      })
-    }else{
-      this.levelDB = levelup(leveldown('./localKOIIDB'));
+    if (taskNodeAdministered) {
+      this.getTaskLevelDBPath()
+        .then(path => {
+          this.db = Datastore.create(path);
+        })
+        .catch(err => {
+          console.error(err);
+          this.db = Datastore.create(`../namespace/${TASK_ID}/KOIILevelDB.db`);
+        });
+    } else {
+      this.db = Datastore.create('./localKOIIDB.db');
     }
   }
   /**
@@ -25,15 +26,17 @@ class NamespaceWrapper {
    * @param {string} key // Path to get
    */
   async storeGet(key) {
-    return new Promise((resolve, reject) => {
-      this.levelDB.get(key, { asBuffer: false }, (err, value) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(value);
-        }
-      });
-    });
+    try {
+      const resp = await this.db.findOne({ key: key });
+      if (resp) {
+        return resp[key];
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
   }
   /**
    * Namespace wrapper over storeSetAsync
@@ -41,15 +44,13 @@ class NamespaceWrapper {
    * @param {*} value Data to set
    */
   async storeSet(key, value) {
-    return new Promise((resolve, reject) => {
-      this.levelDB.put(key, value, {}, err => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-    });
+    try {
+      console.log({ [key]: value, key });
+      await this.db.insert({ [key]: value, key });
+    } catch (e) {
+      console.error(e);
+      return undefined;
+    }
   }
   /**
    * Namespace wrapper over fsPromises methods
@@ -77,7 +78,6 @@ class NamespaceWrapper {
   async payloadSigning(body) {
     return await genericHandler('signData', body);
   }
-
 
   /**
    * Namespace wrapper of storeGetAsync
@@ -261,7 +261,6 @@ class NamespaceWrapper {
   }
 
   async validateAndVoteOnNodes(validate, round) {
-
     console.log('******/  IN VOTING /******');
     const taskAccountDataJSON = await this.getTaskState();
 
