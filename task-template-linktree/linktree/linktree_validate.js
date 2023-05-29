@@ -45,15 +45,16 @@ async function verifyLinktrees(proofs_list_object) {
   console.log('Authenticated Users List:', AuthUserList);
 
   for (const proofs of proofs_list_object) {
-    let publicKey = proofs.value[0].publicKey;
+    console.log(proofs)
+    let publicKey = proofs.publicKey;
 
     // call other nodes to get the node list
-    const nodeUrlList = await namespaceWrapper.getNodes();
+    // const nodeUrlList = await namespaceWrapper.getNodes();
 
     // TEST hardcode the node list
-    // const nodeUrlList = [
-    //   "http://localhost:10000",
-    // ]
+    const nodeUrlList = [
+      "http://localhost:10000",
+    ]
 
     // verify the signature of the linktree for each nodes
     for (const nodeUrl of nodeUrlList) {
@@ -61,7 +62,7 @@ async function verifyLinktrees(proofs_list_object) {
 
       // get all linktree in this node
       const res = await axios.get(
-        `${url}/task/${TASK_ID}/linktree/get/${publicKey}`,
+        `${nodeUrl}/task/${TASK_ID}/linktree/get/${publicKey}`,
       );
 
       // TEST hardcode the node endpoint

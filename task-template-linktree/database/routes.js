@@ -38,16 +38,8 @@ router.use((req, res, next) => {
         publicKey: pubkey,
         signature: signature,
     }
-    console.log('Check Proof:', proof);
-    // use fs to write the linktree and proof to a file
-    if (!fs.existsSync('./Linktree')) fs.mkdirSync('./Linktree');
-    fs.writeFileSync("./Linktree/" + `linktree_${pubkey}.json`, JSON.stringify(linktree));
-    // fs.writeFileSync('proof.json', JSON.stringify(proof));
-    await db.setLinktree(pubkey, linktree);
 
-    const round = await namespaceWrapper.getRound();
-    // TEST For only testing purposes:
-    // const round = 1000
+    await db.setLinktree(pubkey, linktree);
 
     let proofs = await db.getProofs(pubkey);
     proofs = JSON.parse(proofs || '[]');
@@ -73,12 +65,6 @@ router.use((req, res, next) => {
     linktree = linktree || '[]';
     return res.status(200).send(linktree);
     });
-    router.get('/linktree/all', async (req, res) => {
-    linktree = await db.getAllLinktrees() || '[]';
-        return res.status(200).send(linktree);
-        }
-
-    );
 
     router.get('/linktree/list', async (req, res) => {
         linktree = await db.getAllLinktrees(true) || '[]';

@@ -1,4 +1,4 @@
-const dbmodel = require('../db_model');
+const db = require('../database/db_model');
 
 const PublicKey = "test-pubkey1"
 
@@ -49,6 +49,12 @@ const pubkey = PublicKey;
     // get all proofs
     // await dbmodel.getAllProofs();
 
+    // set auth list
+
+    await db.setAuthList(pubkey);
+
+    let AuthUserList = await db.getAllAuthLists();
+    console.log('Authenticated Users List:', AuthUserList);
 }                  
 
 testdb()

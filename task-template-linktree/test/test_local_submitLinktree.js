@@ -18,25 +18,42 @@ try {
   console.log('publicKey', bs58.encode(publicKey));
   const data = {
     uuid: uuidv4(),
-    linktree: [
-      {
-        key: 'official',
-        label: 'Official Website',
-        redirectUrl: 'https://spheron.network/',
-      },
-      {
-        key: 'twitter',
-        label: 'Twitter',
-        redirectUrl: 'https://twitter.com/blockchainbalak',
-      },
-      {
-        key: 'github',
-        label: 'GitHub',
-        redirectUrl: 'https://github.com/spheronFdn/',
-      },
-    ],
+    linktree: {
+      name: 'Saim Iqbal',
+      description: 'Koii network',
+      image:
+        'https://bafybeifqlmydsok6qfg3vo33qsat4wswrjdneummyj7mc7w7sinziknriu.ipfs.w3s.link/Saim.jpg',
+      background: '',
+      links: [
+        {
+          key: 'telegram',
+          label: 'Telegram',
+          redirectUrl: 'https://t.me/saimkoii',
+        },
+        {
+          key: 'twitter',
+          label: 'Twitter',
+          redirectUrl: 'https://twitter.com/s1mplecoder',
+        },
+        {
+          key: 'instagram',
+          label: 'Instagram',
+          redirectUrl: 'https://www.instagram.com/saimiiqbal7/',
+        },
+        {
+          key: 'official',
+          label: 'Koii Network',
+          redirectUrl: 'https://www.koii.network/',
+        },
+        {
+          key: 'website',
+          label: 'Koii Docs',
+          redirectUrl: 'https://docs.koii.network/',
+        },
+      ],
+    },
     timestamp: Date.now(),
-  }
+  };
   const messageUint8Array = new Uint8Array(
     Buffer.from(JSON.stringify(data)),
   );

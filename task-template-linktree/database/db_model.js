@@ -139,20 +139,20 @@ const getAuthList = async (pubkey) => {
 const setAuthList = async (pubkey) => {
   const db = await namespaceWrapper.getDb();
   try {
-    const authListId = getauthListid(pubkey);
-    await db.insert({ authListId, cid });
-    return console.log('auth List CID set');
+    const authListId = getAuthListId(pubkey);
+    await db.insert({ authListId, pubkey });
+    return console.log('auth List pubkey set');
   } catch (err) {
     return undefined;
   }
 }
 
-const getAllAuthLists = async (values) => {
+const getAllAuthLists = async () => {
   const db = await namespaceWrapper.getDb();
   const authListRaw = await db.find({
-    authList: { $exists: true },
+    authListId: { $exists: true },
   });
-  let authList = authListRaw.map(authList => authList.authList);
+  let authList = authListRaw.map(authList => authList.pubkey);
   return authList;
 }
 

@@ -18,10 +18,10 @@ const main = async () => {
   // const keypair = await namespaceWrapper.getSubmitterAccount();
 
   // TEST For local testing, hardcode the keypair
-  const keypair = Keypair.generate(); 
+  const keypair = Keypair.generate();
 
   // Get linktree list fron localdb
-  const proofs_list_object =  await db.getAllProofs();
+  const proofs_list_object = await db.getAllProofs();
 
   // Use the node's keypair to sign the linktree list
   const messageUint8Array = new Uint8Array(
@@ -47,7 +47,6 @@ const main = async () => {
   await createFile(path, submission_value);
 
   if (storageClient) {
-
     const file = await getFilesFromPath(path);
     const proof_cid = await storageClient.put(file);
     console.log('User Linktrees proof uploaded to IPFS: ', proof_cid);
@@ -56,11 +55,8 @@ const main = async () => {
     await deleteFile(path);
 
     return proof_cid;
-    
   } else {
-
     console.log('NODE DO NOT HAVE ACCESS TO WEB3.STORAGE');
-
   }
 };
 

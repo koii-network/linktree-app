@@ -15,11 +15,11 @@ const run = async () => {
         
 
     setTimeout(async ()  =>   {
-        await linktreeTask.task(round - 1);
-        console.log('task completed')
-        let proof_cid = await linktreeTask.generateSubmissionCID(round - 1);
-        console.log('got round result', proof_cid);
-
+        // await linktreeTask.task(round);
+        // console.log('task completed')
+        // let proof_cid = await linktreeTask.generateSubmissionCID(round);
+        // console.log('got round result', proof_cid);
+        let proof_cid = "bafybeiatlrlmpnzt6jqrj2rvfkc3n377kswwmwpzxst3awl6sgutwo6miy"
         let output = await linktreeTask.validateSubmissionCID(proof_cid, round);
         console.log('validated round result', output);
 
