@@ -51,10 +51,10 @@ const pubkey = PublicKey;
 
     // set auth list
 
-    await db.setAuthList(pubkey);
+    // await db.setAuthList(pubkey);
 
-    let AuthUserList = await db.getAllAuthLists();
-    console.log('Authenticated Users List:', AuthUserList);
+    // let AuthUserList = await db.getAllAuthLists();
+    // console.log('Authenticated Users List:', AuthUserList);
 }                  
 
 testdb()

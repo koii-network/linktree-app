@@ -3,7 +3,7 @@ const db = require('../database/db_model');
 const nacl = require('tweetnacl');
 const bs58 = require('bs58');
 const { default: axios } = require('axios');
-const { namespaceWrapper } = require('../environment/namespaceWrapper');
+const { TASK_ID } = require('./init');
 const Web3 = require('web3');
 const web3 = new Web3();
 const ethUtil = require('ethereumjs-util');
@@ -52,9 +52,9 @@ async function verifyLinktrees(proofs_list_object) {
     // const nodeUrlList = await namespaceWrapper.getNodes();
 
     // TEST hardcode the node list
-    const nodeUrlList = [
-      "http://localhost:10000",
-    ]
+    // const nodeUrlList = [
+    //   "http://localhost:10000",
+    // ]
 
     // verify the signature of the linktree for each nodes
     for (const nodeUrl of nodeUrlList) {

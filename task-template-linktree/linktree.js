@@ -10,10 +10,10 @@ const linktree_validate = require('./linktree/linktree_validate');
  * It is instantiated by the task runner, and is passed a database to store data in.
  * 
  * 
- * 1. Task -> generates submission data to local db
- * 2. Submission -> uploads submission data to IPFS and returns CID
- * 3. Validate -> validates submission data by replicating the process of creating it
- * 4. Score -> scores submissions and distributes rewards
+ * 1. task() -> generates submission data to local db
+ * 2. generateSubmissionCID() -> uploads submission data to IPFS and returns CID
+ * 3. validateSubmissionCID() -> validates submission data by replicating the process of creating it
+ * 4. generateDistribution() -> scores submissions and distributes rewards
  * */
 class Linktree {
   // Tasks produce submissions and log them to a LOCAL database

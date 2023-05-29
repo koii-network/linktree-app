@@ -136,11 +136,11 @@ const getAuthList = async (pubkey) => {
   }
 }
 
-const setAuthList = async (pubkey) => {
+const setAuthList = async (pubkey, tx) => {
   const db = await namespaceWrapper.getDb();
   try {
     const authListId = getAuthListId(pubkey);
-    await db.insert({ authListId, pubkey });
+    await db.insert({ authListId, pubkey, tx });
     return console.log('auth List pubkey set');
   } catch (err) {
     return undefined;
