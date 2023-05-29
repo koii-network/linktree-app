@@ -1,19 +1,27 @@
 const { namespaceWrapper } = require('./environment/namespaceWrapper');
+const db = require('./database/db_model');
 const linktree_task = require('./linktree/linktree_task');
 const linktree_validate = require('./linktree/linktree_validate');
 
+/**
+ * @class Linktree
+ * @description
+ * Linktree is a class that contains all the logic for a task. 
+ * It is instantiated by the task runner, and is passed a database to store data in.
+ * 
+ * 
+ * 1. Task -> generates submission data to local db
+ * 2. Submission -> uploads submission data to IPFS and returns CID
+ * 3. Validate -> validates submission data by replicating the process of creating it
+ * 4. Score -> scores submissions and distributes rewards
+ * */
 class Linktree {
   // Tasks produce submissions and log them to a LOCAL database
-  task = async () => {
+  task = async (round) => {
     // run linktree task
     console.log('*********task() started*********');
 
     const proof_cid = await linktree_task();
-
-    const round = await namespaceWrapper.getRound();
-
-    // TEST For only testing purposes:
-    // const round = 1000
 
     if (proof_cid) {
       await db.setNodeProofCid(round, proof_cid); // store CID in levelDB
@@ -26,7 +34,7 @@ class Linktree {
   };
 
   // To prove work, each node will submit it's 'submission' at the end of the round, by collecting data from it's Local Database and uploading to IPFS
-  generateSubmissionCID = async () => {
+  generateSubmissionCID = async (round) => {
     // The logic to fetch the submission values and return the cid string
 
     // fetching round number to store work accordingly
@@ -34,12 +42,8 @@ class Linktree {
     console.log('***********IN FETCH SUBMISSION**************');
     // The code below shows how you can fetch your stored value from level DB
 
-    // TEST For only testing purposes:
-    // const round = 1000
-    const round = await namespaceWrapper.getRound();
-
-    let proof_cid = await db.getNodeProofCid(round - 1); // retrieves the cid
-    console.log('Linktree proofs CID', proof_cid, 'in round', round - 1);
+    let proof_cid = await db.getNodeProofCid(round); // retrieves the cid
+    console.log('Linktree proofs CID', proof_cid, 'in round', round);
 
     return proof_cid;
   };

@@ -1,5 +1,5 @@
 const dataFromCid = require('../helpers/dataFromCid');
-const db = require('../custom/db_model');
+const db = require('../database/db_model');
 const nacl = require('tweetnacl');
 const bs58 = require('bs58');
 const { default: axios } = require('axios');
@@ -13,7 +13,7 @@ module.exports = async (submission_value, round) => {
   const outputraw = await dataFromCid(submission_value);
   const output = outputraw.data;
   console.log('OUTPUT', output);
-  console.log('RESPONSE DATA length', output.proofs[0].LENGTH);
+  console.log('RESPONSE DATA length', output.proofs.length);
   console.log('PUBLIC KEY', output.node_publicKey);
   console.log('SIGNATURE', output.node_signature);
 
@@ -26,9 +26,14 @@ module.exports = async (submission_value, round) => {
   console.log("Is the node's signature on the CID payload correct?", isNode);
 
   // check each item in the linktrees list and verify that the node is holding that payload, and the signature matches
-  let isLinktree = await verifyLinktrees(output.proofs);
+  let isLinktree;
+  if (output.proofs.length > 0) {
+  isLinktree = await verifyLinktrees(output.proofs);
   console.log('IS LINKTREE True?', isLinktree);
-
+  } else {
+    console.log("No linktree found in round", round)
+    isLinktree = true;
+  }
   if (isNode && isLinktree) return true; // if both are true, return true
   else return false; // if one of them is false, return false
 };

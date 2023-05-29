@@ -1,3 +1,13 @@
+/**
+ * This is the main file for the task-template-linktree bot.
+ * 
+ * This task is a simple example of a task that can be run on the K2 network.
+ * 
+ *  
+ * 
+ * 
+ */
+
 const coreLogic = require("./environment/coreLogic");
 const dbSharing = require("./custom/dbSharing");
 // const localShim = require("./localTestingShim"); // TEST to enable testing with K2 without round timers, enable this line and line 59

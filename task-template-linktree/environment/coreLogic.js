@@ -3,7 +3,7 @@ const linktree_task = require('../linktree/linktree_task');
 const linktree_validate = require('../linktree/linktree_validate');
 const crypto = require('crypto');
 const dataFromCid = require("../helpers/dataFromCid");
-const db = require('../custom/db_model');
+const db = require('../database/db_model');
 const Linktree = require('../linktree');
 class CoreLogic {
   constructor() {
@@ -11,11 +11,13 @@ class CoreLogic {
   }
   
   async task() {
-    return this.linktree.task();
+    const round = await namespaceWrapper.getRound();
+    await this.linktree.task(round);
   }
 
   async fetchSubmission() {
-    return this.linktree.generateSubmissionCID();
+    const round = await namespaceWrapper.getRound();
+    return await this.linktree.generateSubmissionCID(round);
   }
 
   async generateDistributionList(round, _dummyTaskState) {
