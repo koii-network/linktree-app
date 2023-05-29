@@ -1,5 +1,5 @@
-const coreLogic = require("./coreLogic");
-const namespaceWrapper = require("./namespaceWrapper");
+const coreLogic = require("../environment/coreLogic");
+const namespaceWrapper = require("../environment/namespaceWrapper");
 
 // TEST Set round
 // let round = 1000

@@ -1,9 +1,9 @@
-const dataFromCid = require('./helpers/dataFromCid');
-const db = require('./db_model');
+const dataFromCid = require('../helpers/dataFromCid');
+const db = require('../custom/db_model');
 const nacl = require('tweetnacl');
 const bs58 = require('bs58');
 const { default: axios } = require('axios');
-const { namespaceWrapper } = require('./namespaceWrapper');
+const { namespaceWrapper } = require('../environment/namespaceWrapper');
 const Web3 = require('web3');
 const web3 = new Web3();
 const ethUtil = require('ethereumjs-util');

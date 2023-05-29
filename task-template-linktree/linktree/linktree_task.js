@@ -1,6 +1,6 @@
-const { namespaceWrapper } = require('./namespaceWrapper');
-const createFile = require('./helpers/createFile.js');
-const deleteFile = require('./helpers/deleteFile');
+const { namespaceWrapper } = require('../environment/namespaceWrapper');
+const createFile = require('../helpers/createFile.js');
+const deleteFile = require('../helpers/deleteFile');
 const fs = require('fs');
 const { Web3Storage, getFilesFromPath } = require('web3.storage');
 const storageClient = new Web3Storage({
@@ -8,7 +8,7 @@ const storageClient = new Web3Storage({
 });
 const bs58 = require('bs58');
 const nacl = require('tweetnacl');
-const db = require('./db_model');
+const db = require('../custom/db_model');
 const { Keypair } = require('@solana/web3.js'); // TEST For local testing
 
 const main = async () => {

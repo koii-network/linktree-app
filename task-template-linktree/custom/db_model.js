@@ -1,4 +1,4 @@
-const { namespaceWrapper } = require('./namespaceWrapper');
+const { namespaceWrapper } = require('../environment/namespaceWrapper');
 const { ensureIndex } = require('./helpers/ensureIndex');
 
 ensureIndex();

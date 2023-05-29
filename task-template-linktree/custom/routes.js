@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('./db_model');
 const fs = require('fs');
-const { namespaceWrapper } = require('./namespaceWrapper');
+const { namespaceWrapper } = require('../environment/namespaceWrapper');
 
 // Middleware to log incoming requests
 router.use((req, res, next) => {

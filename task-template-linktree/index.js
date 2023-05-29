@@ -1,16 +1,16 @@
-const coreLogic = require("./coreLogic");
-const dbSharing = require("./dbSharing");
+const coreLogic = require("./environment/coreLogic");
+const dbSharing = require("./custom/dbSharing");
 // const localShim = require("./localTestingShim"); // TEST to enable testing with K2 without round timers, enable this line and line 59
-const { app, MAIN_ACCOUNT_PUBKEY, SERVICE_URL, TASK_ID } = require("./init");
+const { app, MAIN_ACCOUNT_PUBKEY, SERVICE_URL, TASK_ID } = require("./environment/init");
 const express = require('express');
-const { namespaceWrapper, taskNodeAdministered } = require("./namespaceWrapper");
+const { namespaceWrapper, taskNodeAdministered } = require("./environment/namespaceWrapper");
 const {default: axios} = require('axios');
 const bs58 = require('bs58');
 const solanaWeb3 = require('@solana/web3.js');
 const nacl = require('tweetnacl');
 const fs = require('fs');
-const db = require('./db_model');
-const routes = require('./routes');
+const db = require('./custom/db_model');
+const routes = require('./custom/routes');
 const path = require('path');
 
 async function setup() {
