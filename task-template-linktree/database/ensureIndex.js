@@ -1,5 +1,6 @@
 const {namespaceWrapper} = require('../environment/namespaceWrapper');
 
+// TODO Please put a line about what this function does here
 
 async function ensureIndex() {
   const db = await namespaceWrapper.getDb();
