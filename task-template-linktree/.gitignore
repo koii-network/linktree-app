@@ -13,3 +13,4 @@ localKOIIDB.db
 taskStateInfoKeypair.json
 linktrees
 test/testdb
+config-task.yml
