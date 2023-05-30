@@ -10,6 +10,7 @@ config/*
 taskStateInfoKeypair.json
 localKOIIDB.db
 .env
+.env-local
 taskStateInfoKeypair.json
 linktrees
 test/testdb
