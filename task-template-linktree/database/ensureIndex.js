@@ -1,5 +1,12 @@
 const {namespaceWrapper} = require('../environment/namespaceWrapper');
 
+/**
+ * @function ensureIndex
+ * @description
+ * This function ensures that the database has the correct indexes for the task. 
+ * It is called when the task is instantiated.
+ * This function will make sure that the field has the unique property, and that the field is sparse.
+ */
 
 async function ensureIndex() {
   const db = await namespaceWrapper.getDb();

@@ -4,7 +4,8 @@ const { ensureIndex } = require('./ensureIndex');
 ensureIndex();
 
 
-// db functions for linktree
+// Get a linktree from the database using the public key
+
 const getLinktree = async (publicKey) => {
   const db = await namespaceWrapper.getDb();
   const linktreeId = getLinktreeId(publicKey);
@@ -21,6 +22,8 @@ const getLinktree = async (publicKey) => {
   }
 }
 
+// Store a linktree in the database using the public key
+
 const setLinktree = async (publicKey, linktree) => {
   const db = await namespaceWrapper.getDb();
   try {
@@ -31,6 +34,8 @@ const setLinktree = async (publicKey, linktree) => {
     return undefined;
   }
 }
+
+// Get all linktrees from the database
 
 const getAllLinktrees = async () => {
   const db = await namespaceWrapper.getDb();
@@ -43,7 +48,8 @@ const getAllLinktrees = async () => {
   return linktreeList;
 }
 
-// namespaceWrapper.levelDB functions for proofs
+// Get proofs submited by a node given that node's public key
+
 const getProofs = async (pubkey) => {
   const db = await namespaceWrapper.getDb();
   const proofsId = getProofsId(pubkey);
@@ -60,6 +66,8 @@ const getProofs = async (pubkey) => {
   }
 }
 
+// Store the proofs object in the database using the public key
+
 const setProofs = async (pubkey, proofs) => {
   const db = await namespaceWrapper.getDb();
   try {
@@ -70,6 +78,8 @@ const setProofs = async (pubkey, proofs) => {
     return undefined;
   }
 }
+
+// Get all proofs from the database
 
 const getAllProofs = async () => {
   const db = await namespaceWrapper.getDb();
@@ -82,7 +92,8 @@ const getAllProofs = async () => {
   return proofsList;
 }
 
-// db functions for node proofs
+// Gets the CID associated with a given round of node proofs from the database.
+
 const getNodeProofCid = async (round) => {
   const db = await namespaceWrapper.getDb();
   const NodeProofsCidId = getNodeProofCidid(round);
@@ -99,6 +110,8 @@ const getNodeProofCid = async (round) => {
   }
 }
 
+// Sets the CID associated with a given round of node proofs in the database.
+
 const setNodeProofCid = async (round, cid) => {
   const db = await namespaceWrapper.getDb();
   try {
@@ -109,6 +122,8 @@ const setNodeProofCid = async (round, cid) => {
     return undefined;
   }
 }
+
+// Gets all CIDs associated with node proofs from the database.
 
 const getAllNodeProofCids = async () => {
   const db = await namespaceWrapper.getDb();
@@ -121,10 +136,11 @@ const getAllNodeProofCids = async () => {
   return NodeproofsList;
 }
 
-//db functions fro Auth list
+// Get the AuthList from the database using the public key, if not found return null
+
 const getAuthList = async (pubkey) => {
   const db = await namespaceWrapper.getDb();
-  const authListId = getauthListid(pubkey);
+  const authListId = getAuthListId(pubkey);  
   try {
     const resp = await db.findOne({ authListId });
     if (resp) {
@@ -135,6 +151,9 @@ const getAuthList = async (pubkey) => {
     return null;
   }
 }
+
+// Store the AuthList in the database using the public key
+// TODO: tx is the transaction of the public fund the bounty pool
 
 const setAuthList = async (pubkey, tx) => {
   const db = await namespaceWrapper.getDb();
@@ -147,7 +166,10 @@ const setAuthList = async (pubkey, tx) => {
   }
 }
 
-const getAllAuthLists = async () => {
+
+// Gets all AuthList from the database.
+
+const getAllAuthList = async () => {
   const db = await namespaceWrapper.getDb();
   const authListRaw = await db.find({
     authListId: { $exists: true },
@@ -184,6 +206,6 @@ module.exports = {
   getAllNodeProofCids,
   getAuthList,
   setAuthList,
-  getAllAuthLists,
+  getAllAuthList,
   getAuthListId
 }
