@@ -35,7 +35,7 @@ const share = async () => {
         // for each node, get all linktrees
         for (let url of nodeUrlList) {
           console.log(url);
-          const res = await axios.get(`${url}/task/${TASK_ID}/linktree/all`);
+          const res = await axios.get(`${url}/task/${TASK_ID}/linktree/list`);
           if (res.status != 200) {
             console.error('ERROR', res.status);
             continue;
@@ -44,7 +44,7 @@ const share = async () => {
 
        if (!payload || payload.length == 0) continue;
        for (let i = 0; i < payload.length; i++) {
-         const value = payload[i].value;
+         const value = payload[i];
          const isVerified = nacl.sign.detached.verify(
            new TextEncoder().encode(JSON.stringify(value.data)),
            bs58.decode(value.signature),
