@@ -10,14 +10,13 @@ class CoreLogic {
     this.linktree = new Linktree();
   }
   
-  async task() {
-    const round = await namespaceWrapper.getRound();
-    await this.linktree.task(round);
+  async task(roundNumber) {
+    await this.linktree.task(roundNumber);
+    return
   }
 
-  async fetchSubmission() {
-    const round = await namespaceWrapper.getRound();
-    return await this.linktree.generateSubmissionCID(round);
+  async fetchSubmission(roundNumber) {
+    return await this.linktree.generateSubmissionCID(roundNumber);
   }
 
   async generateDistributionList(round, _dummyTaskState) {
@@ -116,7 +115,7 @@ class CoreLogic {
         await namespaceWrapper.getSlot(),
         'current slot while calling submit',
       );
-      const submission = await this.fetchSubmission();
+      const submission = await this.fetchSubmission(roundNumber);
       console.log('SUBMISSION', submission);
       // submit the submission to the K2
       await namespaceWrapper.checkSubmissionAndUpdateRound(

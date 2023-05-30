@@ -82,7 +82,7 @@ async function setup() {
     }
     else if(m.functionCall == "executeTask") {
       console.log("executeTask called");
-      coreLogic.task();
+      coreLogic.task(m.roundNumber);
     }
     else if(m.functionCall == "generateAndSubmitDistributionList") {
       console.log("generateAndSubmitDistributionList called");
