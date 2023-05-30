@@ -1,5 +1,6 @@
 .container {
   padding: 2rem 1rem;
+  padding-top: 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,22 +12,28 @@ p {
 }
 
 .user-image {
-  width: 96px;
-  height: 96px;
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
   border-radius: 50%;
+  border: 5px solid #8989c7;
 }
 
 .user-name {
-  font-weight: bold;
-  margin-top: 2rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  font-size: 32px;
+  color: var(--koii-white);
 }
 
 .user-desc {
-  margin-top: 1rem;
+  margin-top: 0.7rem;
   font-weight: 300;
   text-align: center;
-  font-size: 13px;
-  width: 50%;
+  font-size: 14px;
+  width: 30%;
+  font-weight: 500;
+  color: var(--koii-white);
 }
 
 .message-container {
@@ -73,28 +80,29 @@ p {
 }
 
 .links {
-  margin-top: 3rem;
-  width: 60%;
+  margin-top: 2rem;
+  width: 30%;
 }
 
 .link {
   display: block;
   text-align: center;
-  padding: 1.2rem;
-  outline: 1px solid #fff;
+  padding: 0.8rem;
+  outline: 2px solid var(--koii-white);
   border-radius: 50px;
-  color: #fff;
+  color: var(--koii-blue);
+  background-color: var(--koii-mint);
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 20px;
-  transition: transform 0.3s ease-in-out, outline 0.3s ease-in-out,
+  margin-bottom: 25px;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out,
     color 0.3s ease-in-out;
 }
 
 .link:hover {
-  outline: 1px solid #9be7c4;
-  color: #9be7c4;
+  background-color: transparent;
+  color: var(--koii-white);
 }
 
 .title {
@@ -108,7 +116,7 @@ p {
 .footer {
   color: white;
   font-size: 14px;
-  margin-top: 5rem;
+  margin-top: 4rem;
   text-align: center;
 }
 
@@ -175,7 +183,7 @@ p {
   margin-top: 10px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .links {
     width: 100%;
   }
@@ -187,6 +195,10 @@ p {
   }
   .public-key {
     margin-bottom: 3rem;
+  }
+
+  .createLinktree {
+    width: 100vw;
   }
 }
 
@@ -214,18 +226,23 @@ p {
   }
 }
 
-@media screen and (min-width: 0px) {
-  .container {
-    width: 300px;
+@media screen and (max-width: 920px) {
+  .links,
+  .user-desc {
+    width: 40%;
   }
 }
-@media screen and (min-width: 768px) {
-  .container {
-    width: 700px;
+
+@media screen and (max-width: 630px) {
+  .links,
+  .user-desc {
+    width: 50%;
   }
 }
-@media screen and (min-width: 1100px) {
-  .container {
-    width: 1080px;
+
+@media screen and (max-width: 550px) {
+  .links,
+  .user-desc {
+    width: 80%;
   }
 }

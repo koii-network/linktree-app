@@ -5,16 +5,100 @@
 
 body {
   margin: 0;
-  font-family: "Sora", sans-serif;
+  font-family: "Sora", sans-serif !important;
   overflow-x: hidden;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-image: url("/public/images/DesktopD (1).svg") !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  color: var(--koii-white) !important;
   background-color: var(--koii-blue);
-  color: var(--koii-white);
   display: flex;
   justify-content: center;
 }
 
 :root {
   --koii-blue: #171753;
-  --koii-mint: #9be7c4;
+  --koii-mint: #5ed9d1;
   --koii-white: #ecfffe;
+}
+
+input[type="file"] {
+  padding: 4px;
+  margin: -4px;
+  position: relative;
+  outline: none;
+  color: var(--koii-white);
+  background-color: var(--koii-blue);
+  border-radius: 50px;
+}
+/* File Selector Button Styles */
+input[type="file"]::file-selector-button {
+  border-radius: 4px;
+  padding: 0 25px;
+  height: 40px;
+  cursor: pointer;
+  background-color: var(--koii-mint);
+  border: 0;
+  border-radius: 50px;
+  box-shadow: 0px 1px 0px rgba(#000, 0.05);
+  margin-right: 16px;
+  width: 132px;
+  color: transparent;
+}
+
+input[type="file"]:hover {
+  /* background-color: var(--koii-blue); */
+}
+
+input[type="file"]:active {
+  background-color: #e5e7eb;
+}
+
+/* Faked label styles and icon */
+input[type="file"]::before {
+  position: absolute;
+  pointer-events: none;
+  top: 14px;
+  left: 16px;
+  height: 20px;
+  width: 20px;
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230964B0'%3E%3Cpath d='M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z'/%3E%3C/svg%3E");
+}
+
+input[type="file"]::after {
+  position: absolute;
+  pointer-events: none;
+  font-weight: bold;
+  top: 14px;
+  left: 35px;
+  font-size: 14px;
+  color: var(--koii-blue);
+  margin-right: 15px;
+  content: "Upload File";
+}
+
+/* Handle Component Focus */
+input[type="file"]:focus-within::file-selector-button,
+input[type="file"]:focus::file-selector-button {
+  outline: 2px solid var(--koii-blue);
+  outline-offset: 2px;
+}
+
+@media screen and (max-width: 800px) {
+  body {
+    background-image: url("/public/images/DesktopD (2).svg") !important;
+    background-position: bottom !important;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  body {
+    background-image: url("/public/images/Phone D.svg") !important;
+    background-position: top !important;
+  }
 }
