@@ -9,7 +9,7 @@ executables/*
 namespace/*
 config/*
 taskStateInfoKeypair.json
-localKOIIDB
+localKOIIDB.db
 .env
 taskStateInfoKeypair.json
 linktrees
