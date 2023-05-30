@@ -136,7 +136,7 @@ const getAllNodeProofCids = async () => {
   return NodeproofsList;
 }
 
-// TODO rename to checkUserInAuthList ?
+// Get the AuthList from the database using the public key, if not found return null
 
 const getAuthList = async (pubkey) => {
   const db = await namespaceWrapper.getDb();
@@ -152,7 +152,8 @@ const getAuthList = async (pubkey) => {
   }
 }
 
-// TODO rename to addToAuthList ?
+// Store the AuthList in the database using the public key
+// TODO: tx is the transaction of the public fund the bounty pool
 
 const setAuthList = async (pubkey, tx) => {
   const db = await namespaceWrapper.getDb();
@@ -165,10 +166,10 @@ const setAuthList = async (pubkey, tx) => {
   }
 }
 
-// TODO is there supposed to be many auth lists? or just one ?
-// TODO rename to getAllAuthList ?
 
-const getAllAuthLists = async () => {
+// Gets all AuthList from the database.
+
+const getAllAuthList = async () => {
   const db = await namespaceWrapper.getDb();
   const authListRaw = await db.find({
     authListId: { $exists: true },
@@ -205,6 +206,6 @@ module.exports = {
   getAllNodeProofCids,
   getAuthList,
   setAuthList,
-  getAllAuthLists,
+  getAllAuthList,
   getAuthListId
 }
