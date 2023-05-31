@@ -97,12 +97,12 @@ function LinksComponent() {
         </>
       )}
       <div className="footer">
-        Link Tree{" "}
+        Link tree by{" "}
         <a
           href="https://www.koii.network/"
           className="by-koii"
         >
-          By Koii Network
+          Koii Network
         </a>
       </div>
     </div>

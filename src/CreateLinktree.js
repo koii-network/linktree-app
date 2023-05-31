@@ -106,7 +106,6 @@ const CreateLinktree = () => {
                   Public Key<span className="error">*</span>
                 </Text>
                 <Field
-                  fullWidth
                   name="public_key"
                   label="PublicKey"
                   as={Input}

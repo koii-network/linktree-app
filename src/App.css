@@ -114,16 +114,16 @@ p {
 }
 
 .footer {
-  color: white;
+  color: var(--koii-white);
   font-size: 14px;
   margin-top: 4rem;
   text-align: center;
+  font-weight: bold;
 }
 
 .by-koii {
-  font-style: italic;
   text-decoration: none;
-  color: #9be7c4;
+  color: var(--koii-mint);
 }
 .by-koii:hover {
   text-decoration: underline;

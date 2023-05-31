@@ -3,27 +3,34 @@
   src: url("/public/fonts/sora/Sora-VariableFont_wght.ttf") format("truetype");
 }
 
+:root {
+  --koii-blue: #171753;
+  --koii-mint: #5ed9d1;
+  --koii-white: #171753;
+  --koii-mint: #8989c7;
+  --background-image: url("/public/images/Desktop L.svg");
+}
+
+[data-theme="dark"] {
+  --koii-white: #ecfffe;
+  --koii-mint: #5ed9d1;
+  --background-image: url("/public/images/DesktopD (1).svg");
+}
+
 body {
   margin: 0;
   font-family: "Sora", sans-serif !important;
   overflow-x: hidden;
   min-width: 100vw;
   min-height: 100vh;
-  background-image: url("/public/images/DesktopD (1).svg") !important;
+  background-image: var(--background-image) !important;
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
   color: var(--koii-white) !important;
-  background-color: var(--koii-blue);
   display: flex;
   justify-content: center;
-}
-
-:root {
-  --koii-blue: #171753;
-  --koii-mint: #5ed9d1;
-  --koii-white: #ecfffe;
 }
 
 input[type="file"] {

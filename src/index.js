@@ -8,6 +8,10 @@ import WalletWrapper from "./WalletWrapper";
 import "@rainbow-me/rainbowkit/styles.css";
 import CreateLinktree from "./CreateLinktree";
 import { ChakraProvider } from "@chakra-ui/react";
+import { ColorModeScript } from "@chakra-ui/react";
+
+import ToggleThemeMode from "./ToggleThemeMode";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +31,8 @@ ReactDOM.render(
   <React.StrictMode>
     <WalletWrapper>
       <ChakraProvider>
+        <ToggleThemeMode />
+        {/* <ColorModeScript initialColorMode={theme.config.initialColorMode} /> */}
         <RouterProvider router={router} />
       </ChakraProvider>
     </WalletWrapper>
