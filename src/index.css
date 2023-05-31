@@ -4,17 +4,22 @@
 }
 
 :root {
-  --koii-blue: #171753;
+  --koii-blue: #ecfffe;
   --koii-mint: #5ed9d1;
   --koii-white: #171753;
   --koii-mint: #8989c7;
   --background-image: url("/public/images/Desktop L.svg");
+  --background-image-md: url("/public/images/Desktop L (1).svg"); 
+  --background-image-sm: url("/public/images/Phone L.svg"); 
 }
 
 [data-theme="dark"] {
+  --koii-blue: #171753;
   --koii-white: #ecfffe;
   --koii-mint: #5ed9d1;
   --background-image: url("/public/images/DesktopD (1).svg");
+  --background-image-md: url("/public/images/DesktopD (2).svg");
+  --background-image-sm: url("/public/images/Phone D.svg");
 }
 
 body {
@@ -33,13 +38,19 @@ body {
   justify-content: center;
 }
 
+.toggle-theme {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
 input[type="file"] {
   padding: 4px;
   margin: -4px;
   position: relative;
   outline: none;
-  color: var(--koii-white);
-  background-color: var(--koii-blue);
+  color: #fff;
+  background-color: #171753;
   border-radius: 50px;
 }
 /* File Selector Button Styles */
@@ -98,14 +109,14 @@ input[type="file"]:focus::file-selector-button {
 
 @media screen and (max-width: 800px) {
   body {
-    background-image: url("/public/images/DesktopD (2).svg") !important;
+    background-image: var(--background-image-md) !important;
     background-position: bottom !important;
   }
 }
 
 @media screen and (max-width: 700px) {
   body {
-    background-image: url("/public/images/Phone D.svg") !important;
+    background-image: var(--background-image-sm) !important;
     background-position: top !important;
   }
 }

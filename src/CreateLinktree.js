@@ -54,8 +54,12 @@ const CreateLinktree = () => {
     }
   };
   return (
-    <Box py={{ base: '8rem', md: '5rem' }} px={8} className="createLinktree">
-      <Text fontSize={{ base: "3xl", md: "4xl" }} fontWeight={{ base: "bold", md: "normal" }} my={5}>
+    <Box py={{ base: "8rem", md: "5rem" }} px={8} className="createLinktree">
+      <Text
+        fontSize={{ base: "3xl", md: "4xl" }}
+        fontWeight={{ base: "bold", md: "normal" }}
+        my={5}
+      >
         Create Your Koii Linktree Profile
       </Text>
       <Formik
@@ -109,6 +113,7 @@ const CreateLinktree = () => {
                   name="public_key"
                   label="PublicKey"
                   as={Input}
+                  className="input-border"
                 />
                 <Text className="error">
                   <ErrorMessage name={"public_key"} />
@@ -120,7 +125,12 @@ const CreateLinktree = () => {
                   <Text>
                     First Name<span className="error">*</span>
                   </Text>
-                  <Field name="firstname" label="First Name" as={Input} />
+                  <Field
+                    name="firstname"
+                    label="First Name"
+                    as={Input}
+                    className="input-border"
+                  />
                   <Text className="error">
                     <ErrorMessage name={"firstname"} />
                   </Text>
@@ -133,7 +143,12 @@ const CreateLinktree = () => {
                       Last Name<span className="error">*</span>
                     </Text>
                   </Box>
-                  <Field name="lastname" label="Last Name" as={Input} />
+                  <Field
+                    name="lastname"
+                    label="Last Name"
+                    as={Input}
+                    className="input-border"
+                  />
                   <Text className="error">
                     <ErrorMessage name={"lastname"} />
                   </Text>
@@ -144,7 +159,13 @@ const CreateLinktree = () => {
                 <Text>
                   Short Bio<span className="error">*</span>
                 </Text>
-                <Field name="bio" label="Bio" as={Textarea} height="150px" />
+                <Field
+                  name="bio"
+                  label="Bio"
+                  as={Textarea}
+                  height="150px"
+                  className="input-border"
+                />
                 <Text className="error">
                   <ErrorMessage name={"bio"} />
                 </Text>
@@ -214,6 +235,7 @@ const CreateLinktree = () => {
                           name={`links.${index}.label`}
                           label="Link Name"
                           as={Input}
+                          className="input-border"
                         />
                         <Text className="error">
                           <ErrorMessage name={`links.${index}.label`} />
@@ -225,6 +247,7 @@ const CreateLinktree = () => {
                           Link URL<span className="error">*</span>
                         </Text>
                         <Field
+                          className="input-border"
                           name={`links.${index}.redirectUrl`}
                           label="Link URL"
                           as={Input}
@@ -262,9 +285,9 @@ const CreateLinktree = () => {
                   <Button
                     mt={4}
                     leftIcon={<AddIcon />}
-                    color="#5ed9d1"
+                    color="var(--koii-white)"
                     rounded={"full"}
-                    borderColor={"#5ed9d1"}
+                    borderColor={"var(--koii-white)"}
                     variant="outline"
                     onClick={() => push(linksGroup)}
                   >
@@ -276,8 +299,8 @@ const CreateLinktree = () => {
             <Button
               w="full"
               rounded="full"
-              color="#171753"
-              bg="#5ed9d1"
+              color="var(--koii-blue)"
+              bg="var(--koii-white)"
               my={10}
               type="submit"
             >

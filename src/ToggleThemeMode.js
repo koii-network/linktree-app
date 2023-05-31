@@ -13,7 +13,7 @@ const ToggleThemeMode = () => {
     toggle();
   }, [isToggled]);
   return (
-    <form>
+    <form className="toggle-theme">
       <Switch
         size="lg"
         value={isToggled}
