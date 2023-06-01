@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { WalletContextProvider } from "./contexts";
 import LinksComponent from "./LinksComponent";
 import WalletWrapper from "./WalletWrapper";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -30,11 +31,13 @@ const router = createBrowserRouter([
 ReactDOM.render(
   <React.StrictMode>
     <WalletWrapper>
-      <ChakraProvider>
-        <ToggleThemeMode />
-        {/* <ColorModeScript initialColorMode={theme.config.initialColorMode} /> */}
-        <RouterProvider router={router} />
-      </ChakraProvider>
+      <WalletContextProvider>
+        <ChakraProvider>
+          <ToggleThemeMode />
+          {/* <ColorModeScript initialColorMode={theme.config.initialColorMode} /> */}
+          <RouterProvider router={router} />
+        </ChakraProvider>
+      </WalletContextProvider>
     </WalletWrapper>
   </React.StrictMode>,
   document.getElementById("root")
