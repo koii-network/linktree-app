@@ -16,31 +16,33 @@ const HomePage = () => {
     if (isFinnieDetected) {
       await connect();
       try {
-        setPublicKey(k2PubKey);
-        const linktree = await getLinktree(k2PubKey);
-        if (linktree.status === 200 && linktree.data.length === 0) {
-          toast({
-            title: "No Linktree profile for this public key",
-            description: "You'll be re-directed to create a profile",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-            position: "top",
-          });
-          setTimeout(() => {
-            navigate("/createlinktree");
-          }, 3000);
-        } else {
-          toast({
-            title: "Linktree profile successfully fetched!",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-            position: "top",
-          });
-          setTimeout(() => {
-            navigate(`linktree/${publicKey}`);
-          }, 2000);
+        if (k2PubKey) {
+          setPublicKey(k2PubKey);
+          const linktree = await getLinktree(k2PubKey);
+          if (linktree.status === 200 && linktree.data.length === 0) {
+            toast({
+              title: "No Linktree profile for this public key",
+              description: "You'll be re-directed to create a profile",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+              position: "top",
+            });
+            setTimeout(() => {
+              navigate("/createlinktree");
+            }, 3000);
+          } else {
+            toast({
+              title: "Linktree profile successfully fetched!",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+              position: "top",
+            });
+            setTimeout(() => {
+              navigate(`linktree/${publicKey}`);
+            }, 2000);
+          }
         }
       } catch (err) {
         toast({

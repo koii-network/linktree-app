@@ -21,7 +21,7 @@ export const useK2Finnie = () => {
   const connect = async () => {
     if (window?.k2) {
       await window?.k2.disconnect();
-      return window?.k2
+      return await window?.k2
         .connect()
         .then((pubKey) => {
           setIsConnected(true);
