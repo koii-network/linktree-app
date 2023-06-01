@@ -1,13 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchData, truncateAddress } from "./helpers";
+import { fetchData } from "./helpers";
 import { useDisconnect } from "wagmi";
 import { Oval } from "react-loader-spinner";
+
+const data = {
+  name: 'Al Morris',
+  description: 'Founder @KoiiNetwork Co-founder of http://WeTeachBlockchain.org Lifelong student and occasional teacher Robotics engineer and lover of comedy',
+  links: [
+    {
+      redirectUrl: 'hi',
+      label: 'Telegram'
+    },
+    {
+      redirectUrl: 'hi',
+      label: 'Twitter'
+    },
+    {
+      redirectUrl: 'hi',
+      label: 'Koii Network'
+    },
+    {
+      redirectUrl: 'hi',
+      label: 'Twitter'
+    },
+  ]
+}
 
 function LinksComponent() {
   const location = useLocation();
   const query = location.pathname.slice(10);
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState(data);
   const { disconnect } = useDisconnect();
 
   useEffect(() => {
@@ -19,8 +42,7 @@ function LinksComponent() {
   }, [query]);
 
   return (
-    <div className="container">
-      <p className="public-key"> {truncateAddress(query || "")} </p>
+<div className="container">
       {userData.length === 0 ? (
         <Message>
           {" "}
@@ -47,8 +69,13 @@ function LinksComponent() {
       ) : (
         <>
           {" "}
-          <img
+          {/* <img
             src={userData?.image}
+            alt={userData?.name}
+            className="user-image"
+          /> */}
+           <img
+            src={'/images/twitter_LCtIAZQN_400x400 1.png'}
             alt={userData?.name}
             className="user-image"
           />
@@ -70,12 +97,12 @@ function LinksComponent() {
         </>
       )}
       <div className="footer">
-        Link Tree{" "}
+        Link tree by{" "}
         <a
           href="https://www.koii.network/"
           className="by-koii"
         >
-          By Koii Network
+          Koii Network
         </a>
       </div>
     </div>

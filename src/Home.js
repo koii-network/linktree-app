@@ -3,12 +3,14 @@ import { ConnectWallet } from "./ConnectWallet";
 import { useNavigate } from "react-router-dom";
 import { fetchData } from "./helpers";
 import { useAccount } from "wagmi";
+import { useToast } from "@chakra-ui/react";
 
 const HomePage = () => {
   const [publicKey, setPublicKey] = useState("");
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const { address } = useAccount();
+  const toast = useToast();
 
   useEffect(() => {
     address && navigate(`/linktree/${address}`);
@@ -16,6 +18,7 @@ const HomePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (publicKey.length !== 42) return setError(true);
     try {
       const res = await fetchData(publicKey);
       if (res === "Error") {
@@ -24,8 +27,21 @@ const HomePage = () => {
       } else {
         navigate(`/linktree/${publicKey}`);
       }
-    } catch (error) {
-      setError(true);
+    } catch (err) {
+      if (err) {
+        toast({
+          title: "No Linktree profile for this public key",
+          description: "You'll be re-directed to create a profile",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+          
+        });
+        setTimeout(() => {
+          navigate("/createlinktree");
+        }, 3000);
+      }
     }
   };
 
@@ -50,11 +66,7 @@ const HomePage = () => {
               className="public-key-input submit"
             />
           </form>
-          {error && (
-            <p className="error">
-              Error in fetching data, make sure public key address is correct.
-            </p>
-          )}
+          {error && <p className="error">Public Key length must be 42!</p>}
         </div>
       </div>
     </>
