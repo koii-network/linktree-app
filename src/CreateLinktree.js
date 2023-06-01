@@ -39,16 +39,11 @@ const CreateLinktree = () => {
   const [image, setImage] = useState(null);
   const linksGroup = { label: "", redirectUrl: "" };
 
-  const uploadToIPFS = async (values) => {
-    console.log(values);
+  const sendPayload = async (values) => {
+    
     try {
-      const buffer = Buffer.from(JSON.stringify(values));
-      const files = [new File([buffer], "data.json"), image];
-      const client = makeStorageClient();
-      const cid = await client.put(files);
-      console.log(cid);
-      if (cid !== undefined) {
-      }
+      // TODO send to node's endpoint
+      console.log(values);
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +64,7 @@ const CreateLinktree = () => {
           lastname: "",
           bio: "",
           profile_image: null,
-          links: [linksGroup],
+          links: [linksGroup],sendPayload
         }}
         validationSchema={object({
           public_key: string()
@@ -99,7 +94,7 @@ const CreateLinktree = () => {
         })}
         onSubmit={async (values, actions) => {
           console.log("called");
-          await uploadToIPFS(values);
+          await sendPayload(values);
         }}
       >
         {({ values, handleSubmit }) => (
