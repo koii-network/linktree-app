@@ -7,7 +7,7 @@ import { Oval } from "react-loader-spinner";
 function LinksComponent() {
   const location = useLocation();
   const query = location.pathname.slice(10);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
   const { disconnect } = useDisconnect();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ function LinksComponent() {
 
   return (
     <div className='container'>
-      {userData.length === 0 ? (
+      {userData?.length === 0 ? (
         <Message>
           {" "}
           <Oval
