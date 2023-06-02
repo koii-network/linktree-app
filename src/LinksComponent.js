@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchData } from "./helpers";
+import { getLinktree } from "./api";
 import { useDisconnect } from "wagmi";
 import { Oval } from "react-loader-spinner";
 
@@ -12,7 +12,7 @@ function LinksComponent() {
 
   useEffect(() => {
     async function getUserData() {
-      const response = await fetchData(query);
+      const response = await getLinktree(query);
       setUserData(response);
     }
     getUserData();
