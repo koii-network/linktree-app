@@ -46,7 +46,7 @@ const CreateLinktree = () => {
   const [image, setImage] = useState(null);
   const [files, setFiles] = useState(null);
   const [imageName, setImageName] = useState(null);
-  const linksGroup = { label: "", redirectUrl: "" };
+  const linksGroup = { label: "", redirectUrl: "", key: "" };
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -65,6 +65,15 @@ const CreateLinktree = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const insertKey = (links) => {
+    return links.map((item) => {
+      return {
+        ...item,
+        key: uuid(),
+      };
+    });
   };
   return (
     <Box py={{ base: "8rem", md: "5rem" }} px={8} className='createLinktree'>
@@ -116,11 +125,13 @@ const CreateLinktree = () => {
               position: "top",
             });
           }
+          values.links = insertKey(values.links);
           const payload = {
             uuid: uuid(),
             linktree: {
               ...values,
               image: `https://${imageCID}.ipfs.dweb.link/${imageName}`,
+              background: "",
             },
             timestamp: Date.now(),
           };
