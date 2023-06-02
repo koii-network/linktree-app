@@ -4,33 +4,10 @@ import { fetchData } from "./helpers";
 import { useDisconnect } from "wagmi";
 import { Oval } from "react-loader-spinner";
 
-const data = {
-  name: 'Al Morris',
-  description: 'Founder @KoiiNetwork Co-founder of http://WeTeachBlockchain.org Lifelong student and occasional teacher Robotics engineer and lover of comedy',
-  links: [
-    {
-      redirectUrl: 'hi',
-      label: 'Telegram'
-    },
-    {
-      redirectUrl: 'hi',
-      label: 'Twitter'
-    },
-    {
-      redirectUrl: 'hi',
-      label: 'Koii Network'
-    },
-    {
-      redirectUrl: 'hi',
-      label: 'Twitter'
-    },
-  ]
-}
-
 function LinksComponent() {
   const location = useLocation();
   const query = location.pathname.slice(10);
-  const [userData, setUserData] = useState(data);
+  const [userData, setUserData] = useState(null);
   const { disconnect } = useDisconnect();
 
   useEffect(() => {
@@ -42,19 +19,19 @@ function LinksComponent() {
   }, [query]);
 
   return (
-<div className="container">
+    <div className='container'>
       {userData.length === 0 ? (
         <Message>
           {" "}
           <Oval
             height={80}
             width={80}
-            color="#ffffff"
+            color='#ffffff'
             wrapperStyle={{}}
-            wrapperClass=""
+            wrapperClass=''
             visible={true}
-            ariaLabel="oval-loading"
-            secondaryColor="#ffffff"
+            ariaLabel='oval-loading'
+            secondaryColor='#ffffff'
             strokeWidth={2}
             strokeWidthSecondary={2}
           />
@@ -62,7 +39,7 @@ function LinksComponent() {
       ) : userData === "Error" ? (
         <Message>
           <span>User Data not Found</span>{" "}
-          <a href="/" onClick={() => disconnect()} className="text-mint">
+          <a href='/' onClick={() => disconnect()} className='text-mint'>
             Go Home
           </a>
         </Message>
@@ -74,21 +51,21 @@ function LinksComponent() {
             alt={userData?.name}
             className="user-image"
           /> */}
-           <img
-            src={'/images/twitter_LCtIAZQN_400x400 1.png'}
+          <img
+            src={"/images/twitter_LCtIAZQN_400x400 1.png"}
             alt={userData?.name}
-            className="user-image"
+            className='user-image'
           />
-          <p className="user-name"> {userData?.name} </p>
-          <p className="user-desc"> {userData?.description} </p>
-          <div className="links">
+          <p className='user-name'> {userData?.name} </p>
+          <p className='user-desc'> {userData?.description} </p>
+          <div className='links'>
             {userData?.links?.map((link, index) => (
               <a
-                className="link"
+                className='link'
                 key={index}
                 href={link?.redirectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 {link.label}
               </a>
@@ -96,12 +73,9 @@ function LinksComponent() {
           </div>
         </>
       )}
-      <div className="footer">
+      <div className='footer'>
         Link tree by{" "}
-        <a
-          href="https://www.koii.network/"
-          className="by-koii"
-        >
+        <a href='https://www.koii.network/' className='by-koii'>
           Koii Network
         </a>
       </div>
@@ -112,5 +86,5 @@ function LinksComponent() {
 export default LinksComponent;
 
 const Message = ({ children }) => {
-  return <div className="message-container">{children}</div>;
+  return <div className='message-container'>{children}</div>;
 };
