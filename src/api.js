@@ -36,8 +36,8 @@ export async function getLinktree(publicKey) {
 
 export async function setLinktree(data, publicKey) {
   const messageString = JSON.stringify(data);
-  console.log("creating signature")
-  const signatureRaw = await window.k2.signMessage(messageString)
+  console.log("creating signature");
+  const signatureRaw = await window.k2.signMessage(messageString);
   const payload = {
     data,
     publicKey: bs58.encode(Buffer.from(publicKey)),

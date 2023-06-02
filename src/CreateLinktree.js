@@ -21,7 +21,9 @@ import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "./contexts";
 
 function makeStorageClient() {
-  return new Web3Storage({ token: process.env.REACT_APP_WEB3STORAGE_TOKEN });
+  return new Web3Storage({
+    token: process.env.REACT_APP_WEB3STORAGE_TOKEN,
+  });
 }
 
 const PreviewImage = ({ file }) => {
@@ -42,23 +44,23 @@ const PreviewImage = ({ file }) => {
 
 const CreateLinktree = () => {
   const [image, setImage] = useState(null);
-  const [imageCID, setImageCID] = useState(null);
+  const [files, setFiles] = useState(null);
   const [imageName, setImageName] = useState(null);
   const linksGroup = { label: "", redirectUrl: "" };
   const toast = useToast();
   const navigate = useNavigate();
 
-  const { publicKey } = useWalletContext();
+  const { publicKey, setLinkTreeData } = useWalletContext();
 
-  const uploadToIPFS = async (values) => {
+  const uploadToIPFS = async (image) => {
     try {
-      const buffer = Buffer.from(JSON.stringify(values));
-      const files = [new File([buffer], "data.json"), values];
       const client = makeStorageClient();
-      const cid = await client.put(files);
+      const cid = await client.put(image, {
+        name: "cat pics",
+        maxRetries: 3,
+      });
       if (cid !== undefined) {
-        setImageCID(cid);
-        console.log(cid);
+        return cid;
       }
     } catch (error) {
       console.log(error);
@@ -103,27 +105,27 @@ const CreateLinktree = () => {
             .required("Add a social link"),
         })}
         onSubmit={async (values, actions) => {
-          console.log("called");
-          await uploadToIPFS(image);
-          // if (imageCID === null) {
-          //   return toast({
-          //     title: "Try again",
-          //     description: "Error uploading image",
-          //     status: "error",
-          //     duration: 2000,
-          //     isClosable: true,
-          //     position: "top",
-          //   });
-          // }
-          values.image = `https://${imageCID}.ipfs.dweb.link/data.json/${imageName}`;
+          const imageCID = await uploadToIPFS(files);
+          if (imageCID === null) {
+            return toast({
+              title: "Try again",
+              description: "Error uploading image",
+              status: "error",
+              duration: 2000,
+              isClosable: true,
+              position: "top",
+            });
+          }
           const payload = {
             uuid: uuid(),
             linktree: {
               ...values,
+              image: `https://${imageCID}.ipfs.dweb.link/data.json/${imageName}`,
             },
             timestamp: Date.now(),
           };
           console.log(payload);
+          setLinkTreeData(payload);
           const res = await setLinktree(payload, publicKey);
           if (res?.message === "Proof and linktree registered successfully") {
             toast({
@@ -134,6 +136,14 @@ const CreateLinktree = () => {
               position: "top",
             });
             navigate(`/linktree/${publicKey}`);
+          } else {
+            toast({
+              title: "Error creating Linktree profile!",
+              status: "error",
+              duration: 2000,
+              isClosable: true,
+              position: "top",
+            });
           }
         }}
       >
@@ -198,6 +208,7 @@ const CreateLinktree = () => {
                         className='form-control'
                         required
                         onChange={async (e) => {
+                          setFiles(e.target.files);
                           setImage(e.target.files[0]);
                           setImageName(e.target.files[0].name);
                           setFieldValue("image", e.target.files[0].name);
