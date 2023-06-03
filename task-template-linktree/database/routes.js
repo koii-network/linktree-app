@@ -35,17 +35,13 @@ router.post('/linktree', async (req, res) => {
   let signature = linktree.signature;
   let pubkey = linktree.publicKey;
 
-  let proof = {
+  let proofs = {
     publicKey: pubkey,
     signature: signature,
   };
 
   await db.setLinktree(pubkey, linktree);
 
-  let proofs = await db.getProofs(pubkey);
-  proofs = JSON.parse(proofs || '[]');
-  proofs.push(proof);
-  console.log(`${pubkey} Proofs: `, proofs);
   await db.setProofs(pubkey, proofs);
 
   return res
