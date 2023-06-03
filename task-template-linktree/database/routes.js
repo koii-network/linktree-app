@@ -23,6 +23,9 @@ router.get('/taskState', async (req, res) => {
 // API to register the linktree
 router.post('/linktree', async (req, res) => {
   const linktree = req.body.payload;
+  // log the pubkey of the payload
+  console.log('linktree', linktree.publicKey);
+
   // Check req.body
   if (!linktree) {
     res.status(400).json({ error: 'Invalid request' });
@@ -32,8 +35,8 @@ router.post('/linktree', async (req, res) => {
   }
 
   // Use the code below to sign the data payload
-  let signature = linktree.signature;
-  let pubkey = linktree.publicKey;
+  let signature = req.body.signature;
+  let pubkey = req.body.publicKey;
 
   let proofs = {
     publicKey: pubkey,
@@ -104,6 +107,7 @@ router.get('/authlist/list', async (req, res) => {
 router.post('/authlist', async (req, res) => {
   const pubkey = req.body.authdata.pubkey;
   // console.log("AUTHLIST", pubkey);
+  //TODO Interprete the authdata value and set the authlist
   await db.setAuthList(pubkey);
   return res.status(200).send(pubkey);
 });

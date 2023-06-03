@@ -72,7 +72,8 @@ const setProofs = async (pubkey, proofs) => {
   const db = await namespaceWrapper.getDb();
   try {
     const proofsId = getProofsId(pubkey);
-    await db.insert({ proofsId, proofs });
+    const result = await db.insert({ proofsId, proofs });
+    console.log("Proofs set", result);
     return console.log("Proofs set");
   } catch (err) {
     return undefined;
