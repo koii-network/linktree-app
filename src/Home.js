@@ -4,7 +4,7 @@ import { useToast, Button } from "@chakra-ui/react";
 import { useWalletContext } from "./contexts";
 import { useK2Finnie } from "./hooks";
 import { DOWNLOAD_FINNIE_URL } from "./config";
-import { getLinktree } from "./api";
+import { getLinktrees } from "./api";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const HomePage = () => {
       try {
         if (k2PubKey) {
           setPublicKey(k2PubKey);
-          const linktree = await getLinktree(k2PubKey);
+          const linktree = await getLinktrees(k2PubKey);
           if (linktree.status === 200 && linktree.data.length === 0) {
             toast({
               title: "No Linktree profile for this public key",
@@ -40,7 +40,7 @@ const HomePage = () => {
               position: "top",
             });
             setTimeout(() => {
-              navigate(`linktree/${publicKey}`);
+              navigate(`linktree/${k2PubKey}`);
             }, 2000);
           }
         }

@@ -6,9 +6,13 @@ import bs58 from "bs58";
 
 // const ktools = new knode.Node();
 
-export async function getLinktrees() {
+export async function getLinktrees(publicKey) {
   try {
     const res = await axios.get("http://localhost:10000/linktree/list");
+    const profile = res.data.filter((item) => {
+      return item.publicKey === publicKey;
+    });
+    return profile[0];
   } catch (error) {
     console.log(error);
   }
@@ -19,6 +23,7 @@ export async function getLinktree(publicKey) {
     const res = await axios.get(
       `http://localhost:10000/linktree/get/${publicKey}`
     );
+    console.log(res);
     return res;
   } catch (error) {
     console.log(error);

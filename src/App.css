@@ -81,7 +81,7 @@ p {
 
 .links {
   margin-top: 2rem;
-  width: 30%;
+  width: 100%;
 }
 
 .link {
@@ -89,7 +89,8 @@ p {
   text-align: center;
   padding: 0.8rem;
   outline: 2px solid var(--koii-white);
-  border-radius: 50px;
+  border-radius: 20px;
+  width: 300px;
   color: #171753;
   background-color: var(--koii-mint);
   text-decoration: none;
@@ -233,14 +234,14 @@ p {
 @media screen and (max-width: 920px) {
   .links,
   .user-desc {
-    width: 40%;
+    width: 100%;
   }
 }
 
 @media screen and (max-width: 630px) {
   .links,
   .user-desc {
-    width: 50%;
+    width: 100%;
   }
 }
 
