@@ -59,6 +59,7 @@ p {
 .connect-wallet-button:hover {
   background: var(--koii-mint);
   color: var(--koii-blue);
+  border: none;
 }
 
 .public-key {

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast, Button } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { useWalletContext } from "./contexts";
 import { useK2Finnie } from "./hooks";
 import { DOWNLOAD_FINNIE_URL } from "./config";
@@ -70,22 +70,9 @@ const HomePage = () => {
   return (
     <div className='container public-key-input-container'>
       <div className='auth-user'>
-        <Button
-          backgroundColor='transparent'
-          padding='35px 30px'
-          border='1px solid #171753'
-          fontSize='20px'
-          borderRadius='35px'
-          _hover={{
-            backgroundColor: "#8989c7",
-            color: "#FFFFFF",
-            border: "none",
-          }}
-          onClick={handleConnectFinnie}
-          className='connect-finnie'
-        >
+        <button onClick={handleConnectFinnie} className='connect-wallet-button'>
           {connectButtonText}
-        </Button>
+        </button>
       </div>
     </div>
   );
