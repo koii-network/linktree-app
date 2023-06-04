@@ -9,16 +9,16 @@ import { getLinktrees } from "./api";
 const HomePage = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { publicKey, setPublicKey } = useWalletContext();
-  const { isFinnieDetected, k2PubKey, connect } = useK2Finnie();
+  const { setPublicKey } = useWalletContext();
+  const { isFinnieDetected, connect } = useK2Finnie();
 
   const handleConnectFinnie = async () => {
     if (isFinnieDetected) {
-      await connect();
+      const pubKey = await connect();
       try {
-        if (k2PubKey) {
-          setPublicKey(k2PubKey);
-          const linktree = await getLinktrees(k2PubKey);
+        if (pubKey) {
+          setPublicKey(pubKey);
+          const linktree = await getLinktrees(pubKey);
           if (linktree.status === 200 && linktree.data.length === 0) {
             toast({
               title: "No Linktree profile for this public key",
@@ -40,7 +40,7 @@ const HomePage = () => {
               position: "top",
             });
             setTimeout(() => {
-              navigate(`linktree/${k2PubKey}`);
+              navigate(`linktree/${pubKey}`);
             }, 2000);
           }
         }

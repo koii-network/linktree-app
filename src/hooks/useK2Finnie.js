@@ -27,6 +27,7 @@ export const useK2Finnie = () => {
           setIsConnected(true);
           setK2PubKey(pubKey.toString());
           setDoesK2AccountExist(true);
+          return pubKey.toString();
         })
         .catch((error) => {
           if (error.code === 4001) {
