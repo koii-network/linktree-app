@@ -23,7 +23,6 @@ export async function getLinktree(publicKey) {
     const res = await axios.get(
       `http://localhost:10000/linktree/get/${publicKey}`
     );
-    console.log(res);
     return res;
   } catch (error) {
     console.log(error);
@@ -48,12 +47,20 @@ export async function setLinktree(data, publicKey) {
     publicKey: publicKey,
     signature: bs58.encode(signatureRaw.signature),
   };
+  const authPayload = {
+    authdata: {
+      pubkey: publicKey,
+    },
+  };
   console.log(payload);
   try {
     const res = await axios.post("http://localhost:10000/linktree", {
       payload,
     });
     console.log(res);
+    await axios.post("http://localhost:10000/authlist", {
+      authPayload,
+    });
     return res.data;
   } catch (error) {
     console.log(error);

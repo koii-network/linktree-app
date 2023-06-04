@@ -5,7 +5,7 @@ const fs = require('fs');
 const cors = require('cors');
 const { namespaceWrapper } = require('../environment/namespaceWrapper');
 
-router.use(cors())
+router.use(cors());
 
 // Middleware to log incoming requests
 router.use((req, res, next) => {
@@ -69,11 +69,11 @@ router.get('/linktree/get/:publicKey', async (req, res) => {
 });
 
 router.get('/linktree/list', async (req, res) => {
-  linktree = (await db.getAllLinktrees(true)) || '[]';
+  let linktree = (await db.getAllLinktrees(true)) || '[]';
   return res.status(200).send(linktree);
 });
 router.get('/proofs/all', async (req, res) => {
-  linktree = (await db.getAllProofs()) || '[]';
+  let linktree = (await db.getAllProofs()) || '[]';
   return res.status(200).send(linktree);
 });
 router.get('/proofs/get/:publicKey', async (req, res) => {
@@ -83,7 +83,7 @@ router.get('/proofs/get/:publicKey', async (req, res) => {
   return res.status(200).send(proof);
 });
 router.get('/node-proof/all', async (req, res) => {
-  linktree = (await db.getAllNodeProofCids()) || '[]';
+  let linktree = (await db.getAllNodeProofCids()) || '[]';
   return res.status(200).send(linktree);
 });
 router.get('/node-proof/:round', async (req, res) => {
@@ -98,7 +98,7 @@ router.get('/authlist/get/:publicKey', async (req, res) => {
   return res.status(200).send(authlist);
 });
 router.get('/authlist/list', async (req, res) => {
-  authlist = (await db.getAllAuthLists(false)) || '[]';
+  let authlist = (await db.getAllAuthLists(false)) || '[]';
   authlist.forEach(authuser => {
     authuser = authuser.toString().split('auth_list:')[0];
   });

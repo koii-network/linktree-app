@@ -18,7 +18,6 @@ function LinksComponent() {
     }
     getUserData();
   }, [query]);
-  console.log(userData);
   return (
     <div className='container'>
       <Box
