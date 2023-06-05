@@ -156,11 +156,11 @@ const getAuthList = async (pubkey) => {
 // Store the AuthList in the database using the public key
 // TODO: tx is the transaction of the public fund the bounty pool
 
-const setAuthList = async (pubkey, tx) => {
+const setAuthList = async (pubkey) => {
   const db = await namespaceWrapper.getDb();
   try {
     const authListId = getAuthListId(pubkey);
-    await db.insert({ authListId, pubkey, tx });
+    await db.insert({ authListId, pubkey});
     return console.log('auth List pubkey set');
   } catch (err) {
     return undefined;

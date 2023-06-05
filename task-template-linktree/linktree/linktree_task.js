@@ -1,4 +1,6 @@
-const { namespaceWrapper } = require('../environment/namespaceWrapper');
+const { namespaceWrapper, taskNodeAdministered } = require('../environment/namespaceWrapper');
+const dotenv = require('dotenv');
+dotenv.config();
 const createFile = require('../helpers/createFile.js');
 const deleteFile = require('../helpers/deleteFile');
 const fs = require('fs');
@@ -11,14 +13,18 @@ const nacl = require('tweetnacl');
 const db = require('../database/db_model');
 const { Keypair } = require('@solana/web3.js'); // TEST For local testing
 
+
 const main = async () => {
   console.log('******/  IN Linktree Task FUNCTION /******');
 
   // Load node's keypair from the JSON file
-  // const keypair = await namespaceWrapper.getSubmitterAccount();
-
+  let keypair;
+  if (taskNodeAdministered) {
+    keypair = await namespaceWrapper.getSubmitterAccount();
+  } else {
   // TEST For local testing, hardcode the keypair
-  const keypair = Keypair.generate();
+  keypair = Keypair.generate();
+  }
 
   // Get linktree list fron localdb
   const proofs_list_object = await db.getAllProofs();

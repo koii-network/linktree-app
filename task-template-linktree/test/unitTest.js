@@ -1,28 +1,38 @@
-const coreLogic = require('../coreLogic');
+/**
+ * unitTest.js
+ * @description
+ * This file gonna test the whole linktree task logic in one go.
+ * In the delay time the REST API is working and the task is running.
+ * During this time the user can submit the data to the task.
+ * After the delay time the submission function will start.
+ */
+
 const index = require('../index');
+const dotenv = require('dotenv');
+require('dotenv').config();
+const Linktree = require('../linktree');
+const db = require('../database/db_model');
+dotenv.config();
 
 async function test_coreLogic() {
-  // await coreLogic.task();
-
-  // const submission = await coreLogic.fetchSubmission();
-
-  // TEST hardcode the submission
-  // let submission= "bafybeiaipp6owksgigqx73putgxr7qfiuly32isubrqjc4meqwty6xu5xa"
-  // console.log('SUBMISSION', submission);
   
-  // const vote = await coreLogic.validateNode(submission, 1000);
-  
-let vote = true
-  console.log('VOTE', vote);
+  // Set up the number of times the task is repeated.
+  let repeat = 10;
 
-  
+  // Set up the delay time in milliseconds. During this time the REST API is working and can receive data.
+  let delay = 15000;
+
+  // Instead of calling the task node, hardcode ther round number.
+  let round = 5;
+
+  // Instead of calling the task node, hardcode the task state.
   const _dummyTaskState = {
-      stake_list: {
-        '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHL': 20000000000,
-        '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHH': 10000000000,
-      },
-      bounty_amount_per_round: 1000000000,
-  
+    stake_list: {
+      '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHL': 20000000000,
+      '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHH': 10000000000,
+    },
+    bounty_amount_per_round: 1000000000,
+
     submissions: {
       1: {
         '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHL': {
@@ -51,7 +61,6 @@ let vote = true
               slot: 1890003,
             },
           ],
-
         },
         '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHH': {
           // Data Submitter (send data to K2)
@@ -62,27 +71,51 @@ let vote = true
               is_valid: true, // Submission is valid
               voter: '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHZ', // Voter
               slot: 1890003,
-
-          }]
-      }
-    }
+            },
+          ],
+        },
+      },
     },
   };
-  if (vote == true) {
-    console.log('Submission is valid, generating distribution list');
-    const distributionList = await coreLogic.generateDistributionList(
-      1,
-      _dummyTaskState,
-    );
-    await coreLogic.validateDistribution(
-      null,
-      1,
-      distributionList,
-      _dummyTaskState,
-    );
-  } else {
-    console.log('Submission is invalid, not generating distribution list');
+
+  // Start the task
+  var linktreeTask = null;
+  linktreeTask = new Linktree();
+  console.log('started a new linktree test');
+
+    setTimeout(async () => {
+      console.log('round', round);
+
+      // Main function of the task
+      await linktreeTask.task(round);
+      console.log('task completed');
+
+      // Fetch the submission CID
+      let proof_cid = await linktreeTask.generateSubmissionCID(round);
+      console.log('got round result', proof_cid);
+
+      // TEST in case upload to Web3Storage many times, use the hardcode CID below
+      // let proof_cid ='bafybeiatlrlmpnzt6jqrj2rvfkc3n377kswwmwpzxst3awl6sgutwo6miy';
+
+      // Validate the submission CID
+      let vote = await linktreeTask.validateSubmissionCID(proof_cid, round);
+
+      // TEST in case the submission is not valid, set the vote to true
+      // let vote = true;
+      console.log('validated round result', vote);
+
+      // Generate the distribution list
+      if (vote == true) {
+        console.log('Submission is valid, generating distribution list');
+        const distributionList = await linktreeTask.generateDistribution(
+          1,
+          _dummyTaskState,
+        );
+        console.log('distributionList', distributionList);
+      } else {
+        console.log('Submission is invalid, not generating distribution list');
+      }
+    }, delay);
   }
-}
 
 test_coreLogic();

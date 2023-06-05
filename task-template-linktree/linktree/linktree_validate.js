@@ -1,4 +1,8 @@
 const dataFromCid = require('../helpers/dataFromCid');
+const {
+  namespaceWrapper,
+  taskNodeAdministered,
+} = require('../environment/namespaceWrapper');
 const db = require('../database/db_model');
 const nacl = require('tweetnacl');
 const bs58 = require('bs58');
@@ -28,10 +32,10 @@ module.exports = async (submission_value, round) => {
   // check each item in the linktrees list and verify that the node is holding that payload, and the signature matches
   let isLinktree;
   if (output.proofs.length > 0) {
-  isLinktree = await verifyLinktrees(output.proofs);
-  console.log('IS LINKTREE True?', isLinktree);
+    isLinktree = await verifyLinktrees(output.proofs);
+    console.log('IS LINKTREE True?', isLinktree);
   } else {
-    console.log("No linktree found in round", round)
+    console.log('No linktree found in round', round);
     isLinktree = true;
   }
   if (isNode && isLinktree) return true; // if both are true, return true
@@ -41,37 +45,40 @@ module.exports = async (submission_value, round) => {
 // verify the linktree signature by querying the other node to get it's copy of the linktree
 async function verifyLinktrees(proofs_list_object) {
   let allSignaturesValid = true;
-  let AuthUserList = await db.getAllAuthLists();
+  let AuthUserList = await db.getAllAuthList();
   console.log('Authenticated Users List:', AuthUserList);
 
   for (const proofs of proofs_list_object) {
-    console.log(proofs)
+    console.log(proofs);
     let publicKey = proofs.publicKey;
 
     // call other nodes to get the node list
-    // const nodeUrlList = await namespaceWrapper.getNodes();
-
-    // TEST hardcode the node list
-    // const nodeUrlList = [
-    //   "http://localhost:10000",
-    // ]
+    let nodeUrlList;
+    if (taskNodeAdministered) {
+      nodeUrlList = await namespaceWrapper.getNodes();
+    } else {
+      nodeUrlList = ['http://localhost:10000'];
+    }
 
     // verify the signature of the linktree for each nodes
     for (const nodeUrl of nodeUrlList) {
       console.log('cheking linktree on ', nodeUrl);
 
+      let res;
       // get all linktree in this node
-      const res = await axios.get(
-        `${nodeUrl}/task/${TASK_ID}/linktree/get/${publicKey}`,
-      );
-
-      // TEST hardcode the node endpoint
-      // const res = await axios.get(`${nodeUrl}/linktree/get/${publicKey}`);
-
-      // check node's status
-      if (res.status != 200) {
-        console.error('ERROR', res.status);
-        continue;
+      if (taskNodeAdministered) {
+        res = await axios.get(
+          `${nodeUrl}/task/${TASK_ID}/linktree/get/${publicKey}`,
+        );
+        // check node's status
+        if (res.status != 200) {
+          console.error('ERROR', res.status);
+          continue;
+        }
+      } else {
+        // TEST hardcode the node endpoint
+        data = await db.getLinktree(publicKey);
+        res = { data };
       }
 
       // get the payload
@@ -81,10 +88,8 @@ async function verifyLinktrees(proofs_list_object) {
       if (AuthUserList.hasOwnProperty(linktree.publicKey)) {
         console.log('User is on the auth list');
       } else {
-        
         // Check if the public key is an ETH address
-        if (linktree.publicKey.length == 42) { 
-
+        if (linktree.publicKey.length == 42) {
           // Verify the ETH signature
           const { data, publicKey, signature } = payload;
 
@@ -119,9 +124,7 @@ async function verifyLinktrees(proofs_list_object) {
             console.log('Payload signature is invalid');
             allSignaturesValid = false;
           }
-
         } else {
-
           // Verify the signature
           const messageUint8Array = new Uint8Array(
             Buffer.from(JSON.stringify(linktree.data)),
