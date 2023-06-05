@@ -154,7 +154,7 @@ const getAuthList = async (pubkey) => {
   try {
     const resp = await db.findOne({ authListId });
     if (resp) {
-      return resp.authList;
+      return resp.pubkey;
     }
   } catch (e) {
     console.error(e);
@@ -169,13 +169,14 @@ const setAuthList = async (pubkey) => {
   const db = await namespaceWrapper.getDb();
   try {
     const authListId = getAuthListId(pubkey);
-    await db.insert({ authListId, pubkey});
+
+    await db.insert({ authListId, pubkey });
+
     return console.log('auth List pubkey set');
   } catch (err) {
     return undefined;
   }
 }
-
 
 // Gets all AuthList from the database.
 

@@ -93,12 +93,14 @@ router.get('/node-proof/:round', async (req, res) => {
 });
 router.get('/authlist/get/:publicKey', async (req, res) => {
   const { publicKey } = req.params;
+  console.log('publicKey req', publicKey);
   let authlist = await db.getAuthList(publicKey);
+  console.log('AUTHLIST', authlist);
   authlist = authlist || '[]';
   return res.status(200).send(authlist);
 });
 router.get('/authlist/list', async (req, res) => {
-  let authlist = (await db.getAllAuthLists(false)) || '[]';
+  let authlist = (await db.getAllAuthList(false)) || '[]';
   authlist.forEach(authuser => {
     authuser = authuser.toString().split('auth_list:')[0];
   });

@@ -1,10 +1,5 @@
 import axios from "axios";
-import { Buffer } from "buffer";
-import { ethers } from "ethers";
 import bs58 from "bs58";
-// import knode from "@_koi/sdk/node";
-
-// const ktools = new knode.Node();
 
 export async function getLinktrees(publicKey) {
   try {
@@ -44,15 +39,9 @@ export async function setLinktree(data, publicKey) {
     publicKey: publicKey,
     signature: bs58.encode(signatureRaw.signature),
   };
-  const authdata = {
-    pubkey: publicKey,
-  };
   try {
     const res = await axios.post("http://localhost:10000/linktree", {
       payload,
-    });
-    await axios.post("http://localhost:10000/authlist", {
-      authdata,
     });
     return res.data;
   } catch (error) {
@@ -62,10 +51,10 @@ export async function setLinktree(data, publicKey) {
 
 export async function getAuthList(publicKey) {
   try {
-    // const res = await axios.get(
-    //   `http://localhost:10000/authlist/get/${publicKey}`
-    // );
-    return true;
+    const res = await axios.get(
+      `http://localhost:10000/authlist/get/${publicKey}`
+    );
+    return res?.data === publicKey;
   } catch (error) {
     console.log(error);
   }
