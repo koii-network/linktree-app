@@ -4,7 +4,12 @@ const db = require('./db_model');
 const nacl = require('tweetnacl');
 const bs58 = require('bs58');
 
-
+/**
+ * @function share
+ * @description
+ * This function is called when the node is selected to share the linktree with other nodes.
+ * It will fetch the linktrees from other nodes and store them locally.
+ */
 const share = async () => {
       try {
         // find another node

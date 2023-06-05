@@ -1,9 +1,4 @@
 const { namespaceWrapper } = require('./namespaceWrapper');
-const linktree_task = require('../linktree/linktree_task');
-const linktree_validate = require('../linktree/linktree_validate');
-const crypto = require('crypto');
-const dataFromCid = require("../helpers/dataFromCid");
-const db = require('../database/db_model');
 const Linktree = require('../linktree');
 class CoreLogic {
   constructor() {

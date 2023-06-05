@@ -1,8 +1,17 @@
 const { namespaceWrapper } = require('../environment/namespaceWrapper');
 const { ensureIndex } = require('./ensureIndex');
-
 ensureIndex();
 
+/**
+ * @function db_model
+ * @description
+ * This file contains the functions to interact with the database.
+ * The database is used to store the linktree, proofs and authList.
+ * The linktree is stored using the public key as the key.
+ * The proofs are stored using the public key as the key.
+ * The authList is stored using the public key as the key.
+ * The node proofs CID is stored using the round number as the key.
+ */
 
 // Get a linktree from the database using the public key
 
@@ -160,7 +169,9 @@ const setAuthList = async (pubkey) => {
   const db = await namespaceWrapper.getDb();
   try {
     const authListId = getAuthListId(pubkey);
+
     await db.insert({ authListId, pubkey });
+
     return console.log('auth List pubkey set');
   } catch (err) {
     return undefined;
