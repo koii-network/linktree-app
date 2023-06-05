@@ -1,4 +1,4 @@
-const { app, MAIN_ACCOUNT_PUBKEY, SERVICE_URL, TASK_ID } = require("../environment/init");
+const { SERVICE_URL, TASK_ID } = require("../environment/init");
 const {default: axios} = require('axios');
 const db = require('./db_model');
 const nacl = require('tweetnacl');
@@ -18,7 +18,7 @@ const share = async () => {
         }
   
         if (!res.data) {
-          console.error('res has no valid urls');
+          console.error('No valid nodes running');
           return;
         }
 
@@ -67,7 +67,7 @@ const share = async () => {
           }
         }
       } catch (error) {
-        console.error('Some went wrong:', error);
+        console.error('Something went wrong:', error);
       }
     }
 

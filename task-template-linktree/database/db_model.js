@@ -191,8 +191,8 @@ const getProofsId = (pubkey) => {
   return `proofs:${pubkey}`;
 }
 
-const getAuthListId = (round) => {
-  return `auth_list:${round}`;
+const getAuthListId = (pubkey) => {
+  return `auth_list:${pubkey}`;
 }
 
 module.exports = {
