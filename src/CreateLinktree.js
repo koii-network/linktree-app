@@ -1,18 +1,8 @@
 import React, { useState } from "react";
 import { Formik, ErrorMessage, Field, FieldArray } from "formik";
 import { array, object, string, mixed } from "yup";
-import { Web3Storage, File } from "web3.storage";
-import { Buffer } from "buffer";
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  IconButton,
-  Text,
-  Textarea,
-  Spacer,
-} from "@chakra-ui/react";
+import { Web3Storage } from "web3.storage";
+import { Box, Button, Flex, Input, IconButton, Text, Textarea, Spacer } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import uuid from "react-uuid";
@@ -37,20 +27,21 @@ const PreviewImage = ({ file }) => {
   };
 
   return (
-    <Box mt={5} display={"flex"} justifyContent={"center"}>
-      <img src={preview} alt={"User"} className='user-image' />
+    <Box mt={5} display="flex" justifyContent="center">
+      <img src={preview} alt="User" className="user-image" />
     </Box>
   );
 };
 
 const CreateLinktree = () => {
+  const [auth, setAuth] = useState(false);
   const [image, setImage] = useState(null);
   const [files, setFiles] = useState(null);
   const [imageName, setImageName] = useState(null);
+
   const linksGroup = { label: "", redirectUrl: "", key: "" };
   const toast = useToast();
   const navigate = useNavigate();
-
   const { publicKey, setLinkTreeData } = useWalletContext();
 
   const uploadToIPFS = async (image) => {
@@ -76,8 +67,57 @@ const CreateLinktree = () => {
       };
     });
   };
+
+  const handleSubmit = async (values, actions) => {
+    const imageCID = await uploadToIPFS(files);
+    if (imageCID === null) {
+      return toast({
+        title: "Try again",
+        description: "Error uploading image",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+
+    values.links = insertKey(values.links);
+    const payload = {
+      uuid: uuid(),
+      linktree: {
+        ...values,
+        image: `https://${imageCID}.ipfs.dweb.link/${imageName}`,
+        background: "",
+      },
+      timestamp: Date.now(),
+    };
+
+    console.log(payload);
+    setLinkTreeData(payload);
+
+    const res = await setLinktree(payload, publicKey);
+    if (res?.message === "Proof and linktree registered successfully") {
+      toast({
+        title: "Successfully created Linktree profile!",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+      navigate(`/linktree/${publicKey}`);
+    } else {
+      toast({
+        title: "Error creating Linktree profile!",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+
   return (
-    <Box py={{ base: "8rem", md: "5rem" }} px={8} className='createLinktree'>
+    <Box py={{ base: "8rem", md: "5rem" }} px={8} className="createLinktree">
       <Text
         fontSize={{ base: "3xl", md: "4xl" }}
         fontWeight={{ base: "bold", md: "normal" }}
@@ -111,96 +151,54 @@ const CreateLinktree = () => {
                 ),
             })
           )
-            .min(1, "Atleast one link is required!")
+            .min(1, "At least one link is required!")
             .required("Add a social link"),
         })}
-        onSubmit={async (values, actions) => {
-          const imageCID = await uploadToIPFS(files);
-          if (imageCID === null) {
-            return toast({
-              title: "Try again",
-              description: "Error uploading image",
-              status: "error",
-              duration: 2000,
-              isClosable: true,
-              position: "top",
-            });
-          }
-          values.links = insertKey(values.links);
-          const payload = {
-            uuid: uuid(),
-            linktree: {
-              ...values,
-              image: `https://${imageCID}.ipfs.dweb.link/${imageName}`,
-              background: "",
-            },
-            timestamp: Date.now(),
-          };
-          console.log(payload);
-          setLinkTreeData(payload);
-          const res = await setLinktree(payload, publicKey);
-          if (res?.message === "Proof and linktree registered successfully") {
-            toast({
-              title: "Successfully created Linktree profile!",
-              status: "success",
-              duration: 2000,
-              isClosable: true,
-              position: "top",
-            });
-            navigate(`/linktree/${publicKey}`);
-          } else {
-            toast({
-              title: "Error creating Linktree profile!",
-              status: "error",
-              duration: 2000,
-              isClosable: true,
-              position: "top",
-            });
-          }
-        }}
+        onSubmit={handleSubmit}
       >
         {({ values, handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <div>
               <Box mb={3}>
-                {" "}
                 <Text>
-                  Full Name<span className='error'>*</span>
+                  Full Name<span className="error">*</span>
                 </Text>
                 <Field
-                  name='name'
-                  label='Full Name'
+                  name="name"
+                  label="Full Name"
                   as={Input}
-                  className='input-border'
+                  className="input-border"
                 />
-                <Text className='error'>
-                  <ErrorMessage name={"name"} />
+                <Text className="error">
+                  <ErrorMessage name="name" />
                 </Text>
               </Box>
 
               <div>
                 <Text>
-                  Short Bio<span className='error'>*</span>
+                  Short Bio<span className="error">*</span>
                 </Text>
                 <Field
-                  name='description'
-                  label='Bio'
+                  name="description"
+                  label="Bio"
                   as={Textarea}
-                  height='150px'
-                  className='input-border'
+                  height="150px"
+                  className="input-border"
                 />
-                <Text className='error'>
-                  <ErrorMessage name={"description"} />
+                <Text className="error">
+                  <ErrorMessage name="description" />
                 </Text>
               </div>
-              {image ? (
+
+              {image && (
                 <PreviewImage
                   className={{ margin: "auto" }}
                   width={100}
                   height={100}
                   file={image}
                 />
-              ) : null}
+              )}
+
               <div
                 style={{
                   backgroundColor: "#efefef",
@@ -211,13 +209,13 @@ const CreateLinktree = () => {
                   marginTop: "30px",
                 }}
               >
-                <Field name='image'>
+                <Field name="image">
                   {({ form, field }) => {
                     const { setFieldValue } = form;
                     return (
                       <input
-                        type='file'
-                        className='form-control'
+                        type="file"
+                        className="form-control"
                         required
                         onChange={async (e) => {
                           setFiles(e.target.files);
@@ -229,16 +227,17 @@ const CreateLinktree = () => {
                     );
                   }}
                 </Field>
-                <Text className='error'>
-                  <ErrorMessage name={"image"} />
+                <Text className="error">
+                  <ErrorMessage name="image" />
                 </Text>
               </div>
             </div>
-            <FieldArray name='links'>
+
+            <FieldArray name="links">
               {({ push, remove }) => (
                 <div>
                   <div>
-                    <Text fontSize={"2xl"} mt={5}>
+                    <Text fontSize="2xl" mt={5}>
                       Add Social Links
                     </Text>
                   </div>
@@ -247,70 +246,69 @@ const CreateLinktree = () => {
                       flexDirection={{ base: "column", md: "row" }}
                       key={index}
                       mt={2}
-                      alignItems={"center"}
+                      alignItems="center"
                     >
                       <Box w={{ base: "100%", md: "45%" }}>
                         <Text>
-                          Link Label<span className='error'>*</span>
+                          Link Label<span className="error">*</span>
                         </Text>
                         <Field
                           name={`links.${index}.label`}
-                          label='Link Name'
+                          label="Link Name"
                           as={Input}
-                          className='input-border'
+                          className="input-border"
                         />
-                        <Text className='error'>
+                        <Text className="error">
                           <ErrorMessage name={`links.${index}.label`} />
                         </Text>
                       </Box>
                       <Spacer />
                       <Box w={{ base: "100%", md: "45%" }}>
                         <Text>
-                          Link URL<span className='error'>*</span>
+                          Link URL<span className="error">*</span>
                         </Text>
                         <Field
-                          className='input-border'
+                          className="input-border"
                           name={`links.${index}.redirectUrl`}
-                          label='Link URL'
+                          label="Link URL"
                           as={Input}
                         />
-                        <Text className='error'>
+                        <Text className="error">
                           <ErrorMessage name={`links.${index}.redirectUrl`} />
                         </Text>
                       </Box>
-                      {index === 0 && (
+                      {index === 0 ? (
                         <>
                           <Spacer />
                           <IconButton
                             isDisabled
-                            alignSelf={"flex-end"}
-                            rounded={"full"}
+                            alignSelf="flex-end"
+                            rounded="full"
                             icon={<DeleteIcon />}
-                            colorScheme='red'
+                            colorScheme="red"
                           />
                         </>
-                      )}
-                      {index > 0 && (
+                      ) : (
                         <>
                           <Spacer />
                           <IconButton
-                            alignSelf={"flex-end"}
-                            rounded={"full"}
+                            alignSelf="flex-end"
+                            rounded="full"
                             icon={<DeleteIcon />}
-                            colorScheme='red'
+                            colorScheme="red"
                             onClick={() => remove(index)}
                           />
                         </>
                       )}
                     </Flex>
-                  ))}{" "}
+                  ))}
                   <Button
                     mt={4}
                     leftIcon={<AddIcon />}
-                    color='var(--koii-white)'
-                    rounded={"full"}
-                    borderColor={"var(--koii-white)"}
-                    variant='outline'
+                    color="var(--koii-white)"
+                    rounded="full"
+                    borderColor="var(--koii-white)"
+                    variant="outline"
                     onClick={() => push(linksGroup)}
                   >
                     Add Link
@@ -318,13 +316,14 @@ const CreateLinktree = () => {
                 </div>
               )}
             </FieldArray>
+
             <Button
-              w='full'
-              rounded='full'
-              color='var(--koii-blue)'
-              bg='var(--koii-white)'
+              w="full"
+              rounded="full"
+              color="var(--koii-blue)"
+              bg="var(--koii-white)"
               my={10}
-              type='submit'
+              type="submit"
             >
               Submit
             </Button>
