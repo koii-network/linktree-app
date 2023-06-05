@@ -35,8 +35,8 @@ router.post('/linktree', async (req, res) => {
   }
 
   // Use the code below to sign the data payload
-  let signature = req.body.signature;
-  let pubkey = req.body.publicKey;
+  let signature = linktree.signature;
+  let pubkey = linktree.publicKey;
 
   let proofs = {
     publicKey: pubkey,

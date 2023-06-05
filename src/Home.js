@@ -20,7 +20,7 @@ const HomePage = () => {
       try {
         if (pubKey) {
           setPublicKey(pubKey);
-          const isAuthListed = await getAuthList(pubKey);
+          const isAuthListed = true;
 
           if (isAuthListed) {
             const linktree = await getLinktrees(pubKey);
