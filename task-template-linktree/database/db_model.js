@@ -145,7 +145,7 @@ const getAuthList = async (pubkey) => {
   try {
     const resp = await db.findOne({ authListId });
     if (resp) {
-      return resp.authList;
+      return resp.pubkey;
     }
   } catch (e) {
     console.error(e);
@@ -156,17 +156,16 @@ const getAuthList = async (pubkey) => {
 // Store the AuthList in the database using the public key
 // TODO: tx is the transaction of the public fund the bounty pool
 
-const setAuthList = async (pubkey, tx) => {
+const setAuthList = async (pubkey) => {
   const db = await namespaceWrapper.getDb();
   try {
     const authListId = getAuthListId(pubkey);
-    await db.insert({ authListId, pubkey, tx });
+    await db.insert({ authListId, pubkey });
     return console.log('auth List pubkey set');
   } catch (err) {
     return undefined;
   }
 }
-
 
 // Gets all AuthList from the database.
 
