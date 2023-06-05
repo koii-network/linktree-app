@@ -54,7 +54,7 @@ export async function getAuthList(publicKey) {
     const res = await axios.get(
       `http://localhost:10000/authlist/get/${publicKey}`
     );
-    return false;
+    return res?.data === publicKey;
   } catch (error) {
     console.log(error);
   }
