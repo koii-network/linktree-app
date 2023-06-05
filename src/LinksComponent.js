@@ -37,7 +37,7 @@ function LinksComponent() {
         }, 3000);
         return;
       }
-      const showData = await getAuthList(publicKey);
+      const showData = true;
       if (showData) {
         await getUserData();
       } else {
