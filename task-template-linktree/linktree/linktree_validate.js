@@ -12,6 +12,13 @@ const Web3 = require('web3');
 const web3 = new Web3();
 const ethUtil = require('ethereumjs-util');
 
+/**
+ * @function linktree_validate
+ * @description
+ * This function is called when the node is selected to validate the submission value.
+ * It will fetch the linktrees from other nodes.
+ * It will then verify that the node is holding the linktree and that the signature is valid.
+ */
 module.exports = async (submission_value, round) => {
   console.log('******/ Linktree CID VALIDATION Task FUNCTION /******');
   const outputraw = await dataFromCid(submission_value);

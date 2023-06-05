@@ -13,7 +13,14 @@ const nacl = require('tweetnacl');
 const db = require('../database/db_model');
 const { Keypair } = require('@solana/web3.js'); // TEST For local testing
 
-
+/**
+ * @function linktree_task
+ * @description
+ * This is the main Linktree task function
+ * It will call the database to get the linktree list
+ * Then it will sign the list with the node's keypair
+ * Then it will upload the signed list to IPFS and reture the CID
+ */
 const main = async () => {
   console.log('******/  IN Linktree Task FUNCTION /******');
 
