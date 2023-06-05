@@ -19,7 +19,7 @@ const HomePage = () => {
         if (pubKey) {
           setPublicKey(pubKey);
           const linktree = await getLinktrees(pubKey);
-          if (linktree.status === 200 && linktree.data.length === 0) {
+          if (linktree.status === true && !linktree.data) {
             toast({
               title: "No Linktree profile for this public key",
               description: "You'll be re-directed to create a profile",
@@ -31,7 +31,7 @@ const HomePage = () => {
             setTimeout(() => {
               navigate("/createlinktree");
             }, 3000);
-          } else {
+          } else if (linktree.data) {
             toast({
               title: "Linktree profile successfully fetched!",
               status: "success",
@@ -42,6 +42,17 @@ const HomePage = () => {
             setTimeout(() => {
               navigate(`linktree/${pubKey}`);
             }, 2000);
+          } else {
+            toast({
+              title: "Error fetching Linktree data",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+              position: "top",
+            });
+            setTimeout(() => {
+              navigate("/createlinktree");
+            }, 3000);
           }
         }
       } catch (err) {
@@ -52,7 +63,6 @@ const HomePage = () => {
           isClosable: true,
           position: "top",
         });
-        alert(err.data);
       }
     }
   };

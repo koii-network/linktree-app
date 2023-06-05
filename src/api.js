@@ -12,9 +12,16 @@ export async function getLinktrees(publicKey) {
     const profile = res.data.filter((item) => {
       return item.publicKey === publicKey;
     });
-    return profile[0];
+    return {
+      data: profile[0],
+      status: true,
+    };
   } catch (error) {
     console.log(error);
+    return {
+      data: "",
+      status: true,
+    };
   }
 }
 

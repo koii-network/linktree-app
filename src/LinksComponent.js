@@ -20,7 +20,7 @@ function LinksComponent() {
   useEffect(() => {
     async function getUserData() {
       const response = await getLinktrees(query);
-      setUserData(response.data.linktree);
+      setUserData(response.data.data.linktree);
     }
     async function getAuth() {
       if (!publicKey) {
