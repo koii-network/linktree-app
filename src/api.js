@@ -36,36 +36,23 @@ export async function getLinktree(publicKey) {
   }
 }
 
-// export const handleSign = async (payload) => {
-//   const jwk = await ktools.loadFile("arweaveWallet.json");
-//   await ktools.loadWallet(jwk);
-
-//   const signedPayload = await ktools.signPayload(payload);
-//   const signature = signedPayload.signature;
-//   return signature;
-// };
-
 export async function setLinktree(data, publicKey) {
   const messageString = JSON.stringify(data);
-  console.log("creating signature");
   const signatureRaw = await window.k2.signMessage(messageString);
   const payload = {
     data,
     publicKey: publicKey,
     signature: bs58.encode(signatureRaw.signature),
   };
-  const authPayload = {
-    authdata: {
-      pubkey: publicKey,
-    },
+  const authdata = {
+    pubkey: publicKey,
   };
   try {
     const res = await axios.post("http://localhost:10000/linktree", {
       payload,
     });
-    console.log(res);
     await axios.post("http://localhost:10000/authlist", {
-      authPayload,
+      authdata,
     });
     return res.data;
   } catch (error) {
