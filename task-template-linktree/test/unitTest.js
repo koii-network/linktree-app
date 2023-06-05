@@ -7,20 +7,17 @@
  * After the delay time the submission function will start.
  */
 
-const index = require('../index');
 const dotenv = require('dotenv');
 require('dotenv').config();
 const Linktree = require('../linktree');
-const db = require('../database/db_model');
 dotenv.config();
 
 async function test_coreLogic() {
-  
   // Set up the number of times the task is repeated.
   let repeat = 10;
 
   // Set up the delay time in milliseconds. During this time the REST API is working and can receive data.
-  let delay = 15000;
+  let delay = 10000;
 
   // Instead of calling the task node, hardcode ther round number.
   let round = 5;
@@ -83,39 +80,50 @@ async function test_coreLogic() {
   linktreeTask = new Linktree();
   console.log('started a new linktree test');
 
-    setTimeout(async () => {
-      console.log('round', round);
-
-      // Main function of the task
-      await linktreeTask.task(round);
-      console.log('task completed');
-
-      // Fetch the submission CID
-      let proof_cid = await linktreeTask.generateSubmissionCID(round);
-      console.log('got round result', proof_cid);
-
-      // TEST in case upload to Web3Storage many times, use the hardcode CID below
-      // let proof_cid ='bafybeiatlrlmpnzt6jqrj2rvfkc3n377kswwmwpzxst3awl6sgutwo6miy';
-
-      // Validate the submission CID
-      let vote = await linktreeTask.validateSubmissionCID(proof_cid, round);
-
-      // TEST in case the submission is not valid, set the vote to true
-      // let vote = true;
-      console.log('validated round result', vote);
-
-      // Generate the distribution list
-      if (vote == true) {
-        console.log('Submission is valid, generating distribution list');
-        const distributionList = await linktreeTask.generateDistribution(
-          1,
-          _dummyTaskState,
-        );
-        console.log('distributionList', distributionList);
-      } else {
-        console.log('Submission is invalid, not generating distribution list');
-      }
-    }, delay);
+  async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
+
+  for (let i = 0; i < repeat; i++, round++) {
+
+    console.log('new round started at ', round)
+    // Wait for the delay time
+    await sleep(delay);
+
+    console.log('round', round);
+
+    // Main function of the task
+    await linktreeTask.task(round);
+    console.log('task completed');
+
+    // Fetch the submission CID
+    let proof_cid = await linktreeTask.generateSubmissionCID(round);
+    console.log('got round result', proof_cid);
+
+    // TEST in case upload to Web3Storage many times, use the hardcode CID below
+    // let proof_cid ='bafybeiatlrlmpnzt6jqrj2rvfkc3n377kswwmwpzxst3awl6sgutwo6miy';
+
+    // Validate the submission CID
+    let vote = await linktreeTask.validateSubmissionCID(proof_cid, round);
+
+    // TEST in case the submission is not valid, set the vote to true
+    // let vote = true;
+    console.log('validated round result', vote);
+
+    // Generate the distribution list
+    if (vote == true) {
+      console.log('Submission is valid, generating distribution list');
+      const distributionList = await linktreeTask.generateDistribution(
+        1,
+        _dummyTaskState,
+      );
+      console.log('distributionList', distributionList);
+    } else {
+      console.log('Submission is invalid, not generating distribution list');
+    }
+  }
+  
+  console.log('test completed')
+}
 
 test_coreLogic();

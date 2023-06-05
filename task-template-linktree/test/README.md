@@ -4,68 +4,32 @@ Under test folder, you will find several files that are used for testing the tas
 
 # Testing Steps Locally
 
-1. Run `yarn install` to install all the dependencies. Node version 18.0.0 or higher is required.
-2. Run `node test_local_submitlinktree.js` to submit the test data to the local. The test data is in `test_submitLinktree`. You can customize the test data to fit your task logic.
-3. Now you have some linktree data stored locally, you can use `test_demodle.js` to check your local data.
- - Use `dbmodel.getLinktree(PublicKey)` to get the specific data by Public Key, which you can find in the `test_submitLinktree`.
- - Use `dbmodel.getAllLinktrees();` to get all the data.
-4. Run `node unitTest.js` to start your test. The file contains a set of test cases that can be used to test the core logic functions. You can customize the test cases to fit your task logic.
+1. Install the dependencies
+```bash
+npm install or yarn install
+```
+2. create a .env file in the root directory and add the following variables
+```env
+SECRET_WEB3_STORAGE_KEY="<your_web3stroage_key>" 
+```
 
-    - `coreLogic.task()`
-    It will run the main task logic `linktree_task.js` and return the result. This function will upload your local data as proof to IPFS and generate a CID. The result will be the cid that contain your proofs and signature. To run this you need check around `linktree_task.js`, uncommon the line:21 and common the line:18. Then in `coreLogic.js` uncommon the line: 20 and common the line: 17. This will make the task logic run on your local data.
+3. Run the test
+```bash
+npm run test or yarn test
+```
 
-    The final return would be looks like: _User Linktrees proof uploaded to IPFS:  bafybeibd2l3tkncg6p3mehjycjm7sejky5nny46ilxczosoj_
+The linktree task will start running on the local machine. The test will start from round 5 and run 10 rounds. Before each round main task called it has 10s delay. You can change the round number, repeat time and delay time in the `unitTest.js` file.
 
-    - `coreLogic.fetchSubmission()`
-    It will fetch the submission from IPFS and return the result. Usually work with `coreLogic.task()` to test the task logic. The submission will be a proof of nodes with signature. To run this you need check around `coreLogic.js` uncommon the line: 41 and common the line: 42. This will make the task logic run on your local data.
-
-    The final return would be looks like: _Linktree proofs CID bafybeibd2l3tkncg6p3mehjycjm7sejky5nny46ilxczosoj in round 1000_
-
-    - `coreLogic.validateNode()`
-    It will validate your proofs from last step and return boolean `true` or `false`.
-
-    - `coreLogic.generateDistributionList` and `coreLogic.validateDistribution`. In case you do not want to run the `task()` and `fetchsubmission()` again, you can uncommon line:15 and `let vote = true` to directly run the test. You can use example task state to test your proofs validation. Uncommon line:71 - line:85 to test thess functions. If the `vote` return true it will run the `generateDistributionList` and `validateDistribution` functions. The final return would be looks like: _RESULT true_
-
-# Testing Steps on K2
-
-Due to the task is already on K2 and several nodes are running the task. You do not need to run the task again. You can use the test code below to check the information of the task.
-    
-- `check_task-status.js` is used to check the task status. It will check the task status and return the result. The result will be the task status that running on the K2. `<HjWJmb2gcwwm99VhyNVJZir3ToAJTfUB4j7buWnMMUEP>` is the linktree task ID so do not need to change this. You will return a list of `ip_address_list`, which are the nodes url that running the task. You can use this url to check the data status.
-
-- `test_endpoint.js` is used to call the endpoint from node to get the info you need. For example, use `https://k2-tasknet-ports-2.koii.live/task/HjWJmb2gcwwm99VhyNVJZir3ToAJTfUB4j7buWnMMUEP/linktree/list` to send a GET request to get the list of linktree data. For more endpoint and usage, you can check the `routes.js` file.
-
-- `test_node_submiLinktree.js` is used to submit the linktree data to the node. You can use the `ip_address_list` from `check_task-status.js` to submit the data to the node. The data is in `test_submitLinktree`. You can customize the test data to fit your task logic. After sending some data you can use `test_endpoint` tp get your data.
 
 # Testing File Explanation
+
 ## unitTest.js
 
-This file is used to test the core logic functions of the task. The file contains a set of test cases that can be used to test the core logic functions.
-
-- `coreLogic.task()`
-    It will run the task logic and return the result. The result will be a proof of nodes with signature and upload the proofs to IPFS. After that it will return the cid, which is used to test the other core logic functions.
-
-- `coreLogic.fetchSubmission()`
-    It will fetch the submission from IPFS and return the result. Usually work with `coreLogic.task()` to test the task logic. The submission will be a proof of nodes with signature.
-
-- `coreLogic.validateNode()`
-    It will validate the submission and return the result. Usually work with `coreLogic.fetchSubmission()` to test the submission logic. If you do not want to upload to IPFS and fetch from IPFS, you can hardcode the `submission` as the cid variable to test the validate logic.
-
-- `coreLogic.generateDistributionList()`
-    It will generate the distribution list and return the result. Usually work with `coreLogic.validateNode()` to test the distribution logic. You can also use example data to test the distribution logic.
-
-To run the specific test case, you can common out the other test cases and run the specific test case.
+This is the main test file. It provide a set of test cases that can be used to test the core logic functions. The test cases are divided into 3 parts: `linktree`, `generateSubmissionCID`, `validateSubmissionCID` and `generateDistribution`. Each part contains several test cases. You can add more test cases to test the core logic functions.
 
 ## check_task-status.js
 
 This file is used to check the task status. It will check the task status and return the result. The result will be the task status that running on the K2.
-
-## test_cidValidation.js
-
-This file is used to test the cid validation. It will validate the cid and return the result. The result will be the boolean of validation.
-It has two test cases:
-- `verifyNode`
-- `verifyLinktree`
-It will validate by using module `nacl` to check the signature of the proof. If the signature is valid, it will return true. Otherwise, it will return false.
 
 ## test_dbmodel.js
 
@@ -76,12 +40,7 @@ This file is used to test the database model. You can customize the database mod
  - `dbmodel.setLinktree(PublicKey, data);`
  - ...
 
-Check `db_model.js` for more details that you can test on. Include linktree, proofs, node_proofs and authlist.
-
-## test_docker_submitlinktree.js
-
-Use this file to send test data to the K2. It will send the test data to the K2 and return the result. The post url format is `<nodeurl>/task/<taskID>/<endpoint>`. (You do not need to change this). If you need more information about other nodes url, you can check `check_task-status.js`, get the return and check `ip_address_list`.
-To check the data you just submistted, you can use `test_endpoint.js`.
+Check `database/db_model.js` for more details that you can test on. Include linktree, proofs, node_proofs and authlist.
 
 ## test_endpoint.js
 
