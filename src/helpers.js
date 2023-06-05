@@ -10,7 +10,7 @@ export const truncateAddress = (address) => {
 export const fetchData = async (publicKey) => {
   let nodeList = []
   let nodeResponse = await axios.get(
-    'https://k2-tasknet.koii.live/nodes/HjWJmb2gcwwm99VhyNVJZir3ToAJTfUB4j7buWnMMUEP'
+    'https://tasknet.koii.live/nodes/HjWJmb2gcwwm99VhyNVJZir3ToAJTfUB4j7buWnMMUEP'
   );
   for (let i = 0; i < nodeResponse.data.length; i++) {
     nodeList.push(nodeResponse.data[i].data.url);
