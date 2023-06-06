@@ -10,7 +10,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(true);
   const toast = useToast();
-  const { setPublicKey, publicKey } = useWalletContext();
+  const { setPublicKey } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
 
   const handleConnectFinnie = async () => {
@@ -61,7 +61,6 @@ const HomePage = () => {
           } else {
             toast({
               title: "You are not authorized to access Linktree profiles",
-              description: "Please contact the Koii team",
               status: "error",
               duration: 3000,
               isClosable: true,
