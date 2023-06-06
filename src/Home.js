@@ -1,20 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@chakra-ui/react";
+import { useToast, Text } from "@chakra-ui/react";
 import { useWalletContext } from "./contexts";
 import { useK2Finnie } from "./hooks";
 import { DOWNLOAD_FINNIE_URL } from "./config";
-import { getLinktrees, getAuthList } from "./api";
+import { getLinktrees, getAuthList, transferKoii } from "./api";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [isAuth, setIsAuth] = useState(true);
   const toast = useToast();
-  const { setPublicKey } = useWalletContext();
+  const { setPublicKey, publicKey } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
 
   const handleConnectFinnie = async () => {
-    
-
     if (isFinnieDetected) {
       const pubKey = await connect();
       try {
@@ -68,6 +67,7 @@ const HomePage = () => {
               isClosable: true,
               position: "top",
             });
+            setIsAuth(false);
           }
         }
       } catch (err) {
@@ -82,8 +82,32 @@ const HomePage = () => {
     }
   };
 
+  const handleTransferKoii = async () => {
+    try {
+      await transferKoii();
+      toast({
+        title: "Koii Transfer Successful",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+      setTimeout(() => {
+        navigate("/createlinktree");
+      }, 3000);
+    } catch {
+      toast({
+        title: "Error transferring koii",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+
   const linkToGetFinnie = (
-    <a rel="noreferrer" target="_blank" href={DOWNLOAD_FINNIE_URL}>
+    <a rel='noreferrer' target='_blank' href={DOWNLOAD_FINNIE_URL}>
       Get Finnie
     </a>
   );
@@ -93,14 +117,32 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <div className="container public-key-input-container">
-      <div className="auth-user">
-        <button
-          onClick={handleConnectFinnie}
-          className="connect-wallet-button"
-        >
-          {connectButtonText}
-        </button>
+    <div className='container public-key-input-container'>
+      <div className='auth-user'>
+        {isAuth ? (
+          <button
+            onClick={handleConnectFinnie}
+            className='connect-wallet-button'
+          >
+            {connectButtonText}
+          </button>
+        ) : (
+          <>
+            <Text marginBottom='10px' fontSize='30px'>
+              You are not authorized to create and access Linktree profiles
+            </Text>
+            <Text marginBottom='20px' fontSize='18px'>
+              Transfer 10 Koii to this address by clicking the button below to
+              create and access linktree profiles:{" "}
+            </Text>
+            <button
+              onClick={handleTransferKoii}
+              className='connect-wallet-button'
+            >
+              Transfer Koii
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

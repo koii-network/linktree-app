@@ -1,5 +1,11 @@
 import axios from "axios";
 import bs58 from "bs58";
+import {
+  Transaction,
+  Connection,
+  clusterApiUrl,
+  SystemProgram,
+} from "@_koi/web3.js";
 
 export async function getLinktrees(publicKey) {
   try {
@@ -51,11 +57,35 @@ export async function setLinktree(data, publicKey) {
 
 export async function getAuthList(publicKey) {
   try {
-    const res = await axios.get(
-      `http://localhost:10000/authlist/get/${publicKey}`
-    );
-    return res?.data === publicKey;
+    // const res = await axios.get(
+    //   `http://localhost:10000/authlist/get/${publicKey}`
+    // );
+    // return res?.data === publicKey;
+    return false;
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function transferKoii() {
+  const connection = new Connection(clusterApiUrl("devnet"));
+  const blockHash = await connection.getRecentBlockhash();
+  const feePayer = window.k2.publicKey;
+
+  const transaction = new Transaction();
+  transaction.recentBlockhash = blockHash.blockhash;
+  transaction.feePayer = feePayer;
+
+  transaction.add(
+    SystemProgram.transfer({
+      fromPubkey: window.k2.publicKey,
+      toPubkey: new window.solanaWeb3.PublicKey(
+        "HdVLjiwWcX8RWCLgZnNzeMt48JB6MJYan7q2qt3NLfZW"
+      ),
+      lamports: Number(10000000000),
+    })
+  );
+
+  const payload = transaction.serializeMessage();
+  const signature = await window.k2.signAndSendTransaction(payload);
 }
