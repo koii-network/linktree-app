@@ -11,6 +11,7 @@ import {
   Text,
   Textarea,
   Spacer,
+  Spinner,
 } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
@@ -46,6 +47,7 @@ const CreateLinktree = () => {
   const [image, setImage] = useState(null);
   const [files, setFiles] = useState(null);
   const [imageName, setImageName] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const linksGroup = { label: "", redirectUrl: "", key: "" };
   const toast = useToast();
@@ -77,6 +79,7 @@ const CreateLinktree = () => {
   };
 
   const handleSubmit = async (values, actions) => {
+    setIsLoading(true);
     if (!publicKey) {
       toast({
         title: "Connect your finnie wallet",
@@ -86,12 +89,15 @@ const CreateLinktree = () => {
         isClosable: true,
         position: "top",
       });
+      setIsLoading(false);
       setTimeout(() => {
         navigate("/");
       }, 3000);
+      return;
     }
     const imageCID = await uploadToIPFS(files);
     if (imageCID === null) {
+      setIsLoading(false);
       return toast({
         title: "Try again",
         description: "Error uploading image",
@@ -134,6 +140,7 @@ const CreateLinktree = () => {
         position: "top",
       });
     }
+    setIsLoading(false);
   };
 
   return (
@@ -345,7 +352,7 @@ const CreateLinktree = () => {
               my={10}
               type='submit'
             >
-              Submit
+              {isLoading ? <Spinner /> : "Submit"}
             </Button>
           </form>
         )}
