@@ -3,8 +3,6 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useToast, Box } from "@chakra-ui/react";
 import { getLinktrees, getAuthList } from "./api";
-import { useDisconnect } from "wagmi";
-import { Oval } from "react-loader-spinner";
 import { useWalletContext } from "./contexts";
 
 function LinksComponent() {
@@ -13,7 +11,6 @@ function LinksComponent() {
   const location = useLocation();
   const query = location.pathname.slice(10);
   const [userData, setUserData] = useState({});
-  const { disconnect } = useDisconnect();
 
   const { publicKey } = useWalletContext();
 
@@ -106,6 +103,6 @@ function LinksComponent() {
 
 export default LinksComponent;
 
-const Message = ({ children }) => {
-  return <div className='message-container'>{children}</div>;
-};
+// const Message = ({ children }) => {
+//   return <div className='message-container'>{children}</div>;
+// };

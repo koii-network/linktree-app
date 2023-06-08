@@ -51,7 +51,7 @@ const CreateLinktree = () => {
   const linksGroup = { label: "", redirectUrl: "", key: "" };
   const toast = useToast();
   const navigate = useNavigate();
-  const { publicKey, setLinkTreeData } = useWalletContext();
+  const { publicKey } = useWalletContext();
 
   const uploadToIPFS = async (image) => {
     try {
@@ -117,8 +117,6 @@ const CreateLinktree = () => {
       },
       timestamp: Date.now(),
     };
-
-    setLinkTreeData(payload);
 
     const res = await setLinktree(payload, publicKey);
     if (res?.message === "Proof and linktree registered successfully") {
@@ -272,7 +270,7 @@ const CreateLinktree = () => {
                       flexDirection={{ base: "column", md: "row" }}
                       key={index}
                       mt={2}
-                      alignItems='center'
+                      alignItems={{ base: "end", md: "center" }}
                     >
                       <Box w={{ base: "100%", md: "45%" }}>
                         <Text>
@@ -303,28 +301,29 @@ const CreateLinktree = () => {
                           <ErrorMessage name={`links.${index}.redirectUrl`} />
                         </Text>
                       </Box>
+                      <Spacer />
                       {index === 0 ? (
-                        <>
-                          <Spacer />
+                        <div>
                           <IconButton
                             isDisabled
-                            alignSelf='flex-end'
                             rounded='full'
+                            alignSelf={{ base: "flex-end", lg: "" }}
+                            marginTop='10px'
                             icon={<DeleteIcon />}
                             colorScheme='red'
                           />
-                        </>
+                        </div>
                       ) : (
-                        <>
-                          <Spacer />
+                        <div>
                           <IconButton
-                            alignSelf='flex-end'
                             rounded='full'
                             icon={<DeleteIcon />}
                             colorScheme='red'
+                            marginTop='10px'
+                            alignSelf={{ base: "flex-end", lg: "" }}
                             onClick={() => remove(index)}
                           />
-                        </>
+                        </div>
                       )}
                     </Flex>
                   ))}

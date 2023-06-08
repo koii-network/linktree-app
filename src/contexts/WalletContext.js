@@ -4,15 +4,12 @@ export const WalletContext = createContext(undefined);
 
 export const WalletContextProvider = ({ children }) => {
   const [publicKey, setPublicKey] = useState("");
-  const [linkTreeData, setLinkTreeData] = useState("");
 
   return (
     <WalletContext.Provider
       value={{
         publicKey,
         setPublicKey,
-        linkTreeData,
-        setLinkTreeData,
       }}
     >
       {children}
