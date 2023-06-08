@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, ErrorMessage, Field, FieldArray } from "formik";
 import { array, object, string, mixed } from "yup";
 import { Web3Storage } from "web3.storage";
@@ -76,6 +76,26 @@ const CreateLinktree = () => {
       };
     });
   };
+
+  useEffect(() => {
+    async function getAuth() {
+      if (!publicKey) {
+        toast({
+          title: "Connect your finnie wallet",
+          description: "You'll be re-directed to connect your finnie wallet",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+        return;
+      }
+    }
+    getAuth();
+  }, [publicKey, toast, navigate, apiUrl]);
 
   const handleSubmit = async (values, actions) => {
     setIsLoading(true);
