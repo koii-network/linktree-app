@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useToast, Box } from "@chakra-ui/react";
+import { useToast, Box, IconButton, Tooltip } from "@chakra-ui/react";
 import { getLinktrees, getAuthList } from "../api";
 import { useWalletContext } from "../contexts";
+import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 
 function LinksComponent() {
   const navigate = useNavigate();
@@ -54,10 +55,13 @@ function LinksComponent() {
     getAuth();
   }, [query, publicKey, toast, navigate]);
 
+  const isProfileOwner = query === publicKey;
+
   return (
-    <div className='container'>
+    <div className='container relative'>
       <Box
         minHeight='70vh'
+        maxWidth='600px'
         width='100%'
         display='flex'
         flexDirection='column'
@@ -91,6 +95,29 @@ function LinksComponent() {
           </>
         )}
       </Box>
+      {isProfileOwner && (
+        <Box
+          position='absolute'
+          top={{ base: "20px", md: "30px" }}
+          left={{ base: "20px", md: "15%", lg: "25%" }}
+        >
+          <Tooltip
+            hasArrow
+            label='Delete Your Linktree Profile'
+            bg='#ecfffe'
+            fontSize='sm'
+            color='#171753'
+          >
+            <IconButton
+              rounded='full'
+              alignSelf={{ base: "flex-end", lg: "" }}
+              marginTop='10px'
+              icon={<DeleteIcon />}
+              colorScheme='red'
+            />
+          </Tooltip>
+        </Box>
+      )}
       <div className='footer'>
         Link tree by{" "}
         <a href='https://www.koii.network/' className='by-koii'>

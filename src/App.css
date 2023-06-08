@@ -54,6 +54,7 @@ p {
   font-weight: bold;
   transition: transform 0.3s ease-in-out, background 0.3s ease-in-out,
     color 0.3s ease-in-out;
+  margin-top: 10rem;
 }
 
 .connect-wallet-button:hover {
@@ -191,6 +192,9 @@ p {
 
 @media screen and (max-width: 600px) {
   .links {
+    width: 100%;
+  }
+  .link {
     width: 100%;
   }
   .user-desc {

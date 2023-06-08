@@ -9,8 +9,8 @@
   --koii-white: #171753;
   --koii-mint: #8989c7;
   --background-image: url("/public/images/Desktop L.svg");
-  --background-image-md: url("/public/images/Desktop L (1).svg"); 
-  --background-image-sm: url("/public/images/Phone L.svg"); 
+  --background-image-md: url("/public/images/Desktop L (1).svg");
+  --background-image-sm: url("/public/images/Phone L.svg");
 }
 
 [data-theme="dark"] {

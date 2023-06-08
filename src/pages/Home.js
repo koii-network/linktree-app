@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast, Text } from "@chakra-ui/react";
+import { useToast, Text, Box } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
@@ -116,7 +116,7 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <div className='container public-key-input-container'>
+    <div className='container '>
       <div className='auth-user'>
         {isAuth ? (
           <button
@@ -126,11 +126,20 @@ const HomePage = () => {
             {connectButtonText}
           </button>
         ) : (
-          <>
-            <Text marginBottom='10px' fontSize='30px'>
+          <Box
+            maxWidth='900px'
+            display='flex'
+            flexDirection='column'
+            alignItems='center'
+            justifyContent='center'
+            paddingLeft='20px'
+            paddingRight='20px'
+            paddingTop='5rem'
+          >
+            <Text marginBottom='10px' fontSize='30px' textAlign='center'>
               You are not authorized to create and access Linktree profiles
             </Text>
-            <Text marginBottom='20px' fontSize='18px'>
+            <Text marginBottom='20px' fontSize='18px' textAlign='center'>
               Transfer 10 Koii to this address by clicking the button below to
               create and access linktree profiles:{" "}
             </Text>
@@ -140,7 +149,7 @@ const HomePage = () => {
             >
               Transfer Koii
             </button>
-          </>
+          </Box>
         )}
       </div>
     </div>
