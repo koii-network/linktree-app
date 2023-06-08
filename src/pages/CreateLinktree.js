@@ -16,9 +16,9 @@ import {
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import uuid from "react-uuid";
-import { setLinktree } from "./api";
+import { setLinktree } from "../api";
 import { useNavigate } from "react-router-dom";
-import { useWalletContext } from "./contexts";
+import { useWalletContext } from "../contexts";
 
 function makeStorageClient() {
   return new Web3Storage({

@@ -4,9 +4,9 @@ import "./index.css";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { WalletContextProvider } from "./contexts";
-import LinksComponent from "./LinksComponent";
+import LinksComponent from "./pages/LinksComponent";
 import "@rainbow-me/rainbowkit/styles.css";
-import CreateLinktree from "./CreateLinktree";
+import CreateLinktree from "./pages/CreateLinktree";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import ToggleThemeMode from "./ToggleThemeMode";

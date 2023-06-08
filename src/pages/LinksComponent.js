@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useToast, Box } from "@chakra-ui/react";
-import { getLinktrees, getAuthList } from "./api";
-import { useWalletContext } from "./contexts";
+import { getLinktrees, getAuthList } from "../api";
+import { useWalletContext } from "../contexts";
 
 function LinksComponent() {
   const navigate = useNavigate();
