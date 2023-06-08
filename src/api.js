@@ -86,9 +86,10 @@ export async function transferKoii(apiUrl) {
     const authdata = {
       pubkey: window.k2.publicKey,
     };
-    await axios.post(`${apiUrl}/authlist`, {
+    const res = await axios.post(`${apiUrl}/authlist`, {
       authdata,
     });
+    return res.data === window.k2.publicKey;
   } catch (error) {
     console.log(error);
   }

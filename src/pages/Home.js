@@ -13,8 +13,6 @@ const HomePage = () => {
   const { setPublicKey, apiUrl } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
 
-  console.log("apiUrl", apiUrl);
-
   const handleConnectFinnie = async () => {
     if (isFinnieDetected) {
       const pubKey = await connect();
