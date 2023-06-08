@@ -12,11 +12,11 @@ function LinksComponent() {
   const query = location.pathname.slice(10);
   const [userData, setUserData] = useState({});
 
-  const { publicKey } = useWalletContext();
+  const { publicKey, apiUrl } = useWalletContext();
 
   useEffect(() => {
     async function getUserData() {
-      const response = await getLinktrees(query);
+      const response = await getLinktrees(query, apiUrl);
       setUserData(response.data.data.linktree);
     }
     async function getAuth() {
@@ -34,7 +34,7 @@ function LinksComponent() {
         }, 3000);
         return;
       }
-      const showData = await getAuthList(publicKey);
+      const showData = await getAuthList(publicKey, apiUrl);
       if (showData) {
         await getUserData();
       } else {
@@ -52,7 +52,7 @@ function LinksComponent() {
       }
     }
     getAuth();
-  }, [query, publicKey, toast, navigate]);
+  }, [query, publicKey, toast, navigate, apiUrl]);
 
   return (
     <div className='container'>

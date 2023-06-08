@@ -10,8 +10,10 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(true);
   const toast = useToast();
-  const { setPublicKey } = useWalletContext();
+  const { setPublicKey, apiUrl } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
+
+  console.log("apiUrl", apiUrl);
 
   const handleConnectFinnie = async () => {
     if (isFinnieDetected) {
@@ -19,10 +21,10 @@ const HomePage = () => {
       try {
         if (pubKey) {
           setPublicKey(pubKey);
-          const isAuthListed = await getAuthList(pubKey);
+          const isAuthListed = await getAuthList(pubKey, apiUrl);
 
           if (isAuthListed) {
-            const linktree = await getLinktrees(pubKey);
+            const linktree = await getLinktrees(pubKey, apiUrl);
             if (linktree.status === true && !linktree.data) {
               toast({
                 title: "No Linktree profile for this public key",
@@ -83,7 +85,7 @@ const HomePage = () => {
 
   const handleTransferKoii = async () => {
     try {
-      await transferKoii();
+      await transferKoii(apiUrl);
       toast({
         title: "Koii Transfer Successful",
         status: "success",

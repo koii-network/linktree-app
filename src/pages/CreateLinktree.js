@@ -51,7 +51,7 @@ const CreateLinktree = () => {
   const linksGroup = { label: "", redirectUrl: "", key: "" };
   const toast = useToast();
   const navigate = useNavigate();
-  const { publicKey } = useWalletContext();
+  const { publicKey, apiUrl } = useWalletContext();
 
   const uploadToIPFS = async (image) => {
     try {
@@ -118,7 +118,7 @@ const CreateLinktree = () => {
       timestamp: Date.now(),
     };
 
-    const res = await setLinktree(payload, publicKey);
+    const res = await setLinktree(payload, publicKey, apiUrl);
     if (res?.message === "Proof and linktree registered successfully") {
       toast({
         title: "Successfully created Linktree profile!",

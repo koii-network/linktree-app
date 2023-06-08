@@ -6,11 +6,11 @@ import {
   clusterApiUrl,
   SystemProgram,
 } from "@_koi/web3.js";
-import { API_URL, Transfer_AMOUNT, RECIPIENT_ADDRESS } from "./config";
+import { Transfer_AMOUNT, RECIPIENT_ADDRESS } from "./config";
 
-export async function getLinktrees(publicKey) {
+export async function getLinktrees(publicKey, apiUrl) {
   try {
-    const res = await axios.get(`${API_URL}/linktree/list`);
+    const res = await axios.get(`${apiUrl}/linktree/list`);
     const profile = res.data.filter((item) => {
       return item.publicKey === publicKey;
     });
@@ -27,16 +27,16 @@ export async function getLinktrees(publicKey) {
   }
 }
 
-export async function getLinktree(publicKey) {
+export async function getLinktree(publicKey, apiUrl) {
   try {
-    const res = await axios.get(`${API_URL}/linktree/get/${publicKey}`);
+    const res = await axios.get(`${apiUrl}/linktree/get/${publicKey}`);
     return res;
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function setLinktree(data, publicKey) {
+export async function setLinktree(data, publicKey, apiUrl) {
   const messageString = JSON.stringify(data);
   const signatureRaw = await window.k2.signMessage(messageString);
   const payload = {
@@ -45,7 +45,7 @@ export async function setLinktree(data, publicKey) {
     signature: bs58.encode(signatureRaw.signature),
   };
   try {
-    const res = await axios.post(`${API_URL}/linktree`, {
+    const res = await axios.post(`${apiUrl}/linktree`, {
       payload,
     });
     return res.data;
@@ -54,16 +54,16 @@ export async function setLinktree(data, publicKey) {
   }
 }
 
-export async function getAuthList(publicKey) {
+export async function getAuthList(publicKey, apiUrl) {
   try {
-    const res = await axios.get(`${API_URL}/authlist/get/${publicKey}`);
+    const res = await axios.get(`${apiUrl}/authlist/get/${publicKey}`);
     return res?.data === publicKey;
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function transferKoii() {
+export async function transferKoii(apiUrl) {
   try {
     const connection = new Connection(clusterApiUrl("devnet"));
     const blockHash = await connection.getRecentBlockhash();
@@ -86,7 +86,7 @@ export async function transferKoii() {
     const authdata = {
       pubkey: window.k2.publicKey,
     };
-    await axios.post(`${API_URL}/authlist`, {
+    await axios.post(`${apiUrl}/authlist`, {
       authdata,
     });
   } catch (error) {
