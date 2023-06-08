@@ -6,7 +6,7 @@ import {
   clusterApiUrl,
   SystemProgram,
 } from "@_koi/web3.js";
-import { API_URL } from "./config";
+import { API_URL, Transfer_AMOUNT, RECIPIENT_ADDRESS } from "./config";
 
 export async function getLinktrees(publicKey) {
   try {
@@ -76,10 +76,8 @@ export async function transferKoii() {
     transaction.add(
       SystemProgram.transfer({
         fromPubkey: window.k2.publicKey,
-        toPubkey: new window.solanaWeb3.PublicKey(
-          "HdVLjiwWcX8RWCLgZnNzeMt48JB6MJYan7q2qt3NLfZW"
-        ),
-        lamports: Number(10000000000),
+        toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
+        lamports: Number(Transfer_AMOUNT),
       })
     );
 
