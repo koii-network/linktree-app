@@ -25,16 +25,28 @@ export const fetchData = async (publicKey) => {
 }
   return "Error";
 
+
 };
 
 export const getNodeList = async () => {
-  let nodeList = []
-  let nodeResponse = await axios.get(
-    'https://tasknet.koii.live/nodes/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan'
-  );
-  for (let i = 0; i < nodeResponse.data.length; i++) {
-    nodeList.push(nodeResponse.data[i].data.url);
+  let nodeList = [];
+  const fallbackNodes = [
+    'https://tasknet.koii.live/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan',
+    'https://tasknet-ports-2.koii.live/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan',
+    'https://tasknet-ports-2.koii.live/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan',
+  ];
+
+  try {
+    let nodeResponse = await axios.get(
+      'https://tasknet.koii.live/nodes/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan'
+    );
+    for (let i = 0; i < nodeResponse.data.length; i++) {
+      nodeList.push(nodeResponse.data[i].data.url);
     }
-  console.log(nodeList)
+  } catch (error) {
+    console.error('Failed to fetch node list from primary node. Falling back to fallback nodes...');
+    nodeList = fallbackNodes;
+  }
+
   return nodeList;
-}
+};
