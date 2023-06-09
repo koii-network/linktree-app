@@ -28,7 +28,10 @@ router.post('/linktree', async (req, res) => {
 
   // Check req.body
   if (!linktree) {
-    res.status(400).json({ error: 'Invalid request' });
+    res.status(400).json({ error: 'Invalid request, missing data' });
+    return;
+  } else if (!linktree.data.uuid || !linktree.data.linktree || !linktree.data.timestamp) {
+    res.status(400).json({ error: 'Invalid request, missing data' });
     return;
   } else {
     console.log(linktree);
