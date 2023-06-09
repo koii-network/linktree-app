@@ -26,17 +26,25 @@ router.get('/taskState', async (req, res) => {
 router.post('/linktree', async (req, res) => {
   const linktree = req.body.payload;
 
-  // Check req.body
-  if (!linktree) {
-    res.status(400).json({ error: 'Invalid request, missing data' });
-    return;
-  } else if (!linktree.data.uuid || !linktree.data.linktree || !linktree.data.timestamp) {
-    res.status(400).json({ error: 'Invalid request, missing data' });
-    return;
-  } else {
-    console.log(linktree);
+  // Check data
+  try {
+    // Check req.body
+    if (!linktree) {
+      res.status(400).json({ error: 'Invalid request, missing data' });
+      return;
+    } else if (
+      !linktree.data.uuid ||
+      !linktree.data.linktree ||
+      !linktree.data.timestamp
+    ) {
+      res.status(400).json({ error: 'Invalid request, missing data' });
+      return;
+    } else {
+      console.log(linktree);
+    }
+  } catch (e) {
+    console.log(e);
   }
-
   if (!linktree.publicKey && !linktree.signature) {
     res.status(400).json({ error: 'Missing publicKey or signature' });
     return;
