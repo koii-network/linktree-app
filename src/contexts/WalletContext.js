@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { getNodeList, getBackUpNodeList } from "../helpers";
+import { TASK_ADDRESS } from "../config";
 
 export const WalletContext = createContext(undefined);
 
@@ -23,7 +24,7 @@ export const WalletContextProvider = ({ children }) => {
     }
     async function generateRandomNode() {
       const randomNode = await getRandomeNode();
-      const url = `${randomNode}/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`;
+      const url = `${randomNode}/task/${TASK_ADDRESS}`;
       setApiUrl(url);
     }
     generateRandomNode();

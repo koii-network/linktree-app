@@ -1,4 +1,5 @@
 import axios from "axios";
+import { TASK_ADDRESS } from "./config";
 
 export const truncateAddress = (address) => {
   const firstSlice = address.slice(0, 6);
@@ -8,12 +9,12 @@ export const truncateAddress = (address) => {
 };
 
 export const fetchData = async (publicKey) => {
-  let nodeList = await nodeList();
+  let nodeList = await getNodeList();
 
   for (let i = 0; i < nodeList.length; i++) {
     try {
       const response = await axios.get(
-        `${nodeList[i]}/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ/linktree/get/${publicKey}`
+        `${nodeList[i]}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`
       );
       if (response.data && response.data.data) {
         console.log(`Data found in node ${i}:`, response.data.data);
@@ -30,14 +31,14 @@ export const fetchData = async (publicKey) => {
 export const getNodeList = async () => {
   let nodeList = [];
   const fallbackNodes = [
-    "https://tasknet.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ",
-    "https://tasknet-ports-2.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ",
-    "https://tasknet-ports-2.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ",
+    `https://tasknet.koii.live/task/${TASK_ADDRESS}`,
+    `https://tasknet-ports-2.koii.live/task/${TASK_ADDRESS}`,
+    `https://tasknet-ports-2.koii.live/task/${TASK_ADDRESS}`,
   ];
 
   try {
     let nodeResponse = await axios.get(
-      "https://tasknet.koii.live/nodes/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ"
+      `https://tasknet.koii.live/nodes/${TASK_ADDRESS}`
     );
     for (let i = 0; i < nodeResponse.data.length; i++) {
       nodeList.push(nodeResponse.data[i].data.url);
@@ -55,21 +56,13 @@ export const getNodeList = async () => {
 export const getBackUpNodeList = (randomIndex, nodeList) => {
   if (randomIndex + 2 < nodeList.length) {
     return [
-      `${
-        nodeList[randomIndex + 1]
-      }/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`,
-      `${
-        nodeList[randomIndex + 2]
-      }/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`,
+      `${nodeList[randomIndex + 1]}/task/${TASK_ADDRESS}`,
+      `${nodeList[randomIndex + 2]}/task/${TASK_ADDRESS}`,
     ];
   } else {
     return [
-      `${
-        nodeList[randomIndex - 1]
-      }/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`,
-      `${
-        nodeList[randomIndex - 2]
-      }/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`,
+      `${nodeList[randomIndex - 1]}/task/${TASK_ADDRESS}`,
+      `${nodeList[randomIndex - 2]}/task/${TASK_ADDRESS}`,
     ];
   }
 };
