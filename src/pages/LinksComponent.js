@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useToast, Box, Spinner } from "@chakra-ui/react";
-import { getLinktrees, getAuthList } from "../api";
+import { getLinktree, getAuthList } from "../api";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
@@ -22,9 +22,9 @@ function LinksComponent() {
 
   useEffect(() => {
     async function getUserData() {
-      const response = await getLinktrees(query, apiUrl, backUpNodeList);
-      setUserData(response?.data?.data?.linktree);
-      return response?.data?.data?.linktree;
+      const response = await getLinktree(query, apiUrl, backUpNodeList);
+      setUserData(response?.data?.linktree);
+      return response?.data?.linktree;
     }
     async function getAuth() {
       setConnected(true);
