@@ -1,16 +1,26 @@
-const coreLogic = require("./coreLogic");
-const dbSharing = require("./dbSharing");
+/**
+ * This is the main file for the task-template-linktree.
+ * 
+ * This task is a simple example of a task that can be run on the K2 network.
+ * The task is to store the linktree data, which is a list of links to social media profiles.
+ * The task is run in rounds, and each round, each node submits a linktree.
+ * 
+ * 
+ */
+
+const coreLogic = require("./environment/coreLogic");
+const dbSharing = require("./database/dbSharing");
 // const localShim = require("./localTestingShim"); // TEST to enable testing with K2 without round timers, enable this line and line 59
-const { app, MAIN_ACCOUNT_PUBKEY, SERVICE_URL, TASK_ID } = require("./init");
+const { app, MAIN_ACCOUNT_PUBKEY, SERVICE_URL, TASK_ID } = require("./environment/init");
 const express = require('express');
-const { namespaceWrapper, taskNodeAdministered } = require("./namespaceWrapper");
+const { namespaceWrapper, taskNodeAdministered } = require("./environment/namespaceWrapper");
 const {default: axios} = require('axios');
 const bs58 = require('bs58');
 const solanaWeb3 = require('@solana/web3.js');
 const nacl = require('tweetnacl');
 const fs = require('fs');
-const db = require('./db_model');
-const routes = require('./routes');
+const db = require('./database/db_model');
+const routes = require('./database/routes');
 const path = require('path');
 
 async function setup() {
@@ -72,7 +82,7 @@ async function setup() {
     }
     else if(m.functionCall == "executeTask") {
       console.log("executeTask called");
-      coreLogic.task();
+      coreLogic.task(m.roundNumber);
     }
     else if(m.functionCall == "generateAndSubmitDistributionList") {
       console.log("generateAndSubmitDistributionList called");

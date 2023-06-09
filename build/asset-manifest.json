@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ccd8772d.css",
+    "main.js": "/static/js/main.6af4546c.js",
+    "static/media/Sora-VariableFont_wght.ttf": "/static/media/Sora-VariableFont_wght.c846c9a2c08153d3605a.ttf",
+    "static/media/DesktopD (2).svg": "/static/media/DesktopD (2).4e58d65131b55b7a76b0.svg",
+    "static/media/Desktop L (1).svg": "/static/media/Desktop L (1).ab660c3de834378745ae.svg",
+    "static/media/DesktopD (1).svg": "/static/media/DesktopD (1).8995e421a20f9c4c6285.svg",
+    "static/media/Desktop L.svg": "/static/media/Desktop L.512a2645eaf270bff8a0.svg",
+    "static/media/Phone D.svg": "/static/media/Phone D.7ad0f19b9a1865c5d287.svg",
+    "static/media/Phone L.svg": "/static/media/Phone L.561dcefd279ef49d0dda.svg",
+    "index.html": "/index.html",
+    "main.ccd8772d.css.map": "/static/css/main.ccd8772d.css.map",
+    "main.6af4546c.js.map": "/static/js/main.6af4546c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ccd8772d.css",
+    "static/js/main.6af4546c.js"
+  ]
+}
