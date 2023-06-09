@@ -4,7 +4,7 @@ import { useToast, Text } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
-import { getLinktrees, getAuthList, transferKoii } from "../api";
+import { getLinktree, getAuthList, transferKoii } from "../api";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -22,7 +22,8 @@ const HomePage = () => {
           const isAuthListed = await getAuthList(pubKey, apiUrl);
 
           if (isAuthListed) {
-            const linktree = await getLinktrees(pubKey, apiUrl, backUpNodeList);
+            const linktree = await getLinktree(pubKey, apiUrl, backUpNodeList);
+            console.log(linktree);
             if (linktree.status === true && !linktree.data) {
               toast({
                 title: "No Linktree profile for this public key",
