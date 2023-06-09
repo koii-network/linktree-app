@@ -9,20 +9,45 @@ import {
 import { Transfer_AMOUNT, RECIPIENT_ADDRESS } from "./config";
 import { getNodeList } from "./helpers";
 
-export async function getLinktrees(publicKey, apiUrl) {
-  try {
-    const res = await axios.get(`${apiUrl}/linktree/list`);
-    const profile = res.data.filter((item) => {
-      return item.publicKey === publicKey;
-    });
+export async function getLinktrees(publicKey, apiUrl, backUpNodeList) {
+  const res = await axios.get(`${apiUrl}/linktree/list`);
+  const profile = res.data.filter((item) => {
+    return item.publicKey === publicKey;
+  });
+  if (profile[0]) {
     return {
       data: profile[0],
       status: true,
     };
-  } catch (error) {
-    console.log(error);
+  } else {
+    return await getLinktreesFromBackUp(publicKey, backUpNodeList);
+  }
+}
+
+export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
+  const res = await axios.get(`${backUpNodeList[0]}/linktree/list`);
+  const profile = res.data.filter((item) => {
+    return item.publicKey === publicKey;
+  });
+  if (!res?.data) {
+    const res = await axios.get(`${backUpNodeList[1]}/linktree/list`);
+    const profile = res.data.filter((item) => {
+      return item.publicKey === publicKey;
+    });
+    if (profile[0]) {
+      return {
+        data: profile[0],
+        status: true,
+      };
+    } else {
+      return {
+        data: "",
+        status: false,
+      };
+    }
+  } else {
     return {
-      data: "",
+      data: profile[0],
       status: true,
     };
   }
@@ -58,21 +83,26 @@ export async function setLinktree(data, publicKey, apiUrl) {
 export async function getAuthList(publicKey, apiUrl) {
   try {
     const nodeList = await getNodeList();
-    const requests = nodeList.map(node =>
-      axios.get(`${node}/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan/authlist/get/${publicKey}`)
-        .then(res => res.data)
-        .catch(error => console.log(`Error fetching authlist from ${node}:`, error))
+    const requests = nodeList.map((node) =>
+      axios
+        .get(
+          `${node}/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan/authlist/get/${publicKey}`
+        )
+        .then((res) => res.data)
+        .catch((error) =>
+          console.log(`Error fetching authlist from ${node}:`, error)
+        )
     );
 
     const results = await Promise.allSettled(requests);
 
     for (const result of results) {
-      if (result.status === 'fulfilled' && result.value === publicKey) {
+      if (result.status === "fulfilled" && result.value === publicKey) {
         return true;
       }
     }
   } catch (error) {
-    console.log('Error getting node list:', error);
+    console.log("Error getting node list:", error);
   }
 
   return false;

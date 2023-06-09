@@ -10,7 +10,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(true);
   const toast = useToast();
-  const { setPublicKey, apiUrl } = useWalletContext();
+  const { setPublicKey, apiUrl, backUpNodeList } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
 
   const handleConnectFinnie = async () => {
@@ -22,7 +22,7 @@ const HomePage = () => {
           const isAuthListed = await getAuthList(pubKey, apiUrl);
 
           if (isAuthListed) {
-            const linktree = await getLinktrees(pubKey, apiUrl);
+            const linktree = await getLinktrees(pubKey, apiUrl, backUpNodeList);
             if (linktree.status === true && !linktree.data) {
               toast({
                 title: "No Linktree profile for this public key",

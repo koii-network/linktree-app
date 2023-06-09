@@ -1,28 +1,29 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import axios from "axios";
-import { TASK_NODES_URL } from "../config";
+import { getNodeList, getBackUpNodeList } from "../helpers";
 
 export const WalletContext = createContext(undefined);
 
 export const WalletContextProvider = ({ children }) => {
   const [publicKey, setPublicKey] = useState("");
   const [apiUrl, setApiUrl] = useState("");
+  const [backUpNodeList, setBackUpNodeList] = useState("");
   useEffect(() => {
-    async function getObjectCount() {
+    async function getRandomeNode() {
       try {
-        const response = await axios.get(TASK_NODES_URL);
-        const data = response.data;
-        const objectCount = data.length;
+        const nodeList = await getNodeList();
+        const randomIndex = Math.floor(Math.random() * nodeList.length);
+        const randomNode = nodeList[randomIndex];
+        const backUpNodeList = getBackUpNodeList(randomIndex, nodeList);
+        setBackUpNodeList(backUpNodeList);
 
-        return objectCount;
+        return randomNode;
       } catch (error) {
         console.log(error);
       }
     }
     async function generateRandomNode() {
-      const count = await getObjectCount();
-      const randomNode = Math.floor(Math.random() * count) + 1;
-      const url = `https://tasknet-ports-${randomNode}.koii.live/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan`;
+      const randomNode = await getRandomeNode();
+      const url = `${randomNode}/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan`;
       setApiUrl(url);
     }
     generateRandomNode();
@@ -35,6 +36,7 @@ export const WalletContextProvider = ({ children }) => {
         setPublicKey,
         apiUrl,
         setApiUrl,
+        backUpNodeList,
       }}
     >
       {children}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useToast, Box } from "@chakra-ui/react";
+import { useToast, Box, Spinner } from "@chakra-ui/react";
 import { getLinktrees, getAuthList } from "../api";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
@@ -9,6 +9,7 @@ import { DOWNLOAD_FINNIE_URL } from "../config";
 
 function LinksComponent() {
   const [connected, setConnected] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
   const location = useLocation();
@@ -16,15 +17,17 @@ function LinksComponent() {
   const [userData, setUserData] = useState({});
   const { isFinnieDetected, connect } = useK2Finnie();
 
-  const { publicKey, apiUrl, setPublicKey } = useWalletContext();
+  const { publicKey, apiUrl, setPublicKey, backUpNodeList } =
+    useWalletContext();
 
   useEffect(() => {
     async function getUserData() {
-      const response = await getLinktrees(query, apiUrl);
-      console.log(response);
-      setUserData(response.data.data.linktree);
+      const response = await getLinktrees(query, apiUrl, backUpNodeList);
+      setUserData(response?.data?.data?.linktree);
+      return response?.data?.data?.linktree;
     }
     async function getAuth() {
+      setConnected(true);
       if (!publicKey) {
         toast({
           title: "Connect your finnie wallet",
@@ -34,12 +37,27 @@ function LinksComponent() {
           position: "top",
         });
         setConnected(false);
+        setIsLoading(false);
         return;
       }
-      setConnected(true);
       const showData = await getAuthList(publicKey, apiUrl);
       if (showData) {
-        await getUserData();
+        const userData = await getUserData();
+        setIsLoading(false);
+        if (!userData && query === publicKey) {
+          toast({
+            title: "No Linktree profile for this public key",
+            description: "You'll be redirected to create your profile",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
+          setTimeout(() => {
+            navigate("/createlinktree");
+          }, 3000);
+          return;
+        }
       } else {
         toast({
           title: "You are not authorized to view linktree profiles",
@@ -52,6 +70,8 @@ function LinksComponent() {
         setTimeout(() => {
           navigate("/");
         }, 3000);
+        setIsLoading(false);
+        return;
       }
     }
     getAuth();
@@ -83,46 +103,61 @@ function LinksComponent() {
         display='flex'
         flexDirection='column'
         alignItems='center'
+        justifyItems='center'
       >
-        {userData && connected && (
+        {!isLoading ? (
           <>
-            {" "}
-            {userData?.image && (
-              <img
-                src={userData?.image}
-                alt={userData?.name}
-                className='user-image'
-              />
+            {userData && connected && (
+              <>
+                {" "}
+                {userData?.image && (
+                  <img
+                    src={userData?.image}
+                    alt={userData?.name}
+                    className='user-image'
+                  />
+                )}
+                <p className='user-name'> {userData?.name} </p>
+                <p className='user-desc'>{userData?.description}</p>
+                <div className='links'>
+                  {userData?.links?.map((link, index) => (
+                    <a
+                      className='link'
+                      key={index}
+                      href={link?.redirectUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </>
             )}
-            <p className='user-name'> {userData?.name} </p>
-            <p className='user-desc'> {userData?.description} </p>
-            <div className='links'>
-              {userData?.links?.map((link, index) => (
-                <a
-                  className='link'
-                  key={index}
-                  href={link?.redirectUrl}
-                  target='_blank'
-                  rel='noopener noreferrer'
+            {!connected && (
+              <Box marginTop='10rem'>
+                <button
+                  onClick={handleConnectFinnie}
+                  className='connect-wallet-button'
                 >
-                  {link.label}
-                </a>
-              ))}
-            </div>
+                  {connectButtonText}
+                </button>
+              </Box>
+            )}
+            {!userData && connected && (
+              <p>No Linktree profile for this public key</p>
+            )}
           </>
-        )}
-        {!connected && (
-          <Box marginTop='10rem'>
-            <button
-              onClick={handleConnectFinnie}
-              className='connect-wallet-button'
-            >
-              {connectButtonText}
-            </button>
+        ) : (
+          <Box
+            height='100%'
+            display='flex'
+            flexDirection='column'
+            alignItems='center'
+            justifyItems='center'
+          >
+            <Spinner height='50px' width='50px' />
           </Box>
-        )}
-        {!userData && connected && (
-          <p>No Linktree profile for this public key</p>
         )}
       </Box>
       <div className='footer'>
