@@ -86,7 +86,7 @@ export async function getAuthList(publicKey, apiUrl) {
     const requests = nodeList.map((node) =>
       axios
         .get(
-          `${node}/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan/authlist/get/${publicKey}`
+          `${node}/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ/authlist/get/${publicKey}`
         )
         .then((res) => res.data)
         .catch((error) =>

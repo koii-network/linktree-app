@@ -13,7 +13,7 @@ export const fetchData = async (publicKey) => {
   for (let i = 0; i < nodeList.length; i++) {
     try {
       const response = await axios.get(
-        `${nodeList[i]}/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan/linktree/get/${publicKey}`
+        `${nodeList[i]}/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ/linktree/get/${publicKey}`
       );
       if (response.data && response.data.data) {
         console.log(`Data found in node ${i}:`, response.data.data);
@@ -30,14 +30,14 @@ export const fetchData = async (publicKey) => {
 export const getNodeList = async () => {
   let nodeList = [];
   const fallbackNodes = [
-    "https://tasknet.koii.live/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan",
-    "https://tasknet-ports-2.koii.live/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan",
-    "https://tasknet-ports-2.koii.live/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan",
+    "https://tasknet.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ",
+    "https://tasknet-ports-2.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ",
+    "https://tasknet-ports-2.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ",
   ];
 
   try {
     let nodeResponse = await axios.get(
-      "https://tasknet.koii.live/nodes/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan"
+      "https://tasknet.koii.live/nodes/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ"
     );
     for (let i = 0; i < nodeResponse.data.length; i++) {
       nodeList.push(nodeResponse.data[i].data.url);
@@ -57,19 +57,19 @@ export const getBackUpNodeList = (randomIndex, nodeList) => {
     return [
       `${
         nodeList[randomIndex + 1]
-      }/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan`,
+      }/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`,
       `${
         nodeList[randomIndex + 2]
-      }/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan`,
+      }/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`,
     ];
   } else {
     return [
       `${
         nodeList[randomIndex - 1]
-      }/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan`,
+      }/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`,
       `${
         nodeList[randomIndex - 2]
-      }/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan`,
+      }/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`,
     ];
   }
 };

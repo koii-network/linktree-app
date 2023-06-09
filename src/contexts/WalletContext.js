@@ -23,7 +23,7 @@ export const WalletContextProvider = ({ children }) => {
     }
     async function generateRandomNode() {
       const randomNode = await getRandomeNode();
-      const url = `${randomNode}/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan`;
+      const url = `${randomNode}/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ`;
       setApiUrl(url);
     }
     generateRandomNode();
