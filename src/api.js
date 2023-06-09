@@ -6,7 +6,7 @@ import {
   clusterApiUrl,
   SystemProgram,
 } from "@_koi/web3.js";
-import { Transfer_AMOUNT, RECIPIENT_ADDRESS } from "./config";
+import { Transfer_AMOUNT, RECIPIENT_ADDRESS, TASK_ADDRESS } from "./config";
 import { getNodeList } from "./helpers";
 
 export async function getLinktrees(publicKey, apiUrl, backUpNodeList) {
@@ -85,9 +85,7 @@ export async function getAuthList(publicKey, apiUrl) {
     const nodeList = await getNodeList();
     const requests = nodeList.map((node) =>
       axios
-        .get(
-          `${node}/task/6FgtEX6qd4XCuycUfJGuJTr41qcfvM59ueV2L17eSdan/authlist/get/${publicKey}`
-        )
+        .get(`${node}/task/${TASK_ADDRESS}/authlist/get/${publicKey}`)
         .then((res) => res.data)
         .catch((error) =>
           console.log(`Error fetching authlist from ${node}:`, error)
