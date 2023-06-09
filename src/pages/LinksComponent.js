@@ -75,7 +75,7 @@ function LinksComponent() {
       }
     }
     getAuth();
-  }, [query, publicKey, toast, navigate, apiUrl]);
+  }, [query, publicKey, toast, navigate, apiUrl, backUpNodeList]);
 
   const linkToGetFinnie = (
     <a rel='noreferrer' target='_blank' href={DOWNLOAD_FINNIE_URL}>

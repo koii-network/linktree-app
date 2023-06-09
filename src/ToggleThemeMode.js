@@ -2,7 +2,7 @@ import { Switch } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
 const ToggleThemeMode = () => {
-  const [isToggled, setIsToggled] = useState(false);
+  const [isToggled, setIsToggled] = useState(true);
 
   useEffect(() => {
     function toggle() {
@@ -13,12 +13,12 @@ const ToggleThemeMode = () => {
     toggle();
   }, [isToggled]);
   return (
-    <form className="toggle-theme">
+    <form className='toggle-theme'>
       <Switch
-        size="lg"
+        size='lg'
         value={isToggled}
         onChange={(e) => {
-          setIsToggled(e.target.checked);
+          setIsToggled(!isToggled);
         }}
       />
     </form>

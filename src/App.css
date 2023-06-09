@@ -31,9 +31,10 @@ p {
   font-weight: 300;
   text-align: center;
   font-size: 14px;
-  width: 30%;
   font-weight: 500;
   color: var(--koii-white);
+  max-width: 700px;
+  width: 100%;
 }
 
 .message-container {
@@ -83,6 +84,10 @@ p {
 .links {
   margin-top: 2rem;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
 }
 
 .link {
@@ -209,6 +214,9 @@ p {
 }
 
 @media screen and (max-width: 500px) {
+  .link {
+    width: 100%;
+  }
   .public-key-input {
     width: 240px;
     padding: 0.7rem;
