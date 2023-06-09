@@ -9,34 +9,24 @@ import {
 import { Transfer_AMOUNT, RECIPIENT_ADDRESS, TASK_ADDRESS } from "./config";
 import { getNodeList } from "./helpers";
 
-export async function getLinktrees(publicKey, apiUrl, backUpNodeList) {
-  const res = await axios.get(`${apiUrl}/linktree/list`);
-  const profile = res.data.filter((item) => {
-    return item.publicKey === publicKey;
-  });
-  if (profile[0]) {
-    return {
-      data: profile[0],
-      status: true,
-    };
-  } else {
-    return await getLinktreesFromBackUp(publicKey, backUpNodeList);
+export async function getLinktrees(apiUrl) {
+  try {
+    const res = await axios.get(`${apiUrl}/linktree/list`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
   }
 }
 
 export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
-  const res = await axios.get(`${backUpNodeList[0]}/linktree/list`);
-  const profile = res.data.filter((item) => {
-    return item.publicKey === publicKey;
-  });
-  if (!res?.data) {
-    const res = await axios.get(`${backUpNodeList[1]}/linktree/list`);
-    const profile = res.data.filter((item) => {
-      return item.publicKey === publicKey;
-    });
-    if (profile[0]) {
+  const res = await axios.get(`${backUpNodeList[0]}/linktree/get/${publicKey}`);
+  if (!res.data) {
+    const res = await axios.get(
+      `${backUpNodeList[1]}/linktree/get/${publicKey}`
+    );
+    if (res.data) {
       return {
-        data: profile[0],
+        data: res.data,
         status: true,
       };
     } else {
@@ -47,18 +37,21 @@ export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
     }
   } else {
     return {
-      data: profile[0],
+      data: res.data,
       status: true,
     };
   }
 }
 
-export async function getLinktree(publicKey, apiUrl) {
-  try {
-    const res = await axios.get(`${apiUrl}/linktree/get/${publicKey}`);
-    return res;
-  } catch (error) {
-    console.log(error);
+export async function getLinktree(publicKey, apiUrl, backUpNodeList) {
+  const res = await axios.get(`${apiUrl}/linktree/get/${publicKey}`);
+  if (res.data) {
+    return {
+      data: res.data,
+      status: true,
+    };
+  } else {
+    return await getLinktreesFromBackUp(publicKey, backUpNodeList);
   }
 }
 
