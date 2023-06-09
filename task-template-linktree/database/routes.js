@@ -3,6 +3,8 @@ const router = express.Router();
 const db = require('./db_model');
 const fs = require('fs');
 const cors = require('cors');
+const nacl = require('tweetnacl');
+const bs58 = require('bs58');
 const { namespaceWrapper } = require('../environment/namespaceWrapper');
 
 router.use(cors());
@@ -23,20 +25,51 @@ router.get('/taskState', async (req, res) => {
 // API to register the linktree
 router.post('/linktree', async (req, res) => {
   const linktree = req.body.payload;
-  // log the pubkey of the payload
-  console.log('linktree', linktree.publicKey);
 
-  // Check req.body
-  if (!linktree) {
-    res.status(400).json({ error: 'Invalid request' });
+  // Check data
+  try {
+    // Check req.body
+    if (!linktree) {
+      res.status(400).json({ error: 'Invalid request, missing data' });
+      return;
+    } else if (
+      !linktree.data.uuid ||
+      !linktree.data.linktree ||
+      !linktree.data.timestamp
+    ) {
+      res.status(400).json({ error: 'Invalid request, missing data' });
+      return;
+    } else {
+      console.log(linktree);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  if (!linktree.publicKey && !linktree.signature) {
+    res.status(400).json({ error: 'Missing publicKey or signature' });
     return;
   } else {
-    console.log(linktree);
+    // log the pubkey of the payload
+    console.log('linktree', linktree.publicKey);
+    try {
+      // Verify the signature
+      const isVerified = nacl.sign.detached.verify(
+        new TextEncoder().encode(JSON.stringify(linktree.data)),
+        bs58.decode(linktree.signature),
+        bs58.decode(linktree.publicKey),
+      );
+      if (!isVerified) {
+        res.status(400).json({ error: 'Invalid signature' });
+        return;
+      }
+    } catch (e) {
+      res.status(400).json({ error: 'Invalid signature' });
+    }
+    console.log('Signature verified');
   }
-
   // Use the code below to sign the data payload
-  let signature = req.body.signature;
-  let pubkey = req.body.publicKey;
+  let signature = linktree.signature;
+  let pubkey = linktree.publicKey;
 
   let proofs = {
     publicKey: pubkey,
