@@ -132,10 +132,20 @@ const HomePage = () => {
           </button>
         ) : (
           <>
-            <Text marginBottom='10px' fontSize='30px' textAlign='center'>
+            <Text
+              marginBottom='10px'
+              fontSize='30px'
+              textAlign='center'
+              maxWidth='600px'
+            >
               You are not authorized to create and access Linktree profiles
             </Text>
-            <Text marginBottom='20px' fontSize='18px' textAlign='center'>
+            <Text
+              marginBottom='20px'
+              fontSize='18px'
+              textAlign='center'
+              maxWidth='600px'
+            >
               Transfer 10 Koii to stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop by
               clicking the button below to create and access linktree profiles:{" "}
             </Text>
