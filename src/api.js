@@ -101,7 +101,7 @@ export async function getAuthList(publicKey, apiUrl) {
 
 export async function transferKoii(apiUrl) {
   try {
-    const connection = new Connection(clusterApiUrl("devnet"));
+    const connection = new Connection(`http://k2-testnet.koii.live`);
     const blockHash = await connection.getRecentBlockhash();
     const feePayer = window.k2.publicKey;
 
