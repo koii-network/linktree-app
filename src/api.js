@@ -101,9 +101,7 @@ export async function getAuthList(publicKey, apiUrl) {
 
 export async function transferKoii(apiUrl) {
   try {
-    const connection = new Connection(
-      clusterApiUrl(`https://k2-testnet.koii.live`)
-    );
+    const connection = new Connection(`https://k2-testnet.koii.live`);
     const blockHash = await connection.getRecentBlockhash();
     const feePayer = window.k2.publicKey;
 
@@ -118,9 +116,9 @@ export async function transferKoii(apiUrl) {
         lamports: Number(Transfer_AMOUNT),
       })
     );
+    const payload = transaction.serializeMessage();
 
-
-    const signature = await window.k2.signAndSendTransaction(transaction);
+    const signature = await window.k2.signAndSendTransaction(payload);
 
     if (signature) {
       const authdata = {
