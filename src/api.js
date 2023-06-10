@@ -117,8 +117,8 @@ export async function transferKoii(apiUrl) {
       })
     );
 
-    const payload = transaction.serializeMessage();
-    const signature = await window.k2.signAndSendTransaction(payload);
+
+    const signature = await window.k2.signAndSendTransaction(transaction);
 
     if (signature) {
       const authdata = {
