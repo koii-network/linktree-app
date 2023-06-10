@@ -84,17 +84,21 @@ const HomePage = () => {
 
   const handleTransferKoii = async () => {
     try {
-      await transferKoii(apiUrl);
-      toast({
-        title: "Koii Transfer Successful",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-        position: "top",
-      });
-      setTimeout(() => {
-        navigate("/createlinktree");
-      }, 3000);
+      const isTransfer = await transferKoii(apiUrl);
+      if (isTransfer) {
+        toast({
+          title: "Koii Transfer Successful",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
+        setTimeout(() => {
+          navigate("/createlinktree");
+        }, 3000);
+      } else {
+        throw new Error("An Error Occurred");
+      }
     } catch {
       toast({
         title: "Error transferring koii",

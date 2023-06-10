@@ -118,14 +118,18 @@ export async function transferKoii(apiUrl) {
     );
 
     const payload = transaction.serializeMessage();
-    await window.k2.signAndSendTransaction(payload);
-    const authdata = {
-      pubkey: window.k2.publicKey,
-    };
-    const res = await axios.post(`${apiUrl}/authlist`, {
-      authdata,
-    });
-    return res.data === window.k2.publicKey;
+    const signature = await window.k2.signAndSendTransaction(payload);
+
+    if (signature) {
+      const authdata = {
+        pubkey: window.k2.publicKey.toString(),
+      };
+      const res = await axios.post(`${apiUrl}/authlist`, {
+        authdata,
+      });
+      return res.data === window.k2.publicKey.toString();
+    }
+    return false;
   } catch (error) {
     console.log(error);
   }
