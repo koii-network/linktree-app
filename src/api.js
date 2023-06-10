@@ -100,9 +100,9 @@ export async function getAuthList(publicKey, apiUrl) {
   return false;
 }
 
-export async function transferKoii(apiUrl) {
+export async function transferKoii(apiUrl, publicKey) {
   try {
-    const connection = new Connection(`https://k2-testnet.koii.live`);
+    const connection = new Connection(clusterApiUrl("devnet"));
     const blockHash = await connection.getRecentBlockhash();
     const feePayer = window.k2.publicKey;
 
@@ -118,36 +118,70 @@ export async function transferKoii(apiUrl) {
       })
     );
 
-    console.log(
-      SystemProgram.transfer({
-        fromPubkey: window.k2.publicKey,
-        toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
-        lamports: Number(Transfer_AMOUNT),
-      })
-    );
-
     console.log(transaction);
-    // const payload = transaction.serializeMessage();
-    // console.log(payload);
 
-    const signature = await window.k2.signTransaction(transaction);
-
-    console.log("signed:", signature);
-    console.log("transaction", transaction);
-
-    const signedPublicKey = transaction.signatures[0].publicKey.toString();
-
-    if (signature) {
-      const authdata = {
-        pubkey: window.k2.publicKey.toString(),
-      };
-      const res = await axios.post(`${apiUrl}/authlist`, {
-        authdata,
-      });
-      return res.data === window.k2.publicKey.toString();
-    }
-    return false;
+    const payload = transaction.serializeMessage();
+    await window.k2.signAndSendTransaction(payload);
+    const authdata = {
+      pubkey: window.k2.publicKey,
+    };
+    const res = await axios.post(`${apiUrl}/authlist`, {
+      authdata,
+    });
+    return res.data === window.k2.publicKey;
   } catch (error) {
     console.log(error);
   }
 }
+
+// export async function transferKoii(apiUrl) {
+//   try {
+//     const connection = new Connection(`https://k2-testnet.koii.live`);
+//     const blockHash = await connection.getRecentBlockhash();
+//     const feePayer = window.k2.publicKey;
+
+//     const transaction = new Transaction();
+//     transaction.recentBlockhash = blockHash.blockhash;
+//     transaction.feePayer = feePayer;
+
+//     transaction.add(
+//       SystemProgram.transfer({
+//         fromPubkey: window.k2.publicKey,
+//         toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
+//         lamports: Number(Transfer_AMOUNT),
+//       })
+//     );
+
+//     console.log(
+//       SystemProgram.transfer({
+//         fromPubkey: window.k2.publicKey,
+//         toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
+//         lamports: Number(Transfer_AMOUNT),
+//       })
+//     );
+
+//     console.log(transaction);
+//     // const payload = transaction.serializeMessage();
+//     // console.log(payload);
+
+//     const signature = await window.k2.signTransaction(transaction);
+
+//     console.log("signed:", signature);
+//     console.log("transaction", transaction);
+
+//     const signedPublicKey = transaction.signatures[0].publicKey.toString();
+
+//     if (signature) {
+//       const authdata = {
+//         pubkey: window.k2.publicKey.toString(),
+//       };
+//       const res = await axios.post(`${apiUrl}/authlist`, {
+//         authdata,
+//       });
+//       return res.data === window.k2.publicKey.toString();
+//     }
+//     return false;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
