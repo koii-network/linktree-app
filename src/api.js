@@ -118,6 +118,14 @@ export async function transferKoii(apiUrl) {
       })
     );
 
+    console.log(
+      SystemProgram.transfer({
+        fromPubkey: window.k2.publicKey,
+        toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
+        lamports: Number(Transfer_AMOUNT),
+      })
+    );
+
     console.log(transaction);
     // const payload = transaction.serializeMessage();
     // console.log(payload);
