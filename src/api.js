@@ -4,6 +4,7 @@ import {
   Transaction,
   Connection,
   clusterApiUrl,
+  signAndSendTransaction,
   SystemProgram,
 } from "@_koi/web3.js";
 import { Transfer_AMOUNT, RECIPIENT_ADDRESS, TASK_ADDRESS } from "./config";
@@ -116,8 +117,10 @@ export async function transferKoii(apiUrl) {
         lamports: Number(Transfer_AMOUNT),
       })
     );
-    
+
+    console.log(transaction);
     const payload = transaction.serializeMessage();
+    console.log(payload);
 
     const signature = await window.k2.signAndSendTransaction(payload);
 
