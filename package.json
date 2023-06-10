@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@_koi/sdk": "^2.4.13",
     "@_koi/web3.js": "^0.0.6",
     "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.6.1",
