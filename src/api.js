@@ -101,7 +101,7 @@ export async function getAuthList(publicKey, apiUrl) {
 
 export async function transferKoii(apiUrl) {
   try {
-    const connection = new Connection(`http://k2-testnet.koii.live`);
+    const connection = new Connection(`https://k2-testnet.koii.live`);
     const blockHash = await connection.getRecentBlockhash();
     const feePayer = window.k2.publicKey;
 
@@ -109,7 +109,7 @@ export async function transferKoii(apiUrl) {
     transaction.recentBlockhash = blockHash.blockhash;
     transaction.feePayer = feePayer;
 
-    transaction.add(
+    await transaction.add(
       SystemProgram.transfer({
         fromPubkey: window.k2.publicKey,
         toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
@@ -117,8 +117,7 @@ export async function transferKoii(apiUrl) {
       })
     );
 
-    const payload = transaction.serializeMessage();
-    const signature = await window.k2.signAndSendTransaction(payload);
+    const signature = await window.k2.signAndSendTransaction(transaction);
 
     if (signature) {
       const authdata = {
