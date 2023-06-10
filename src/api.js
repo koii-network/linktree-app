@@ -119,10 +119,15 @@ export async function transferKoii(apiUrl) {
     );
 
     console.log(transaction);
-    const payload = transaction.serializeMessage();
-    console.log(payload);
+    // const payload = transaction.serializeMessage();
+    // console.log(payload);
 
-    const signature = await window.k2.signAndSendTransaction(payload);
+    const signature = await window.k2.signTransaction(transaction);
+
+    console.log("signed:", signature);
+    console.log("transaction", transaction);
+
+    const signedPublicKey = transaction.signatures[0].publicKey.toString();
 
     if (signature) {
       const authdata = {
