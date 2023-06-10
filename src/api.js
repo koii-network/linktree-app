@@ -109,7 +109,7 @@ export async function transferKoii(apiUrl) {
     transaction.recentBlockhash = blockHash.blockhash;
     transaction.feePayer = feePayer;
 
-    await transaction.add(
+    transaction.add(
       SystemProgram.transfer({
         fromPubkey: window.k2.publicKey,
         toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
@@ -117,7 +117,8 @@ export async function transferKoii(apiUrl) {
       })
     );
 
-    const signature = await window.k2.signAndSendTransaction(transaction);
+    const payload = transaction.serializeMessage();
+    const signature = await window.k2.signAndSendTransaction(payload);
 
     if (signature) {
       const authdata = {
