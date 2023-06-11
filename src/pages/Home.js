@@ -121,15 +121,17 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <div className='container public-key-input-container'>
+    <div className='container'>
       <div className='auth-user'>
         {isAuth ? (
-          <button
-            onClick={handleConnectFinnie}
-            className='connect-wallet-button'
-          >
-            {connectButtonText}
-          </button>
+          <div className='public-key-input-container'>
+            <button
+              onClick={handleConnectFinnie}
+              className='connect-wallet-button'
+            >
+              {connectButtonText}
+            </button>
+          </div>
         ) : (
           <>
             <Text
@@ -137,15 +139,11 @@ const HomePage = () => {
               fontSize='30px'
               textAlign='center'
               maxWidth='600px'
+              marginTop={{ base: "20px", md: "120px" }}
             >
               You are not authorized to create and access Linktree profiles
             </Text>
-            <Text
-              marginBottom='20px'
-              fontSize='18px'
-              textAlign='center'
-              maxWidth='600px'
-            >
+            <Text marginBottom='20px' fontSize='18px' maxWidth='700px'>
               Transfer 10 Koii to stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop by
               clicking the button below to create and access linktree profiles:{" "}
             </Text>
