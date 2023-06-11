@@ -194,6 +194,16 @@ p {
   border-color: var(--koii-white) !important;
 }
 
+
+.displayLink{
+  text-decoration: none;
+  color: var(--koii-mint);
+}
+
+.displayLink:hover {
+  text-decoration: underline;
+}
+
 @media screen and (max-width: 600px) {
   .links {
     width: 100%;

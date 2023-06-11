@@ -109,30 +109,43 @@ function LinksComponent() {
           <>
             {userData && connected && (
               <>
-                {" "}
-                {userData?.image && (
-                  <img
-                    src={userData?.image}
-                    alt={userData?.name}
-                    className='user-image'
-                  />
+                {userData && connected && (
+                  <>
+                    {userData?.image && (
+                      <img
+                        src={userData?.image}
+                        alt={userData?.name}
+                        className='user-image'
+                      />
+                    )}
+                    <p className='user-name'> {userData?.name} </p>
+                    <p className='user-desc'>{userData?.description}</p>
+                    <div className='links'>
+                      {userData?.links?.map((link, index) => (
+                        <a
+                          className='link'
+                          key={index}
+                          href={link?.redirectUrl}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                    <p>
+                      Your link is{" "}
+                      <a
+                        href={`https://linktree.koii.network/linktree/${publicKey}`}
+                        className='displayLink'
+                      >
+                        https://linktree.koii.network/linktree/{publicKey}
+                      </a>
+                    </p>
+                  </>
                 )}
-                <p className='user-name'> {userData?.name} </p>
-                <p className='user-desc'>{userData?.description}</p>
-                <div className='links'>
-                  {userData?.links?.map((link, index) => (
-                    <a
-                      className='link'
-                      key={index}
-                      href={link?.redirectUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      {link.label}
-                    </a>
-                  ))}
-                </div>
               </>
+
             )}
             {!connected && (
               <Box marginTop='10rem'>
