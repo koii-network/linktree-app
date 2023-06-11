@@ -1,11 +1,6 @@
 import axios from "axios";
 import bs58 from "bs58";
-import {
-  Transaction,
-  Connection,
-  clusterApiUrl,
-  SystemProgram,
-} from "@_koi/web3.js";
+import { Transaction, Connection, SystemProgram } from "@_koi/web3.js";
 import { Transfer_AMOUNT, RECIPIENT_ADDRESS, TASK_ADDRESS } from "./config";
 import { getNodeList } from "./helpers";
 
@@ -43,26 +38,55 @@ export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
   }
 }
 
-export async function allLinktrees(){
-
-  const res = await axios.get(`https://tasknet.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ/linktree/list`);
-  if(res.data){
-
-    const total = res.data.length
-    return total
-
-}}
-
-export async function getLinktree(publicKey, apiUrl, backUpNodeList) {
-  const res = await axios.get(`${apiUrl}/linktree/get/${publicKey}`);
+export async function allLinktrees() {
+  const res = await axios.get(
+    `https://tasknet.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ/linktree/list`
+  );
   if (res.data) {
+    const total = res.data.length;
+    return total;
+  }
+}
+
+export async function getLinktree(publicKey, nodeList) {
+  // const res = await axios.get(`${apiUrl}/linktree/get/${publicKey}`);
+  // if (res.data) {
+  //   return {
+  //     data: res.data,
+  //     status: true,
+  //   };
+  // }
+
+  try {
+    const requests = nodeList.map((node) =>
+      axios
+        .get(`${node}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`)
+        .then((res) => res.data)
+        .catch((error) =>
+          console.log(`Error fetching authlist from ${node}:`, error)
+        )
+    );
+
+    const results = await Promise.allSettled(requests);
+
+    for (const result of results) {
+      console.log(result);
+      if (result.status === "fulfilled" && result.value) {
+        return {
+          data: result.value,
+          status: true,
+        };
+      }
+    }
     return {
-      data: res.data,
+      data: "",
       status: true,
     };
-  } else {
-    return await getLinktreesFromBackUp(publicKey, backUpNodeList);
+  } catch (error) {
+    console.log("Error getting node list:", error);
   }
+
+  return false;
 }
 
 export async function setLinktree(data, publicKey, apiUrl) {

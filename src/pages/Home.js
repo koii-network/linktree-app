@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast, Text } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
@@ -10,16 +10,16 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(true);
   const toast = useToast();
-  const { setPublicKey, apiUrl, backUpNodeList } = useWalletContext();
+  const { setPublicKey, apiUrl, nodeList } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
   const [total, setTotal] = useState(null);
 
   useEffect(() => {
     allLinktrees()
-      .then(number => {
+      .then((number) => {
         setTotal(number);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }, [apiUrl]);
@@ -33,7 +33,7 @@ const HomePage = () => {
           const isAuthListed = await getAuthList(pubKey, apiUrl);
 
           if (isAuthListed) {
-            const linktree = await getLinktree(pubKey, apiUrl, backUpNodeList);
+            const linktree = await getLinktree(pubKey, nodeList);
             console.log(linktree);
             if (linktree.status === true && !linktree.data) {
               toast({
@@ -72,7 +72,7 @@ const HomePage = () => {
             }
           } else {
             toast({
-              title: "You are not authorized to access Linktree profiles",
+              title: "You are not authorized to create profile",
               status: "error",
               duration: 3000,
               isClosable: true,
@@ -132,7 +132,6 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-
     <>
      
        <div className='container public-key-input-container'>
@@ -177,10 +176,9 @@ const HomePage = () => {
       
       
         <div className="footer">
-          <p>Total <a className="by-koii" href="https://www.koii.network/">Koii </a>Linktrees created: <span className="by-koii total"> {total} </span> </p>
+          <p>Total Koii linktrees created: <span className="by-koii total"> {total} </span> </p>
         </div>)}
     </>
-   
   );
 };
 
