@@ -137,7 +137,7 @@ p {
 }
 
 .public-key-input-container {
-  padding-top: 15rem;
+  padding-top: 10rem;
 }
 
 .input-container {
@@ -194,8 +194,7 @@ p {
   border-color: var(--koii-white) !important;
 }
 
-
-.displayLink{
+.displayLink {
   text-decoration: none;
   color: var(--koii-mint);
 }
@@ -204,12 +203,9 @@ p {
   text-decoration: underline;
 }
 
-
-.total{
-  
+.total {
   padding: 3px;
   border: 2px solid var(--koii-white);
-
 }
 
 @media screen and (max-width: 600px) {
