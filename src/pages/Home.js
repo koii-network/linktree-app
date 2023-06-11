@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast, Text } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
-import { getLinktree, getAuthList, transferKoii } from "../api";
+import { allLinktrees, getLinktree, getAuthList, transferKoii } from "../api";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -12,6 +12,17 @@ const HomePage = () => {
   const toast = useToast();
   const { setPublicKey, apiUrl, nodeList } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
+  const [total, setTotal] = useState(null);
+
+  useEffect(() => {
+    allLinktrees()
+      .then((number) => {
+        setTotal(number);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [apiUrl]);
 
   const handleConnectFinnie = async () => {
     if (isFinnieDetected) {
@@ -61,7 +72,7 @@ const HomePage = () => {
             }
           } else {
             toast({
-              title: "You are not authorized to access Linktree profiles",
+              title: "You are not authorized to create profile",
               status: "error",
               duration: 3000,
               isClosable: true,
@@ -121,42 +132,52 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <div className='container'>
-      <div className='auth-user'>
-        {isAuth ? (
-          <div className='public-key-input-container'>
-            <button
-              onClick={handleConnectFinnie}
-              className='connect-wallet-button'
-            >
-              {connectButtonText}
-            </button>
-          </div>
-        ) : (
-          <>
-            <Text
-              marginBottom='10px'
-              fontSize='30px'
-              textAlign='center'
-              maxWidth='600px'
-              marginTop={{ base: "20px", md: "120px" }}
-            >
-              You are not authorized to create and access Linktree profiles
-            </Text>
-            <Text marginBottom='20px' fontSize='18px' maxWidth='700px'>
-              Transfer 10 Koii to stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop by
-              clicking the button below to create and access linktree profiles:{" "}
-            </Text>
-            <button
-              onClick={handleTransferKoii}
-              className='connect-wallet-button'
-            >
-              Transfer Koii
-            </button>
-          </>
-        )}
+    <>
+      <div className='container'>
+        <div className='auth-user'>
+          {isAuth ? (
+            <div className='public-key-input-container'>
+              <button
+                onClick={handleConnectFinnie}
+                className='connect-wallet-button'
+              >
+                {connectButtonText}
+              </button>
+            </div>
+          ) : (
+            <>
+              <Text
+                marginBottom='10px'
+                fontSize='30px'
+                textAlign='center'
+                maxWidth='600px'
+                marginTop={{ base: "20px", md: "120px" }}
+              >
+                You are not authorized to create a Linktree profile.
+              </Text>
+              <Text marginBottom='20px' fontSize='18px' maxWidth='700px'>
+                Transfer 10 Koii to stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop
+                by clicking the button below to create a linktree profile:{" "}
+              </Text>
+              <button
+                onClick={handleTransferKoii}
+                className='connect-wallet-button'
+              >
+                Transfer Koii
+              </button>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+      {total !== null && (
+        <div className='footer'>
+          <p>
+            Total Koii linktrees created:{" "}
+            <span className='by-koii total'> {total} </span>{" "}
+          </p>
+        </div>
+      )}
+    </>
   );
 };
 
