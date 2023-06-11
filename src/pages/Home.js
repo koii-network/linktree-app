@@ -177,7 +177,7 @@ const HomePage = () => {
       
       
         <div className="footer">
-          <p>Total Koii linktrees created: <span className="by-koii total"> {total} </span> </p>
+          <p>Total <a className="by-koii" href="https://www.koii.network/">Koii </a>Linktrees created: <span className="by-koii total"> {total} </span> </p>
         </div>)}
     </>
    
