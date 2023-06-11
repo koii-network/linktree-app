@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast, Text } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
-import { getLinktree, getAuthList, transferKoii } from "../api";
+import { allLinktrees, getLinktree, getAuthList, transferKoii } from "../api";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -12,6 +12,17 @@ const HomePage = () => {
   const toast = useToast();
   const { setPublicKey, apiUrl, backUpNodeList } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
+  const [total, setTotal] = useState(null);
+
+  useEffect(() => {
+    allLinktrees(apiUrl)
+      .then(number => {
+        setTotal(number);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [apiUrl]);
 
   const handleConnectFinnie = async () => {
     if (isFinnieDetected) {
@@ -121,7 +132,10 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <div className='container public-key-input-container'>
+
+    <>
+     
+       <div className='container public-key-input-container'>
       <div className='auth-user'>
         {isAuth ? (
           <button
@@ -159,6 +173,15 @@ const HomePage = () => {
         )}
       </div>
     </div>
+    {total !== null && (
+      
+      
+
+        <div className="footer">
+          <p>Total Koii linktrees created: <span className="by-koii total"> {total} </span> </p>
+        </div>)}
+    </>
+   
   );
 };
 

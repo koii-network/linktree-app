@@ -204,6 +204,14 @@ p {
   text-decoration: underline;
 }
 
+
+.total{
+  
+  padding: 3px;
+  border: 2px solid var(--koii-white);
+
+}
+
 @media screen and (max-width: 600px) {
   .links {
     width: 100%;

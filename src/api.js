@@ -43,6 +43,16 @@ export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
   }
 }
 
+export async function allLinktrees(apiUrl){
+
+  const res = await axios.get(`${apiUrl}/linktree/list`);
+  if(res.data){
+
+    const total = res.data.length
+    return total
+    
+}}
+
 export async function getLinktree(publicKey, apiUrl, backUpNodeList) {
   const res = await axios.get(`${apiUrl}/linktree/get/${publicKey}`);
   if (res.data) {
