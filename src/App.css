@@ -124,6 +124,7 @@ p {
   color: var(--koii-white);
   font-size: 14px;
   margin-top: 4rem;
+  margin-bottom: 2rem;
   text-align: center;
   font-weight: bold;
 }
