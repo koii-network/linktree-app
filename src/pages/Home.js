@@ -15,7 +15,7 @@ const HomePage = () => {
   const [total, setTotal] = useState(null);
 
   useEffect(() => {
-    allLinktrees(apiUrl)
+    allLinktrees()
       .then(number => {
         setTotal(number);
       })
@@ -176,7 +176,6 @@ const HomePage = () => {
     {total !== null && (
       
       
-
         <div className="footer">
           <p>Total Koii linktrees created: <span className="by-koii total"> {total} </span> </p>
         </div>)}

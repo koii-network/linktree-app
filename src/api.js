@@ -43,14 +43,14 @@ export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
   }
 }
 
-export async function allLinktrees(apiUrl){
+export async function allLinktrees(){
 
-  const res = await axios.get(`${apiUrl}/linktree/list`);
+  const res = await axios.get(`https://tasknet.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ/linktree/list`);
   if(res.data){
 
     const total = res.data.length
     return total
-    
+
 }}
 
 export async function getLinktree(publicKey, apiUrl, backUpNodeList) {
