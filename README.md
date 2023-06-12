@@ -11,4 +11,3 @@ To run the app locally:
 To access the backend code:
 
 `cd task-template-linktree`
-//Test
