@@ -141,13 +141,15 @@ const CreateLinktree = () => {
     const res = await setLinktree(payload, publicKey, apiUrl);
     if (res?.message === "Proof and linktree registered successfully") {
       toast({
-        title: "Successfully created Linktree profile!",
+        title: "Successfully created Linktree profile! Redirecting in 10 seconds...",
         status: "success",
-        duration: 2000,
+        duration: 7000,
         isClosable: true,
         position: "top",
       });
-      navigate(`/linktree/${publicKey}`);
+      setTimeout(() => {
+        navigate(`/linktree/${publicKey}`);
+      }, 10000);
     } else {
       toast({
         title: "Error creating Linktree profile!",
