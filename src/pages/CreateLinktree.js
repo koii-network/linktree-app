@@ -147,7 +147,9 @@ const CreateLinktree = () => {
         isClosable: true,
         position: "top",
       });
-      navigate(`/linktree/${publicKey}`);
+      setTimeout(() => {
+        navigate(`/linktree/${publicKey}`);
+      }, 3000);
     } else {
       toast({
         title: "Error creating Linktree profile!",
