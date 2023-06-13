@@ -12,6 +12,15 @@ import {
   Textarea,
   Spacer,
   Spinner,
+  Card,
+  CardHeader, 
+  CardBody, 
+  CardFooter,
+  Image,
+  Stack,
+  Heading,
+  Divider,
+  ButtonGroup
 } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
@@ -171,6 +180,100 @@ const CreateLinktree = () => {
       >
         Create Your Koii Linktree Profile
       </Text>
+
+      <Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight={{ base: "bold", md: "normal" }}
+        my={5}
+      >
+        Choose a theme
+      </Text>
+      <Flex color='white' >
+<Card maxW='sm' marginRight="10px">
+  <CardBody>
+    <Image
+      src='https://mir-s3-cdn-cf.behance.net/projects/404/9252e0149359545.62e64fab897d0.jpg'
+      alt='Green double couch with wooden legs'
+      borderRadius='lg'
+    />
+    <Stack mt='6' spacing='3'>
+      <Heading size='md'>Koii Mint</Heading>
+      <Text>
+        The default one.
+      </Text>
+ 
+    </Stack>
+  </CardBody>
+  <Divider />
+  <CardFooter>
+    <ButtonGroup spacing='2'>
+      <Button variant='solid' colorScheme='blue'>
+        Choose
+      </Button>
+    </ButtonGroup>
+  </CardFooter>
+</Card>
+<br/>
+<Card maxW='sm' marginRight="10px" backgroundColor='black' color='white'>
+  <CardBody>
+    <Image
+      src='https://mir-s3-cdn-cf.behance.net/projects/404/9252e0149359545.62e64fab897d0.jpg'
+      alt='Green double couch with wooden legs'
+      borderRadius='lg'
+    />
+    <Stack mt='6' spacing='3'>
+      <Heading size='md'>Koii Dark</Heading>
+      <Text>
+      Secrets in shadows.
+      </Text>
+ 
+    </Stack>
+  </CardBody>
+  <Divider />
+  <CardFooter>
+    <ButtonGroup spacing='2'>
+      <Button variant='solid' colorScheme='blue'>
+        Choose
+      </Button>
+
+    </ButtonGroup>
+  </CardFooter>
+</Card>
+<br/>
+<Card maxW='sm' backgroundColor='pink'>
+  <CardBody>
+    <Image
+      src='https://mir-s3-cdn-cf.behance.net/projects/404/9252e0149359545.62e64fab897d0.jpg'
+      alt='Green double couch with wooden legs'
+      borderRadius='lg'
+    />
+    <Stack mt='6' spacing='3'>
+      <Heading size='md'>Koii Gradient</Heading>
+      <Text>
+      Blending hues like a playful artist. 
+      </Text>
+ 
+    </Stack>
+  </CardBody>
+  <Divider />
+  <CardFooter>
+    <ButtonGroup spacing='2'>
+      <Button variant='solid' colorScheme='blue'>
+        Choose
+      </Button>
+    </ButtonGroup>
+  </CardFooter>
+</Card>
+</Flex>
+
+<Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight={{ base: "bold", md: "normal" }}
+        my={5}
+      >
+        Enter your details
+      </Text>
+
       <Formik
         initialValues={{
           name: "",
