@@ -12,7 +12,7 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const { setPublicKey, apiUrl, nodeList } = useWalletContext();
-  const { isFinnieDetected, connect, connected } = useK2Finnie();
+  const { isFinnieDetected, connect } = useK2Finnie();
   const [total, setTotal] = useState(null);
 
   useEffect(() => {
@@ -130,9 +130,7 @@ const HomePage = () => {
   );
 
   const connectButtonText = isFinnieDetected
-    ? connected
-      ? "Connect Finnie"
-      : "Get your linktree profile"
+    ? "Connect Finnie"
     : linkToGetFinnie;
 
   return (

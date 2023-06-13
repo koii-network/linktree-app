@@ -52,6 +52,6 @@ export const useK2Finnie = () => {
     k2PubKey,
     doesK2AccountExist,
     connect,
-    connected: window?.k2?.isConnected,
+    connected: !!window?.k2?.publicKey,
   };
 };
