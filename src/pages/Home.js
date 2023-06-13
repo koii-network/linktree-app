@@ -17,7 +17,7 @@ const HomePage = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [localpk, setLocalpk] = useState("");
 
-  const texts = ["Koii Linktree.", "Decentralization.", "The future."];
+  const texts = ["Koii Linktree.", "Decentralization.", "The future.", "Koii Linktree."];
   const [count, setCount] = useState(0);
   const [index, setIndex] = useState(0);
   const [letter, setLetter] = useState("");
