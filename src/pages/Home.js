@@ -17,7 +17,7 @@ const HomePage = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [localpk, setLocalpk] = useState("");
 
-  const texts = ["Linktree", "Build the Future", "Web3 is Here", "Linktree"];
+  const texts = ["Linktree", "Build the future", "Web3 is here", "Linktree"];
   const [count, setCount] = useState(0);
   const [index, setIndex] = useState(0);
   const [letter, setLetter] = useState("");
@@ -238,6 +238,7 @@ const HomePage = () => {
                 >
                   {connectButtonText}
                 </button>
+                
               </>
             ) : (
               <>
@@ -280,6 +281,15 @@ const HomePage = () => {
             </a>{" "}
             linktrees created: <span className="by-koii total"> {total} </span>{" "}
           </p>
+          <Text
+                  marginTop="10px"
+                  fontSize="11px"
+                  textAlign="center"
+                  maxWidth="600px"
+                >
+                Knowledgeable Open and Infinite Internet
+
+                </Text>
         </div>
       )}
     </>
