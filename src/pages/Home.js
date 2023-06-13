@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast, Text } from "@chakra-ui/react";
+import { useToast, Text, Button, Stack } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
@@ -13,6 +13,10 @@ const HomePage = () => {
   const { setPublicKey, apiUrl, nodeList } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
   const [total, setTotal] = useState(null);
+
+  const [isLogged, setIsLogged] = useState(false);
+  const [localpk, setLocalpk] = useState("");
+
 
   useEffect(() => {
     allLinktrees()
@@ -55,9 +59,11 @@ const HomePage = () => {
                 isClosable: true,
                 position: "top",
               });
-              setTimeout(() => {
-                navigate(`linktree/${pubKey}`);
-              }, 2000);
+              setLocalpk(pubKey);
+              // setTimeout(() => {
+              //   navigate(`linktree/${pubKey}`);
+              // }, 2000);
+              setIsLogged(true);
             } else {
               toast({
                 title: "Error fetching Linktree data",
@@ -133,51 +139,86 @@ const HomePage = () => {
 
   return (
     <>
-     
-       <div className='container public-key-input-container'>
-      <div className='auth-user'>
-        {isAuth ? (
-          <button
-            onClick={handleConnectFinnie}
-            className='connect-wallet-button'
-          >
-            {connectButtonText}
-          </button>
-        ) : (
+      <div className="container public-key-input-container">
+        {isLogged ? (
           <>
             <Text
-              marginBottom='10px'
-              fontSize='30px'
-              textAlign='center'
-              maxWidth='600px'
+              marginBottom="10px"
+              fontSize="25px"
+              textAlign="center"
+              maxWidth="600px"
             >
-              You are not authorized to create and access Linktree profiles
+              Linktree Control Panel
             </Text>
+            
             <Text
-              marginBottom='20px'
-              fontSize='18px'
-              textAlign='center'
-              maxWidth='600px'
+              marginBottom="10px"
+              fontSize="12px"
+              textAlign="center"
+              maxWidth="600px"
             >
-              Transfer 10 Koii to stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop by
-              clicking the button below to create and access linktree profiles:{" "}
+              User: {localpk}
             </Text>
-            <button
-              onClick={handleTransferKoii}
-              className='connect-wallet-button'
-            >
-              Transfer Koii
-            </button>
+            <Stack direction='column' spacing={4} align='center'>
+            <Button onClick={() => navigate(`linktree/${localpk}`)} colorScheme='blue'>Show my Linktree</Button>
+            <Button onClick={() => navigate(`createlinktree`)} colorScheme='blue'>Redesign Linktree</Button>
+            </Stack>
+
           </>
+        ) : (
+          <div className="auth-user">
+            {isAuth ? (
+              <>
+                <button
+                  onClick={handleConnectFinnie}
+                  className="connect-wallet-button"
+                >
+                  {connectButtonText}
+                </button>
+              </>
+            ) : (
+              <>
+                <Text
+                  marginBottom="10px"
+                  fontSize="30px"
+                  textAlign="center"
+                  maxWidth="600px"
+                >
+                  You are not authorized to create and access Linktree profiles
+                </Text>
+                <Text
+                  marginBottom="20px"
+                  fontSize="18px"
+                  textAlign="center"
+                  maxWidth="600px"
+                >
+                  Transfer 10 Koii to
+                  stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop by clicking the
+                  button below to create and access linktree profiles:{" "}
+                </Text>
+                <button
+                  onClick={handleTransferKoii}
+                  className="connect-wallet-button"
+                >
+                  Transfer Koii
+                </button>
+              </>
+            )}
+          </div>
         )}
       </div>
-    </div>
-    {total !== null && (
-      
-      
+
+      {total !== null && (
         <div className="footer">
-          <p>Total <a className="by-koii" href="https://www.koii.network/">Koii</a> linktrees created: <span className="by-koii total"> {total} </span> </p>
-        </div>)}
+          <p>
+            Total{" "}
+            <a className="by-koii" href="https://www.koii.network/">
+              Koii
+            </a>{" "}
+            linktrees created: <span className="by-koii total"> {total} </span>{" "}
+          </p>
+        </div>
+      )}
     </>
   );
 };
