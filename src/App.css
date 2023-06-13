@@ -55,6 +55,7 @@ p {
   font-weight: bold;
   transition: transform 0.3s ease-in-out, background 0.3s ease-in-out,
     color 0.3s ease-in-out;
+  min-width: 200px;
 }
 
 .connect-wallet-button:hover {

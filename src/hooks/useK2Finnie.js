@@ -20,20 +20,26 @@ export const useK2Finnie = () => {
 
   const connect = async () => {
     if (window?.k2) {
-      await window?.k2.disconnect();
-      return await window?.k2
-        .connect()
-        .then((pubKey) => {
-          setIsConnected(true);
-          setK2PubKey(pubKey.toString());
-          setDoesK2AccountExist(true);
-          return pubKey.toString();
-        })
-        .catch((error) => {
-          if (error.code === 4001) {
-            setDoesK2AccountExist(false);
-          }
-        });
+      if (window.k2.isConnected) {
+        const publicKey = window?.k2?.publicKey;
+        setK2PubKey(publicKey.toString());
+        setDoesK2AccountExist(true);
+        return publicKey.toString();
+      } else {
+        return await window?.k2
+          .connect()
+          .then((pubKey) => {
+            setIsConnected(true);
+            setK2PubKey(pubKey.toString());
+            setDoesK2AccountExist(true);
+            return pubKey.toString();
+          })
+          .catch((error) => {
+            if (error.code === 4001) {
+              setDoesK2AccountExist(false);
+            }
+          });
+      }
     }
     return Promise.reject(
       "Finnie is detected but K2 features are missing - is your Finnie up to date? "
@@ -46,5 +52,6 @@ export const useK2Finnie = () => {
     k2PubKey,
     doesK2AccountExist,
     connect,
+    connected: window?.k2?.isConnected,
   };
 };

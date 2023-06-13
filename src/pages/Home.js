@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast, Text } from "@chakra-ui/react";
+import { useToast, Text, Spinner } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
@@ -9,9 +9,10 @@ import { allLinktrees, getLinktree, getAuthList, transferKoii } from "../api";
 const HomePage = () => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const { setPublicKey, apiUrl, nodeList } = useWalletContext();
-  const { isFinnieDetected, connect } = useK2Finnie();
+  const { isFinnieDetected, connect, connected } = useK2Finnie();
   const [total, setTotal] = useState(null);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const HomePage = () => {
   }, [apiUrl]);
 
   const handleConnectFinnie = async () => {
+    setIsLoading(true);
     if (isFinnieDetected) {
       const pubKey = await connect();
       try {
@@ -34,7 +36,6 @@ const HomePage = () => {
 
           if (isAuthListed) {
             const linktree = await getLinktree(pubKey, nodeList);
-            console.log(linktree);
             if (linktree.status === true && !linktree.data) {
               toast({
                 title: "No Linktree profile for this public key",
@@ -91,6 +92,7 @@ const HomePage = () => {
         });
       }
     }
+    setIsLoading(false);
   };
 
   const handleTransferKoii = async () => {
@@ -128,56 +130,63 @@ const HomePage = () => {
   );
 
   const connectButtonText = isFinnieDetected
-    ? "Connect Finnie"
+    ? connected
+      ? "Connect Finnie"
+      : "Get your linktree profile"
     : linkToGetFinnie;
 
   return (
     <>
-     
-       <div className='container public-key-input-container'>
-      <div className='auth-user'>
-        {isAuth ? (
-          <button
-            onClick={handleConnectFinnie}
-            className='connect-wallet-button'
-          >
-            {connectButtonText}
-          </button>
-        ) : (
-          <>
-            <Text
-              marginBottom='10px'
-              fontSize='30px'
-              textAlign='center'
-              maxWidth='600px'
-            >
-              You are not authorized to create and access Linktree profiles
-            </Text>
-            <Text
-              marginBottom='20px'
-              fontSize='18px'
-              textAlign='center'
-              maxWidth='600px'
-            >
-              Transfer 10 Koii to stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop by
-              clicking the button below to create and access linktree profiles:{" "}
-            </Text>
+      <div className='container public-key-input-container'>
+        <div className='auth-user'>
+          {isAuth ? (
             <button
-              onClick={handleTransferKoii}
+              onClick={handleConnectFinnie}
               className='connect-wallet-button'
             >
-              Transfer Koii
+              {isLoading ? <Spinner /> : connectButtonText}
             </button>
-          </>
-        )}
+          ) : (
+            <>
+              <Text
+                marginBottom='10px'
+                fontSize='30px'
+                textAlign='center'
+                maxWidth='600px'
+              >
+                You are not authorized to create and access Linktree profiles
+              </Text>
+              <Text
+                marginBottom='20px'
+                fontSize='18px'
+                textAlign='center'
+                maxWidth='600px'
+              >
+                Transfer 10 Koii to stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop
+                by clicking the button below to create and access linktree
+                profiles:{" "}
+              </Text>
+              <button
+                onClick={handleTransferKoii}
+                className='connect-wallet-button'
+              >
+                Transfer Koii
+              </button>
+            </>
+          )}
+        </div>
       </div>
-    </div>
-    {total !== null && (
-      
-      
-        <div className="footer">
-          <p>Total <a className="by-koii" href="https://www.koii.network/">Koii</a> linktrees created: <span className="by-koii total"> {total} </span> </p>
-        </div>)}
+      {total !== null && (
+        <div className='footer'>
+          <p>
+            Total{" "}
+            <a className='by-koii' href='https://www.koii.network/'>
+              Koii
+            </a>{" "}
+            linktrees created: <span className='by-koii total'> {total} </span>{" "}
+          </p>
+        </div>
+      )}
     </>
   );
 };
