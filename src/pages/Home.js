@@ -17,6 +17,42 @@ const HomePage = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [localpk, setLocalpk] = useState("");
 
+  const texts = ["Linktree", "Build the Future", "Web3 is Here", "Linktree"];
+  const [count, setCount] = useState(0);
+  const [index, setIndex] = useState(0);
+  const [letter, setLetter] = useState("");
+
+  useEffect(() => {
+    const type = () => {
+      if (count === texts.length) {
+        setCount(0);
+      } else if (count === 3) {
+        setCount(0);
+      }
+  
+      const currentText = texts[count];
+      setLetter(currentText.slice(0, index + 1));
+  
+      if (index === currentText.length - 1) {
+        if (count < texts.length - 1) {
+          setTimeout(() => {
+            setCount(count + 1);
+            setIndex(0);
+          }, 600); 
+        } else {
+          setCount(0);
+          setIndex(0);
+        }
+      } else {
+        setIndex(index + 1);
+      }
+    };
+  
+    const timer = setTimeout(type, 130);
+    return () => clearTimeout(timer); // Cleanup on unmount
+  }, [count, index, letter, texts]); // Depend on these values
+  
+  
 
   useEffect(() => {
     allLinktrees()
@@ -27,6 +63,8 @@ const HomePage = () => {
         console.log(error);
       });
   }, [apiUrl]);
+
+
 
   const handleConnectFinnie = async () => {
     if (isFinnieDetected) {
@@ -150,7 +188,7 @@ const HomePage = () => {
             >
               Linktree Control Panel
             </Text>
-            
+
             <Text
               marginBottom="10px"
               fontSize="12px"
@@ -159,18 +197,41 @@ const HomePage = () => {
             >
               User: {localpk}
             </Text>
-            <Stack direction='column' spacing={4} align='center'>
-            <Button onClick={() => navigate(`linktree/${localpk}`)} colorScheme='blue'>Show my Linktree</Button>
-            <Button onClick={() => navigate(`createlinktree`)} colorScheme='blue'>Redesign Linktree</Button>
+            <Stack direction="column" spacing={4} align="center">
+              <Button
+                onClick={() => navigate(`linktree/${localpk}`)}
+                colorScheme="blue"
+              >
+                Show my Linktree
+              </Button>
+              <Button
+                onClick={() => navigate(`createlinktree`)}
+                colorScheme="blue"
+              >
+                Redesign Linktree
+              </Button>
             </Stack>
-
           </>
         ) : (
           <div className="auth-user">
             {isAuth ? (
               <>
-                <h1>Welcome to Koii</h1>
-                <h1>Linktree</h1>
+             <Text
+                  marginBottom="10px"
+                  fontSize="24px"
+                  textAlign="center"
+                  maxWidth="600px"
+                >
+                  Welcome to Koii
+                </Text>
+                <Text
+                  marginBottom="15px"
+                  fontSize="24px"
+                  textAlign="center"
+                  maxWidth="600px"
+                >
+                  {letter}
+                </Text>
                 <button
                   onClick={handleConnectFinnie}
                   className="connect-wallet-button"
