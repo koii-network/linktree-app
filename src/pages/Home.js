@@ -17,7 +17,7 @@ const HomePage = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [localpk, setLocalpk] = useState("");
 
-  const texts = ["Linktree", "Build the Future", "Web3 is Here", "Linktree"];
+  const texts = ["Koii Linktree.", "Decentrialization.", "The future."];
   const [count, setCount] = useState(0);
   const [index, setIndex] = useState(0);
   const [letter, setLetter] = useState("");
@@ -222,7 +222,7 @@ const HomePage = () => {
                   textAlign="center"
                   maxWidth="600px"
                 >
-                  Welcome to Koii
+                  Welcome to
                 </Text>
                 <Text
                   marginBottom="15px"
