@@ -169,6 +169,8 @@ const HomePage = () => {
           <div className="auth-user">
             {isAuth ? (
               <>
+                <h1>Welcome to Koii</h1>
+                <h1>Linktree</h1>
                 <button
                   onClick={handleConnectFinnie}
                   className="connect-wallet-button"
