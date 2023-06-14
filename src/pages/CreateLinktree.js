@@ -206,96 +206,29 @@ const CreateLinktree = () => {
         Choose a theme
       </Text>
       <Flex color="white">
-        <Card
-          maxW="sm"
-          marginRight="10px"
-          outline={choosenTheme === "Mint" ? "5px solid black" : undefined}
-        >
-          <CardBody>
-            <Image
-              src="https://mir-s3-cdn-cf.behance.net/projects/404/9252e0149359545.62e64fab897d0.jpg"
-              borderRadius="lg"
-            />
-            <Stack mt="6" spacing="3">
-              <Heading size="md">Koii Mint</Heading>
-              <Text>The default one.</Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <ButtonGroup spacing="2">
-              <Button
-                variant="solid"
-                colorScheme="blue"
-                onClick={() => handleThemeSelection("Mint")}
-              >
-                Choose
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-        <br />
-        <Card
-          maxW="sm"
-          marginRight="10px"
-          backgroundColor="black"
-          color="white"
-          outline={choosenTheme === "Dark" ? "5px solid gray" : undefined}
-        >
-          <CardBody>
-            <Image
-              src="https://mir-s3-cdn-cf.behance.net/projects/404/9252e0149359545.62e64fab897d0.jpg"
-              borderRadius="lg"
-            />
-            <Stack mt="6" spacing="3">
-              <Heading size="md">Koii Dark</Heading>
-              <Text>Secrets in shadows.</Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <ButtonGroup spacing="2">
-              <Button
-                id="darkButton"
-                variant="solid"
-                colorScheme="blue"
-                onClick={() => handleThemeSelection("Dark")}
-              >
-                Choose
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-        <br />
-        <Card
-          maxW="sm"
-          backgroundColor="pink"
-          outline={choosenTheme === "Gradient" ? "5px solid white" : undefined}
-        >
-          <CardBody>
-            <Image
-              src="https://mir-s3-cdn-cf.behance.net/projects/404/9252e0149359545.62e64fab897d0.jpg"
-              borderRadius="lg"
-            />
-            <Stack mt="6" spacing="3">
-              <Heading size="md">Koii Gradient</Heading>
-              <Text>Blending hues like a playful artist.</Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <ButtonGroup spacing="2">
-              <Button
-                id="gradientButton"
-                variant="solid"
-                colorScheme="blue"
-                onClick={() => handleThemeSelection("Gradient")}
-              >
-                Choose
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
+        <>
+      <Card>
+        <CardBody>
+          <img src="/images/Koii-Mint.png" alt="Koii Mint" />
+        </CardBody>
+      </Card>
+
+      <br />
+
+      <Card>
+        <CardBody>
+          <img src="/images/Koii-Dark.png" alt="Koii Dark" />
+        </CardBody>
+      </Card>
+
+      <br />
+
+      <Card>
+        <CardBody>
+          <img src="/images/Koii-Gradient.png" alt="Koii Gradient" />
+        </CardBody>
+      </Card>
+    </>
       </Flex>
 
       <Text
