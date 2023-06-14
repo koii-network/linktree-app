@@ -52,6 +52,8 @@ const PreviewImage = ({ file }) => {
 };
 
 const CreateLinktree = () => {
+  document.documentElement.setAttribute("data-theme", "mint");
+
   const [image, setImage] = useState(null);
   const [files, setFiles] = useState(null);
   const [imageName, setImageName] = useState(null);

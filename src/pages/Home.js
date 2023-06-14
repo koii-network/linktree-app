@@ -9,7 +9,7 @@ import pirateShipImage from './pirate-ship.svg';
 
 
 const HomePage = () => {
-  
+  document.documentElement.setAttribute("data-theme", "dark");
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(true);
   const toast = useToast();
@@ -24,6 +24,23 @@ const HomePage = () => {
   const [count, setCount] = useState(0);
   const [index, setIndex] = useState(0);
   const [letter, setLetter] = useState("");
+
+function animatedSection() {
+  let images = ['https://i.hizliresim.com/th0vvn3.png', 'https://i.hizliresim.com/j0fitja.png', 'https://i.hizliresim.com/19ee5ti.png', ];
+  let currentIndex = 0;
+  document.head.appendChild(document.createElement('style')).innerHTML = "#animated-image-frame { animation: rotateAnimation 5s infinite; }";
+
+  let intervalId = setInterval(function() {
+    let imgElement = document.getElementById('animated-image-frame');
+    if (!imgElement) {
+        clearInterval(intervalId); // Break the loop if imgElement doesn't exist
+        return;
+    }
+    imgElement.src = images[currentIndex];
+    currentIndex = (currentIndex + 1) % images.length;
+}, 5000);
+
+}
 
   useEffect(() => {
     const type = () => {
@@ -58,6 +75,7 @@ const HomePage = () => {
   
 
   useEffect(() => {
+    animatedSection()
     allLinktrees()
       .then((number) => {
         setTotal(number);
@@ -184,7 +202,7 @@ const HomePage = () => {
     
       </div>
 
-        <img className="psuedoBackgroundImg" src={pirateShipImage}></img>
+       
 
       <div className="container public-key-input-container">
         {isLogged ? (
@@ -236,7 +254,7 @@ const HomePage = () => {
                   Welcome to
                 </Text>
                 <Text
-                  marginBottom="50px"
+                  marginBottom="30px"
                   fontSize="24px"
                   textAlign="center"
                   maxWidth="600px"
@@ -245,6 +263,12 @@ const HomePage = () => {
                 >
                   {letter}
                 </Text>
+                <div id="animated-image-container">
+
+            <img id="animated-image-frame" src="https://i.hizliresim.com/19ee5ti.png" alt="Image"/>
+
+            </div>
+
                 <button
                   onClick={handleConnectFinnie}
                   className="connect-wallet-button"
