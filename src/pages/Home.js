@@ -20,7 +20,7 @@ const HomePage = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [localpk, setLocalpk] = useState("");
 
-  const texts = ["Koii Linktree.", "Decentralization.", "The future.", "Open internet."];
+
   const [count, setCount] = useState(0);
   const [index, setIndex] = useState(0);
   const [letter, setLetter] = useState("");
@@ -42,37 +42,7 @@ function animatedSection() {
 
 }
 
-  useEffect(() => {
-    const type = () => {
-      if (count === texts.length) {
-        setCount(0);
-      } else if (count === 4) {
-        setCount(0);
-      }
-  
-      const currentText = texts[count];
-      setLetter(currentText.slice(0, index + 1));
-  
-      if (index === currentText.length - 1) {
-        if (count < texts.length - 1) {
-          setTimeout(() => {
-            setCount(count + 1);
-            setIndex(0);
-          }, 600); 
-        } else {
-          setCount(0);
-          setIndex(0);
-        }
-      } else {
-        setIndex(index + 1);
-      }
-    };
-  
-    const timer = setTimeout(type, 130);
-    return () => clearTimeout(timer); // Cleanup on unmount
-  }, [count, index, letter, texts]); // Depend on these values
-  
-  
+
 
   useEffect(() => {
     animatedSection()
@@ -261,7 +231,7 @@ function animatedSection() {
                   fontFamily="Sora, sans-serif"
                   fontWeight="500"
                 >
-                  {letter}
+                  Koii Linktree
                 </Text>
                 <div id="animated-image-container">
 
