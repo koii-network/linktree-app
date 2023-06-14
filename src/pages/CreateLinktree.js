@@ -68,7 +68,7 @@ const CreateLinktree = () => {
         document.documentElement.setAttribute("data-theme", "light");
         break;
       case "Gradient":
-        document.documentElement.setAttribute("data-theme", "light");
+        document.documentElement.setAttribute("data-theme", "gradient");
         break;
     }
   }
@@ -281,7 +281,7 @@ const CreateLinktree = () => {
             maxW="sm"
             marginRight="10px"
             background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
-            outline={choosenTheme === "Gradient" ? '3px solid purple' : undefined}
+            outline={choosenTheme === "Gradient" ? '3px solid pink' : undefined}
             color="white"
           >
             <CardBody>
