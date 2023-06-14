@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useToast, Box, Spinner, IconButton, Tooltip } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
-import { getLinktree } from "../api";
+import { getLinktree, deleteLinktree } from "../api";
 import { useWalletContext } from "../contexts";
 
 function LinksComponent() {
@@ -45,6 +45,32 @@ function LinksComponent() {
     }
     getData();
   }, [query, publicKey, toast, navigate, apiUrl, nodeList]);
+
+  const handleDeleteLinktree = async () => {
+    if (publicKey) {
+      try {
+        await deleteLinktree(apiUrl, publicKey);
+        toast({
+          title: "Linktree profile deleted successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      } catch {
+        toast({
+          title: "Error deleting Linktree profile",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+    }
+  };
   return (
     <Box className='container' position='relative'>
       <Box
@@ -91,6 +117,7 @@ function LinksComponent() {
                     marginTop='10px'
                     icon={<DeleteIcon />}
                     colorScheme='red'
+                    onClick={handleDeleteLinktree}
                   />
                 </Tooltip>
               </Box>

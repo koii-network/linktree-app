@@ -13,6 +13,15 @@ export async function getLinktrees(apiUrl) {
   }
 }
 
+export async function deleteLinktree(apiUrl, publicKey) {
+  try {
+    const res = await axios.delete(`${apiUrl}/linktree/${publicKey}`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
   const res = await axios.get(`${backUpNodeList[0]}/linktree/get/${publicKey}`);
   if (!res.data) {
@@ -96,7 +105,6 @@ export async function setLinktree(data, publicKey, apiUrl) {
     data,
     publicKey: publicKey,
     signature: bs58.encode(signatureRaw.signature),
-    
   };
   try {
     const res = await axios.post(`${apiUrl}/linktree`, {
