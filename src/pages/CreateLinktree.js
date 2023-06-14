@@ -56,7 +56,7 @@ const CreateLinktree = () => {
   const [files, setFiles] = useState(null);
   const [imageName, setImageName] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [choosenTheme, setChoosenTheme] = useState(null);
+  const [choosenTheme, setChoosenTheme] = useState("Mint");
 
   function handleThemeSelection(theme) {
     setChoosenTheme(theme);
