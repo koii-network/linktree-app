@@ -96,6 +96,7 @@ export async function setLinktree(data, publicKey, apiUrl) {
     data,
     publicKey: publicKey,
     signature: bs58.encode(signatureRaw.signature),
+    
   };
   try {
     const res = await axios.post(`${apiUrl}/linktree`, {
