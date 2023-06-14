@@ -5,8 +5,11 @@ import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
 import { allLinktrees, getLinktree, getAuthList, transferKoii } from "../api";
+import pirateShipImage from './pirate-ship.svg';
+
 
 const HomePage = () => {
+  
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(true);
   const toast = useToast();
@@ -176,7 +179,13 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <>
+    <div className="Home">
+      <div className="psuedoBackground">
+    
+      </div>
+
+        <img className="psuedoBackgroundImg" src={pirateShipImage}></img>
+
       <div className="container public-key-input-container">
         {isLogged ? (
           <>
@@ -221,20 +230,25 @@ const HomePage = () => {
                   fontSize="24px"
                   textAlign="center"
                   maxWidth="600px"
+                  fontFamily="Sora, sans-serif"
+                  fontWeight="500"
                 >
                   Welcome to
                 </Text>
                 <Text
-                  marginBottom="15px"
+                  marginBottom="50px"
                   fontSize="24px"
                   textAlign="center"
                   maxWidth="600px"
+                  fontFamily="Sora, sans-serif"
+                  fontWeight="500"
                 >
                   {letter}
                 </Text>
                 <button
                   onClick={handleConnectFinnie}
                   className="connect-wallet-button"
+                  fontFamily="Sora, sans-serif"
                 >
                   {connectButtonText}
                 </button>
@@ -284,7 +298,7 @@ const HomePage = () => {
        
         </div>
       )}
-    </>
+    </div>
   );
 };
 

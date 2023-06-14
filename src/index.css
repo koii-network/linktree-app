@@ -13,6 +13,16 @@
   --background-image-sm: url("/public/images/Phone L.svg");
 }
 
+[data-theme="neutral"] {
+  --koii-blue: #ecfffe;
+  --koii-mint: #5ed9d1;
+  --koii-white: #171753;
+  --koii-mint: #8989c7;
+  --background-image: url("");
+  --background-image-md: url("");
+  --background-image-sm: url("");
+}
+
 [data-theme="dark"] {
   --koii-blue: #171753;
   --koii-white: #ecfffe;
