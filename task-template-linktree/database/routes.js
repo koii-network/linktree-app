@@ -85,6 +85,12 @@ router.post('/linktree', async (req, res) => {
     .send({ message: 'Proof and linktree registered successfully' });
 });
 
+router.get('/linktree/:publicKey', async (req, res) => {
+  const { publicKey } = req.params;
+  let linktree = await db.deleteLinktree(publicKey);
+  return res.status(200).send(publicKey);
+});
+
 router.get('/logs', async (req, res) => {
   const logs = fs.readFileSync('./namespace/logs.txt', 'utf8');
   res.status(200).send(logs);

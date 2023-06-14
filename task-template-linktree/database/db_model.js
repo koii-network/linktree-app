@@ -15,11 +15,11 @@ ensureIndex();
 
 // Get a linktree from the database using the public key
 
-const getLinktree = async (publicKey) => {
+const getLinktree = async publicKey => {
   const db = await namespaceWrapper.getDb();
   const linktreeId = getLinktreeId(publicKey);
   try {
-    const resp = await db.findOne({linktreeId });
+    const resp = await db.findOne({ linktreeId });
     if (resp) {
       return resp.linktree;
     } else {
@@ -29,7 +29,23 @@ const getLinktree = async (publicKey) => {
     console.error(e);
     return null;
   }
-}
+};
+
+const deleteLinktree = async publicKey => {
+  const db = await namespaceWrapper.getDb();
+  const linktreeId = getLinktreeId(publicKey);
+  try {
+    const resp = await db.deleteOne({ linktreeId });
+    if (resp) {
+      return resp.linktree;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
 
 // Store a linktree in the database using the public key
 
@@ -38,11 +54,11 @@ const setLinktree = async (publicKey, linktree) => {
   try {
     const linktreeId = getLinktreeId(publicKey);
     await db.insert({ linktreeId, linktree });
-    return console.log("Linktree set");
+    return console.log('Linktree set');
   } catch (err) {
     return undefined;
   }
-}
+};
 
 // Get all linktrees from the database
 
@@ -51,19 +67,17 @@ const getAllLinktrees = async () => {
   const linktreeListRaw = await db.find({
     linktree: { $exists: true },
   });
-  let linktreeList = linktreeListRaw.map(linktreeList =>
-    linktreeList.linktree
-  );
+  let linktreeList = linktreeListRaw.map(linktreeList => linktreeList.linktree);
   return linktreeList;
-}
+};
 
 // Get proofs submited by a node given that node's public key
 
-const getProofs = async (pubkey) => {
+const getProofs = async pubkey => {
   const db = await namespaceWrapper.getDb();
   const proofsId = getProofsId(pubkey);
   try {
-    const resp = await db.findOne({proofsId });
+    const resp = await db.findOne({ proofsId });
     if (resp) {
       return resp.proofs;
     } else {
@@ -73,7 +87,7 @@ const getProofs = async (pubkey) => {
     console.error(e);
     return null;
   }
-}
+};
 
 // Store the proofs object in the database using the public key
 
@@ -82,12 +96,12 @@ const setProofs = async (pubkey, proofs) => {
   try {
     const proofsId = getProofsId(pubkey);
     const result = await db.insert({ proofsId, proofs });
-    console.log("Proofs set", result);
-    return console.log("Proofs set");
+    console.log('Proofs set', result);
+    return console.log('Proofs set');
   } catch (err) {
     return undefined;
   }
-}
+};
 
 // Get all proofs from the database
 
@@ -96,15 +110,13 @@ const getAllProofs = async () => {
   const proofsListRaw = await db.find({
     proofs: { $exists: true },
   });
-  let proofsList = proofsListRaw.map(proofsList =>
-    proofsList.proofs
-  );
+  let proofsList = proofsListRaw.map(proofsList => proofsList.proofs);
   return proofsList;
-}
+};
 
 // Gets the CID associated with a given round of node proofs from the database.
 
-const getNodeProofCid = async (round) => {
+const getNodeProofCid = async round => {
   const db = await namespaceWrapper.getDb();
   const NodeProofsCidId = getNodeProofCidid(round);
   try {
@@ -118,7 +130,7 @@ const getNodeProofCid = async (round) => {
     console.error(e);
     return null;
   }
-}
+};
 
 // Sets the CID associated with a given round of node proofs in the database.
 
@@ -127,11 +139,11 @@ const setNodeProofCid = async (round, cid) => {
   try {
     const NodeProofsCidId = getNodeProofCidid(round);
     await db.insert({ NodeProofsCidId, cid });
-    return console.log("Node CID set");
+    return console.log('Node CID set');
   } catch (err) {
     return undefined;
   }
-}
+};
 
 // Gets all CIDs associated with node proofs from the database.
 
@@ -140,17 +152,17 @@ const getAllNodeProofCids = async () => {
   const NodeproofsListRaw = await db.find({
     cid: { $exists: true },
   });
-  let NodeproofsList = NodeproofsListRaw.map(NodeproofsList =>
-    NodeproofsList.cid
+  let NodeproofsList = NodeproofsListRaw.map(
+    NodeproofsList => NodeproofsList.cid,
   );
   return NodeproofsList;
-}
+};
 
 // Get the AuthList from the database using the public key, if not found return null
 
-const getAuthList = async (pubkey) => {
+const getAuthList = async pubkey => {
   const db = await namespaceWrapper.getDb();
-  const authListId = getAuthListId(pubkey);  
+  const authListId = getAuthListId(pubkey);
   try {
     const resp = await db.findOne({ authListId });
     if (resp) {
@@ -160,12 +172,12 @@ const getAuthList = async (pubkey) => {
     console.error(e);
     return null;
   }
-}
+};
 
 // Store the AuthList in the database using the public key
 // TODO: tx is the transaction of the public fund the bounty pool
 
-const setAuthList = async (pubkey) => {
+const setAuthList = async pubkey => {
   const db = await namespaceWrapper.getDb();
   try {
     const authListId = getAuthListId(pubkey);
@@ -176,7 +188,7 @@ const setAuthList = async (pubkey) => {
   } catch (err) {
     return undefined;
   }
-}
+};
 
 // Gets all AuthList from the database.
 
@@ -187,27 +199,28 @@ const getAllAuthList = async () => {
   });
   let authList = authListRaw.map(authList => authList.pubkey);
   return authList;
-}
+};
 
-const getNodeProofCidid = (round) => {
+const getNodeProofCidid = round => {
   return `node_proofs:${round}`;
-}
+};
 
-const getLinktreeId = (publicKey) => {
+const getLinktreeId = publicKey => {
   return `linktree:${publicKey}`;
-}
+};
 
-const getProofsId = (pubkey) => {
+const getProofsId = pubkey => {
   return `proofs:${pubkey}`;
-}
+};
 
-const getAuthListId = (pubkey) => {
+const getAuthListId = pubkey => {
   return `auth_list:${pubkey}`;
-}
+};
 
 module.exports = {
   getLinktree,
   setLinktree,
+  deleteLinktree,
   getAllLinktrees,
   getProofs,
   setProofs,
@@ -218,5 +231,5 @@ module.exports = {
   getAuthList,
   setAuthList,
   getAllAuthList,
-  getAuthListId
-}
+  getAuthListId,
+};

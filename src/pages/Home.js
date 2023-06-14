@@ -18,7 +18,6 @@ const HomePage = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [localpk, setLocalpk] = useState("");
 
-
   useEffect(() => {
     allLinktrees()
       .then((number) => {
@@ -27,7 +26,7 @@ const HomePage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [apiUrl]);
+  }, [apiUrl, setPublicKey]);
 
   const handleConnectFinnie = async () => {
     setIsLoading(true);
@@ -141,88 +140,48 @@ const HomePage = () => {
 
   return (
     <>
-<<<<<<< HEAD
       <div className='container public-key-input-container'>
-        <div className='auth-user'>
-          {isAuth ? (
-            <button
-              onClick={handleConnectFinnie}
-              className='connect-wallet-button'
-            >
-              {isLoading ? <Spinner /> : connectButtonText}
-            </button>
-          ) : (
-            <>
-              <Text
-                marginBottom='10px'
-                fontSize='30px'
-                textAlign='center'
-                maxWidth='600px'
-              >
-                You are not authorized to create and access Linktree profiles
-              </Text>
-              <Text
-                marginBottom='20px'
-                fontSize='18px'
-                textAlign='center'
-                maxWidth='600px'
-              >
-                Transfer 10 Koii to stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop
-                by clicking the button below to create and access linktree
-                profiles:{" "}
-              </Text>
-              <button
-                onClick={handleTransferKoii}
-                className='connect-wallet-button'
-              >
-                Transfer Koii
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-      {total !== null && (
-        <div className='footer'>
-          <p>
-            Total{" "}
-            <a className='by-koii' href='https://www.koii.network/'>
-              Koii
-            </a>{" "}
-            linktrees created: <span className='by-koii total'> {total} </span>{" "}
-=======
-      <div className="container public-key-input-container">
         {isLogged ? (
           <>
             <Text
-              marginBottom="10px"
-              fontSize="25px"
-              textAlign="center"
-              maxWidth="600px"
+              marginBottom='10px'
+              fontSize='25px'
+              textAlign='center'
+              maxWidth='600px'
             >
               Linktree Control Panel
             </Text>
-            
+
             <Text
-              marginBottom="10px"
-              fontSize="12px"
-              textAlign="center"
-              maxWidth="600px"
+              marginBottom='10px'
+              fontSize='12px'
+              textAlign='center'
+              maxWidth='600px'
             >
               User: {localpk}
             </Text>
             <Stack direction='column' spacing={4} align='center'>
-            <Button onClick={() => navigate(`linktree/${localpk}`)} colorScheme='blue'>Show my Linktree</Button>
-            <Button onClick={() => navigate(`createlinktree`)} colorScheme='blue'>Redesign Linktree</Button>
+              <Button
+                onClick={() => navigate(`linktree/${localpk}`)}
+                colorScheme='blue'
+              >
+                Show my Linktree
+              </Button>
+              <Button
+                onClick={() => navigate(`createlinktree`)}
+                colorScheme='blue'
+              >
+                Redesign Linktree
+              </Button>
             </Stack>
-
           </>
         ) : (
-          <div className="auth-user">
+          <div className='auth-user'>
             {isAuth ? (
               <>
                 <button
                   onClick={handleConnectFinnie}
-                  className="connect-wallet-button"
+                  className='connect-wallet-button'
                 >
                   {connectButtonText}
                 </button>
@@ -230,18 +189,18 @@ const HomePage = () => {
             ) : (
               <>
                 <Text
-                  marginBottom="10px"
-                  fontSize="30px"
-                  textAlign="center"
-                  maxWidth="600px"
+                  marginBottom='10px'
+                  fontSize='30px'
+                  textAlign='center'
+                  maxWidth='600px'
                 >
                   You are not authorized to create and access Linktree profiles
                 </Text>
                 <Text
-                  marginBottom="20px"
-                  fontSize="18px"
-                  textAlign="center"
-                  maxWidth="600px"
+                  marginBottom='20px'
+                  fontSize='18px'
+                  textAlign='center'
+                  maxWidth='600px'
                 >
                   Transfer 10 Koii to
                   stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop by clicking the
@@ -249,7 +208,7 @@ const HomePage = () => {
                 </Text>
                 <button
                   onClick={handleTransferKoii}
-                  className="connect-wallet-button"
+                  className='connect-wallet-button'
                 >
                   Transfer Koii
                 </button>
@@ -260,14 +219,13 @@ const HomePage = () => {
       </div>
 
       {total !== null && (
-        <div className="footer">
+        <div className='footer'>
           <p>
             Total{" "}
-            <a className="by-koii" href="https://www.koii.network/">
+            <a className='by-koii' href='https://www.koii.network/'>
               Koii
             </a>{" "}
-            linktrees created: <span className="by-koii total"> {total} </span>{" "}
->>>>>>> 1d3b733f8e34c63ee46d8776a64c93344d47d9e0
+            linktrees created: <span className='by-koii total'> {total} </span>{" "}
           </p>
         </div>
       )}
