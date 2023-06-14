@@ -31,6 +31,21 @@ const getLinktree = async publicKey => {
   }
 };
 
+const getLinktreeWithUsername = async username => {
+  const db = await namespaceWrapper.getDb();
+  try {
+    const resp = await db.findOne({ username });
+    if (resp) {
+      return resp.linktree;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
 const deleteLinktree = async publicKey => {
   const db = await namespaceWrapper.getDb();
   const linktreeId = getLinktreeId(publicKey);
@@ -232,4 +247,5 @@ module.exports = {
   setAuthList,
   getAllAuthList,
   getAuthListId,
+  getLinktreeWithUsername,
 };
