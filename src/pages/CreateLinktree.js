@@ -52,7 +52,6 @@ const PreviewImage = ({ file }) => {
 };
 
 const CreateLinktree = () => {
-  document.documentElement.setAttribute("data-theme", "mint");
 
   const [image, setImage] = useState(null);
   const [files, setFiles] = useState(null);
@@ -60,6 +59,11 @@ const CreateLinktree = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [choosenTheme, setChoosenTheme] = useState("Mint");
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', 'mint');
+  }, []);
+
+  
   function handleThemeSelection(theme) {
     setChoosenTheme(theme);
     switch (theme) {
