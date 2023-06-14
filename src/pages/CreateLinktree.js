@@ -69,7 +69,7 @@ const CreateLinktree = () => {
         break;
       case "Gradient":
         document.documentElement.setAttribute("data-theme", "light");
-          break;
+        break;
     }
   }
 
@@ -207,84 +207,107 @@ const CreateLinktree = () => {
       </Text>
       <Flex color="white">
         <>
- 
-        <Card className="card" maxW='sm' marginRight="10px" backgroundColor='#C7F2EF'>
-  <CardBody>
-    <Image
-      borderRadius='10px'
-      src='/images/Koii-Mint.png'
-      alt='Green double couch with wooden legs'
-    />
-    <Stack mt='6' spacing='3'>
-      <Heading size='md'>Koii Mint</Heading>
-      <Text>
-        The default one.
-      </Text>
+          <Card
+            className="card"
+            maxW="sm"
+            marginRight="20px"
+            backgroundColor="#C7F2EF"
+            color="black"
+            outline={choosenTheme === "Mint" ? '3px solid black' : undefined}
+          >
+            <CardBody>
+              <Image
+                borderRadius="10px"
+                src="/images/Koii-Mint.png"
+              />
+              <Stack mt="6" spacing="3">
+                <Heading size="md">Koii Mint</Heading>
+                <Text>The default one.</Text>
+              </Stack>
+            </CardBody>
+            <CardFooter>
+              <ButtonGroup spacing="2">
+                <Button
+                  variant="solid"
+                  backgroundColor="#8989C7"
+                  borderRadius="5px"
+                  onClick={() => handleThemeSelection("Mint")}
+                >
+                  Choose
+                </Button>
+              </ButtonGroup>
+            </CardFooter>
+          </Card>
 
-    </Stack>
-  </CardBody>
-  <CardFooter>
-    <ButtonGroup spacing='2'>
-      <Button variant='solid' backgroundColor='#8989C7' borderRadius='5px'>
-        Choose
-      </Button>
-    </ButtonGroup>
-  </CardFooter>
-</Card>
+          <br />
 
-      <br />
- 
-      <Card className="card" maxW='sm' marginRight="10px" backgroundColor='#171753' color='white' >
-  <CardBody>
-    <Image
-      borderRadius='10px'
-      src='/images/Koii-Dark.png'
-      alt='Green double couch with wooden legs'
-    />
-    <Stack mt='6' spacing='3'>
-      <Heading size='md'>Koii Dark</Heading>
-      <Text>
-        Secrets in shadows.
-      </Text>
+          <Card
+            className="card"
+            maxW="sm"
+            marginRight="20px"
+            backgroundColor="#171753"
+            color="white"
+            outline={choosenTheme === "Dark" ? '3px solid white' : undefined}
+          >
+            <CardBody>
+              <Image
+                borderRadius="10px"
+                src="/images/Koii-Dark.png"
+                alt="Green double couch with wooden legs"
+              />
+              <Stack mt="6" spacing="3">
+                <Heading size="md">Koii Dark</Heading>
+                <Text>Secrets in shadows.</Text>
+              </Stack>
+            </CardBody>
+            <CardFooter>
+              <ButtonGroup spacing="2">
+                <Button
+                  variant="solid"
+                  backgroundColor="#5ED9D1"
+                  borderRadius="5px"
+                  onClick={() => handleThemeSelection("Dark")}
+                >
+                  Choose
+                </Button>
+              </ButtonGroup>
+            </CardFooter>
+          </Card>
 
-    </Stack>
-  </CardBody>
-  <CardFooter>
-    <ButtonGroup spacing='2'>
-      <Button variant='solid' backgroundColor='#5ED9D1' borderRadius='5px'>
-        Choose
-      </Button>
-    </ButtonGroup>
-  </CardFooter>
-</Card>
+          <br />
 
-      <br />
-
- 
-      <Card className="card" maxW='sm' marginRight="10px" background='linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)'>
-  <CardBody>
-    <Image
-      borderRadius='10px'
-      src='/images/Koii-Gradient.png'
-      alt='Green double couch with wooden legs'
-    />
-    <Stack mt='6' spacing='3'>
-      <Heading size='md'>Koii Gradient</Heading>
-      <Text>
-        Blending hues like a playful artist.
-      </Text>
-
-    </Stack>
-  </CardBody>
-  <CardFooter>
-    <ButtonGroup spacing='2'>
-      <Button variant='solid' backgroundColor='#FFA6A6'>
-        Choose
-      </Button>
-    </ButtonGroup>
-  </CardFooter>
-</Card>
-    </>
+          <Card
+            className="card"
+            maxW="sm"
+            marginRight="10px"
+            background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
+            outline={choosenTheme === "Gradient" ? '3px solid purple' : undefined}
+            color="white"
+          >
+            <CardBody>
+              <Image
+                borderRadius="10px"
+                src="/images/Koii-Gradient.png"
+                alt="Green double couch with wooden legs"
+              />
+              <Stack mt="6" spacing="3">
+                <Heading size="md">Koii Gradient</Heading>
+                <Text>Blending hues like a playful artist.</Text>
+              </Stack>
+            </CardBody>
+            <CardFooter>
+              <ButtonGroup spacing="2">
+                <Button
+                  variant="solid"
+                  backgroundColor="#FFA6A6"
+                  onClick={() => handleThemeSelection("Gradient")}
+                >
+                  Choose
+                </Button>
+              </ButtonGroup>
+            </CardFooter>
+          </Card>
+        </>
       </Flex>
 
       <Text
@@ -309,6 +332,10 @@ const CreateLinktree = () => {
             .min(5, "Bio is too short!")
             .max(400, "Bio is too Long")
             .required("A short bio is required"),
+          linktreeAddress: string()
+            .min(5, "Address is too short!")
+            .max(200, "Address is too Long")
+            .required("An address is required."),
           image: mixed().nullable().required("Upload a profile image"),
           links: array(
             object({
@@ -484,6 +511,30 @@ const CreateLinktree = () => {
                   >
                     Add Link
                   </Button>
+
+                  <Box mt={10}>
+  
+                      <Text fontSize="2xl" mt={5}>
+                        Linktree Address
+                      </Text>
+                    
+                    <Box display="flex" alignItems="center" justifyContent="center">
+                    <Text fontSize="m" mr={2}>
+                        linktree.koii.network/   
+                      </Text>
+                    <Field
+                      name="linktreeAddress"
+                      label="Linktree Address"
+                      as={Input}
+                      className="input-border"
+                    />
+                    </Box>
+
+                    <Text className="error">
+                      <ErrorMessage name="linktreeAddress" />
+                    </Text>
+
+                  </Box>
                 </div>
               )}
             </FieldArray>
