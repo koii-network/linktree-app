@@ -26,7 +26,7 @@ const HomePage = () => {
     const type = () => {
       if (count === texts.length) {
         setCount(0);
-      } else if (count === 3) {
+      } else if (count === 4) {
         setCount(0);
       }
   

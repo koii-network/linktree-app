@@ -207,6 +207,7 @@ const CreateLinktree = () => {
       </Text>
       <Flex color="white">
         <>
+ 
       <Card>
         <CardBody>
           <img src="/images/Koii-Mint.png" alt="Koii Mint" />
