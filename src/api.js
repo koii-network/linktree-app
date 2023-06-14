@@ -98,13 +98,14 @@ export async function getLinktree(publicKey, nodeList) {
   return false;
 }
 
-export async function setLinktree(data, publicKey, apiUrl) {
+export async function setLinktree(data, publicKey, apiUrl, username) {
   const messageString = JSON.stringify(data);
   const signatureRaw = await window.k2.signMessage(messageString);
   const payload = {
     data,
     publicKey: publicKey,
     signature: bs58.encode(signatureRaw.signature),
+    username,
   };
   try {
     const res = await axios.post(`${apiUrl}/linktree`, {
