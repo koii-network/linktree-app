@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast, Text, Button, Stack } from "@chakra-ui/react";
+import { useToast, Text, Button, Stack, Box } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
 import { allLinktrees, getLinktree, getAuthList, transferKoii } from "../api";
-import pirateShipImage from './pirate-ship.svg';
-
+import pirateShipImage from "./pirate-ship.svg";
 
 const HomePage = () => {
   document.documentElement.setAttribute("data-theme", "dark");
@@ -20,32 +19,33 @@ const HomePage = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [localpk, setLocalpk] = useState("");
 
-
   const [count, setCount] = useState(0);
   const [index, setIndex] = useState(0);
   const [letter, setLetter] = useState("");
 
-function animatedSection() {
-  let images = ['/images/o2_soma.png', '/images/o3_saim.png', '/images/o1_al.png', ];
-  let currentIndex = 0;
-  document.head.appendChild(document.createElement('style')).innerHTML = "#animated-image-frame { animation: rotateAnimation 5s infinite; }";
+  function animatedSection() {
+    let images = [
+      "/images/o2_soma.png",
+      "/images/o3_saim.png",
+      "/images/o1_al.png",
+    ];
+    let currentIndex = 0;
+    document.head.appendChild(document.createElement("style")).innerHTML =
+      "#animated-image-frame { animation: rotateAnimation 5s infinite; }";
 
-  let intervalId = setInterval(function() {
-    let imgElement = document.getElementById('animated-image-frame');
-    if (!imgElement) {
+    let intervalId = setInterval(function () {
+      let imgElement = document.getElementById("animated-image-frame");
+      if (!imgElement) {
         clearInterval(intervalId); // Break the loop if imgElement doesn't exist
         return;
-    }
-    imgElement.src = images[currentIndex];
-    currentIndex = (currentIndex + 1) % images.length;
-}, 5000);
-
-}
-
-
+      }
+      imgElement.src = images[currentIndex];
+      currentIndex = (currentIndex + 1) % images.length;
+    }, 5000);
+  }
 
   useEffect(() => {
-    animatedSection()
+    animatedSection();
     allLinktrees()
       .then((number) => {
         setTotal(number);
@@ -54,8 +54,6 @@ function animatedSection() {
         console.log(error);
       });
   }, [apiUrl]);
-
-
 
   const handleConnectFinnie = async () => {
     if (isFinnieDetected) {
@@ -157,7 +155,7 @@ function animatedSection() {
   };
 
   const linkToGetFinnie = (
-    <a rel='noreferrer' target='_blank' href={DOWNLOAD_FINNIE_URL}>
+    <a rel="noreferrer" target="_blank" href={DOWNLOAD_FINNIE_URL}>
       Get Finnie
     </a>
   );
@@ -166,13 +164,13 @@ function animatedSection() {
     ? "Connect Finnie"
     : linkToGetFinnie;
 
+  let isMobile = false;
+  if (document.documentElement.clientWidth < 700) {
+    isMobile = true;
+  }
   return (
     <div className="Home">
-      <div className="psuedoBackground">
-    
-      </div>
-
-       
+      <div className="psuedoBackground"></div>
 
       <div className="container public-key-input-container">
         {isLogged ? (
@@ -213,41 +211,102 @@ function animatedSection() {
           <div className="auth-user">
             {isAuth ? (
               <>
-             <Text
-                  marginBottom="5px"
-                  fontSize="22px"
-                  textAlign="center"
-                  maxWidth="600px"
-                  fontFamily="Sora, sans-serif"
-                  fontWeight="500"
-                >
-                  Welcome to
-                </Text>
-                <Text
-                  marginBottom="30px"
-                  fontSize="24px"
-                  textAlign="center"
-                  maxWidth="600px"
-                  fontFamily="Sora, sans-serif"
-                  fontWeight="500"
-                  color="#FFEE81"
-                >
-                  Koii Linktree
-                </Text>
-                <div id="animated-image-container">
+                {isMobile ? (
+                  <Box>
+                    <Text
+                      marginBottom="5px"
+                      fontSize="22px"
+                      textAlign="center"
+                      maxWidth="600px"
+                      fontFamily="Sora, sans-serif"
+                      fontWeight="500"
+                    >
+                      Welcome to
+                    </Text>
+                    <Text
+                      marginBottom="30px"
+                      fontSize="24px"
+                      textAlign="center"
+                      maxWidth="600px"
+                      fontFamily="Sora, sans-serif"
+                      fontWeight="500"
+                      color="#FFEE81"
+                    >
+                      Koii Linktree
+                    </Text>
+                    <div id="animated-image-container">
+                      <img
+                        id="animated-image-frame"
+                        src="/images/o1_al.png"
+                        alt="Image"
+                      />
+                    </div>
 
-            <img id="animated-image-frame" src="/images/o1_al.png" alt="Image"/>
-
-            </div>
-
-                <button
-                  onClick={handleConnectFinnie}
-                  className="connect-wallet-button"
-                  fontFamily="Sora, sans-serif"
-                >
-                  {connectButtonText}
-                </button>
-                
+                    <button
+                      onClick={handleConnectFinnie}
+                      className="connect-wallet-button"
+                      fontFamily="Sora, sans-serif"
+                    >
+                      {connectButtonText}
+                    </button>
+                  </Box>
+                ) : (
+                  <Box display="flex" flexDirection="column">
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent=""
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: "100%", // You can adjust this based on your layout
+                        }}
+                      >
+                        <Text
+                          marginBottom="5px"
+                          fontSize="52px"
+                          textAlign="center"
+                          maxWidth="600px"
+                          fontFamily="Sora, sans-serif"
+                          fontWeight="500"
+                        >
+                          Welcome to
+                        </Text>
+                        <Text
+                          marginBottom="30px"
+                          fontSize="64px"
+                          textAlign="center"
+                          maxWidth="600px"
+                          fontFamily="Sora, sans-serif"
+                          fontWeight="500"
+                          color="#FFEE81"
+                        >
+                          Koii Linktree
+                        </Text>
+                        <Button
+                          onClick={handleConnectFinnie}
+                          className="connect-wallet-button"
+                          fontFamily="Sora, sans-serif"
+                          width="300px"
+                        >
+                          {connectButtonText}
+                        </Button>
+                      </div>
+                      <div id="animated-image-container" style={{ marginLeft: '100px' }}>
+                        <img
+                          id="animated-image-frame"
+                          src="/images/o1_al.png"
+                          alt="Image"
+                        />
+                      </div>
+                    </Box>
+                  </Box>
+                )}
               </>
             ) : (
               <>
@@ -290,7 +349,6 @@ function animatedSection() {
             </a>{" "}
             linktrees created: <span className="by-koii total"> {total} </span>{" "}
           </p>
-       
         </div>
       )}
     </div>
