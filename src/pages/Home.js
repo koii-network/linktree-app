@@ -176,7 +176,7 @@ const HomePage = () => {
 
       <div className='container public-key-input-container'>
         {isLogged ? (
-          <>
+          <Box height={"60vh"}>
             <Text
               marginBottom='10px'
               fontSize='25px'
@@ -208,7 +208,7 @@ const HomePage = () => {
                 Redesign Linktree
               </Button>
             </Stack>
-          </>
+          </Box>
         ) : (
           <div className='auth-user'>
             {isAuth ? (

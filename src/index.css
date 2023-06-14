@@ -17,6 +17,7 @@
   --koii-blue: #ecfffe;
   --koii-mint: #5ed9d1;
   --koii-white: #171753;
+  --koii-button-white: #171753;
   --koii-mint: #8989c7;
   --background-image: url("");
   --background-image-md: url("");
@@ -26,6 +27,7 @@
 [data-theme="dark"] {
   --koii-blue: #171753;
   --koii-white: #ecfffe;
+  --koii-button-white: #171753;
   --koii-mint: #5ed9d1;
   --background-image: url("/public/images/DesktopD (1).svg");
   --background-image-md: url("/public/images/DesktopD (2).svg");
@@ -47,6 +49,7 @@
 [data-theme="gradient"] {
   --koii-blue: #171753;
   --koii-white: #ecfffe;
+  --koii-button-white: #ecfffe;
   --koii-mint: #5ed9d1;
   --background-image: linear-gradient(
     43deg,

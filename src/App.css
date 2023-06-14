@@ -1,5 +1,3 @@
-
-
 .container {
   padding: 2rem 1rem;
   padding-top: 5rem;
@@ -51,7 +49,7 @@ p {
   border: 1px solid var(--koii-white);
   border-radius: 50px;
   padding: 1.5rem;
-  color: var(--koii-white);
+  color: var(--koii-button-white);
   font-size: 20px;
   cursor: pointer;
   font-weight: bold;
@@ -279,7 +277,6 @@ p {
   }
 }
 
-
 .card {
   transition: transform 0.3s ease-in-out;
 }
@@ -295,7 +292,7 @@ p {
   width: 100%;
   height: 100%;
   opacity: 0.05;
-  background-color: blue; 
+  background-color: blue;
   z-index: -1;
 }
 
@@ -316,7 +313,6 @@ p {
   border-radius: 30px;
 }
 
-
 @keyframes rotateAnimation {
   0% {
     transform: rotateY(0deg) translateZ(0px);
@@ -327,12 +323,5 @@ p {
 }
 
 #animated-image-frame {
-  animation: rotateAnimation 3000ms linear infinite, 
+  animation: rotateAnimation 3000ms linear infinite;
 }
-
-
-
-
-
-
-
