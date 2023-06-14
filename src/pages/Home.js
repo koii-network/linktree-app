@@ -26,7 +26,7 @@ const HomePage = () => {
   const [letter, setLetter] = useState("");
 
 function animatedSection() {
-  let images = ['https://i.hizliresim.com/th0vvn3.png', 'https://i.hizliresim.com/j0fitja.png', 'https://i.hizliresim.com/19ee5ti.png', ];
+  let images = ['/images/o2_soma.png', '/images/o3_saim.png', '/images/o1_al.png', ];
   let currentIndex = 0;
   document.head.appendChild(document.createElement('style')).innerHTML = "#animated-image-frame { animation: rotateAnimation 5s infinite; }";
 
@@ -214,8 +214,8 @@ function animatedSection() {
             {isAuth ? (
               <>
              <Text
-                  marginBottom="10px"
-                  fontSize="24px"
+                  marginBottom="5px"
+                  fontSize="22px"
                   textAlign="center"
                   maxWidth="600px"
                   fontFamily="Sora, sans-serif"
@@ -230,12 +230,13 @@ function animatedSection() {
                   maxWidth="600px"
                   fontFamily="Sora, sans-serif"
                   fontWeight="500"
+                  color="#FFEE81"
                 >
                   Koii Linktree
                 </Text>
                 <div id="animated-image-container">
 
-            <img id="animated-image-frame" src="https://i.hizliresim.com/19ee5ti.png" alt="Image"/>
+            <img id="animated-image-frame" src="/images/o1_al.png" alt="Image"/>
 
             </div>
 
