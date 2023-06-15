@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Formik, ErrorMessage, Field, FieldArray } from "formik";
-import { array, object, string, mixed } from "yup";
+import { array, object, string, mixed, boolean } from "yup";
 import { Web3Storage } from "web3.storage";
 import {
   Box,
@@ -12,6 +12,17 @@ import {
   Textarea,
   Spacer,
   Spinner,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Image,
+  Stack,
+  Heading,
+  Divider,
+  ButtonGroup,
+  Checkbox,
+  Tooltip,
 } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
@@ -19,6 +30,9 @@ import uuid from "react-uuid";
 import { setLinktree } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
+
+document.documentElement.setAttribute("data-theme", "dark");
+
 
 function makeStorageClient() {
   return new Web3Storage({
@@ -36,8 +50,8 @@ const PreviewImage = ({ file }) => {
   };
 
   return (
-    <Box mt={5} display='flex' justifyContent='center'>
-      <img src={preview} alt='User' className='user-image' />
+    <Box mt={5} display="flex" justifyContent="center">
+      <img src={preview} alt="User" className="user-image" />
     </Box>
   );
 };
@@ -47,8 +61,27 @@ const CreateLinktree = () => {
   const [files, setFiles] = useState(null);
   const [imageName, setImageName] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [choosenTheme, setChoosenTheme] = useState("Dark");
 
-  const linksGroup = { label: "", redirectUrl: "", key: "" };
+
+  function handleThemeSelection(theme) {
+    setChoosenTheme(theme);
+    switch (theme) {
+      case "Dark":
+        document.documentElement.setAttribute("data-theme", "dark");
+        break;
+      case "Mint":
+        document.documentElement.setAttribute("data-theme", "light");
+        break;
+      case "Gradient":
+        document.documentElement.setAttribute("data-theme", "gradient");
+        break;
+      default:
+        break;
+    }
+  }
+
+  const linksGroup = { label: "", redirectUrl: "", key: "", isFavorite: false };
   const toast = useToast();
   const navigate = useNavigate();
   const { publicKey, apiUrl } = useWalletContext();
@@ -69,9 +102,10 @@ const CreateLinktree = () => {
   };
 
   const insertKey = (links) => {
-    return links.map((item) => {
+    return links.map((item, index) => {
       return {
         ...item,
+        isFavorite: index === 0 ? true : false,
         key: uuid(),
       };
     });
@@ -134,14 +168,21 @@ const CreateLinktree = () => {
         ...values,
         image: `https://${imageCID}.ipfs.dweb.link/${imageName}`,
         background: "",
+        theme: choosenTheme,
       },
       timestamp: Date.now(),
     };
 
-    const res = await setLinktree(payload, publicKey, apiUrl);
+    const res = await setLinktree(
+      payload,
+      publicKey,
+      apiUrl,
+      values?.linktreeAddress
+    );
     if (res?.message === "Proof and linktree registered successfully") {
       toast({
-        title: "Successfully created Linktree profile! Redirecting in 10 seconds...",
+        title:
+          "Successfully created Linktree profile! Redirecting in 10 seconds...",
         status: "success",
         duration: 7000,
         isClosable: true,
@@ -163,7 +204,7 @@ const CreateLinktree = () => {
   };
 
   return (
-    <Box py={{ base: "8rem", md: "5rem" }} px={8} className='createLinktree'>
+    <Box py={{ base: "8rem", md: "5rem" }} px={8} className="createLinktree">
       <Text
         fontSize={{ base: "3xl", md: "4xl" }}
         fontWeight={{ base: "bold", md: "normal" }}
@@ -171,6 +212,125 @@ const CreateLinktree = () => {
       >
         Create Your Koii Linktree Profile
       </Text>
+
+      <Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight={{ base: "bold", md: "normal" }}
+        my={5}
+      >
+        Choose a theme
+      </Text>
+      <Flex color='white'>
+        <>
+        <Card
+            className='card'
+            maxW='sm'
+            marginRight='20px'
+            backgroundColor='#171753'
+            color='white'
+            outline={choosenTheme === "Dark" ? "3px solid white" : undefined}
+          >
+            <CardBody>
+              <Image
+                borderRadius='10px'
+                src='/images/Koii-Dark.png'
+                alt='Green double couch with wooden legs'
+              />
+              <Stack mt='6' spacing='3'>
+                <Heading size='md'>Koii Dark</Heading>
+                <Text>Secrets in shadows.</Text>
+              </Stack>
+            </CardBody>
+            <CardFooter>
+              <ButtonGroup spacing='2'>
+                <Button
+                  variant='solid'
+                  backgroundColor='#5ED9D1'
+                  borderRadius='5px'
+                  onClick={() => handleThemeSelection("Dark")}
+                >
+                  Choose
+                </Button>
+              </ButtonGroup>
+            </CardFooter>
+          </Card>
+          <br />
+          <Card
+            className='card'
+            maxW='sm'
+            marginRight='20px'
+            backgroundColor='#C7F2EF'
+            color='black'
+            outline={choosenTheme === "Mint" ? "3px solid black" : undefined}
+          >
+            <CardBody>
+              <Image borderRadius='10px' src='/images/Koii-Mint.png' />
+              <Stack mt='6' spacing='3'>
+                <Heading size='md'>Koii Mint</Heading>
+                <Text>A refreshing breeze.</Text>
+              </Stack>
+            </CardBody>
+            <CardFooter>
+              <ButtonGroup spacing='2'>
+                <Button
+                  variant='solid'
+                  backgroundColor='#8989C7'
+                  borderRadius='5px'
+                  onClick={() => handleThemeSelection("Mint")}
+                >
+                  Choose
+                </Button>
+              </ButtonGroup>
+            </CardFooter>
+          </Card>
+
+          
+
+
+          <br />
+
+          <Card
+            className='card'
+            maxW='sm'
+            marginRight='10px'
+            background='linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)'
+            outline={choosenTheme === "Gradient" ? "3px solid pink" : undefined}
+            color='white'
+          >
+            <CardBody>
+              <Image
+                borderRadius='10px'
+                src='/images/Koii-Gradient.png'
+                alt='Green double couch with wooden legs'
+              />
+              <Stack mt='6' spacing='3'>
+                <Heading size='md'>Koii Gradient</Heading>
+                <Text>Blending hues like a playful artist.</Text>
+              </Stack>
+            </CardBody>
+            <CardFooter>
+              <ButtonGroup spacing='2'>
+                <Button
+                  variant='solid'
+                  backgroundColor='#FFA6A6'
+                  onClick={() => handleThemeSelection("Gradient")}
+                >
+                  Choose
+                </Button>
+              </ButtonGroup>
+            </CardFooter>
+          </Card>
+        </>
+      </Flex>
+
+      <Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight={{ base: "bold", md: "normal" }}
+        my={5}
+      >
+        Enter your details
+      </Text>
+
       <Formik
         initialValues={{
           name: "",
@@ -178,6 +338,7 @@ const CreateLinktree = () => {
           image: null,
           background: "",
           links: [linksGroup],
+          linktreeAddress: "",
         }}
         validationSchema={object({
           name: string().required("Full name is required"),
@@ -185,6 +346,10 @@ const CreateLinktree = () => {
             .min(5, "Bio is too short!")
             .max(400, "Bio is too Long")
             .required("A short bio is required"),
+          linktreeAddress: string()
+            .min(5, "Address is too short!")
+            .max(200, "Address is too Long")
+            .required("An address is required."),
           image: mixed().nullable().required("Upload a profile image"),
           links: array(
             object({
@@ -195,6 +360,8 @@ const CreateLinktree = () => {
                   /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
                   "Enter correct url!"
                 ),
+              key: string(),
+              isFavorite: boolean(),
             })
           )
             .min(1, "At least one link is required!")
@@ -207,32 +374,32 @@ const CreateLinktree = () => {
             <div>
               <Box mb={3}>
                 <Text>
-                  Full Name<span className='error'>*</span>
+                  Full Name<span className="error">*</span>
                 </Text>
                 <Field
-                  name='name'
-                  label='Full Name'
+                  name="name"
+                  label="Full Name"
                   as={Input}
-                  className='input-border'
+                  className="input-border"
                 />
-                <Text className='error'>
-                  <ErrorMessage name='name' />
+                <Text className="error">
+                  <ErrorMessage name="name" />
                 </Text>
               </Box>
 
               <div>
                 <Text>
-                  Short Bio<span className='error'>*</span>
+                  Short Bio<span className="error">*</span>
                 </Text>
                 <Field
-                  name='description'
-                  label='Bio'
+                  name="description"
+                  label="Bio"
                   as={Textarea}
-                  height='150px'
-                  className='input-border'
+                  height="150px"
+                  className="input-border"
                 />
-                <Text className='error'>
-                  <ErrorMessage name='description' />
+                <Text className="error">
+                  <ErrorMessage name="description" />
                 </Text>
               </div>
 
@@ -255,13 +422,13 @@ const CreateLinktree = () => {
                   marginTop: "30px",
                 }}
               >
-                <Field name='image'>
+                <Field name="image">
                   {({ form, field }) => {
                     const { setFieldValue } = form;
                     return (
                       <input
-                        type='file'
-                        className='form-control'
+                        type="file"
+                        className="form-control"
                         required
                         onChange={async (e) => {
                           setFiles(e.target.files);
@@ -273,18 +440,21 @@ const CreateLinktree = () => {
                     );
                   }}
                 </Field>
-                <Text className='error'>
-                  <ErrorMessage name='image' />
+                <Text className="error">
+                  <ErrorMessage name="image" />
                 </Text>
               </div>
             </div>
 
-            <FieldArray name='links'>
+            <FieldArray name="links">
               {({ push, remove }) => (
                 <div>
                   <div>
-                    <Text fontSize='2xl' mt={5}>
+                    <Text fontSize="2xl" mt={5}>
                       Add Social Links
+                    </Text>
+                    <Text fontSize="base" color={"#cacaf0"} mb={5}>
+                      Note — The first link will be marked as favorite
                     </Text>
                   </div>
                   {values.links.map((_, index) => (
@@ -296,52 +466,59 @@ const CreateLinktree = () => {
                     >
                       <Box w={{ base: "100%", md: "45%" }}>
                         <Text>
-                          Link Label<span className='error'>*</span>
+                          Link Label<span className="error">*</span>
                         </Text>
                         <Field
                           name={`links.${index}.label`}
-                          label='Link Name'
+                          label="Link Name"
                           as={Input}
-                          className='input-border'
+                          className="input-border"
                         />
-                        <Text className='error'>
-                          <ErrorMessage name={`links.${index}.label`} />
+
+                        <Text className="error">
+                        <ErrorMessage name={`links.${index}.label`}/>ㅤ
                         </Text>
                       </Box>
                       <Spacer />
                       <Box w={{ base: "100%", md: "45%" }}>
                         <Text>
-                          Link URL<span className='error'>*</span>
+                          Link URL<span className="error">*</span>
                         </Text>
                         <Field
-                          className='input-border'
+                          className="input-border"
                           name={`links.${index}.redirectUrl`}
-                          label='Link URL'
+                          label="Link URL"
                           as={Input}
                         />
-                        <Text className='error'>
-                          <ErrorMessage name={`links.${index}.redirectUrl`} />
+                        <Text className="error">
+                        <ErrorMessage name={`links.${index}.redirectUrl`}/>ㅤ
                         </Text>
                       </Box>
                       <Spacer />
                       {index === 0 ? (
                         <div>
-                          <IconButton
-                            isDisabled
-                            rounded='full'
-                            alignSelf={{ base: "flex-end", lg: "" }}
-                            marginTop='10px'
-                            icon={<DeleteIcon />}
-                            colorScheme='red'
-                          />
+                          <Tooltip
+                            placement="top"
+                            label="Marked as favorite"
+                            aria-label="A tooltip"
+                            hasArrow
+                            closeOnClick={false}
+                          >
+                            <Checkbox
+                              size={"lg"}
+                              marginTop="10px"
+                              isChecked={true}
+                              disabled
+                            />
+                          </Tooltip>
                         </div>
                       ) : (
                         <div>
                           <IconButton
-                            rounded='full'
+                            rounded="full"
                             icon={<DeleteIcon />}
-                            colorScheme='red'
-                            marginTop='10px'
+                            colorScheme="red"
+                            marginTop="10px"
                             alignSelf={{ base: "flex-end", lg: "" }}
                             onClick={() => remove(index)}
                           />
@@ -352,25 +529,54 @@ const CreateLinktree = () => {
                   <Button
                     mt={4}
                     leftIcon={<AddIcon />}
-                    color='var(--koii-white)'
-                    rounded='full'
-                    borderColor='var(--koii-white)'
-                    variant='outline'
+                    color="var(--koii-white)"
+                    rounded="full"
+                    borderColor="var(--koii-white)"
+                    variant="outline"
                     onClick={() => push(linksGroup)}
                   >
                     Add Link
                   </Button>
+
+     
+      
+
+                  <Box mt={10}>
+                    <Text fontSize='2xl' mt={5}>
+                      Linktree Username
+                    </Text>
+
+                    <Box
+                      display='flex'
+                      alignItems='center'
+                      justifyContent='center'
+                    >
+                      <Text fontSize='m' mr={2}>
+                        linktree.koii.network/
+                      </Text>
+                      <Field
+                        name='linktreeAddress'
+                        label='Linktree Address'
+                        as={Input}
+                        className='input-border'
+                      />
+                    </Box>
+
+                    <Text className='error'>
+                      <ErrorMessage name='linktreeAddress' />
+                    </Text>
+                  </Box>
                 </div>
               )}
             </FieldArray>
 
             <Button
-              w='full'
-              rounded='full'
-              color='var(--koii-blue)'
-              bg='var(--koii-white)'
+              w="full"
+              rounded="full"
+              color="var(--koii-blue)"
+              bg="var(--koii-white)"
               my={10}
-              type='submit'
+              type="submit"
             >
               {isLoading ? <Spinner /> : "Submit"}
             </Button>
