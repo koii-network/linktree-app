@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Formik, ErrorMessage, Field, FieldArray } from "formik";
-import { array, object, string, mixed } from "yup";
+import { array, object, string, mixed, boolean } from "yup";
 import { Web3Storage } from "web3.storage";
 import {
   Box,
@@ -21,6 +21,8 @@ import {
   Heading,
   Divider,
   ButtonGroup,
+  Checkbox,
+  Tooltip,
 } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
@@ -45,8 +47,8 @@ const PreviewImage = ({ file }) => {
   };
 
   return (
-    <Box mt={5} display='flex' justifyContent='center'>
-      <img src={preview} alt='User' className='user-image' />
+    <Box mt={5} display="flex" justifyContent="center">
+      <img src={preview} alt="User" className="user-image" />
     </Box>
   );
 };
@@ -79,7 +81,7 @@ const CreateLinktree = () => {
     }
   }
 
-  const linksGroup = { label: "", redirectUrl: "", key: "" };
+  const linksGroup = { label: "", redirectUrl: "", key: "", isFavorite: false };
   const toast = useToast();
   const navigate = useNavigate();
   const { publicKey, apiUrl } = useWalletContext();
@@ -100,9 +102,10 @@ const CreateLinktree = () => {
   };
 
   const insertKey = (links) => {
-    return links.map((item) => {
+    return links.map((item, index) => {
       return {
         ...item,
+        isFavorite: index === 0 ? true : false,
         key: uuid(),
       };
     });
@@ -201,7 +204,7 @@ const CreateLinktree = () => {
   };
 
   return (
-    <Box py={{ base: "8rem", md: "5rem" }} px={8} className='createLinktree'>
+    <Box py={{ base: "8rem", md: "5rem" }} px={8} className="createLinktree">
       <Text
         fontSize={{ base: "3xl", md: "4xl" }}
         fontWeight={{ base: "bold", md: "normal" }}
@@ -356,6 +359,8 @@ const CreateLinktree = () => {
                   /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
                   "Enter correct url!"
                 ),
+              key: string(),
+              isFavorite: boolean(),
             })
           )
             .min(1, "At least one link is required!")
@@ -368,32 +373,32 @@ const CreateLinktree = () => {
             <div>
               <Box mb={3}>
                 <Text>
-                  Full Name<span className='error'>*</span>
+                  Full Name<span className="error">*</span>
                 </Text>
                 <Field
-                  name='name'
-                  label='Full Name'
+                  name="name"
+                  label="Full Name"
                   as={Input}
-                  className='input-border'
+                  className="input-border"
                 />
-                <Text className='error'>
-                  <ErrorMessage name='name' />
+                <Text className="error">
+                  <ErrorMessage name="name" />
                 </Text>
               </Box>
 
               <div>
                 <Text>
-                  Short Bio<span className='error'>*</span>
+                  Short Bio<span className="error">*</span>
                 </Text>
                 <Field
-                  name='description'
-                  label='Bio'
+                  name="description"
+                  label="Bio"
                   as={Textarea}
-                  height='150px'
-                  className='input-border'
+                  height="150px"
+                  className="input-border"
                 />
-                <Text className='error'>
-                  <ErrorMessage name='description' />
+                <Text className="error">
+                  <ErrorMessage name="description" />
                 </Text>
               </div>
 
@@ -416,13 +421,13 @@ const CreateLinktree = () => {
                   marginTop: "30px",
                 }}
               >
-                <Field name='image'>
+                <Field name="image">
                   {({ form, field }) => {
                     const { setFieldValue } = form;
                     return (
                       <input
-                        type='file'
-                        className='form-control'
+                        type="file"
+                        className="form-control"
                         required
                         onChange={async (e) => {
                           setFiles(e.target.files);
@@ -434,18 +439,21 @@ const CreateLinktree = () => {
                     );
                   }}
                 </Field>
-                <Text className='error'>
-                  <ErrorMessage name='image' />
+                <Text className="error">
+                  <ErrorMessage name="image" />
                 </Text>
               </div>
             </div>
 
-            <FieldArray name='links'>
+            <FieldArray name="links">
               {({ push, remove }) => (
                 <div>
                   <div>
-                    <Text fontSize='2xl' mt={5}>
+                    <Text fontSize="2xl" mt={5}>
                       Add Social Links
+                    </Text>
+                    <Text fontSize="base" color={"#cacaf0"} mb={5}>
+                      Note — The first link will be marked as favorite
                     </Text>
                   </div>
                   {values.links.map((_, index) => (
@@ -457,52 +465,59 @@ const CreateLinktree = () => {
                     >
                       <Box w={{ base: "100%", md: "45%" }}>
                         <Text>
-                          Link Label<span className='error'>*</span>
+                          Link Label<span className="error">*</span>
                         </Text>
                         <Field
                           name={`links.${index}.label`}
-                          label='Link Name'
+                          label="Link Name"
                           as={Input}
-                          className='input-border'
+                          className="input-border"
                         />
-                        <Text className='error'>
+
+                        <Text className="error">
                           <ErrorMessage name={`links.${index}.label`} />
                         </Text>
                       </Box>
                       <Spacer />
                       <Box w={{ base: "100%", md: "45%" }}>
                         <Text>
-                          Link URL<span className='error'>*</span>
+                          Link URL<span className="error">*</span>
                         </Text>
                         <Field
-                          className='input-border'
+                          className="input-border"
                           name={`links.${index}.redirectUrl`}
-                          label='Link URL'
+                          label="Link URL"
                           as={Input}
                         />
-                        <Text className='error'>
+                        <Text className="error">
                           <ErrorMessage name={`links.${index}.redirectUrl`} />
                         </Text>
                       </Box>
                       <Spacer />
                       {index === 0 ? (
                         <div>
-                          <IconButton
-                            isDisabled
-                            rounded='full'
-                            alignSelf={{ base: "flex-end", lg: "" }}
-                            marginTop='10px'
-                            icon={<DeleteIcon />}
-                            colorScheme='red'
-                          />
+                          <Tooltip
+                            placement="top"
+                            label="Marked as favorite"
+                            aria-label="A tooltip"
+                            hasArrow
+                            closeOnClick={false}
+                          >
+                            <Checkbox
+                              size={"lg"}
+                              marginTop="10px"
+                              isChecked={true}
+                              disabled
+                            />
+                          </Tooltip>
                         </div>
                       ) : (
                         <div>
                           <IconButton
-                            rounded='full'
+                            rounded="full"
                             icon={<DeleteIcon />}
-                            colorScheme='red'
-                            marginTop='10px'
+                            colorScheme="red"
+                            marginTop="10px"
                             alignSelf={{ base: "flex-end", lg: "" }}
                             onClick={() => remove(index)}
                           />
@@ -513,10 +528,10 @@ const CreateLinktree = () => {
                   <Button
                     mt={4}
                     leftIcon={<AddIcon />}
-                    color='var(--koii-white)'
-                    rounded='full'
-                    borderColor='var(--koii-white)'
-                    variant='outline'
+                    color="var(--koii-white)"
+                    rounded="full"
+                    borderColor="var(--koii-white)"
+                    variant="outline"
                     onClick={() => push(linksGroup)}
                   >
                     Add Link
@@ -552,12 +567,12 @@ const CreateLinktree = () => {
             </FieldArray>
 
             <Button
-              w='full'
-              rounded='full'
-              color='var(--koii-blue)'
-              bg='var(--koii-white)'
+              w="full"
+              rounded="full"
+              color="var(--koii-blue)"
+              bg="var(--koii-white)"
               my={10}
-              type='submit'
+              type="submit"
             >
               {isLoading ? <Spinner /> : "Submit"}
             </Button>
