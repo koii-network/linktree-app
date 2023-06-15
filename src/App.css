@@ -366,3 +366,40 @@ p {
 .animate {
   animation: scaleAnimation 1s infinite;
 }
+
+
+.link-container {
+  position: relative;
+}
+
+.link-container {
+  position: relative;
+}
+
+.link-container:hover .hover-div {
+  display: block;
+}
+
+.hover-div {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 400px;
+  padding: 5px;
+  z-index: 1;
+  top: -150px;
+  right: -500px;
+  transform: translateX(100%);
+  animation: slide-in 0.3s forwards;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

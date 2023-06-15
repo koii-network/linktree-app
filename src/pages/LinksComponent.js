@@ -184,28 +184,31 @@ function LinksComponent() {
 
                 <div className="links">
                   {userData?.links?.map((link, index) => (
-                    <a
-                      className={`link ${index === 0 ? "animate" : ""}`}
-                      key={index}
-                      href={link?.redirectUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ fontSize: index === 0 ? "20px" : "inherit" }}
-                    >
-                      {link.label}
-                    </a>
+                    <div className="link-container">
+                      <a
+                        className={`link ${index === 0 ? "animate" : ""}`}
+                        key={index}
+                        href={link?.redirectUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ fontSize: index === 0 ? "20px" : "inherit" }}
+                      >
+                        {link.label}
+                      </a>
+                      {link?.redirectUrl.startsWith("https://twitter.com/") && (
+                          <div className="hover-div">
+                          <TwitterTimelineEmbed
+                            sourceType="profile"
+                            screenName={link.redirectUrl.split("/").pop()}
+                            options={{ height: 400, width: 400 }}
+                          />
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
-                <div>
-                <TwitterTimelineEmbed
-                  sourceType="profile"
-                  screenName="saurabhnemade"
-                  options={{ height: 400, width: 400 }}
-                />
-                </div>
-       
 
-
+              
 
                 {publicKey && (
                   <p>
