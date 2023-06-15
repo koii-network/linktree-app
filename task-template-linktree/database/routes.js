@@ -45,8 +45,10 @@ router.post('/linktree', async (req, res) => {
   } catch (e) {
     console.log(e);
   }
-  if (!linktree.publicKey && !linktree.signature) {
-    res.status(400).json({ error: 'Missing publicKey or signature' });
+  if (!linktree.publicKey && !linktree.signature && !linktree.username) {
+    res
+      .status(400)
+      .json({ error: 'Missing publicKey or signature or linktree username' });
     return;
   } else {
     // log the pubkey of the payload
@@ -85,6 +87,12 @@ router.post('/linktree', async (req, res) => {
     .send({ message: 'Proof and linktree registered successfully' });
 });
 
+router.delete('/linktree/:publicKey', async (req, res) => {
+  const { publicKey } = req.params;
+  let linktree = await db.deleteLinktree(publicKey);
+  return res.status(200).send(publicKey);
+});
+
 router.get('/logs', async (req, res) => {
   const logs = fs.readFileSync('./namespace/logs.txt', 'utf8');
   res.status(200).send(logs);
@@ -97,6 +105,12 @@ router.get('/linktree/get', async (req, res) => {
 router.get('/linktree/get/:publicKey', async (req, res) => {
   const { publicKey } = req.params;
   let linktree = await db.getLinktree(publicKey);
+  linktree = linktree || '[]';
+  return res.status(200).send(linktree);
+});
+router.get('/linktree/get/username/:username', async (req, res) => {
+  const { username } = req.params;
+  let linktree = await db.getLinktreeWithUsername(username);
   linktree = linktree || '[]';
   return res.status(200).send(linktree);
 });

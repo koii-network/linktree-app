@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useToast, Box, Spinner } from "@chakra-ui/react";
-import { getLinktree } from "../api";
+import { useToast, Box, Spinner, IconButton, Tooltip } from "@chakra-ui/react";
+import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
+import { getLinktree, deleteLinktree } from "../api";
 import { useWalletContext } from "../contexts";
 
 function LinksComponent() {
@@ -15,6 +16,8 @@ function LinksComponent() {
   const [userData, setUserData] = useState({});
 
   const { publicKey, apiUrl, nodeList } = useWalletContext();
+
+  const isProfileOwner = query === publicKey;
 
   useEffect(() => {
     async function getUserData() {
@@ -42,8 +45,34 @@ function LinksComponent() {
     }
     getData();
   }, [query, publicKey, toast, navigate, apiUrl, nodeList]);
+
+  const handleDeleteLinktree = async () => {
+    if (publicKey) {
+      try {
+        await deleteLinktree(apiUrl, publicKey);
+        toast({
+          title: "Linktree profile deleted successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      } catch {
+        toast({
+          title: "Error deleting Linktree profile",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+    }
+  };
   return (
-    <div className='container'>
+    <Box className='container' position='relative'>
       <Box
         minHeight='70vh'
         width='100%'
@@ -63,7 +92,36 @@ function LinksComponent() {
             <Spinner height='50px' width='50px' />
           </Box>
         ) : (
-          <>
+          <Box
+            width='100%'
+            display='flex'
+            alignItems='center'
+            flexDirection='column'
+          >
+            {isProfileOwner && (
+              <Box
+                position='absolute'
+                top={{ base: "20px", md: "30px" }}
+                left={{ base: "20px", md: "-5%" }}
+              >
+                <Tooltip
+                  hasArrow
+                  label='Delete Your Linktree Profile'
+                  bg='#ecfffe'
+                  fontSize='sm'
+                  color='#171753'
+                >
+                  <IconButton
+                    rounded='full'
+                    alignSelf={{ base: "flex-end", lg: "" }}
+                    marginTop='10px'
+                    icon={<DeleteIcon />}
+                    colorScheme='red'
+                    onClick={handleDeleteLinktree}
+                  />
+                </Tooltip>
+              </Box>
+            )}
             {userData && (
               <>
                 {userData?.image && (
@@ -101,7 +159,7 @@ function LinksComponent() {
               </>
             )}
             {!userData && !isLoading && <p>{noProfileText}</p>}
-          </>
+          </Box>
         )}
       </Box>
       <div className='footer'>
@@ -110,7 +168,7 @@ function LinksComponent() {
           Koii Network
         </a>
       </div>
-    </div>
+    </Box>
   );
 }
 
