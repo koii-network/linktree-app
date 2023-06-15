@@ -476,7 +476,7 @@ const CreateLinktree = () => {
                         />
 
                         <Text className="error">
-                          <ErrorMessage name={`links.${index}.label`} />
+                        <ErrorMessage name={`links.${index}.label`}/>ㅤ
                         </Text>
                       </Box>
                       <Spacer />
@@ -491,7 +491,7 @@ const CreateLinktree = () => {
                           as={Input}
                         />
                         <Text className="error">
-                          <ErrorMessage name={`links.${index}.redirectUrl`} />
+                        <ErrorMessage name={`links.${index}.redirectUrl`}/>ㅤ
                         </Text>
                       </Box>
                       <Spacer />
@@ -537,6 +537,9 @@ const CreateLinktree = () => {
                   >
                     Add Link
                   </Button>
+
+     
+      
 
                   <Box mt={10}>
                     <Text fontSize='2xl' mt={5}>
