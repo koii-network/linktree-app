@@ -31,6 +31,9 @@ import { setLinktree } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 
+document.documentElement.setAttribute("data-theme", "dark");
+
+
 function makeStorageClient() {
   return new Web3Storage({
     token: process.env.REACT_APP_WEB3STORAGE_TOKEN,
@@ -58,11 +61,8 @@ const CreateLinktree = () => {
   const [files, setFiles] = useState(null);
   const [imageName, setImageName] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [choosenTheme, setChoosenTheme] = useState("Mint");
+  const [choosenTheme, setChoosenTheme] = useState("Dark");
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", "mint");
-  }, []);
 
   function handleThemeSelection(theme) {
     setChoosenTheme(theme);
@@ -222,38 +222,7 @@ const CreateLinktree = () => {
       </Text>
       <Flex color='white'>
         <>
-          <Card
-            className='card'
-            maxW='sm'
-            marginRight='20px'
-            backgroundColor='#C7F2EF'
-            color='black'
-            outline={choosenTheme === "Mint" ? "3px solid black" : undefined}
-          >
-            <CardBody>
-              <Image borderRadius='10px' src='/images/Koii-Mint.png' />
-              <Stack mt='6' spacing='3'>
-                <Heading size='md'>Koii Mint</Heading>
-                <Text>The default one.</Text>
-              </Stack>
-            </CardBody>
-            <CardFooter>
-              <ButtonGroup spacing='2'>
-                <Button
-                  variant='solid'
-                  backgroundColor='#8989C7'
-                  borderRadius='5px'
-                  onClick={() => handleThemeSelection("Mint")}
-                >
-                  Choose
-                </Button>
-              </ButtonGroup>
-            </CardFooter>
-          </Card>
-
-          <br />
-
-          <Card
+        <Card
             className='card'
             maxW='sm'
             marginRight='20px'
@@ -285,6 +254,38 @@ const CreateLinktree = () => {
               </ButtonGroup>
             </CardFooter>
           </Card>
+          <br />
+          <Card
+            className='card'
+            maxW='sm'
+            marginRight='20px'
+            backgroundColor='#C7F2EF'
+            color='black'
+            outline={choosenTheme === "Mint" ? "3px solid black" : undefined}
+          >
+            <CardBody>
+              <Image borderRadius='10px' src='/images/Koii-Mint.png' />
+              <Stack mt='6' spacing='3'>
+                <Heading size='md'>Koii Mint</Heading>
+                <Text>A refreshing breeze.</Text>
+              </Stack>
+            </CardBody>
+            <CardFooter>
+              <ButtonGroup spacing='2'>
+                <Button
+                  variant='solid'
+                  backgroundColor='#8989C7'
+                  borderRadius='5px'
+                  onClick={() => handleThemeSelection("Mint")}
+                >
+                  Choose
+                </Button>
+              </ButtonGroup>
+            </CardFooter>
+          </Card>
+
+          
+
 
           <br />
 
