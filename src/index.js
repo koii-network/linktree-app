@@ -9,7 +9,6 @@ import "@rainbow-me/rainbowkit/styles.css";
 import CreateLinktree from "./pages/CreateLinktree";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import ToggleThemeMode from "./ToggleThemeMode";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +29,7 @@ ReactDOM.render(
   <React.StrictMode>
     <WalletContextProvider>
       <ChakraProvider>
-        <ToggleThemeMode />
+
         <RouterProvider router={router} />
       </ChakraProvider>
     </WalletContextProvider>

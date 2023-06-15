@@ -49,12 +49,13 @@ p {
   border: 1px solid var(--koii-white);
   border-radius: 50px;
   padding: 1.5rem;
-  color: var(--koii-white);
+  color: var(--koii-button-white);
   font-size: 20px;
   cursor: pointer;
   font-weight: bold;
   transition: transform 0.3s ease-in-out, background 0.3s ease-in-out,
     color 0.3s ease-in-out;
+  min-width: 200px;
 }
 
 .connect-wallet-button:hover {
@@ -138,7 +139,7 @@ p {
 }
 
 .public-key-input-container {
-  padding-top: 10rem;
+  padding-top: 5rem;
 }
 
 .input-container {
@@ -273,5 +274,79 @@ p {
   .links,
   .user-desc {
     width: 80%;
+  }
+}
+
+.card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.psuedoBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.05;
+  background-color: blue;
+  z-index: -1;
+}
+
+#animated-image-container {
+  perspective: 1000px;
+  max-width: 300px;
+  width: 200px;
+  margin-bottom: 2rem;
+
+  border-radius: 30px;
+}
+
+#animated-image-frame {
+  transition: transform 0.5s;
+  width: 100%;
+  height: auto;
+  border: 3px solid black;
+  border-radius: 30px;
+}
+
+@keyframes rotateAnimation {
+  0% {
+    transform: rotateY(0deg) translateZ(0px);
+  }
+  100% {
+    transform: rotateY(360deg) translateZ(0px);
+  }
+}
+
+#animated-image-frame {
+  animation: rotateAnimation 3000ms linear infinite;
+}
+
+
+.typewriterText {
+  overflow: hidden; /* Ensures the text doesn't overflow the container */
+  white-space: nowrap; /* Keeps the text in a single line */
+  animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: black;
   }
 }

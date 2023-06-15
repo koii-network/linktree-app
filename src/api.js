@@ -13,6 +13,15 @@ export async function getLinktrees(apiUrl) {
   }
 }
 
+export async function deleteLinktree(apiUrl, publicKey) {
+  try {
+    const res = await axios.delete(`${apiUrl}/linktree/${publicKey}`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
   const res = await axios.get(`${backUpNodeList[0]}/linktree/get/${publicKey}`);
   if (!res.data) {
@@ -40,7 +49,7 @@ export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
 
 export async function allLinktrees() {
   const res = await axios.get(
-    `https://tasknet.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ/linktree/list`
+    `https://tasknet.koii.live/task/DyzjHaJe4KVUQJBCrW1bgmXB79ovAjSQGDYDKV8BiRL5/linktree/list`
   );
   if (res.data) {
     const total = res.data.length;
@@ -89,13 +98,14 @@ export async function getLinktree(publicKey, nodeList) {
   return false;
 }
 
-export async function setLinktree(data, publicKey, apiUrl) {
+export async function setLinktree(data, publicKey, apiUrl, username) {
   const messageString = JSON.stringify(data);
   const signatureRaw = await window.k2.signMessage(messageString);
   const payload = {
     data,
     publicKey: publicKey,
     signature: bs58.encode(signatureRaw.signature),
+    username,
   };
   try {
     const res = await axios.post(`${apiUrl}/linktree`, {

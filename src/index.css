@@ -13,26 +13,67 @@
   --background-image-sm: url("/public/images/Phone L.svg");
 }
 
+[data-theme="neutral"] {
+  --koii-blue: #ecfffe;
+  --koii-mint: #5ed9d1;
+  --koii-white: #171753;
+  --koii-button-white: #171753;
+  --koii-mint: #8989c7;
+  --background-image: url("");
+  --background-image-md: url("");
+  --background-image-sm: url("");
+}
+
 [data-theme="dark"] {
   --koii-blue: #171753;
   --koii-white: #ecfffe;
+  --koii-button-white: #171753;
   --koii-mint: #5ed9d1;
   --background-image: url("/public/images/DesktopD (1).svg");
   --background-image-md: url("/public/images/DesktopD (2).svg");
   --background-image-sm: url("/public/images/Phone D.svg");
 }
 
+@keyframes gradient {
+  0% {
+    background-position: 15% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 15% 50%;
+  }
+}
+
+[data-theme="gradient"] {
+  --koii-blue: #171753;
+  --koii-white: #ecfffe;
+  --koii-button-white: #ecfffe;
+  --koii-mint: #5ed9d1;
+  --background-image: linear-gradient(
+    43deg,
+    rgb(65, 88, 208) 0%,
+    rgb(200, 80, 192) 66%,
+    rgb(255, 204, 112) 100%
+  );
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --animation: 10s ease 0s infinite normal none running gradient;
+  --background-size: 150% 150%;
+}
+
 body {
   margin: 0;
   font-family: "Sora", sans-serif !important;
   overflow-x: hidden;
-  min-width: 100vw;
-  min-height: 100vh;
+  min-width: 100vw !important;
+  min-height: 100vh !important;
   background-image: var(--background-image) !important;
-  background-position: center !important;
-  background-size: cover !important;
+  background-size: var(--background-size, cover) !important;
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
+  animation: var(--animation) !important;
   color: var(--koii-white) !important;
   display: flex;
   justify-content: center;
@@ -108,14 +149,16 @@ input[type="file"]:focus::file-selector-button {
 }
 
 @media screen and (max-width: 800px) {
-  body {
+  body[data-theme="dark"],
+  body[data-theme="light"] {
     background-image: var(--background-image-md) !important;
     background-position: bottom !important;
   }
 }
 
 @media screen and (max-width: 700px) {
-  body {
+  body[data-theme="dark"],
+  body[data-theme="light"] {
     background-image: var(--background-image-sm) !important;
     background-position: top !important;
   }
