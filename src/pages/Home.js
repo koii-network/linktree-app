@@ -95,10 +95,10 @@ const HomePage = () => {
                 position: "top",
               });
               setLocalpk(pubKey);
-              // setTimeout(() => {
-              //   navigate(`linktree/${pubKey}`);
-              // }, 2000);
-              setIsLogged(true);
+              setTimeout(() => {
+                 navigate(`linktree/${pubKey}`);
+               }, 2000);
+              //setIsLogged(true);
             } else {
               toast({
                 title: "Error fetching Linktree data",
