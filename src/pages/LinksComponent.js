@@ -6,6 +6,20 @@ import { DeleteIcon, AddIcon, SettingsIcon } from "@chakra-ui/icons";
 import { getLinktree, deleteLinktree } from "../api";
 import { useWalletContext } from "../contexts";
 
+function themeApplier(userTheme) {
+  switch (userTheme) {
+    case "Gradient":
+      document.documentElement.setAttribute("data-theme", "gradient");
+    break;
+    case "Mint":
+      document.documentElement.setAttribute("data-theme", "mint");
+    break;
+    case "Dark":
+      document.documentElement.setAttribute("data-theme", "dark");
+    break;
+  }
+}
+
 function LinksComponent() {
   const [isLoading, setIsLoading] = useState(true);
   const [noProfileText, setNoProfileText] = useState("");
@@ -18,6 +32,13 @@ function LinksComponent() {
   const { publicKey, apiUrl, nodeList } = useWalletContext();
 
   const isProfileOwner = query === publicKey;
+
+  useEffect(() => {
+    themeApplier(userData?.theme);
+  }, [userData]); // Add userData as a dependency
+    
+
+
 
   useEffect(() => {
     async function getUserData() {
