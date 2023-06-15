@@ -5,18 +5,19 @@ import { useToast, Box, Spinner, IconButton, Tooltip } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon, SettingsIcon } from "@chakra-ui/icons";
 import { getLinktree, deleteLinktree } from "../api";
 import { useWalletContext } from "../contexts";
+import { TwitterTimelineEmbed } from "react-twitter-embed";
 
 function themeApplier(userTheme) {
   switch (userTheme) {
     case "Gradient":
       document.documentElement.setAttribute("data-theme", "gradient");
-    break;
+      break;
     case "Mint":
       document.documentElement.setAttribute("data-theme", "mint");
-    break;
+      break;
     case "Dark":
       document.documentElement.setAttribute("data-theme", "dark");
-    break;
+      break;
   }
 }
 
@@ -36,9 +37,6 @@ function LinksComponent() {
   useEffect(() => {
     themeApplier(userData?.theme);
   }, [userData]); // Add userData as a dependency
-    
-
-
 
   useEffect(() => {
     async function getUserData() {
@@ -94,85 +92,83 @@ function LinksComponent() {
   };
 
   function handleEditLinktree() {
-
-      navigate("/createlinktree");
-
+    navigate("/createlinktree");
   }
   return (
-    <Box className='container' position='relative'>
+    <Box className="container" position="relative">
       <Box
-        minHeight='70vh'
-        width='100%'
-        display='flex'
-        flexDirection='column'
-        alignItems='center'
-        justifyItems='center'
+        minHeight="70vh"
+        width="100%"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyItems="center"
       >
         {isLoading ? (
           <Box
-            height='100%'
-            display='flex'
-            flexDirection='column'
-            alignItems='center'
-            justifyItems='center'
+            height="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyItems="center"
           >
-            <Spinner height='50px' width='50px' />
+            <Spinner height="50px" width="50px" />
           </Box>
         ) : (
           <Box
-            width='100%'
-            display='flex'
-            alignItems='center'
-            flexDirection='column'
+            width="100%"
+            display="flex"
+            alignItems="center"
+            flexDirection="column"
           >
             {isProfileOwner && (
               <>
-              <Box
-                position='absolute'
-                top={{ base: "20px", md: "30px" }}
-                left={{ base: "20px", md: "-5%" }}
-              >
-                <Tooltip
-                  hasArrow
-                  label='Delete Your Linktree Profile'
-                  bg='#ecfffe'
-                  fontSize='sm'
-                  color='#171753'
+                <Box
+                  position="absolute"
+                  top={{ base: "20px", md: "30px" }}
+                  left={{ base: "20px", md: "-5%" }}
                 >
-                  <IconButton
-                    rounded='full'
-                    alignSelf={{ base: "flex-end", lg: "" }}
-                    marginTop='10px'
-                    icon={<DeleteIcon />}
-                    colorScheme='red'
-                    onClick={handleDeleteLinktree}
-                  />
-                </Tooltip>
-              </Box>
+                  <Tooltip
+                    hasArrow
+                    label="Delete Your Linktree Profile"
+                    bg="#ecfffe"
+                    fontSize="sm"
+                    color="#171753"
+                  >
+                    <IconButton
+                      rounded="full"
+                      alignSelf={{ base: "flex-end", lg: "" }}
+                      marginTop="10px"
+                      icon={<DeleteIcon />}
+                      colorScheme="red"
+                      onClick={handleDeleteLinktree}
+                    />
+                  </Tooltip>
+                </Box>
 
-<Box
-position='absolute'
-top={{ base: "20px", md: "30px" }}
-right={{ base: "20px", md: "-5%" }}
->
-<Tooltip
-  hasArrow
-  label='Edit Your Linktree Profile'
-  bg='#ecfffe'
-  fontSize='sm'
-  color='#171753'
->
-  <IconButton
-    rounded='full'
-    alignSelf={{ base: "flex-end", lg: "" }}
-    marginTop='10px'
-    icon={<SettingsIcon />}
-    colorScheme='blue'
-    onClick={handleEditLinktree}
-  />
-</Tooltip>
-</Box>
-</>
+                <Box
+                  position="absolute"
+                  top={{ base: "20px", md: "30px" }}
+                  right={{ base: "20px", md: "-5%" }}
+                >
+                  <Tooltip
+                    hasArrow
+                    label="Edit Your Linktree Profile"
+                    bg="#ecfffe"
+                    fontSize="sm"
+                    color="#171753"
+                  >
+                    <IconButton
+                      rounded="full"
+                      alignSelf={{ base: "flex-end", lg: "" }}
+                      marginTop="10px"
+                      icon={<SettingsIcon />}
+                      colorScheme="blue"
+                      onClick={handleEditLinktree}
+                    />
+                  </Tooltip>
+                </Box>
+              </>
             )}
             {userData && (
               <>
@@ -180,32 +176,42 @@ right={{ base: "20px", md: "-5%" }}
                   <img
                     src={userData?.image}
                     alt={userData?.name}
-                    className='user-image'
+                    className="user-image"
                   />
                 )}
-                <p className='user-name'> {userData?.name} </p>
-                <p className='user-desc'>{userData?.description}</p>
-                <div className='links'>
-                {userData?.links?.map((link, index) => (
-  <a
-    className={`link ${index === 0 ? 'animate' : ''}`}
-    key={index}
-    href={link?.redirectUrl}
-    target='_blank'
-    rel='noopener noreferrer'
-    style={{ fontSize: index === 0 ? '20px' : 'inherit' }}
-  >
-    {link.label}
-  </a>
-))}
+                <p className="user-name"> {userData?.name} </p>
+                <p className="user-desc">{userData?.description}</p>
 
-
+                <div className="links">
+                  {userData?.links?.map((link, index) => (
+                    <a
+                      className={`link ${index === 0 ? "animate" : ""}`}
+                      key={index}
+                      href={link?.redirectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontSize: index === 0 ? "20px" : "inherit" }}
+                    >
+                      {link.label}
+                    </a>
+                  ))}
                 </div>
+                <div>
+                <TwitterTimelineEmbed
+                  sourceType="profile"
+                  screenName="saurabhnemade"
+                  options={{ height: 400, width: 400 }}
+                />
+                </div>
+       
+
+
+
                 {publicKey && (
                   <p>
                     <a
                       href={`https://linktree.koii.network/linktree/${publicKey}`}
-                      className='displayLink'
+                      className="displayLink"
                     >
                       Your linktree profile Link
                     </a>
@@ -217,9 +223,9 @@ right={{ base: "20px", md: "-5%" }}
           </Box>
         )}
       </Box>
-      <div className='footer'>
+      <div className="footer">
         Linktree by{" "}
-        <a href='https://www.koii.network/' className='by-koii'>
+        <a href="https://www.koii.network/" className="by-koii">
           Koii Network
         </a>
       </div>
