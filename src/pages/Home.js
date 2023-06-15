@@ -182,6 +182,7 @@ const HomePage = () => {
           setIsMobile(false);
         }
       }
+      handleResize();
   
       window.addEventListener('resize', handleResize);
   
@@ -354,12 +355,12 @@ const HomePage = () => {
                   stakepotaccountuQLBn4bsxKgSLedRTxsnZUQ9aCBR by clicking the
                   button below to create and access linktree profiles:{" "}
                 </Text>
-                <button
+                <Button
                   onClick={handleTransferKoii}
                   className='connect-wallet-button'
                 >
                   Transfer Koii
-                </button>
+                </Button>
               </>
             )}
           </div>
