@@ -247,7 +247,7 @@ const HomePage = () => {
                       Welcome to
                     </Text>
                     <Text
-                      marginBottom='30px'
+                      marginBottom='10px'
                       fontSize='24px'
                       textAlign='center'
                       maxWidth='600px'
@@ -257,6 +257,18 @@ const HomePage = () => {
                     >
                       Koii Linktree
                     </Text>
+                    <Text
+                          className="typewriterText"
+                          marginBottom='20px'
+                          fontSize='14px'
+                          textAlign='center'
+                          maxWidth='600px'
+                          fontFamily='Sora, sans-serif'
+                          fontWeight='300'
+                         >
+                        The first community powered linktree
+                        </Text>
+
                     <div id='animated-image-container'>
                       <img
                         id='animated-image-frame'
@@ -302,7 +314,7 @@ const HomePage = () => {
                           Welcome to
                         </Text>
                         <Text
-                          marginBottom='30px'
+                          marginBottom='10px'
                           fontSize='64px'
                           textAlign='center'
                           maxWidth='600px'
@@ -312,6 +324,18 @@ const HomePage = () => {
                         >
                           Koii Linktree
                         </Text>
+                        <Text
+                          marginBottom='20px'
+                          fontSize='22px'
+                          textAlign='center'
+                          maxWidth='600px'
+                          fontFamily='Sora, sans-serif'
+                          fontWeight='300'
+                          className="typewriterText"
+                         >
+                        The first community powered linktree
+                        </Text>
+                        
                         <Button
                           onClick={handleConnectFinnie}
                           className='connect-wallet-button'

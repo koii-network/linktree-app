@@ -31,6 +31,9 @@ import { setLinktree } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 
+document.documentElement.setAttribute("data-theme", "dark");
+
+
 function makeStorageClient() {
   return new Web3Storage({
     token: process.env.REACT_APP_WEB3STORAGE_TOKEN,
@@ -60,9 +63,6 @@ const CreateLinktree = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [choosenTheme, setChoosenTheme] = useState("Dark");
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", "dark");
-  }, []);
 
   function handleThemeSelection(theme) {
     setChoosenTheme(theme);
