@@ -377,7 +377,9 @@ p {
 }
 
 .link-container:hover .hover-div {
-  display: block;
+
+  display: flex;
+  justify-content: center;
 }
 
 .hover-div {
@@ -391,6 +393,7 @@ p {
   right: -500px;
   transform: translateX(100%);
   animation: slide-in 0.3s forwards;
+
 }
 
 @keyframes slide-in {

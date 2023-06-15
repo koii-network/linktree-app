@@ -6,6 +6,8 @@ import { DeleteIcon, AddIcon, SettingsIcon } from "@chakra-ui/icons";
 import { getLinktree, deleteLinktree } from "../api";
 import { useWalletContext } from "../contexts";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
+import { LinkedInEmbed, YouTubeEmbed } from 'react-social-media-embed';
+
 
 function themeApplier(userTheme) {
   switch (userTheme) {
@@ -196,7 +198,7 @@ function LinksComponent() {
                         {link.label}
                       </a>
                       {link?.redirectUrl.startsWith("https://twitter.com/") && (
-                          <div className="hover-div">
+                        <div className="hover-div">
                           <TwitterTimelineEmbed
                             sourceType="profile"
                             screenName={link.redirectUrl.split("/").pop()}
@@ -204,11 +206,29 @@ function LinksComponent() {
                           />
                         </div>
                       )}
+
+                      {link?.redirectUrl.startsWith("https://youtube.com/") && (
+                        <div className="hover-div">
+                  <YouTubeEmbed url="https://www.youtube.com/watch?v=HpVOs5imUN0" width={325} height={220} />
+                        </div>
+                      )}
+
+                      {link?.redirectUrl.startsWith("https://linkedin.com/") && (
+                        <div className="hover-div">
+                <LinkedInEmbed 
+                  url="https://www.linkedin.com/embed/feed/update/urn:li:share:6898694772484112384"
+                  postUrl="https://www.linkedin.com/posts/peterdiamandis_5-discoveries-the-james-webb-telescope-will-activity-6898694773406875648-z-D7"
+                  width={400}
+                  height={400} 
+                />
+                        </div>
+                      )}
+                      <div
+                        style={{ display: "flex", justifyContent: "center" }}
+                      ></div>
                     </div>
                   ))}
                 </div>
-
-              
 
                 {publicKey && (
                   <p>
