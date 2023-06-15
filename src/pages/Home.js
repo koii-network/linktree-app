@@ -330,7 +330,7 @@ const HomePage = () => {
                   maxWidth='600px'
                 >
                   Transfer 10 Koii to
-                  stakepotaccount2YjJnz34eyunRGBNrAFdMM4Rmwop by clicking the
+                  stakepotaccountuQLBn4bsxKgSLedRTxsnZUQ9aCBR by clicking the
                   button below to create and access linktree profiles:{" "}
                 </Text>
                 <button

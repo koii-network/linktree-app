@@ -49,7 +49,7 @@ export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
 
 export async function allLinktrees() {
   const res = await axios.get(
-    `https://tasknet.koii.live/task/6N5s2YwMZfUQjjuS3z2JDKLkJczZDQDrEQtWYZrbVRQJ/linktree/list`
+    `https://tasknet.koii.live/task/DyzjHaJe4KVUQJBCrW1bgmXB79ovAjSQGDYDKV8BiRL5/linktree/list`
   );
   if (res.data) {
     const total = res.data.length;
