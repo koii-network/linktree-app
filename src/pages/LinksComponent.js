@@ -186,17 +186,20 @@ right={{ base: "20px", md: "-5%" }}
                 <p className='user-name'> {userData?.name} </p>
                 <p className='user-desc'>{userData?.description}</p>
                 <div className='links'>
-                  {userData?.links?.map((link, index) => (
-                    <a
-                      className='link'
-                      key={index}
-                      href={link?.redirectUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      {link.label}
-                    </a>
-                  ))}
+                {userData?.links?.map((link, index) => (
+  <a
+    className={`link ${index === 0 ? 'animate' : ''}`}
+    key={index}
+    href={link?.redirectUrl}
+    target='_blank'
+    rel='noopener noreferrer'
+    style={{ fontSize: index === 0 ? '20px' : 'inherit' }}
+  >
+    {link.label}
+  </a>
+))}
+
+
                 </div>
                 {publicKey && (
                   <p>
