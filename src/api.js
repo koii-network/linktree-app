@@ -58,34 +58,15 @@ export async function allLinktrees() {
 }
 
 export async function getLinktree(publicKey, nodeList) {
-  // const res = await axios.get(`${apiUrl}/linktree/get/${publicKey}`);
-  // if (res.data) {
-  //   return {
-  //     data: res.data,
-  //     status: true,
-  //   };
-  // }
-
   try {
-    const requests = nodeList.map((node) =>
-      axios
-        .get(`${node}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`)
-        .then((res) => res.data)
-        .catch((error) =>
-          console.log(`Error fetching authlist from ${node}:`, error)
-        )
+    const res = await axios.get(
+      `http://localhost:3000//linktree/get/${publicKey}`
     );
-
-    const results = await Promise.allSettled(requests);
-
-    for (const result of results) {
-      console.log(result);
-      if (result.status === "fulfilled" && result.value) {
-        return {
-          data: result.value,
-          status: true,
-        };
-      }
+    if (res.data) {
+      return {
+        data: res.data,
+        status: true,
+      };
     }
     return {
       data: "",
@@ -94,6 +75,35 @@ export async function getLinktree(publicKey, nodeList) {
   } catch (error) {
     console.log("Error getting node list:", error);
   }
+
+  // try {
+  //   const requests = nodeList.map((node) =>
+  //     axios
+  //       .get(`${node}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`)
+  //       .then((res) => res.data)
+  //       .catch((error) =>
+  //         console.log(`Error fetching authlist from ${node}:`, error)
+  //       )
+  //   );
+
+  //   const results = await Promise.allSettled(requests);
+
+  //   for (const result of results) {
+  //     console.log(result);
+  //     if (result.status === "fulfilled" && result.value) {
+  //       return {
+  //         data: result.value,
+  //         status: true,
+  //       };
+  //     }
+  //   }
+  //   return {
+  //     data: "",
+  //     status: true,
+  //   };
+  // } catch (error) {
+  //   console.log("Error getting node list:", error);
+  // }
 
   return false;
 }
@@ -119,26 +129,37 @@ export async function setLinktree(data, publicKey, apiUrl, username) {
 
 export async function getAuthList(publicKey, apiUrl) {
   try {
-    const nodeList = await getNodeList();
-    const requests = nodeList.map((node) =>
-      axios
-        .get(`${node}/task/${TASK_ADDRESS}/authlist/get/${publicKey}`)
-        .then((res) => res.data)
-        .catch((error) =>
-          console.log(`Error fetching authlist from ${node}:`, error)
-        )
+    const res = await axios.get(
+      `http://localhost:3000/authlist/get/${publicKey}`
     );
-
-    const results = await Promise.allSettled(requests);
-
-    for (const result of results) {
-      if (result.status === "fulfilled" && result.value === publicKey) {
-        return true;
-      }
+    if (res.data && res.data === publicKey) {
+      return true;
     }
+    return false;
   } catch (error) {
     console.log("Error getting node list:", error);
   }
+  // try {
+  //   const nodeList = await getNodeList();
+  //   const requests = nodeList.map((node) =>
+  //     axios
+  //       .get(`${node}/task/${TASK_ADDRESS}/authlist/get/${publicKey}`)
+  //       .then((res) => res.data)
+  //       .catch((error) =>
+  //         console.log(`Error fetching authlist from ${node}:`, error)
+  //       )
+  //   );
+
+  //   const results = await Promise.allSettled(requests);
+
+  //   for (const result of results) {
+  //     if (result.status === "fulfilled" && result.value === publicKey) {
+  //       return true;
+  //     }
+  //   }
+  // } catch (error) {
+  //   console.log("Error getting node list:", error);
+  // }
 
   return false;
 }
