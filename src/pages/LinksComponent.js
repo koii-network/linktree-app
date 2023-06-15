@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useToast, Box, Spinner, IconButton, Tooltip } from "@chakra-ui/react";
-import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
+import { DeleteIcon, AddIcon, SettingsIcon } from "@chakra-ui/icons";
 import { getLinktree, deleteLinktree } from "../api";
 import { useWalletContext } from "../contexts";
 
@@ -71,6 +71,12 @@ function LinksComponent() {
       }
     }
   };
+
+  function handleEditLinktree() {
+
+      navigate("/createlinktree");
+
+  }
   return (
     <Box className='container' position='relative'>
       <Box
@@ -99,6 +105,7 @@ function LinksComponent() {
             flexDirection='column'
           >
             {isProfileOwner && (
+              <>
               <Box
                 position='absolute'
                 top={{ base: "20px", md: "30px" }}
@@ -121,6 +128,30 @@ function LinksComponent() {
                   />
                 </Tooltip>
               </Box>
+
+<Box
+position='absolute'
+top={{ base: "20px", md: "30px" }}
+right={{ base: "20px", md: "-5%" }}
+>
+<Tooltip
+  hasArrow
+  label='Edit Your Linktree Profile'
+  bg='#ecfffe'
+  fontSize='sm'
+  color='#171753'
+>
+  <IconButton
+    rounded='full'
+    alignSelf={{ base: "flex-end", lg: "" }}
+    marginTop='10px'
+    icon={<SettingsIcon />}
+    colorScheme='blue'
+    onClick={handleEditLinktree}
+  />
+</Tooltip>
+</Box>
+</>
             )}
             {userData && (
               <>
