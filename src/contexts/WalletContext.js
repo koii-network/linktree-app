@@ -27,7 +27,8 @@ export const WalletContextProvider = ({ children }) => {
     async function generateRandomNode() {
       const randomNode = await getRandomeNode();
       const url = `${randomNode}/task/${TASK_ADDRESS}`;
-      setApiUrl(url);
+      setApiUrl('http://localhost:10000');
+      // setApiUrl(url);
     }
     generateRandomNode();
   }, []);
