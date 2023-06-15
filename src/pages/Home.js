@@ -8,7 +8,9 @@ import { allLinktrees, getLinktree, getAuthList, transferKoii } from "../api";
 import pirateShipImage from "./pirate-ship.svg";
 
 const HomePage = () => {
+  //Force dark theme by default
   document.documentElement.setAttribute("data-theme", "dark");
+
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,9 +19,14 @@ const HomePage = () => {
   const { isFinnieDetected, connect } = useK2Finnie();
   const [total, setTotal] = useState(null);
 
+  //Checks if the user is logged in or not
   const [isLogged, setIsLogged] = useState(false);
+  //Used to store the public key ("local public key")
   const [localpk, setLocalpk] = useState("");
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  //Used for the typewriter animation logic (Unused)
   const [count, setCount] = useState(0);
   const [index, setIndex] = useState(0);
   const [letter, setLetter] = useState("");
@@ -166,10 +173,23 @@ const HomePage = () => {
     ? "Connect Finnie"
     : linkToGetFinnie;
 
-  let isMobile = false;
-  if (document.documentElement.clientWidth < 700) {
-    isMobile = true;
-  }
+
+    useEffect(() => {
+      function handleResize() {
+        if (document.documentElement.clientWidth < 700) {
+          setIsMobile(true);
+        } else {
+          setIsMobile(false);
+        }
+      }
+  
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
   return (
     <div className='Home'>
       <div className='psuedoBackground'></div>
@@ -214,7 +234,7 @@ const HomePage = () => {
             {isAuth ? (
               <>
                 {isMobile ? (
-                  <Box>
+                  <Box  display='flex' flexDirection="column" alignItems="center">
                     <Text
                       marginBottom='5px'
                       fontSize='22px'
@@ -244,13 +264,14 @@ const HomePage = () => {
                       />
                     </div>
 
-                    <button
-                      onClick={handleConnectFinnie}
-                      className='connect-wallet-button'
-                      fontFamily='Sora, sans-serif'
-                    >
-                      {connectButtonText}
-                    </button>
+                        <Button
+                          onClick={handleConnectFinnie}
+                          className='connect-wallet-button'
+                          fontFamily='Sora, sans-serif'
+                          width='300px'
+                        >
+                          {connectButtonText}
+                        </Button>
                   </Box>
                 ) : (
                   <Box display='flex' flexDirection='column'>
