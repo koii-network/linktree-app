@@ -151,7 +151,7 @@ function LinksComponent() {
                   </Tooltip>
                 </Box>
 
-                <Box
+                {/* <Box
                   position='absolute'
                   top={{ base: "20px", md: "30px" }}
                   right={{ base: "20px", md: "-5%" }}
@@ -172,7 +172,7 @@ function LinksComponent() {
                       onClick={handleEditLinktree}
                     />
                   </Tooltip>
-                </Box>
+                </Box> */}
               </>
             )}
             {userData && (
