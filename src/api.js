@@ -47,13 +47,35 @@ export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
   }
 }
 
-export async function allLinktrees() {
-  const res = await axios.get(
-    `https://tasknet.koii.live/task/B5YoRFNLaxAeczcN9cu1nbwgoTme5ngTdEjQ2KJvxuH4/linktree/list`
-  );
-  if (res.data) {
-    const total = res.data.length;
-    return total;
+export async function allLinktrees(nodeList) {
+  // const res = await axios.get(
+  //   `https://tasknet.koii.live/task/B5YoRFNLaxAeczcN9cu1nbwgoTme5ngTdEjQ2KJvxuH4/linktree/list`
+  // );
+  // if (res.data) {
+  //   const total = res.data.length;
+  //   return total;
+  // }
+
+  try {
+    const requests = nodeList.map((node) =>
+      axios
+        .get(`${node}/task/${TASK_ADDRESS}/linktree/list`)
+        .then((res) => res.data)
+        .catch((error) =>
+          console.log(`Error fetching authlist from ${node}:`, error)
+        )
+    );
+
+    const results = await Promise.allSettled(requests);
+    for (const result of results) {
+      if (result.status === "fulfilled" && result.value) {
+        const linktrees = [...result.value];
+        const total = linktrees.length;
+        return total;
+      }
+    }
+  } catch (error) {
+    console.log("Error getting node list:", error);
   }
 }
 
@@ -98,7 +120,7 @@ export async function getLinktree(publicKey, nodeList) {
   return false;
 }
 
-export async function setLinktree(data, publicKey, apiUrl, username) {
+export async function setLinktree(data, publicKey, nodeList, username) {
   const messageString = JSON.stringify(data);
   const signatureRaw = await window.k2.signMessage(messageString);
   const payload = {
@@ -108,10 +130,30 @@ export async function setLinktree(data, publicKey, apiUrl, username) {
     username,
   };
   try {
-    const res = await axios.post(`${apiUrl}/linktree`, {
-      payload,
-    });
-    return res.data;
+    // const res = await axios.post(`${apiUrl}/linktree`, {
+    //   payload,
+    // });
+    // return res.data;
+
+    const requests = nodeList.map((node) =>
+      axios
+        .post(`${node}/task/${TASK_ADDRESS}/linktree`, {
+          payload,
+        })
+        .then((res) => res.data)
+        .catch((error) =>
+          console.log(`Error fetching authlist from ${node}:`, error)
+        )
+    );
+
+    const results = await Promise.allSettled(requests);
+    console.log(results, "Hello4");
+    for (const result of results) {
+      if (result.status === "fulfilled" && result?.value?.message) {
+        return result.value;
+      }
+    }
+    return results;
   } catch (error) {
     console.log(error);
   }
@@ -120,6 +162,7 @@ export async function setLinktree(data, publicKey, apiUrl, username) {
 export async function getAuthList(publicKey, apiUrl) {
   try {
     const nodeList = await getNodeList();
+    console.log(nodeList.length);
     const requests = nodeList.map((node) =>
       axios
         .get(`${node}/task/${TASK_ADDRESS}/authlist/get/${publicKey}`)
@@ -130,10 +173,11 @@ export async function getAuthList(publicKey, apiUrl) {
     );
 
     const results = await Promise.allSettled(requests);
+    console.log(results, "hello2");
 
     for (const result of results) {
       if (result.status === "fulfilled" && result.value === publicKey) {
-        return true;
+        return false;
       }
     }
   } catch (error) {
@@ -162,16 +206,43 @@ export async function transferKoii(apiUrl) {
     );
     const payload = transaction.serializeMessage();
 
-    const signature = await window.k2.signAndSendTransaction(payload);
+    // const signature = await window.k2.signAndSendTransaction(payload);
 
-    if (signature) {
-      const authdata = {
-        pubkey: window.k2.publicKey.toString(),
-      };
-      const res = await axios.post(`${apiUrl}/authlist`, {
-        authdata,
-      });
-      return res.data === window.k2.publicKey.toString();
+    if (true) {
+      // const authdata = {
+      //   pubkey: window.k2.publicKey.toString(),
+      // };
+      // const res = await axios.post(`${apiUrl}/authlist`, {
+      //   authdata,
+      // });
+      // return res.data === window.k2.publicKey.toString();
+
+      try {
+        const nodeList = await getNodeList();
+        const authdata = {
+          pubkey: window.k2.publicKey.toString(),
+        };
+        const requests = nodeList.map((node) =>
+          axios
+            .post(`${node}/task/${TASK_ADDRESS}/authlist`, {
+              authdata,
+            })
+            .then((res) => res.data === window.k2.publicKey.toString())
+            .catch((error) =>
+              console.log(`Error fetching authlist from ${node}:`, error)
+            )
+        );
+
+        const results = await Promise.allSettled(requests);
+        for (const result of results) {
+          if (result.status === "fulfilled" && result.value) {
+            return true;
+          }
+        }
+        return false;
+      } catch (error) {
+        console.log("Error getting node list:", error);
+      }
     }
     return false;
   } catch (error) {
