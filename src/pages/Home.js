@@ -54,7 +54,7 @@ const HomePage = () => {
 
   useEffect(() => {
     animatedSection();
-    allLinktrees()
+    allLinktrees(nodeList)
       .then((number) => {
         setTotal(number);
       })
@@ -70,56 +70,44 @@ const HomePage = () => {
       try {
         if (pubKey) {
           setPublicKey(pubKey);
-          const isAuthListed = await getAuthList(pubKey, apiUrl);
 
-          if (isAuthListed) {
-            const linktree = await getLinktree(pubKey, nodeList);
-            if (linktree.status === true && !linktree.data) {
-              toast({
-                title: "No Linktree profile for this public key",
-                description: "You'll be redirected to create a profile",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-                position: "top",
-              });
-              setTimeout(() => {
-                navigate("/createlinktree");
-              }, 3000);
-            } else if (linktree.data) {
-              toast({
-                title: "Linktree profile successfully fetched!",
-                status: "success",
-                duration: 2000,
-                isClosable: true,
-                position: "top",
-              });
-              setLocalpk(pubKey);
-              setTimeout(() => {
-                navigate(`linktree/${pubKey}`);
-              }, 2000);
-              //setIsLogged(true);
-            } else {
-              toast({
-                title: "Error fetching Linktree data",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-                position: "top",
-              });
-              setTimeout(() => {
-                navigate("/createlinktree");
-              }, 3000);
-            }
-          } else {
+          const linktree = await getLinktree(pubKey, nodeList);
+          if (linktree.status === true && !linktree?.data?.data) {
             toast({
-              title: "You are not authorized to create profile",
+              title: "No Linktree profile for this public key",
+              description: "You'll be redirected to create a profile",
               status: "error",
               duration: 3000,
               isClosable: true,
               position: "top",
             });
-            setIsAuth(false);
+            setTimeout(() => {
+              navigate("/createlinktree");
+            }, 3000);
+          } else if (linktree.data) {
+            toast({
+              title: "Linktree profile successfully fetched!",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+              position: "top",
+            });
+            setLocalpk(pubKey);
+            setTimeout(() => {
+              navigate(`linktree/${pubKey}`);
+            }, 2000);
+            //setIsLogged(true);
+          } else {
+            toast({
+              title: "Error fetching Linktree data",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+              position: "top",
+            });
+            setTimeout(() => {
+              navigate("/createlinktree");
+            }, 3000);
           }
         }
       } catch (err) {
@@ -164,7 +152,7 @@ const HomePage = () => {
   };
 
   const linkToGetFinnie = (
-    <a rel="noreferrer" target="_blank" href={DOWNLOAD_FINNIE_URL}>
+    <a rel='noreferrer' target='_blank' href={DOWNLOAD_FINNIE_URL}>
       Get Finnie
     </a>
   );
@@ -191,118 +179,118 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="Home">
-      <div className="psuedoBackground"></div>
+    <div className='Home'>
+      <div className='psuedoBackground'></div>
 
-      <div className="container public-key-input-container">
+      <div className='container public-key-input-container'>
         {isLogged ? (
           <Box height={"60vh"}>
             <Text
-              marginBottom="10px"
-              fontSize="25px"
-              textAlign="center"
-              maxWidth="600px"
+              marginBottom='10px'
+              fontSize='25px'
+              textAlign='center'
+              maxWidth='600px'
             >
               Linktree Control Panel
             </Text>
 
             <Text
-              marginBottom="10px"
-              fontSize="12px"
-              textAlign="center"
-              maxWidth="600px"
+              marginBottom='10px'
+              fontSize='12px'
+              textAlign='center'
+              maxWidth='600px'
             >
               User: {localpk}
             </Text>
-            <Stack direction="column" spacing={4} align="center">
+            <Stack direction='column' spacing={4} align='center'>
               <Button
                 onClick={() => navigate(`linktree/${localpk}`)}
-                colorScheme="blue"
+                colorScheme='blue'
               >
                 Show my Linktree
               </Button>
               <Button
                 onClick={() => navigate(`createlinktree`)}
-                colorScheme="blue"
+                colorScheme='blue'
               >
                 Redesign Linktree
               </Button>
             </Stack>
           </Box>
         ) : (
-          <div className="auth-user">
+          <div className='auth-user'>
             {isAuth ? (
               <>
                 {isMobile ? (
                   <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center"
+                    display='flex'
+                    flexDirection='column'
+                    alignItems='center'
                   >
                     <Text
-                      marginBottom="5px"
-                      fontSize="22px"
-                      textAlign="center"
-                      maxWidth="600px"
-                      fontFamily="Sora, sans-serif"
-                      fontWeight="500"
+                      marginBottom='5px'
+                      fontSize='22px'
+                      textAlign='center'
+                      maxWidth='600px'
+                      fontFamily='Sora, sans-serif'
+                      fontWeight='500'
                     >
                       Welcome to
                     </Text>
                     <Text
-                      marginBottom="10px"
-                      fontSize="24px"
-                      textAlign="center"
-                      maxWidth="600px"
-                      fontFamily="Sora, sans-serif"
-                      fontWeight="500"
-                      color="#FFEE81"
+                      marginBottom='10px'
+                      fontSize='24px'
+                      textAlign='center'
+                      maxWidth='600px'
+                      fontFamily='Sora, sans-serif'
+                      fontWeight='500'
+                      color='#FFEE81'
                     >
                       <a
-                        href="https://www.koii.network/"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href='https://www.koii.network/'
+                        target='_blank'
+                        rel='noopener noreferrer'
                       >
                         Koii
                       </a>{" "}
                       Linktree
                     </Text>
                     <Text
-                      className="typewriterText"
-                      marginBottom="20px"
-                      fontSize="14px"
-                      textAlign="center"
-                      maxWidth="600px"
-                      fontFamily="Sora, sans-serif"
-                      fontWeight="300"
+                      className='typewriterText'
+                      marginBottom='20px'
+                      fontSize='14px'
+                      textAlign='center'
+                      maxWidth='600px'
+                      fontFamily='Sora, sans-serif'
+                      fontWeight='300'
                     >
                       The first community powered linktree
                     </Text>
 
-                    <div id="animated-image-container">
+                    <div id='animated-image-container'>
                       <img
-                        id="animated-image-frame"
-                        src="/images/o1_al.png"
-                        alt="background-image"
+                        id='animated-image-frame'
+                        src='/images/o1_al.png'
+                        alt='background-image'
                       />
                     </div>
 
                     <Button
                       onClick={handleConnectFinnie}
-                      className="connect-wallet-button"
-                      fontFamily="Sora, sans-serif"
-                      width="300px"
+                      className='connect-wallet-button'
+                      fontFamily='Sora, sans-serif'
+                      width='300px'
                     >
                       {connectButtonText}
                     </Button>
                   </Box>
                 ) : (
-                  <Box display="flex" flexDirection="column">
+                  <Box display='flex' flexDirection='column'>
                     <Box
-                      display="flex"
-                      flexDirection="row"
-                      alignItems="center"
-                      justifyContent=""
+                      display='flex'
+                      flexDirection='row'
+                      alignItems='center'
+                      justifyContent=''
                     >
                       <div
                         style={{
@@ -314,28 +302,28 @@ const HomePage = () => {
                         }}
                       >
                         <Text
-                          marginBottom="5px"
-                          fontSize="52px"
-                          textAlign="center"
-                          maxWidth="600px"
-                          fontFamily="Sora, sans-serif"
-                          fontWeight="500"
+                          marginBottom='5px'
+                          fontSize='52px'
+                          textAlign='center'
+                          maxWidth='600px'
+                          fontFamily='Sora, sans-serif'
+                          fontWeight='500'
                         >
                           Welcome to
                         </Text>
                         <Text
-                          marginBottom="10px"
-                          fontSize="64px"
-                          textAlign="center"
-                          maxWidth="600px"
-                          fontFamily="Sora, sans-serif"
-                          fontWeight="500"
-                          color="#FFEE81"
+                          marginBottom='10px'
+                          fontSize='64px'
+                          textAlign='center'
+                          maxWidth='600px'
+                          fontFamily='Sora, sans-serif'
+                          fontWeight='500'
+                          color='#FFEE81'
                         >
                           <a
-                            href="https://www.koii.network/"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href='https://www.koii.network/'
+                            target='_blank'
+                            rel='noopener noreferrer'
                           >
                             Koii
                           </a>{" "}
@@ -343,34 +331,34 @@ const HomePage = () => {
                         </Text>
 
                         <Text
-                          marginBottom="20px"
-                          fontSize="22px"
-                          textAlign="center"
-                          maxWidth="600px"
-                          fontFamily="Sora, sans-serif"
-                          fontWeight="300"
-                          className="typewriterText"
+                          marginBottom='20px'
+                          fontSize='22px'
+                          textAlign='center'
+                          maxWidth='600px'
+                          fontFamily='Sora, sans-serif'
+                          fontWeight='300'
+                          className='typewriterText'
                         >
                           The first community powered linktree
                         </Text>
 
                         <Button
                           onClick={handleConnectFinnie}
-                          className="connect-wallet-button"
-                          fontFamily="Sora, sans-serif"
-                          width="300px"
+                          className='connect-wallet-button'
+                          fontFamily='Sora, sans-serif'
+                          width='300px'
                         >
                           {connectButtonText}
                         </Button>
                       </div>
                       <div
-                        id="animated-image-container"
+                        id='animated-image-container'
                         style={{ marginLeft: "100px" }}
                       >
                         <img
-                          id="animated-image-frame"
-                          src="/images/o1_al.png"
-                          alt="Image"
+                          id='animated-image-frame'
+                          src='/images/o1_al.png'
+                          alt='Image'
                         />
                       </div>
                     </Box>
@@ -380,18 +368,18 @@ const HomePage = () => {
             ) : (
               <>
                 <Text
-                  marginBottom="10px"
-                  fontSize="30px"
-                  textAlign="center"
-                  maxWidth="600px"
+                  marginBottom='10px'
+                  fontSize='30px'
+                  textAlign='center'
+                  maxWidth='600px'
                 >
                   You are not authorized to create and access Linktree profiles
                 </Text>
                 <Text
-                  marginBottom="20px"
-                  fontSize="18px"
-                  textAlign="center"
-                  maxWidth="600px"
+                  marginBottom='20px'
+                  fontSize='18px'
+                  textAlign='center'
+                  maxWidth='600px'
                 >
                   Transfer 10 Koii to
                   stakepotaccountuQLBn4bsxKgSLedRTxsnZUQ9aCBR by clicking the
@@ -399,7 +387,7 @@ const HomePage = () => {
                 </Text>
                 <Button
                   onClick={handleTransferKoii}
-                  className="connect-wallet-button"
+                  className='connect-wallet-button'
                 >
                   Transfer Koii
                 </Button>
@@ -410,13 +398,13 @@ const HomePage = () => {
       </div>
 
       {total !== null && (
-        <div className="footer">
+        <div className='footer'>
           <p>
             Total{" "}
-            <a className="by-koii" href="https://www.koii.network/">
+            <a className='by-koii' href='https://www.koii.network/'>
               Koii
             </a>{" "}
-            linktrees created: <span className="by-koii total"> {total} </span>{" "}
+            linktrees created: <span className='by-koii total'> {total} </span>{" "}
           </p>
         </div>
       )}
