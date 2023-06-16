@@ -68,7 +68,18 @@ const setLinktree = async (publicKey, linktree) => {
   const db = await namespaceWrapper.getDb();
   try {
     const linktreeId = getLinktreeId(publicKey);
-    await db.insert({ linktreeId, linktree });
+    const username = linktree.username;
+    await db.insert({ linktreeId, linktree, username });
+    return console.log('Linktree set');
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const updateLinktree = async (publicKey, linktree) => {
+  try {
+    const linktreeId = getLinktreeId(publicKey);
+    await namespaceWrapper.storeSet(linktreeId, linktree);
     return console.log('Linktree set');
   } catch (err) {
     return undefined;
@@ -248,4 +259,5 @@ module.exports = {
   getAllAuthList,
   getAuthListId,
   getLinktreeWithUsername,
+  updateLinktree,
 };

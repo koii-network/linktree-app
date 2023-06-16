@@ -87,6 +87,52 @@ router.post('/linktree', async (req, res) => {
     .send({ message: 'Proof and linktree registered successfully' });
 });
 
+router.put('/linktree', async (req, res) => {
+  const linktree = req.body.payload;
+  if (!linktree.publicKey && !linktree.signature) {
+    res.status(400).json({ error: 'Missing publicKey or signature' });
+    return;
+  } else {
+    // log the pubkey of the payload
+    console.log('linktree', linktree.publicKey);
+    try {
+      // Verify the signature
+      const isVerified = nacl.sign.detached.verify(
+        new TextEncoder().encode(JSON.stringify(linktree.data)),
+        bs58.decode(linktree.signature),
+        bs58.decode(linktree.publicKey),
+      );
+      if (!isVerified) {
+        res.status(400).json({ error: 'Invalid signature' });
+        return;
+      }
+    } catch (e) {
+      res.status(400).json({ error: 'Invalid signature' });
+    }
+    console.log('Signature verified');
+  }
+  // Use the code below to sign the data payload
+  let signature = linktree.signature;
+  let pubkey = linktree.publicKey;
+
+  let proofs = {
+    publicKey: pubkey,
+    signature: signature,
+  };
+  let updatedLinktree = {
+    linktree: linktree,
+    username: linktree.username,
+  };
+
+  await db.setLinktree(pubkey, updatedLinktree);
+
+  await db.setProofs(pubkey, proofs);
+
+  return res
+    .status(200)
+    .send({ message: 'Proof and linktree registered successfully' });
+});
+
 router.delete('/linktree/:publicKey', async (req, res) => {
   const { publicKey } = req.params;
   let linktree = await db.deleteLinktree(publicKey);
