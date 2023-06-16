@@ -69,18 +69,22 @@ function LinksComponent() {
   const handleDeleteLinktree = async () => {
     if (publicKey) {
       try {
-        await deleteLinktree(apiUrl, publicKey);
-        toast({
-          title: "Linktree profile deleted successfully",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-          position: "top",
-        });
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
-      } catch {
+        const deletedProfile = await deleteLinktree(nodeList, publicKey);
+        if (deletedProfile) {
+          toast({
+            title: "Linktree profile deleted successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
+          setTimeout(() => {
+            navigate("/");
+          }, 3000);
+          return;
+        }
+        throw Error("Error deleting profile");
+      } catch (error) {
         toast({
           title: "Error deleting Linktree profile",
           status: "error",
@@ -122,7 +126,7 @@ function LinksComponent() {
             alignItems='center'
             flexDirection='column'
           >
-            {isProfileOwner && (
+            {isProfileOwner && userData && (
               <>
                 <Box
                   position='absolute'

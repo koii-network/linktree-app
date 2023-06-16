@@ -13,10 +13,26 @@ export async function getLinktrees(apiUrl) {
   }
 }
 
-export async function deleteLinktree(apiUrl, publicKey) {
+export async function deleteLinktree(nodeList, publicKey) {
   try {
-    const res = await axios.delete(`${apiUrl}/linktree/${publicKey}`);
-    return res.data;
+    await window.k2.signMessage("Delete Linktree");
+    const requests = nodeList.map((node) =>
+      axios
+        .delete(`${node}/task/${TASK_ADDRESS}/linktree/${publicKey}`)
+        .then((res) => res.data)
+        .catch((error) =>
+          console.log(`Error fetching authlist from ${node}:`, error)
+        )
+    );
+
+    const results = await Promise.allSettled(requests);
+
+    for (const result of results) {
+      if (result.status === "fulfilled" && result.value === publicKey) {
+        return true;
+      }
+    }
+    return false;
   } catch (error) {
     console.log(error);
   }
@@ -173,7 +189,7 @@ export async function getAuthList(publicKey, apiUrl) {
 
     for (const result of results) {
       if (result.status === "fulfilled" && result.value === publicKey) {
-        return false;
+        return true;
       }
     }
   } catch (error) {
