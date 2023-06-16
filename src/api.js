@@ -101,7 +101,6 @@ export async function getLinktree(publicKey, nodeList) {
     const results = await Promise.allSettled(requests);
 
     for (const result of results) {
-      console.log(result);
       if (result.status === "fulfilled" && result.value) {
         return {
           data: result.value,
@@ -147,7 +146,6 @@ export async function setLinktree(data, publicKey, nodeList, username) {
     );
 
     const results = await Promise.allSettled(requests);
-    console.log(results, "Hello4");
     for (const result of results) {
       if (result.status === "fulfilled" && result?.value?.message) {
         return result.value;
@@ -162,7 +160,6 @@ export async function setLinktree(data, publicKey, nodeList, username) {
 export async function getAuthList(publicKey, apiUrl) {
   try {
     const nodeList = await getNodeList();
-    console.log(nodeList.length);
     const requests = nodeList.map((node) =>
       axios
         .get(`${node}/task/${TASK_ADDRESS}/authlist/get/${publicKey}`)
@@ -173,7 +170,6 @@ export async function getAuthList(publicKey, apiUrl) {
     );
 
     const results = await Promise.allSettled(requests);
-    console.log(results, "hello2");
 
     for (const result of results) {
       if (result.status === "fulfilled" && result.value === publicKey) {

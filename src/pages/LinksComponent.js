@@ -42,13 +42,11 @@ function LinksComponent() {
   useEffect(() => {
     async function getUserData() {
       const response = await getLinktree(query, nodeList);
-      console.log("response", response);
       setUserData(response?.data?.data?.linktree);
       return response;
     }
     async function getData() {
       const userData = await getUserData();
-      console.log();
       if (userData.status) {
         setIsLoading(false);
       } else {

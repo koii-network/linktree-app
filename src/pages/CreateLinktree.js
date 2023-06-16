@@ -177,7 +177,6 @@ const CreateLinktree = () => {
       nodeList,
       values?.linktreeAddress
     );
-    console.log("Hello42", res);
     if (res?.message === "Proof and linktree registered successfully") {
       toast({
         title:
