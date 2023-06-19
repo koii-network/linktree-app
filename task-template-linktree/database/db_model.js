@@ -200,8 +200,7 @@ const getAuthList = async pubkey => {
   }
 };
 
-// Store the AuthList in the database using the public key
-// TODO: tx is the transaction of the public fund the bounty pool
+
 
 const setAuthList = async pubkey => {
   const db = await namespaceWrapper.getDb();
@@ -216,7 +215,6 @@ const setAuthList = async pubkey => {
   }
 };
 
-// Gets all AuthList from the database.
 
 const getAllAuthList = async () => {
   const db = await namespaceWrapper.getDb();
