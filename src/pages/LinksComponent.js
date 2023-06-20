@@ -25,6 +25,7 @@ function themeApplier(userTheme) {
 function LinksComponent() {
   const [isLoading, setIsLoading] = useState(true);
   const [username, setUsername] = useState("Adeola");
+  const [isProfileOwner, setIsProfileOwner] = useState("");
   const [noProfileText, setNoProfileText] = useState("");
   const navigate = useNavigate();
   const toast = useToast();
@@ -34,9 +35,6 @@ function LinksComponent() {
 
   const { publicKey, apiUrl, nodeList } = useWalletContext();
 
-  const isProfileOwner =
-    window?.k2 && publicKey && window?.k2?.publicKey?.toString() === publicKey;
-
   useEffect(() => {
     themeApplier(userData?.theme);
   }, [userData]); // Add userData as a dependency
@@ -45,6 +43,11 @@ function LinksComponent() {
     async function getUserData() {
       const userResponse = await getLinktreeWithUsername(query, nodeList);
       setUsername(userResponse.data.username);
+      const isProfileOwner =
+        window?.k2 &&
+        publicKey &&
+        window?.k2?.publicKey?.toString() === userResponse.data.publicKey;
+      setIsProfileOwner(isProfileOwner);
       setUserData(userResponse?.data?.data?.linktree);
       return userResponse;
     }
