@@ -34,7 +34,8 @@ function LinksComponent() {
 
   const { publicKey, apiUrl, nodeList } = useWalletContext();
 
-  const isProfileOwner = window.k2.publicKey.toString() === publicKey;
+  const isProfileOwner =
+    window?.k2 && publicKey && window?.k2?.publicKey?.toString() === publicKey;
 
   useEffect(() => {
     themeApplier(userData?.theme);
