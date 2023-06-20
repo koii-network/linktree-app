@@ -96,6 +96,7 @@ export async function allLinktrees(nodeList) {
 }
 
 export async function getLinktreeWithUsername(username, nodeList) {
+  // console.log(nodeList);
   try {
     const requests = nodeList.map((node) =>
       axios
@@ -107,9 +108,11 @@ export async function getLinktreeWithUsername(username, nodeList) {
     );
 
     const results = await Promise.allSettled(requests);
+    // console.log(results);
 
     for (const result of results) {
-      if (result.status === "fulfilled" && result.value) {
+      if (result.status === "fulfilled" && result?.value?.data) {
+        // console.log(result.value, "fulfilled");
         return {
           data: result.value,
           status: true,
@@ -149,8 +152,8 @@ export async function getLinktree(publicKey, nodeList) {
     const results = await Promise.allSettled(requests);
 
     for (const result of results) {
-      if (result.status === "fulfilled" && result.value) {
-        console.log("Hello", result.value);
+      if (result.status === "fulfilled" && result.value.data) {
+        // console.log("Hello", result.value);
         return {
           data: result.value,
           status: true,
