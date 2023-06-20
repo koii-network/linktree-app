@@ -65,7 +65,7 @@ export async function getLinktreesFromBackUp(publicKey, backUpNodeList) {
 
 export async function allLinktrees(nodeList) {
   // const res = await axios.get(
-  //   `https://tasknet.koii.live/task/BWuGQi8e6pEWKszQey5SxXhwMT3TPDT7FQs21Ga4db4v/linktree/list`
+  //   `https://tasknet.koii.live/task/CxhjPZaBQ12eN3N8qv3pACPuAZmWHPZSqYPAcywkhzNX/linktree/list`
   // );
   // if (res.data) {
   //   const total = res.data.length;
