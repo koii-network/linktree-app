@@ -107,11 +107,9 @@ export async function getLinktreeWithUsername(username, nodeList) {
     );
 
     const results = await Promise.allSettled(requests);
-    console.log(results, "Hello all");
 
     for (const result of results) {
       if (result.status === "fulfilled" && result.value) {
-        console.log("Hello User", result.value);
         return {
           data: result.value,
           status: true,
