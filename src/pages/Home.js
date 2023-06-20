@@ -72,8 +72,7 @@ const HomePage = () => {
           setPublicKey(pubKey);
 
           const linktree = await getLinktree(pubKey, nodeList);
-          console.log(linktree);
-          if (linktree.status === true && !linktree?.data?.data) {
+          if (linktree.status === true && !linktree?.data) {
             toast({
               title: "No Linktree profile for this public key",
               description: "You'll be redirected to create a profile",
@@ -86,7 +85,9 @@ const HomePage = () => {
               navigate("/createlinktree");
             }, 3000);
           } else if (linktree.data) {
-            const linktreeAddress = linktree.data.linktree.linktreeAddress;
+            const linktreeAddress =
+              linktree?.data?.username ||
+              linktree?.data?.linktree?.linktreeAddress;
             toast({
               title: "Linktree profile successfully fetched!",
               status: "success",

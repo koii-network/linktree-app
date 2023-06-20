@@ -44,7 +44,6 @@ function LinksComponent() {
     async function getUserData() {
       const userResponse = await getLinktreeWithUsername(query, nodeList);
       setUsername(userResponse.data.username);
-      console.log(userResponse?.data?.data?.linktree);
       setUserData(userResponse?.data?.data?.linktree);
       return userResponse;
     }
