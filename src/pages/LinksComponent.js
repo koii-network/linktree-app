@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useToast, Box, Spinner, IconButton, Tooltip } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon, SettingsIcon } from "@chakra-ui/icons";
-import { getLinktree, deleteLinktree } from "../api";
+import { getLinktree, deleteLinktree, getLinktreeWithUsername } from "../api";
 import { useWalletContext } from "../contexts";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 import { LinkedInEmbed, YouTubeEmbed } from "react-social-media-embed";
@@ -24,6 +24,7 @@ function themeApplier(userTheme) {
 
 function LinksComponent() {
   const [isLoading, setIsLoading] = useState(true);
+  const [username, setUsername] = useState("Adeola");
   const [noProfileText, setNoProfileText] = useState("");
   const navigate = useNavigate();
   const toast = useToast();
@@ -33,7 +34,7 @@ function LinksComponent() {
 
   const { publicKey, apiUrl, nodeList } = useWalletContext();
 
-  const isProfileOwner = query === publicKey;
+  const isProfileOwner = window.k2.publicKey.toString() === publicKey;
 
   useEffect(() => {
     themeApplier(userData?.theme);
@@ -41,13 +42,15 @@ function LinksComponent() {
 
   useEffect(() => {
     async function getUserData() {
-      const response = await getLinktree(query, nodeList);
-      setUserData(response?.data?.data?.linktree);
-      return response;
+      const userResponse = await getLinktreeWithUsername(query, nodeList);
+      setUsername(userResponse.data.username);
+      console.log(userResponse?.data?.data?.linktree);
+      setUserData(userResponse?.data?.data?.linktree);
+      return userResponse;
     }
     async function getData() {
       const userData = await getUserData();
-      if (userData.status) {
+      if (userData?.status) {
         setIsLoading(false);
       } else {
         toast({
@@ -60,7 +63,7 @@ function LinksComponent() {
         setNoProfileText("Error fetching Linktree profile");
       }
       if (userData.data && userData.status) {
-        setNoProfileText("No Linktree profile for this public key");
+        setNoProfileText("No Linktree profile for this Username");
       }
     }
     getData();
@@ -151,28 +154,30 @@ function LinksComponent() {
                   </Tooltip>
                 </Box>
 
-                { <Box
-                  position='absolute'
-                  top={{ base: "20px", md: "30px" }}
-                  right={{ base: "20px", md: "-5%" }}
-                >
-                  <Tooltip
-                    hasArrow
-                    label='Dashboard'
-                    bg='#ecfffe'
-                    fontSize='sm'
-                    color='#171753'
+                {
+                  <Box
+                    position='absolute'
+                    top={{ base: "20px", md: "30px" }}
+                    right={{ base: "20px", md: "-5%" }}
                   >
-                    <IconButton
-                      rounded='full'
-                      alignSelf={{ base: "flex-end", lg: "" }}
-                      marginTop='10px'
-                      icon={<SettingsIcon />}
-                      colorScheme='blue'
-                      onClick={handleEditLinktree}
-                    />
-                  </Tooltip>
-                </Box> }
+                    <Tooltip
+                      hasArrow
+                      label='Dashboard'
+                      bg='#ecfffe'
+                      fontSize='sm'
+                      color='#171753'
+                    >
+                      <IconButton
+                        rounded='full'
+                        alignSelf={{ base: "flex-end", lg: "" }}
+                        marginTop='10px'
+                        icon={<SettingsIcon />}
+                        colorScheme='blue'
+                        onClick={handleEditLinktree}
+                      />
+                    </Tooltip>
+                  </Box>
+                }
               </>
             )}
             {userData && (
@@ -242,7 +247,7 @@ function LinksComponent() {
                 {publicKey && (
                   <p>
                     <a
-                      href={`https://linktree.koii.network/linktree/${publicKey}`}
+                      href={`https://linktree.koii.network/linktree/${username}`}
                       className='displayLink'
                     >
                       Your linktree profile Link

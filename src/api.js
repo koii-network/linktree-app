@@ -95,6 +95,40 @@ export async function allLinktrees(nodeList) {
   }
 }
 
+export async function getLinktreeWithUsername(username, nodeList) {
+  try {
+    const requests = nodeList.map((node) =>
+      axios
+        .get(`${node}/task/${TASK_ADDRESS}/linktree/get/username/${username}`)
+        .then((res) => res.data)
+        .catch((error) =>
+          console.log(`Error fetching authlist from ${node}:`, error)
+        )
+    );
+
+    const results = await Promise.allSettled(requests);
+    console.log(results, "Hello all");
+
+    for (const result of results) {
+      if (result.status === "fulfilled" && result.value) {
+        console.log("Hello User", result.value);
+        return {
+          data: result.value,
+          status: true,
+        };
+      }
+    }
+    return {
+      data: "",
+      status: true,
+    };
+  } catch (error) {
+    console.log("Error getting node list:", error);
+  }
+
+  return false;
+}
+
 export async function getLinktree(publicKey, nodeList) {
   // const res = await axios.get(`${apiUrl}/linktree/get/${publicKey}`);
   // if (res.data) {
@@ -118,6 +152,7 @@ export async function getLinktree(publicKey, nodeList) {
 
     for (const result of results) {
       if (result.status === "fulfilled" && result.value) {
+        console.log("Hello", result.value);
         return {
           data: result.value,
           status: true,

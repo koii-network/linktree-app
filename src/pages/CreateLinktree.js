@@ -27,7 +27,7 @@ import {
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import uuid from "react-uuid";
-import { setLinktree } from "../api";
+import { setLinktree, getLinktreeWithUsername } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 
@@ -35,7 +35,8 @@ document.documentElement.setAttribute("data-theme", "dark");
 
 function makeStorageClient() {
   return new Web3Storage({
-    token: process.env.REACT_APP_WEB3STORAGE_TOKEN,
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDhmOWMxOTNjODJlODMzMjVDMThkNWM4NzRCM2Q2NGM5ZjI5NDdEOUQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODM2NTY1NzExNjEsIm5hbWUiOiJLb2lpIn0.qZJmInvmwLCkq_7T3h2gfm4Hs84MNKEVooOuAFfbIXI",
   });
 }
 
@@ -61,6 +62,8 @@ const CreateLinktree = () => {
   const [imageName, setImageName] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [choosenTheme, setChoosenTheme] = useState("Dark");
+  const [usernameError, setUsernameError] = useState("");
+  const [disabled, setDisabled] = useState(true);
 
   function handleThemeSelection(theme) {
     setChoosenTheme(theme);
@@ -187,7 +190,7 @@ const CreateLinktree = () => {
         position: "top",
       });
       setTimeout(() => {
-        navigate(`/linktree/${publicKey}`);
+        navigate(`/linktree/${values?.linktreeAddress}`);
       }, 10000);
     } else {
       toast({
@@ -199,6 +202,17 @@ const CreateLinktree = () => {
       });
     }
     setIsLoading(false);
+  };
+
+  const handleChangeUserName = async (e) => {
+    const userData = await getLinktreeWithUsername(e.target.value, nodeList);
+    if (userData?.data?.username) {
+      setUsernameError("Username already exists");
+      setDisabled(true);
+    } else {
+      setUsernameError("");
+      setDisabled(false);
+    }
   };
 
   return (
@@ -364,7 +378,7 @@ const CreateLinktree = () => {
         })}
         onSubmit={handleSubmit}
       >
-        {({ values, handleSubmit }) => (
+        {({ values, handleSubmit, isValid }) => (
           <form onSubmit={handleSubmit}>
             <div>
               <Box mb={3}>
@@ -532,35 +546,44 @@ const CreateLinktree = () => {
                   >
                     Add Link
                   </Button>
-
-                  <Box mt={10}>
-                    <Text fontSize='2xl' mt={5}>
-                      Linktree Username
-                    </Text>
-
-                    <Box
-                      display='flex'
-                      alignItems='center'
-                      justifyContent='center'
-                    >
-                      <Text fontSize='m' mr={2}>
-                        linktree.koii.network/
-                      </Text>
-                      <Field
-                        name='linktreeAddress'
-                        label='Linktree Address'
-                        as={Input}
-                        className='input-border'
-                      />
-                    </Box>
-
-                    <Text className='error'>
-                      <ErrorMessage name='linktreeAddress' />
-                    </Text>
-                  </Box>
                 </div>
               )}
             </FieldArray>
+
+            <Box mt={10}>
+              <Text fontSize='2xl' mt={5}>
+                Linktree Username
+              </Text>
+
+              <Box display='flex' alignItems='center' justifyContent='center'>
+                <Text fontSize='m' mr={2}>
+                  linktree.koii.network/
+                </Text>
+                <Field name='linktreeAddress'>
+                  {({ form, field }) => {
+                    const { setFieldValue } = form;
+                    return (
+                      <input
+                        type='text'
+                        className='input-border input-container'
+                        required
+                        name='linktreeAddress'
+                        onChange={async (e) => {
+                          // handleChangeUserName(e);
+                          setFieldValue("linktreeAddress", e.target.value);
+                        }}
+                        onKeyUp={handleChangeUserName}
+                      />
+                    );
+                  }}
+                </Field>
+              </Box>
+
+              <Text className='error'>
+                <ErrorMessage name='linktreeAddress' />
+              </Text>
+              <Text className='error'>{usernameError}</Text>
+            </Box>
 
             <Button
               w='full'
@@ -569,6 +592,7 @@ const CreateLinktree = () => {
               bg='var(--koii-white)'
               my={10}
               type='submit'
+              isDisabled={disabled}
             >
               {isLoading ? <Spinner /> : "Submit"}
             </Button>
