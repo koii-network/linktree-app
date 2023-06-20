@@ -124,7 +124,7 @@ router.put('/linktree', async (req, res) => {
     username: linktree.username,
   };
 
-  await db.setLinktree(pubkey, updatedLinktree);
+  await db.updateLinktree(pubkey, updatedLinktree);
 
   await db.setProofs(pubkey, proofs);
 
