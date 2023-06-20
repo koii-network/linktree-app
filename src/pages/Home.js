@@ -72,6 +72,7 @@ const HomePage = () => {
           setPublicKey(pubKey);
 
           const linktree = await getLinktree(pubKey, nodeList);
+          console.log(linktree);
           if (linktree.status === true && !linktree?.data?.data) {
             toast({
               title: "No Linktree profile for this public key",
@@ -85,6 +86,7 @@ const HomePage = () => {
               navigate("/createlinktree");
             }, 3000);
           } else if (linktree.data) {
+            const linktreeAddress = linktree.data.linktree.linktreeAddress;
             toast({
               title: "Linktree profile successfully fetched!",
               status: "success",
@@ -94,7 +96,7 @@ const HomePage = () => {
             });
             setLocalpk(pubKey);
             setTimeout(() => {
-              navigate(`linktree/${pubKey}`);
+              navigate(`linktree/${linktreeAddress}`);
             }, 2000);
             //setIsLogged(true);
           } else {
