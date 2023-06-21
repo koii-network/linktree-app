@@ -132,57 +132,6 @@ function LinksComponent() {
             alignItems='center'
             flexDirection='column'
           >
-            {isProfileOwner && userData && (
-              <>
-                <Box
-                  position='absolute'
-                  top={{ base: "20px", md: "30px" }}
-                  left={{ base: "20px", md: "-5%" }}
-                >
-                  <Tooltip
-                    hasArrow
-                    label='Delete Your Linktree Profile'
-                    bg='#ecfffe'
-                    fontSize='sm'
-                    color='#171753'
-                  >
-                    <IconButton
-                      rounded='full'
-                      alignSelf={{ base: "flex-end", lg: "" }}
-                      marginTop='10px'
-                      icon={<DeleteIcon />}
-                      colorScheme='red'
-                      onClick={handleDeleteLinktree}
-                    />
-                  </Tooltip>
-                </Box>
-
-                {
-                  <Box
-                    position='absolute'
-                    top={{ base: "20px", md: "30px" }}
-                    right={{ base: "20px", md: "-5%" }}
-                  >
-                    <Tooltip
-                      hasArrow
-                      label='Dashboard'
-                      bg='#ecfffe'
-                      fontSize='sm'
-                      color='#171753'
-                    >
-                      <IconButton
-                        rounded='full'
-                        alignSelf={{ base: "flex-end", lg: "" }}
-                        marginTop='10px'
-                        icon={<SettingsIcon />}
-                        colorScheme='blue'
-                        onClick={handleEditLinktree}
-                      />
-                    </Tooltip>
-                  </Box>
-                }
-              </>
-            )}
             {userData && (
               <>
                 {userData?.image && (
