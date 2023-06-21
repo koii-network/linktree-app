@@ -155,7 +155,7 @@ const HomePage = () => {
 
   const handleLinktreeRedirect = async () => {
     setTimeout(() => {
-      navigate(`linktree/${localpk}`)
+      navigate(`linktree/${localpk}`);
     }, 300);
   };
 
@@ -185,8 +185,6 @@ const HomePage = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  console.log(showDashboard, "dashboard");
 
   return (
     <div className="Home">
