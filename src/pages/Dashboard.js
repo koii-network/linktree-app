@@ -28,7 +28,9 @@ function ControlPanel() {
   useEffect(() => {
     async function getUserData() {
       const userResponse = await getLinktree(publicKey, nodeList);
-      setUserData(userResponse?.data?.linktree);
+      setUserData(
+        userResponse?.data?.data?.linktree || userResponse?.data?.linktree
+      );
       return userResponse;
     }
     async function getData() {
@@ -94,53 +96,53 @@ function ControlPanel() {
 
   return (
     <>
-      <Center height="100vh">
+      <Center height='100vh'>
         <Box
           width={"50vw"}
-          bgGradient="linear(to-r,#171753,#087980)"
+          bgGradient='linear(to-r,#171753,#087980)'
           p={5}
-          borderRadius="15px"
+          borderRadius='15px'
         >
           <Flex>
-            <Avatar size="md" name={userData?.name} />
+            <Avatar size='md' name={userData?.name} />
             <Spacer />
-            <Heading color="white" fontSize="2xl">
+            <Heading color='white' fontSize='2xl'>
               Control Panel
             </Heading>
           </Flex>
 
           <Text
-            color="white"
-            marginTop="10px"
-            fontSize="15px"
-            textAlign="center"
+            color='white'
+            marginTop='10px'
+            fontSize='15px'
+            textAlign='center'
           >
             🎏 {userData?.linktreeAddress} 🎏
           </Text>
 
-          <Stack direction="column" spacing={4} align="center" marginTop="20px">
+          <Stack direction='column' spacing={4} align='center' marginTop='20px'>
             <Button
               leftIcon={<ViewIcon />}
-              colorScheme="blue"
+              colorScheme='blue'
               onClick={handleShow}
-              minWidth="200px"
+              minWidth='200px'
             >
               Show my Linktree
             </Button>
 
             <Button
               leftIcon={<EditIcon />}
-              colorScheme="purple"
+              colorScheme='purple'
               onClick={handleRedesign}
-              minWidth="200px"
+              minWidth='200px'
             >
               Redesign Linktree
             </Button>
 
             <Button
               leftIcon={<DeleteIcon />}
-              colorScheme="red"
-              minWidth="200px"
+              colorScheme='red'
+              minWidth='200px'
               onClick={handleDeleteLinktree}
             >
               Delete Linktree
@@ -150,10 +152,10 @@ function ControlPanel() {
           {/* <Checkbox marginTop='20px'>Show 'Tip Koii' Option</Checkbox> */}
 
           <Text
-            marginTop="90px"
-            fontSize="12px"
-            textAlign="center"
-            color="white"
+            marginTop='90px'
+            fontSize='12px'
+            textAlign='center'
+            color='white'
           >
             <div
               style={{
