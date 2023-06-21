@@ -152,7 +152,11 @@ export async function getLinktree(publicKey, nodeList) {
     const results = await Promise.allSettled(requests);
 
     for (const result of results) {
-      if (result.status === "fulfilled" && result.value.data) {
+      if (
+        result.status === "fulfilled" &&
+        result.value &&
+        result.value !== []
+      ) {
         // console.log("Hello", result.value);
         return {
           data: result.value,

@@ -4,7 +4,7 @@ import { useToast, Text, Button, Stack, Box } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
-import { allLinktrees, getLinktree, getAuthList, transferKoii } from "../api";
+import { allLinktrees, getLinktree, transferKoii } from "../api";
 import pirateShipImage from "./pirate-ship.svg";
 
 const HomePage = () => {
@@ -13,9 +13,10 @@ const HomePage = () => {
 
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(true);
+  const [showDashboard, setShowDashboard] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
-  const { setPublicKey, apiUrl, nodeList } = useWalletContext();
+  const { setPublicKey, apiUrl, nodeList, publicKey } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
   const [total, setTotal] = useState(null);
 
@@ -85,9 +86,6 @@ const HomePage = () => {
               navigate("/createlinktree");
             }, 3000);
           } else if (linktree.data) {
-            const linktreeAddress =
-              linktree?.data?.username ||
-              linktree?.data?.linktree?.linktreeAddress;
             toast({
               title: "Linktree profile successfully fetched!",
               status: "success",
@@ -96,9 +94,7 @@ const HomePage = () => {
               position: "top",
             });
             setLocalpk(pubKey);
-            setTimeout(() => {
-              navigate(`linktree/${linktreeAddress}`);
-            }, 2000);
+            setShowDashboard(true);
             //setIsLogged(true);
           } else {
             toast({
@@ -108,9 +104,6 @@ const HomePage = () => {
               isClosable: true,
               position: "top",
             });
-            setTimeout(() => {
-              navigate("/createlinktree");
-            }, 3000);
           }
         }
       } catch (err) {
@@ -154,6 +147,12 @@ const HomePage = () => {
     }
   };
 
+  const handleDashboard = async () => {
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 3000);
+  };
+
   const linkToGetFinnie = (
     <a rel='noreferrer' target='_blank' href={DOWNLOAD_FINNIE_URL}>
       Get Finnie
@@ -180,6 +179,8 @@ const HomePage = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  console.log(showDashboard, "dashboard");
 
   return (
     <div className='Home'>
@@ -278,14 +279,25 @@ const HomePage = () => {
                       />
                     </div>
 
-                    <Button
-                      onClick={handleConnectFinnie}
-                      className='connect-wallet-button'
-                      fontFamily='Sora, sans-serif'
-                      width='300px'
-                    >
-                      {connectButtonText}
-                    </Button>
+                    {showDashboard ? (
+                      <Button
+                        onClick={handleDashboard}
+                        className='connect-wallet-button'
+                        fontFamily='Sora, sans-serif'
+                        width='300px'
+                      >
+                        Dashboard
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={handleConnectFinnie}
+                        className='connect-wallet-button'
+                        fontFamily='Sora, sans-serif'
+                        width='300px'
+                      >
+                        {connectButtonText}
+                      </Button>
+                    )}
                   </Box>
                 ) : (
                   <Box display='flex' flexDirection='column'>
@@ -345,14 +357,25 @@ const HomePage = () => {
                           The first community powered linktree
                         </Text>
 
-                        <Button
-                          onClick={handleConnectFinnie}
-                          className='connect-wallet-button'
-                          fontFamily='Sora, sans-serif'
-                          width='300px'
-                        >
-                          {connectButtonText}
-                        </Button>
+                        {showDashboard ? (
+                          <Button
+                            className='connect-wallet-button'
+                            fontFamily='Sora, sans-serif'
+                            width='300px'
+                            onClick={handleDashboard}
+                          >
+                            Dashboard
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={handleConnectFinnie}
+                            className='connect-wallet-button'
+                            fontFamily='Sora, sans-serif'
+                            width='300px'
+                          >
+                            {connectButtonText}
+                          </Button>
+                        )}
                       </div>
                       <div
                         id='animated-image-container'
