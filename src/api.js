@@ -1,8 +1,16 @@
 import axios from "axios";
 import bs58 from "bs58";
-import { Transaction, Connection, SystemProgram } from "@_koi/web3.js";
+import {
+  Keypair,
+  Transaction,
+  PublicKey,
+  Connection,
+  SystemProgram,
+  sendAndConfirmTransaction,
+  TransactionInstruction,
+} from "@_koi/web3.js";
 import { Transfer_AMOUNT, RECIPIENT_ADDRESS, TASK_ADDRESS } from "./config";
-import { getNodeList } from "./helpers";
+import { getNodeList, encodeData } from "./helpers";
 
 export async function getLinktrees(apiUrl) {
   try {
@@ -232,6 +240,61 @@ export async function getAuthList(publicKey, apiUrl) {
   return false;
 }
 
+// export async function FundTask(
+//   payerWallet,
+//   taskStateInfoAddress,
+//   stakePotAccount,
+//   amount
+// ){
+//   const data = encodeData(TASK_INSTRUCTION_LAYOUTS.FundTask, {
+//     amount,
+//   });
+//     const programId = new PublicKey(
+//       "Koiitask22222222222222222222222222222222222"
+//     );
+//     const SYSTEM_PUBLIC_KEY = new PublicKey("11111111111111111111111111111111");
+//     const CLOCK_PUBLIC_KEY = new PublicKey(
+//       "SysvarC1ock11111111111111111111111111111111"
+//     );
+//    const connection = new Connection(`https://k2-testnet.koii.live`);
+//    const blockHash = await connection.getRecentBlockhash();
+//   let funderKeypair = Keypair.generate();
+//   console.log("Making new account", funderKeypair.publicKey.toBase58());
+
+//   const createSubmitterAccTransaction = new Transaction().add(
+//     SystemProgram.createAccount({
+//       fromPubkey: payerWallet.publicKey,
+//       newAccountPubkey: funderKeypair.publicKey,
+//       lamports:
+//         amount +
+//         (await connection.getMinimumBalanceForRentExemption(100)) +
+//         1000, //adding 1000 extra lamports for padding
+//       space: 100,
+//       programId: programId,
+//     })
+//   );
+//   await sendAndConfirmTransaction(connection, createSubmitterAccTransaction, [
+//     payerWallet,
+//     funderKeypair,
+//   ]);
+//   const instruction = new TransactionInstruction({
+//     keys: [
+//       { pubkey: taskStateInfoAddress, isSigner: false, isWritable: true },
+//       { pubkey: funderKeypair.publicKey, isSigner: true, isWritable: true },
+//       { pubkey: stakePotAccount, isSigner: false, isWritable: true },
+//       { pubkey: SYSTEM_PUBLIC_KEY, isSigner: false, isWritable: false },
+//       { pubkey: CLOCK_PUBLIC_KEY, isSigner: false, isWritable: false },
+//     ],
+//     programId,
+//     data: data,
+//   });
+//   await sendAndConfirmTransaction(
+//     connection,
+//     new Transaction().add(instruction),
+//     [payerWallet, funderKeypair]
+//   );
+// }
+
 export async function transferKoii(apiUrl) {
   try {
     const connection = new Connection(`https://k2-testnet.koii.live`);
@@ -251,7 +314,7 @@ export async function transferKoii(apiUrl) {
     );
     const payload = transaction.serializeMessage();
 
-    // const signature = await window.k2.signAndSendTransaction(payload);
+    const signature = await window.k2.signAndSendTransaction(payload);
 
     if (true) {
       // const authdata = {

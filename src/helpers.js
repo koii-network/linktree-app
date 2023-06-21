@@ -66,3 +66,24 @@ export const getBackUpNodeList = (randomIndex, nodeList) => {
     ];
   }
 };
+
+export function encodeData(type, fields) {
+  const allocLength =
+    type.layout.span >= 0 ? type.layout.span : getAlloc(type, fields);
+  const data = Buffer.alloc(allocLength);
+  const layoutFields = Object.assign({ instruction: type.index }, fields);
+  type.layout.encode(layoutFields, data);
+  return data;
+}
+
+function getAlloc(type, fields) {
+  let alloc = 0;
+  type.layout.fields.forEach((item) => {
+    if (item.span >= 0) {
+      alloc += item.span;
+    } else if (typeof item.alloc === "function") {
+      alloc += item.alloc(fields[item.property]);
+    }
+  });
+  return alloc;
+}
