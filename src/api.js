@@ -4,7 +4,6 @@ import { TASK_ADDRESS } from "./config";
 
 export async function deleteLinktree(nodeList, publicKey) {
   try {
-    await window.k2.signMessage("Delete Linktree");
     const requests = nodeList.map((node) =>
       axios
         .delete(`${node}/task/${TASK_ADDRESS}/linktree/${publicKey}`)
@@ -159,16 +158,7 @@ export async function setLinktree(data, publicKey, nodeList, username) {
 export async function UpdateLinktree(data, publicKey, nodeList, username) {
   const messageString = JSON.stringify(data);
   const signatureRaw = await window.k2.signMessage(messageString);
-  // const requests = nodeList.map((node) =>
-  //   axios
-  //     .delete(`${node}/task/${TASK_ADDRESS}/linktree/${publicKey}`)
-  //     .then((res) => res.data)
-  //     .catch((error) =>
-  //       console.log(`Error fetching authlist from ${node}:`, error)
-  //     )
-  // );
-
-  // await Promise.allSettled(requests);
+  // await deleteLinktree(nodeList, publicKey);
   const payload = {
     data,
     publicKey: publicKey,
