@@ -87,3 +87,19 @@ function getAlloc(type, fields) {
   });
   return alloc;
 }
+
+export function themeApplier(userTheme) {
+  switch (userTheme) {
+    case "Gradient":
+      document.documentElement.setAttribute("data-theme", "gradient");
+      break;
+    case "Mint":
+      document.documentElement.setAttribute("data-theme", "mint");
+      break;
+    case "Dark":
+      document.documentElement.setAttribute("data-theme", "dark");
+      break;
+    default:
+      break;
+  }
+}

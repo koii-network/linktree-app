@@ -2,30 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useToast, Box, Spinner, IconButton, Tooltip } from "@chakra-ui/react";
-import { DeleteIcon, AddIcon, SettingsIcon } from "@chakra-ui/icons";
-import { getLinktree, deleteLinktree, getLinktreeWithUsername } from "../api";
+import { DeleteIcon, SettingsIcon } from "@chakra-ui/icons";
+import { deleteLinktree, getLinktreeWithUsername } from "../api";
 import { useWalletContext } from "../contexts";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 import { LinkedInEmbed, YouTubeEmbed } from "react-social-media-embed";
-import "./ButtonAnimations.css";
-
-function themeApplier(userTheme) {
-  switch (userTheme) {
-    case "Gradient":
-      document.documentElement.setAttribute("data-theme", "gradient");
-      break;
-    case "Mint":
-      document.documentElement.setAttribute("data-theme", "mint");
-      break;
-    case "Dark":
-      document.documentElement.setAttribute("data-theme", "dark");
-      break;
-  }
-}
+import { themeApplier } from "../helpers";
+import "../css/ButtonAnimations.css";
 
 function LinksComponent() {
   const [isLoading, setIsLoading] = useState(true);
-  const [username, setUsername] = useState("Adeola");
+  const [username, setUsername] = useState("");
   const [isProfileOwner, setIsProfileOwner] = useState("");
   const [noProfileText, setNoProfileText] = useState("");
   const navigate = useNavigate();
@@ -103,8 +90,21 @@ function LinksComponent() {
     }
   };
 
-  function handleEditLinktree() {
-    navigate("/createlinktree");
+  async function handleEditLinktree() {
+    try {
+      if (window?.k2) {
+        await window.k2.signMessage("Edit Linktree");
+        navigate("/createlinktree");
+      }
+    } catch (error) {
+      toast({
+        title: "Error authorizing edit",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+    }
   }
   return (
     <Box className='container' position='relative'>
@@ -277,7 +277,3 @@ function LinksComponent() {
 }
 
 export default LinksComponent;
-
-// const Message = ({ children }) => {
-//   return <div className='message-container'>{children}</div>;
-// };
