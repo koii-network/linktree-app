@@ -40,7 +40,6 @@ export async function allLinktrees(nodeList) {
         )
     );
     const results = await Promise.allSettled(requests);
-    console.log(results);
     for (const result of results) {
       if (result.status === "fulfilled" && result.value) {
         const linktrees = [...result.value];
