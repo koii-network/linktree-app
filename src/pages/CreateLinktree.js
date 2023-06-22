@@ -38,7 +38,8 @@ document.documentElement.setAttribute("data-theme", "dark");
 
 function makeStorageClient() {
   return new Web3Storage({
-    token: process.env.REACT_APP_WEB3STORAGE_TOKEN,
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDhmOWMxOTNjODJlODMzMjVDMThkNWM4NzRCM2Q2NGM5ZjI5NDdEOUQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODM2NTY1NzExNjEsIm5hbWUiOiJLb2lpIn0.qZJmInvmwLCkq_7T3h2gfm4Hs84MNKEVooOuAFfbIXI",
   });
 }
 

@@ -63,7 +63,6 @@ export async function getLinktreeWithUsername(username, nodeList) {
     );
 
     const results = await Promise.allSettled(requests);
-    console.log(results);
 
     for (const result of results) {
       if (
@@ -134,7 +133,7 @@ export async function setLinktree(data, publicKey, nodeList, username) {
     username,
   };
   try {
-    let nodeListIndex = 0;
+    let nodeListIndex = 1;
     let result;
 
     while (!result) {
@@ -175,10 +174,8 @@ export async function UpdateLinktree(data, publicKey, nodeList, username) {
     username,
   };
   try {
-    let nodeListIndex = 0;
+    let nodeListIndex = 1;
     let result;
-
-    console.log("edit", payload);
 
     while (!result) {
       result = await axios
