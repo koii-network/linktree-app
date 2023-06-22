@@ -75,7 +75,9 @@ const HomePage = () => {
           setPublicKey(pubKey);
 
           const linktree = await getLinktree(pubKey, nodeList);
-          const username = linktree?.data?.linktree?.linktreeAddress;
+          const username =
+            linktree?.data?.data?.linktree?.linktreeAddress ||
+            linktree?.data?.linktree?.linktreeAddress;
           if (linktree.status === true && !linktree?.data) {
             toast({
               title: "No Linktree profile for this public key",
@@ -280,7 +282,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      {total !== null && total && (
+      {total !== null && total !== 0 && (
         <div className='footer'>
           <p>
             Total{" "}

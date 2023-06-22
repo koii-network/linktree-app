@@ -63,9 +63,14 @@ export async function getLinktreeWithUsername(username, nodeList) {
     );
 
     const results = await Promise.allSettled(requests);
+    console.log(results);
 
     for (const result of results) {
-      if (result.status === "fulfilled" && result?.value?.data) {
+      if (
+        result.status === "fulfilled" &&
+        result.value &&
+        result?.value?.length !== 0
+      ) {
         return {
           data: result.value,
           status: true,
@@ -131,6 +136,49 @@ export async function setLinktree(data, publicKey, nodeList, username) {
   try {
     let nodeListIndex = 0;
     let result;
+
+    while (!result) {
+      result = await axios
+        .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
+          payload,
+        })
+        .then((res) => res.data)
+        .catch((error) => console.log(`Error fetching authlist:`, error));
+      nodeListIndex++;
+    }
+
+    if (result?.message) {
+      return result;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function UpdateLinktree(data, publicKey, nodeList, username) {
+  const messageString = JSON.stringify(data);
+  const signatureRaw = await window.k2.signMessage(messageString);
+  // const requests = nodeList.map((node) =>
+  //   axios
+  //     .delete(`${node}/task/${TASK_ADDRESS}/linktree/${publicKey}`)
+  //     .then((res) => res.data)
+  //     .catch((error) =>
+  //       console.log(`Error fetching authlist from ${node}:`, error)
+  //     )
+  // );
+
+  // await Promise.allSettled(requests);
+  const payload = {
+    data,
+    publicKey: publicKey,
+    signature: bs58.encode(signatureRaw.signature),
+    username,
+  };
+  try {
+    let nodeListIndex = 0;
+    let result;
+
+    console.log("edit", payload);
 
     while (!result) {
       result = await axios

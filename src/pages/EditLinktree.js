@@ -3,7 +3,6 @@ import { Formik, ErrorMessage, Field, FieldArray } from "formik";
 import { array, object, string, mixed, boolean } from "yup";
 import { Web3Storage } from "web3.storage";
 import { useLocation } from "react-router-dom";
-import { deleteLinktree } from "../api";
 import {
   Box,
   Button,
@@ -25,15 +24,13 @@ import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 import { Oval } from "react-loader-spinner";
 import { useDropzone } from "react-dropzone";
-// import "./ButtonAnimations.css";
 import { themeApplier } from "../helpers";
 
 document.documentElement.setAttribute("data-theme", "dark");
 
 function makeStorageClient() {
   return new Web3Storage({
-    token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDNhMzJGMjdGZUFENTU0RGRDRDAyRGVFRTZmNzcyRjQxN0MzYzdkMTUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODU0NDMxMzUyNDEsIm5hbWUiOiJrb2lpLWxpbmt0cmVlIn0.-eHxferozbAk9nhXlV1L6rqll2Mi9kaAYMj5tv18y7c",
+    token: process.env.REACT_APP_WEB3STORAGE_TOKEN,
   });
 }
 
@@ -48,9 +45,6 @@ const EditLinktree = () => {
   const [choosenAnimation, setChoosenAnimation] = useState("none");
   const query = location.pathname.slice(14);
   const [userData, setUserData] = useState(null);
-
-  const [usernameError, setUsernameError] = useState("");
-  const [disabled, setDisabled] = useState(true);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -141,22 +135,6 @@ const EditLinktree = () => {
     }
   };
 
-  const handleDeleteLinktree = async () => {
-    if (publicKey) {
-      try {
-        await deleteLinktree(nodeList, publicKey);
-      } catch (error) {
-        toast({
-          title: "Error editing Linktree profile",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          position: "top",
-        });
-      }
-    }
-  };
-
   const insertKey = (links) => {
     return links.map((item, index) => {
       return {
@@ -169,7 +147,6 @@ const EditLinktree = () => {
 
   const handleSubmit = async (values, actions) => {
     setIsLoading(true);
-    await handleDeleteLinktree();
     if (!publicKey) {
       toast({
         title: "Connect your finnie wallet",
@@ -185,19 +162,25 @@ const EditLinktree = () => {
       }, 3000);
       return;
     }
-
-    values.image = files[0].name;
-    const imageCID = await uploadToIPFS(files);
-    if (imageCID === null) {
-      setIsLoading(false);
-      return toast({
-        title: "Try again",
-        description: "Error uploading image",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-        position: "top",
-      });
+    let imageLink;
+    console.log(values?.image);
+    if (values?.image && files.length > 0) {
+      values.image = files[0].name;
+      const imageCID = await uploadToIPFS(files);
+      if (imageCID === null) {
+        setIsLoading(false);
+        return toast({
+          title: "Try again",
+          description: "Error uploading image",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+      imageLink = `https://${imageCID}.ipfs.dweb.link/${imageName}`;
+    } else {
+      imageLink = userData?.image;
     }
 
     values.links = insertKey(values.links);
@@ -205,7 +188,7 @@ const EditLinktree = () => {
       uuid: uuid(),
       linktree: {
         ...values,
-        image: `https://${imageCID}.ipfs.dweb.link/${imageName}`,
+        image: imageLink,
         background: "",
         theme: choosenTheme,
         animation: choosenAnimation,
@@ -245,17 +228,6 @@ const EditLinktree = () => {
   };
   const linksGroup = { label: "", redirectUrl: "", key: "", isFavorite: false };
 
-  const handleChangeUserName = async (e) => {
-    const userData = await getLinktreeWithUsername(e.target.value, nodeList);
-    if (userData?.data?.username) {
-      setUsernameError("Username already exists");
-      setDisabled(true);
-    } else {
-      setUsernameError("");
-      setDisabled(false);
-    }
-  };
-
   const handleOptionChange = (event) => {
     const selectedValue = event.target.value;
     setChoosenAnimation(selectedValue);
@@ -264,8 +236,8 @@ const EditLinktree = () => {
   const thumbs = files.map((file) => (
     <div key={file.name}>
       <img
-        className="user-image"
-        alt="User"
+        className='user-image'
+        alt='User'
         src={file.preview}
         onLoad={() => {
           URL.revokeObjectURL(file.preview);
@@ -279,7 +251,7 @@ const EditLinktree = () => {
         <Box
           py={{ base: "8rem", md: "5rem" }}
           px={8}
-          className="createLinktree"
+          className='createLinktree'
         >
           <Text
             fontSize={{ base: "3xl", md: "4xl" }}
@@ -305,18 +277,14 @@ const EditLinktree = () => {
                 .max(400, "Bio is too Long")
                 .required("A short bio is required"),
               linktreeAddress: string()
-                .min(5, "Address is too short!")
-                .max(200, "Address is too Long")
+                .min(5, "Username is too short!")
+                .max(200, "Username is too Long")
                 .required("An address is required."),
               image: mixed().nullable().required("Upload a profile image"),
               links: array(
                 object({
                   label: string().required("Link label is required"),
                   redirectUrl: string().required("Link URL is required"),
-                  // .matches(
-                  //   /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-                  //   "Enter correct url!"
-                  // )
                   key: string(),
                   isFavorite: boolean(),
                 })
@@ -334,8 +302,8 @@ const EditLinktree = () => {
                       {files.length === 0 ? (
                         <img
                           src={userData?.image}
-                          alt="User"
-                          className="user-image"
+                          alt='User'
+                          className='user-image'
                         />
                       ) : (
                         thumbs
@@ -351,55 +319,55 @@ const EditLinktree = () => {
                       {...getRootProps({ className: "dropzone" })}
                     >
                       <input {...getInputProps()} />
-                      <Text color="#8989c7">Choose image +</Text>
+                      <Text color='#8989c7'>Choose image +</Text>
                     </Box>
                   </Flex>
                   <Flex my={3} alignItems={"center"}>
                     <Text mr={5}>Name:</Text>
                     <Field
-                      name="name"
-                      label="Full Name"
-                      variant="flushed"
+                      name='name'
+                      label='Full Name'
+                      variant='flushed'
                       as={Input}
-                      className="input-border"
+                      className='input-border'
                     />
-                    <Text className="error">
-                      <ErrorMessage name="name" />
+                    <Text className='error'>
+                      <ErrorMessage name='name' />
                     </Text>
                   </Flex>
 
                   <Flex mt={5}>
                     <Text mr={10}>Bio:</Text>
                     <Field
-                      name="description"
-                      label="Bio"
+                      name='description'
+                      label='Bio'
                       as={Textarea}
-                      height="150px"
-                      className="input-border"
+                      height='150px'
+                      className='input-border'
                     />
-                    <Text className="error">
-                      <ErrorMessage name="description" />
+                    <Text className='error'>
+                      <ErrorMessage name='description' />
                     </Text>
                   </Flex>
                 </Box>
-                <FieldArray name="links">
+                <FieldArray name='links'>
                   {({ push, remove }) => (
                     <div>
                       <div>
-                        <Text fontSize="2xl" mt={5}>
+                        <Text fontSize='2xl' mt={5}>
                           Social Links
                         </Text>
                       </div>
                       {values.links.map((_, index) => (
                         <Box
-                          padding="10px"
+                          padding='10px'
                           outline={index === 0 ? "2px black solid" : undefined}
                           backgroundColor={
                             index === 0 ? "rgba(0, 0, 0, 0.1);" : undefined
                           }
                         >
                           {index === 0 && (
-                            <Box className="chooseAnimation">Favorite Link</Box>
+                            <Box className='chooseAnimation'>Favorite Link</Box>
                           )}
                           <Flex
                             flexDirection={{ base: "column", md: "row" }}
@@ -411,12 +379,12 @@ const EditLinktree = () => {
                               <Text>Link Label</Text>
                               <Field
                                 name={`links.${index}.label`}
-                                label="Link Name"
+                                label='Link Name'
                                 as={Input}
-                                className="input-border"
+                                className='input-border'
                               />
 
-                              <Text className="error">
+                              <Text className='error'>
                                 <ErrorMessage name={`links.${index}.label`} />ㅤ
                               </Text>
                             </Box>
@@ -424,12 +392,12 @@ const EditLinktree = () => {
                             <Box w={{ base: "100%", md: "45%" }}>
                               <Text>Link URL</Text>
                               <Field
-                                className="input-border"
+                                className='input-border'
                                 name={`links.${index}.redirectUrl`}
-                                label="Link URL"
+                                label='Link URL'
                                 as={Input}
                               />
-                              <Text className="error">
+                              <Text className='error'>
                                 <ErrorMessage
                                   name={`links.${index}.redirectUrl`}
                                 />
@@ -444,11 +412,11 @@ const EditLinktree = () => {
                             ) : (
                               <div>
                                 <IconButton
-                                  rounded="full"
+                                  rounded='full'
                                   icon={<DeleteIcon />}
-                                  colorScheme="red"
+                                  colorScheme='red'
                                   mr={-3}
-                                  marginBottom="10px"
+                                  marginBottom='10px'
                                   alignSelf={{ base: "flex-end", lg: "" }}
                                   onClick={() => remove(index)}
                                 />
@@ -459,15 +427,15 @@ const EditLinktree = () => {
                             <>
                               <Box>
                                 <Select
-                                  placeholder="None"
+                                  placeholder='None'
                                   onChange={handleOptionChange}
                                   value={userData?.animation}
                                 >
-                                  <option value="fade-in">Fade</option>
-                                  <option value="pulse">Pulse</option>
-                                  <option value="spin">Spin</option>
-                                  <option value="bounce">Bounce</option>
-                                  <option value="rainbow">Rainbow</option>
+                                  <option value='fade-in'>Fade</option>
+                                  <option value='pulse'>Pulse</option>
+                                  <option value='spin'>Spin</option>
+                                  <option value='bounce'>Bounce</option>
+                                  <option value='rainbow'>Rainbow</option>
                                 </Select>
                                 <Center>
                                   <Button mt={5} className={choosenAnimation}>
@@ -482,10 +450,10 @@ const EditLinktree = () => {
                       <Button
                         mt={4}
                         leftIcon={<AddIcon />}
-                        color="var(--koii-white)"
-                        rounded="full"
-                        borderColor="var(--koii-white)"
-                        variant="outline"
+                        color='var(--koii-white)'
+                        rounded='full'
+                        borderColor='var(--koii-white)'
+                        variant='outline'
                         onClick={() => push(linksGroup)}
                         _hover={{
                           backgroundColor: "var(--koii-white)",
@@ -500,32 +468,31 @@ const EditLinktree = () => {
                 </FieldArray>
 
                 <Box mt={10}>
-                  <Text fontSize="2xl" mt={5}>
+                  <Text fontSize='2xl' mt={5}>
                     Linktree Username
                   </Text>
 
                   <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+                    display='flex'
+                    alignItems='center'
+                    justifyContent='center'
                   >
-                    <Text fontSize="m" mr={2}>
+                    <Text fontSize='m' mr={2}>
                       linktree.koii.network/
                     </Text>
                     <Field
-                      name="linktreeAddress"
-                      label="Linktree Address"
-                      variant="flushed"
+                      name='linktreeAddress'
+                      label='Linktree Address'
+                      variant='flushed'
                       as={Input}
-                      className="input-border"
-                      onKeyUp={handleChangeUserName}
+                      className='input-border'
+                      value={userData?.linktreeAddress}
                     />
                   </Box>
 
-                  <Text className="error">
-                    <ErrorMessage name="linktreeAddress" />
+                  <Text className='error'>
+                    <ErrorMessage name='linktreeAddress' />
                   </Text>
-                  <Text className="error">{usernameError}</Text>
                 </Box>
 
                 <Text
@@ -539,7 +506,7 @@ const EditLinktree = () => {
                 <Flex justifyContent={"space-between"}>
                   <Flex
                     alignItems={"center"}
-                    bg="#e5e5e5"
+                    bg='#e5e5e5'
                     py={2}
                     px={6}
                     borderRadius={10}
@@ -550,16 +517,16 @@ const EditLinktree = () => {
                     onClick={() => handleThemeSelection("Dark")}
                   >
                     <Box
-                      background="#171753"
-                      boxSize="2rem"
-                      borderRadius="full"
-                      mr="12px"
+                      background='#171753'
+                      boxSize='2rem'
+                      borderRadius='full'
+                      mr='12px'
                     />
                     <Text color={"#171753"}>Koii Dark</Text>
                   </Flex>
                   <Flex
                     alignItems={"center"}
-                    bg="#e5e5e5"
+                    bg='#e5e5e5'
                     py={2}
                     px={6}
                     borderRadius={10}
@@ -570,16 +537,16 @@ const EditLinktree = () => {
                     onClick={() => handleThemeSelection("Mint")}
                   >
                     <Box
-                      background="#5ED9D1"
-                      boxSize="2rem"
-                      borderRadius="full"
-                      mr="12px"
+                      background='#5ED9D1'
+                      boxSize='2rem'
+                      borderRadius='full'
+                      mr='12px'
                     />
                     <Text color={"#171753"}>Koii Mint</Text>
                   </Flex>
                   <Flex
                     alignItems={"center"}
-                    bg="#e5e5e5"
+                    bg='#e5e5e5'
                     py={2}
                     px={6}
                     borderRadius={10}
@@ -592,22 +559,22 @@ const EditLinktree = () => {
                     }
                   >
                     <Box
-                      background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
-                      boxSize="2rem"
-                      borderRadius="full"
-                      mr="12px"
+                      background='linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)'
+                      boxSize='2rem'
+                      borderRadius='full'
+                      mr='12px'
                     />
                     <Text color={"#171753"}>Koii Grad</Text>
                   </Flex>
                 </Flex>
 
                 <Button
-                  w="full"
-                  rounded="full"
-                  color="var(--koii-blue)"
-                  bg="var(--koii-white)"
+                  w='full'
+                  rounded='full'
+                  color='var(--koii-blue)'
+                  bg='var(--koii-white)'
                   my={10}
-                  type="submit"
+                  type='submit'
                 >
                   {isLoading ? <Spinner /> : "Save"}
                 </Button>
@@ -620,12 +587,12 @@ const EditLinktree = () => {
           <Oval
             height={80}
             width={80}
-            color="#ffffff"
+            color='#ffffff'
             wrapperStyle={{}}
-            wrapperClass=""
+            wrapperClass=''
             visible={true}
-            ariaLabel="oval-loading"
-            secondaryColor="#ffffff"
+            ariaLabel='oval-loading'
+            secondaryColor='#ffffff'
             strokeWidth={2}
             strokeWidthSecondary={2}
           />

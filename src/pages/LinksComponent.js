@@ -30,13 +30,15 @@ function LinksComponent() {
   useEffect(() => {
     async function getUserData() {
       const userResponse = await getLinktreeWithUsername(query, nodeList);
-      setUsername(userResponse.data.username);
+      setUsername(query);
       const isProfileOwner =
         window?.k2 &&
         publicKey &&
         window?.k2?.publicKey?.toString() === userResponse.data.publicKey;
       setIsProfileOwner(isProfileOwner);
-      setUserData(userResponse?.data?.data?.linktree);
+      setUserData(
+        userResponse?.data?.linktree || userResponse?.data?.data?.linktree
+      );
       return userResponse;
     }
     async function getData() {
@@ -94,7 +96,7 @@ function LinksComponent() {
     try {
       if (window?.k2) {
         await window.k2.signMessage("Edit Linktree");
-        navigate("/createlinktree");
+        navigate(`/editLinktree/${username}`);
       }
     } catch (error) {
       toast({
@@ -166,7 +168,7 @@ function LinksComponent() {
                   >
                     <Tooltip
                       hasArrow
-                      label='Dashboard'
+                      label='Edit Linktree'
                       bg='#ecfffe'
                       fontSize='sm'
                       color='#171753'
