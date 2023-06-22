@@ -224,7 +224,6 @@ const CreateLinktree = () => {
   const handleOptionChange = (event) => {
     const selectedValue = event.target.value;
     setChoosenAnimation(selectedValue);
-    console.log("hello");
   };
   return (
     <Box py={{ base: "8rem", md: "5rem" }} px={8} className='createLinktree'>

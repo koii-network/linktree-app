@@ -16,7 +16,7 @@ import {
   Select,
   Center,
 } from "@chakra-ui/react";
-import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
+import { DeleteIcon, AddIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import uuid from "react-uuid";
 import { updateLinktree, getLinktreeWithUsername } from "../api";
@@ -256,7 +256,35 @@ const EditLinktree = () => {
             fontSize={{ base: "3xl", md: "4xl" }}
             fontWeight={{ base: "bold", md: "normal" }}
             my={5}
+            display={"flex"}
+            gap='15px'
           >
+            <Button
+              leftIcon={
+                <ChevronLeftIcon
+                  height='30px'
+                  width='30px'
+                  marginRight='-8px'
+                />
+              }
+              onClick={() => {
+                navigate(-1);
+              }}
+              variant='outline'
+              padding='0px'
+              display='flex'
+              alignItems='center'
+              justifyItems='center'
+              height='50px'
+              width='50px'
+              color='var(--koii-white)'
+              rounded='full'
+              borderColor='var(--koii-white)'
+              _hover={{
+                backgroundColor: "var(--koii-white)",
+                color: "var(--koii-blue)",
+              }}
+            />
             Edit Your Koii Linktree Profile
           </Text>
 
@@ -502,7 +530,11 @@ const EditLinktree = () => {
                   Change theme
                 </Text>
 
-                <Flex justifyContent={"space-between"}>
+                <Flex
+                  justifyContent={"space-between"}
+                  flexDirection={{ base: "column", md: "row" }}
+                  gap='20px'
+                >
                   <Flex
                     alignItems={"center"}
                     bg='#e5e5e5'
