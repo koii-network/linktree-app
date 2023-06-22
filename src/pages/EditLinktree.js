@@ -19,7 +19,7 @@ import {
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import uuid from "react-uuid";
-import { setLinktree, getLinktreeWithUsername } from "../api";
+import { updateLinktree, getLinktreeWithUsername } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 import { Oval } from "react-loader-spinner";
@@ -196,9 +196,8 @@ const EditLinktree = () => {
       },
       timestamp: Date.now(),
     };
-    console.log(payload);
     // return;
-    const res = await setLinktree(
+    const res = await updateLinktree(
       payload,
       publicKey,
       nodeList,
@@ -232,7 +231,6 @@ const EditLinktree = () => {
   const handleOptionChange = (event) => {
     const selectedValue = event.target.value;
     setChoosenAnimation(selectedValue);
-    console.log("hello");
   };
   const thumbs = files.map((file) => (
     <div key={file.name}>

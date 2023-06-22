@@ -155,10 +155,9 @@ export async function setLinktree(data, publicKey, nodeList, username) {
   }
 }
 
-export async function UpdateLinktree(data, publicKey, nodeList, username) {
+export async function updateLinktree(data, publicKey, nodeList, username) {
   const messageString = JSON.stringify(data);
   const signatureRaw = await window.k2.signMessage(messageString);
-  // await deleteLinktree(nodeList, publicKey);
   const payload = {
     data,
     publicKey: publicKey,
@@ -171,13 +170,15 @@ export async function UpdateLinktree(data, publicKey, nodeList, username) {
 
     while (!result) {
       result = await axios
-        .put(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
+        .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
           payload,
         })
         .then((res) => res.data)
         .catch((error) => console.log(`Error fetching authlist:`, error));
       nodeListIndex++;
     }
+
+    await deleteLinktree(nodeList, publicKey);
 
     if (result?.message) {
       return result;
