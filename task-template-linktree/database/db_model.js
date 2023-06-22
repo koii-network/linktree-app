@@ -77,9 +77,21 @@ const setLinktree = async (publicKey, linktree) => {
 };
 
 const updateLinktree = async (publicKey, linktree) => {
+  const db = await namespaceWrapper.getDb();
   try {
     const linktreeId = getLinktreeId(publicKey);
-    await namespaceWrapper.storeSet(linktreeId, linktree);
+    const resp = await db.findOne({ linktreeId });
+    const username = resp.username;
+    db.update(
+      { _id: resp._id, linktreeId },
+      { $set: { linktreeId, linktree, username } },
+      {}, // this argument was missing
+      function (err, numReplaced) {
+        console.log('replaced---->' + numReplaced);
+
+        db.loadDatabase();
+      },
+    );
     return console.log('Linktree set');
   } catch (err) {
     return undefined;
@@ -200,8 +212,6 @@ const getAuthList = async pubkey => {
   }
 };
 
-
-
 const setAuthList = async pubkey => {
   const db = await namespaceWrapper.getDb();
   try {
@@ -214,7 +224,6 @@ const setAuthList = async pubkey => {
     return undefined;
   }
 };
-
 
 const getAllAuthList = async () => {
   const db = await namespaceWrapper.getDb();
