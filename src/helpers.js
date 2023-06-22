@@ -53,41 +53,6 @@ export const getNodeList = async () => {
   return nodeList;
 };
 
-export const getBackUpNodeList = (randomIndex, nodeList) => {
-  if (randomIndex + 2 < nodeList.length) {
-    return [
-      `${nodeList[randomIndex + 1]}/task/${TASK_ADDRESS}`,
-      `${nodeList[randomIndex + 2]}/task/${TASK_ADDRESS}`,
-    ];
-  } else {
-    return [
-      `${nodeList[randomIndex - 1]}/task/${TASK_ADDRESS}`,
-      `${nodeList[randomIndex - 2]}/task/${TASK_ADDRESS}`,
-    ];
-  }
-};
-
-export function encodeData(type, fields) {
-  const allocLength =
-    type.layout.span >= 0 ? type.layout.span : getAlloc(type, fields);
-  const data = Buffer.alloc(allocLength);
-  const layoutFields = Object.assign({ instruction: type.index }, fields);
-  type.layout.encode(layoutFields, data);
-  return data;
-}
-
-function getAlloc(type, fields) {
-  let alloc = 0;
-  type.layout.fields.forEach((item) => {
-    if (item.span >= 0) {
-      alloc += item.span;
-    } else if (typeof item.alloc === "function") {
-      alloc += item.alloc(fields[item.property]);
-    }
-  });
-  return alloc;
-}
-
 export function themeApplier(userTheme) {
   switch (userTheme) {
     case "Gradient":
