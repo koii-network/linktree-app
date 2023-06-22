@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useToast, Box, Spinner, IconButton, Tooltip } from "@chakra-ui/react";
 import { DeleteIcon, SettingsIcon } from "@chakra-ui/icons";
-import { deleteLinktree, getLinktreeWithUsername } from "../api";
+import { deleteLinktree, getLinktreeWithUsername, getLinktree } from "../api";
 import { useWalletContext } from "../contexts";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 import { LinkedInEmbed, YouTubeEmbed } from "react-social-media-embed";

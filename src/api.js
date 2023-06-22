@@ -16,6 +16,9 @@ export async function deleteLinktree(nodeList, publicKey) {
 
     const results = await Promise.allSettled(requests);
 
+    await axios.delete(
+      `${nodeList[1]}/task/${TASK_ADDRESS}/linktree/${publicKey}`
+    );
     for (const result of results) {
       if (result.status === "fulfilled" && result.value === publicKey) {
         return true;
@@ -37,7 +40,6 @@ export async function allLinktrees(nodeList) {
           console.log(`Error fetching authlist from ${node}:`, error)
         )
     );
-
     const results = await Promise.allSettled(requests);
     for (const result of results) {
       if (result.status === "fulfilled" && result.value) {
@@ -179,7 +181,7 @@ export async function UpdateLinktree(data, publicKey, nodeList, username) {
 
     while (!result) {
       result = await axios
-        .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
+        .put(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
           payload,
         })
         .then((res) => res.data)
