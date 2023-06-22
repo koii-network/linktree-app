@@ -8,6 +8,8 @@ import LinksComponent from "./pages/LinksComponent";
 import "@rainbow-me/rainbowkit/styles.css";
 import CreateLinktree from "./pages/CreateLinktree";
 import { ChakraProvider } from "@chakra-ui/react";
+import Dashboard from "./pages/Dashboard";
+import EditLinktree from "./pages/EditLinktree";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
   {
     path: "createlinktree",
     element: <CreateLinktree />,
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
+  },
+  {
+    path: "editLinktree/:id",
+    element: <EditLinktree />,
   },
 ]);
 
