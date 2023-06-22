@@ -65,6 +65,9 @@ function LinksComponent() {
   const handleDeleteLinktree = async () => {
     if (publicKey) {
       try {
+        if (window?.k2) {
+          await window.k2.signMessage("Delete Linktree");
+        }
         const deletedProfile = await deleteLinktree(nodeList, publicKey);
         if (deletedProfile) {
           toast({

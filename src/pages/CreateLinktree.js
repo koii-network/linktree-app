@@ -30,7 +30,7 @@ import {
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import uuid from "react-uuid";
-import { setLinktree, getLinktreeWithUsername, UpdateLinktree } from "../api";
+import { setLinktree, getLinktreeWithUsername } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 import "../css/ButtonAnimations.css";
@@ -180,7 +180,7 @@ const CreateLinktree = () => {
       timestamp: Date.now(),
     };
 
-    const res = await UpdateLinktree(
+    const res = await setLinktree(
       payload,
       publicKey,
       nodeList,
