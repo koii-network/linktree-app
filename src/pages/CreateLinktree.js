@@ -544,9 +544,10 @@ const CreateLinktree = () => {
                       {index === 0 && (
                         <>
                           <Box>
-                            <Select
+                          <Select
                               placeholder='None'
                               onChange={handleOptionChange}
+                              style={{ color: 'black' }}
                             >
                               <option value='fade-in'>Fade</option>
                               <option value='pulse'>Pulse</option>
@@ -554,6 +555,7 @@ const CreateLinktree = () => {
                               <option value='bounce'>Bounce</option>
                               <option value='rainbow'>Rainbow</option>
                             </Select>
+
                             <Center>
                               <Button mt={5} className={choosenAnimation}>
                                 Example!
