@@ -53,16 +53,18 @@ export const getNodeList = async () => {
   return nodeList;
 };
 
-export const getBackUpNodeList = (randomIndex, nodeList) => {
-  if (randomIndex + 2 < nodeList.length) {
-    return [
-      `${nodeList[randomIndex + 1]}/task/${TASK_ADDRESS}`,
-      `${nodeList[randomIndex + 2]}/task/${TASK_ADDRESS}`,
-    ];
-  } else {
-    return [
-      `${nodeList[randomIndex - 1]}/task/${TASK_ADDRESS}`,
-      `${nodeList[randomIndex - 2]}/task/${TASK_ADDRESS}`,
-    ];
+export function themeApplier(userTheme) {
+  switch (userTheme) {
+    case "Gradient":
+      document.documentElement.setAttribute("data-theme", "gradient");
+      break;
+    case "Mint":
+      document.documentElement.setAttribute("data-theme", "mint");
+      break;
+    case "Dark":
+      document.documentElement.setAttribute("data-theme", "dark");
+      break;
+    default:
+      break;
   }
-};
+}

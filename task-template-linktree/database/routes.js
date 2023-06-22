@@ -93,8 +93,6 @@ router.put('/linktree', async (req, res) => {
     res.status(400).json({ error: 'Missing publicKey or signature' });
     return;
   } else {
-    // log the pubkey of the payload
-    console.log('linktree', linktree.publicKey);
     try {
       // Verify the signature
       const isVerified = nacl.sign.detached.verify(
@@ -119,12 +117,8 @@ router.put('/linktree', async (req, res) => {
     publicKey: pubkey,
     signature: signature,
   };
-  let updatedLinktree = {
-    linktree: linktree,
-    username: linktree.username,
-  };
 
-  await db.updateLinktree(pubkey, updatedLinktree);
+  await db.updateLinktree(pubkey, linktree);
 
   await db.setProofs(pubkey, proofs);
 

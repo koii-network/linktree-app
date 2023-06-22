@@ -2,29 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useToast, Box, Spinner, IconButton, Tooltip } from "@chakra-ui/react";
-import { DeleteIcon, AddIcon, SettingsIcon } from "@chakra-ui/icons";
-import { getLinktree, deleteLinktree, getLinktreeWithUsername } from "../api";
+import { DeleteIcon, SettingsIcon } from "@chakra-ui/icons";
+import { deleteLinktree, getLinktreeWithUsername } from "../api";
 import { useWalletContext } from "../contexts";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 import { LinkedInEmbed, YouTubeEmbed } from "react-social-media-embed";
-
-function themeApplier(userTheme) {
-  switch (userTheme) {
-    case "Gradient":
-      document.documentElement.setAttribute("data-theme", "gradient");
-      break;
-    case "Mint":
-      document.documentElement.setAttribute("data-theme", "mint");
-      break;
-    case "Dark":
-      document.documentElement.setAttribute("data-theme", "dark");
-      break;
-  }
-}
+import { themeApplier } from "../helpers";
+import "../css/ButtonAnimations.css";
 
 function LinksComponent() {
   const [isLoading, setIsLoading] = useState(true);
-  const [username, setUsername] = useState("Adeola");
+  const [username, setUsername] = useState("");
   const [isProfileOwner, setIsProfileOwner] = useState("");
   const [noProfileText, setNoProfileText] = useState("");
   const navigate = useNavigate();
@@ -42,13 +30,15 @@ function LinksComponent() {
   useEffect(() => {
     async function getUserData() {
       const userResponse = await getLinktreeWithUsername(query, nodeList);
-      setUsername(userResponse.data.username);
+      setUsername(query);
       const isProfileOwner =
         window?.k2 &&
         publicKey &&
         window?.k2?.publicKey?.toString() === userResponse.data.publicKey;
       setIsProfileOwner(isProfileOwner);
-      setUserData(userResponse?.data?.data?.linktree);
+      setUserData(
+        userResponse?.data?.linktree || userResponse?.data?.data?.linktree
+      );
       return userResponse;
     }
     async function getData() {
@@ -102,8 +92,21 @@ function LinksComponent() {
     }
   };
 
-  function handleEditLinktree() {
-    navigate("/createlinktree");
+  async function handleEditLinktree() {
+    try {
+      if (window?.k2) {
+        await window.k2.signMessage("Edit Linktree");
+        navigate(`/editLinktree/${username}`);
+      }
+    } catch (error) {
+      toast({
+        title: "Error authorizing edit",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+    }
   }
   return (
     <Box className='container' position='relative'>
@@ -165,7 +168,7 @@ function LinksComponent() {
                   >
                     <Tooltip
                       hasArrow
-                      label='Dashboard'
+                      label='Edit Linktree'
                       bg='#ecfffe'
                       fontSize='sm'
                       color='#171753'
@@ -197,14 +200,16 @@ function LinksComponent() {
 
                 <div className='links'>
                   {userData?.links?.map((link, index) => (
-                    <div className='link-container'>
+                    <div className='link-container' key={link?.redirectUrl}>
                       <a
-                        className={`link ${index === 0 ? "animate" : ""}`}
+                        className={`link ${
+                          index === 0 ? userData?.animation : ""
+                        }`}
                         key={index}
                         href={link?.redirectUrl}
                         target='_blank'
                         rel='noopener noreferrer'
-                        style={{ fontSize: index === 0 ? "20px" : "inherit" }}
+                        style={{ fontSize: index === 0 ? "18px" : "inherit" }}
                       >
                         {link.label}
                       </a>
@@ -274,7 +279,3 @@ function LinksComponent() {
 }
 
 export default LinksComponent;
-
-// const Message = ({ children }) => {
-//   return <div className='message-container'>{children}</div>;
-// };
