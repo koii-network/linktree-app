@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, ErrorMessage, Field, FieldArray } from "formik";
 import { array, object, string, mixed, boolean } from "yup";
 import { Web3Storage } from "web3.storage";
+
 import {
   Box,
   Button,
@@ -23,6 +24,8 @@ import {
   ButtonGroup,
   Checkbox,
   Tooltip,
+  Select,
+  Center,
 } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
@@ -30,7 +33,7 @@ import uuid from "react-uuid";
 import { setLinktree, getLinktreeWithUsername } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
-
+import "../css/ButtonAnimations.css";
 document.documentElement.setAttribute("data-theme", "dark");
 
 function makeStorageClient() {
@@ -61,6 +64,8 @@ const CreateLinktree = () => {
   const [imageName, setImageName] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [choosenTheme, setChoosenTheme] = useState("Dark");
+  const [choosenAnimation, setChoosenAnimation] = useState("none");
+
   const [usernameError, setUsernameError] = useState("");
   const [disabled, setDisabled] = useState(true);
 
@@ -169,6 +174,7 @@ const CreateLinktree = () => {
         image: `https://${imageCID}.ipfs.dweb.link/${imageName}`,
         background: "",
         theme: choosenTheme,
+        animation: choosenAnimation,
       },
       timestamp: Date.now(),
     };
@@ -214,6 +220,11 @@ const CreateLinktree = () => {
     }
   };
 
+  const handleOptionChange = (event) => {
+    const selectedValue = event.target.value;
+    setChoosenAnimation(selectedValue);
+    console.log("hello");
+  };
   return (
     <Box py={{ base: "8rem", md: "5rem" }} px={8} className='createLinktree'>
       <Text
@@ -466,73 +477,91 @@ const CreateLinktree = () => {
                     </Text>
                   </div>
                   {values.links.map((_, index) => (
-                    <Flex
-                      flexDirection={{ base: "column", md: "row" }}
-                      key={index}
-                      mt={2}
-                      alignItems={{ base: "end", md: "center" }}
+                    <Box
+                      padding='10px'
+                      outline={index === 0 ? "2px black solid" : undefined}
+                      backgroundColor={
+                        index === 0 ? "rgba(0, 0, 0, 0.1);" : undefined
+                      }
                     >
-                      <Box w={{ base: "100%", md: "45%" }}>
-                        <Text>
-                          Link Label<span className='error'>*</span>
-                        </Text>
-                        <Field
-                          name={`links.${index}.label`}
-                          label='Link Name'
-                          as={Input}
-                          className='input-border'
-                        />
-
-                        <Text className='error'>
-                          <ErrorMessage name={`links.${index}.label`} />ㅤ
-                        </Text>
-                      </Box>
-                      <Spacer />
-                      <Box w={{ base: "100%", md: "45%" }}>
-                        <Text>
-                          Link URL<span className='error'>*</span>
-                        </Text>
-                        <Field
-                          className='input-border'
-                          name={`links.${index}.redirectUrl`}
-                          label='Link URL'
-                          as={Input}
-                        />
-                        <Text className='error'>
-                          <ErrorMessage name={`links.${index}.redirectUrl`} />ㅤ
-                        </Text>
-                      </Box>
-                      <Spacer />
-                      {index === 0 ? (
-                        <div>
-                          <Tooltip
-                            placement='top'
-                            label='Marked as favorite'
-                            aria-label='A tooltip'
-                            hasArrow
-                            closeOnClick={false}
-                          >
-                            <Checkbox
-                              size={"lg"}
-                              marginTop='10px'
-                              isChecked={true}
-                              disabled
-                            />
-                          </Tooltip>
-                        </div>
-                      ) : (
-                        <div>
-                          <IconButton
-                            rounded='full'
-                            icon={<DeleteIcon />}
-                            colorScheme='red'
-                            marginTop='10px'
-                            alignSelf={{ base: "flex-end", lg: "" }}
-                            onClick={() => remove(index)}
-                          />
-                        </div>
+                      {index === 0 && (
+                        <Box className='chooseAnimation'>Favorite Link</Box>
                       )}
-                    </Flex>
+                      <Flex
+                        flexDirection={{ base: "column", md: "row" }}
+                        key={index}
+                        mt={2}
+                        alignItems={{ base: "end", md: "center" }}
+                      >
+                        <Box w={{ base: "100%", md: "45%" }}>
+                          <Text>
+                            Link Label<span className='error'>*</span>
+                          </Text>
+                          <Field
+                            name={`links.${index}.label`}
+                            label='Link Name'
+                            as={Input}
+                            className='input-border'
+                          />
+
+                          <Text className='error'>
+                            <ErrorMessage name={`links.${index}.label`} />ㅤ
+                          </Text>
+                        </Box>
+                        <Spacer />
+                        <Box w={{ base: "100%", md: "45%" }}>
+                          <Text>
+                            Link URL<span className='error'>*</span>
+                          </Text>
+                          <Field
+                            className='input-border'
+                            name={`links.${index}.redirectUrl`}
+                            label='Link URL'
+                            as={Input}
+                          />
+                          <Text className='error'>
+                            <ErrorMessage name={`links.${index}.redirectUrl`} />
+                            ㅤ
+                          </Text>
+                        </Box>
+                        <Spacer />
+                        {index === 0 ? (
+                          <div>{/* You can put the Tooltip back here */}</div>
+                        ) : (
+                          <div>
+                            <IconButton
+                              rounded='full'
+                              icon={<DeleteIcon />}
+                              colorScheme='red'
+                              marginTop='10px'
+                              alignSelf={{ base: "flex-end", lg: "" }}
+                              onClick={() => remove(index)}
+                            />
+                          </div>
+                        )}
+                      </Flex>
+                      {index === 0 && (
+                        <>
+                          <Box>
+                            <Select
+                              placeholder='None'
+                              onChange={handleOptionChange}
+                            >
+                              <option value='fade-in'>Fade</option>
+                              <option value='pulse'>Pulse</option>
+                              <option value='spin'>Spin</option>
+                              <option value='bounce'>Bounce</option>
+                              <option value='rainbow'>Rainbow</option>
+                            </Select>
+                            <Center>
+                              <Button mt={5} className={choosenAnimation}>
+                                Example!
+                              </Button>
+                            </Center>
+                          </Box>
+                        </>
+                      )}
+                    </Box>
                   ))}
                   <Button
                     mt={4}
@@ -545,6 +574,7 @@ const CreateLinktree = () => {
                   >
                     Add Link
                   </Button>
+                  {/* Other "Add Link" buttons go here */}
                 </div>
               )}
             </FieldArray>

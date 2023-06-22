@@ -1,0 +1,97 @@
+.fade-in {
+  animation-name: fade-in;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.spin {
+  animation-name: spin;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.bounce {
+  animation-name: bounce;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes rainbow {
+  0% {
+    background-color: red;
+  }
+  14% {
+    background-color: orange;
+  }
+  28% {
+    background-color: yellow;
+  }
+  42% {
+    background-color: green;
+  }
+  57% {
+    background-color: blue;
+  }
+  71% {
+    background-color: indigo;
+  }
+  85% {
+    background-color: violet;
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+/* Apply the animation to the button */
+.rainbow {
+  animation: rainbow 5s linear infinite;
+}

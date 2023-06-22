@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { getNodeList, getBackUpNodeList } from "../helpers";
+import { getNodeList } from "../helpers";
 import { TASK_ADDRESS } from "../config";
 
 export const WalletContext = createContext(undefined);
@@ -7,7 +7,6 @@ export const WalletContext = createContext(undefined);
 export const WalletContextProvider = ({ children }) => {
   const [publicKey, setPublicKey] = useState("");
   const [apiUrl, setApiUrl] = useState("");
-  const [backUpNodeList, setBackUpNodeList] = useState([]);
   const [nodeList, setNodeList] = useState([]);
   useEffect(() => {
     async function getRandomeNode() {
@@ -16,8 +15,6 @@ export const WalletContextProvider = ({ children }) => {
         setNodeList(nodeList);
         const randomIndex = Math.floor(Math.random() * nodeList.length);
         const randomNode = nodeList[randomIndex];
-        const backUpNodeList = getBackUpNodeList(randomIndex, nodeList);
-        setBackUpNodeList(backUpNodeList);
 
         return randomNode;
       } catch (error) {
@@ -39,7 +36,6 @@ export const WalletContextProvider = ({ children }) => {
         setPublicKey,
         apiUrl,
         setApiUrl,
-        backUpNodeList,
         nodeList,
       }}
     >
