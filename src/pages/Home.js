@@ -4,7 +4,7 @@ import { useToast, Text, Button, Box } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
-import { allLinktrees, getLinktree, transferKoii } from "../api";
+import { allLinktrees, getAuthList, getLinktree, transferKoii } from "../api";
 
 const HomePage = () => {
   //Force dark theme by default
@@ -75,8 +75,9 @@ const HomePage = () => {
         if (pubKey) {
           setPublicKey(pubKey);
           // check if authentication;
-          const auth = true;
-          if (auth) {
+          const isAuthenticated = await getAuthList(pubKey, nodeList);
+
+          if (isAuthenticated) {
             const linktree = await getLinktree(pubKey, nodeList);
             const username =
               linktree?.data?.data?.linktree?.linktreeAddress ||
@@ -113,6 +114,8 @@ const HomePage = () => {
                 position: "top",
               });
             }
+          } else {
+            setIsAuth(isAuthenticated);
           }
         }
       } catch (err) {
@@ -129,7 +132,8 @@ const HomePage = () => {
 
   const handleTransferKoii = async () => {
     try {
-      const isTransfer = await transferKoii(apiUrl);
+      const isTransfer = await transferKoii(nodeList);
+
       if (isTransfer) {
         toast({
           title: "Koii Transfer Successful",
@@ -144,9 +148,9 @@ const HomePage = () => {
       } else {
         throw new Error("An Error Occurred");
       }
-    } catch {
+    } catch(err) {
       toast({
-        title: "Error transferring koii",
+        title: "Error transferring KOII",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -156,7 +160,7 @@ const HomePage = () => {
   };
 
   const linkToGetFinnie = (
-    <a rel='noreferrer' target='_blank' href={DOWNLOAD_FINNIE_URL}>
+    <a rel="noreferrer" target="_blank" href={DOWNLOAD_FINNIE_URL}>
       Get Finnie
     </a>
   );
@@ -166,78 +170,78 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <div className='Home'>
-      <div className='psuedoBackground'></div>
-      <div className='container public-key-input-container'>
-        <div className='auth-user'>
+    <div className="Home">
+      <div className="psuedoBackground"></div>
+      <div className="container public-key-input-container">
+        <div className="auth-user">
           {isAuth ? (
             <>
               {isMobile ? (
-                <Box display='flex' flexDirection='column' alignItems='center'>
+                <Box display="flex" flexDirection="column" alignItems="center">
                   <Text
-                    marginBottom='5px'
-                    fontSize='22px'
-                    textAlign='center'
-                    maxWidth='600px'
-                    fontFamily='Sora, sans-serif'
-                    fontWeight='500'
+                    marginBottom="5px"
+                    fontSize="22px"
+                    textAlign="center"
+                    maxWidth="600px"
+                    fontFamily="Sora, sans-serif"
+                    fontWeight="500"
                   >
                     Welcome to
                   </Text>
                   <Text
-                    marginBottom='10px'
-                    fontSize='24px'
-                    textAlign='center'
-                    maxWidth='600px'
-                    fontFamily='Sora, sans-serif'
-                    fontWeight='500'
-                    color='#FFEE81'
+                    marginBottom="10px"
+                    fontSize="24px"
+                    textAlign="center"
+                    maxWidth="600px"
+                    fontFamily="Sora, sans-serif"
+                    fontWeight="500"
+                    color="#FFEE81"
                   >
                     <a
-                      href='https://www.koii.network/'
-                      target='_blank'
-                      rel='noopener noreferrer'
+                      href="https://www.koii.network/"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Koii
                     </a>{" "}
                     Linktree
                   </Text>
                   <Text
-                    className='typewriterText'
-                    marginBottom='20px'
-                    fontSize='14px'
-                    textAlign='center'
-                    maxWidth='600px'
-                    fontFamily='Sora, sans-serif'
-                    fontWeight='300'
+                    className="typewriterText"
+                    marginBottom="20px"
+                    fontSize="14px"
+                    textAlign="center"
+                    maxWidth="600px"
+                    fontFamily="Sora, sans-serif"
+                    fontWeight="300"
                   >
                     The first community powered linktree
                   </Text>
 
-                  <div id='animated-image-container'>
+                  <div id="animated-image-container">
                     <img
-                      id='animated-image-frame'
-                      src='/images/o1_al.png'
-                      alt='frame'
+                      id="animated-image-frame"
+                      src="/images/o1_al.png"
+                      alt="frame"
                     />
                   </div>
 
                   <Button
                     onClick={handleConnectFinnie}
-                    className='connect-wallet-button'
-                    fontFamily='Sora, sans-serif'
-                    width='300px'
+                    className="connect-wallet-button"
+                    fontFamily="Sora, sans-serif"
+                    width="300px"
                   >
                     {connectButtonText}
                   </Button>
                 </Box>
               ) : (
-                <Box display='flex' flexDirection='column'>
+                <Box display="flex" flexDirection="column">
                   <Box
-                    display='flex'
-                    flexDirection='row'
-                    alignItems='center'
-                    justifyContent=''
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    justifyContent=""
                   >
                     <div
                       style={{
@@ -249,28 +253,28 @@ const HomePage = () => {
                       }}
                     >
                       <Text
-                        marginBottom='5px'
-                        fontSize='52px'
-                        textAlign='center'
-                        maxWidth='600px'
-                        fontFamily='Sora, sans-serif'
-                        fontWeight='500'
+                        marginBottom="5px"
+                        fontSize="52px"
+                        textAlign="center"
+                        maxWidth="600px"
+                        fontFamily="Sora, sans-serif"
+                        fontWeight="500"
                       >
                         Welcome to
                       </Text>
                       <Text
-                        marginBottom='10px'
-                        fontSize='64px'
-                        textAlign='center'
-                        maxWidth='600px'
-                        fontFamily='Sora, sans-serif'
-                        fontWeight='500'
-                        color='#FFEE81'
+                        marginBottom="10px"
+                        fontSize="64px"
+                        textAlign="center"
+                        maxWidth="600px"
+                        fontFamily="Sora, sans-serif"
+                        fontWeight="500"
+                        color="#FFEE81"
                       >
                         <a
-                          href='https://www.koii.network/'
-                          target='_blank'
-                          rel='noopener noreferrer'
+                          href="https://www.koii.network/"
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
                           Koii
                         </a>{" "}
@@ -278,34 +282,34 @@ const HomePage = () => {
                       </Text>
 
                       <Text
-                        marginBottom='20px'
-                        fontSize='22px'
-                        textAlign='center'
-                        maxWidth='600px'
-                        fontFamily='Sora, sans-serif'
-                        fontWeight='300'
-                        className='typewriterText'
+                        marginBottom="20px"
+                        fontSize="22px"
+                        textAlign="center"
+                        maxWidth="600px"
+                        fontFamily="Sora, sans-serif"
+                        fontWeight="300"
+                        className="typewriterText"
                       >
                         The first community powered linktree
                       </Text>
 
                       <Button
                         onClick={handleConnectFinnie}
-                        className='connect-wallet-button'
-                        fontFamily='Sora, sans-serif'
-                        width='300px'
+                        className="connect-wallet-button"
+                        fontFamily="Sora, sans-serif"
+                        width="300px"
                       >
                         {connectButtonText}
                       </Button>
                     </div>
                     <div
-                      id='animated-image-container'
+                      id="animated-image-container"
                       style={{ marginLeft: "100px" }}
                     >
                       <img
-                        id='animated-image-frame'
-                        src='/images/o1_al.png'
-                        alt='frame'
+                        id="animated-image-frame"
+                        src="/images/o1_al.png"
+                        alt="frame"
                       />
                     </div>
                   </Box>
@@ -315,26 +319,26 @@ const HomePage = () => {
           ) : (
             <>
               <Text
-                marginBottom='10px'
-                fontSize='30px'
-                textAlign='center'
-                maxWidth='600px'
+                marginBottom="10px"
+                fontSize="30px"
+                textAlign="center"
+                maxWidth="600px"
               >
                 You are not authorized to create and access Linktree profiles
               </Text>
               <Text
-                marginBottom='20px'
-                fontSize='18px'
-                textAlign='center'
-                maxWidth='600px'
+                marginBottom="20px"
+                fontSize="18px"
+                textAlign="center"
+                maxWidth="600px"
               >
-                Transfer 10 Koii to stakepotaccountuQLBn4bsxKgSLedRTxsnZUQ9aCBR
+                Transfer 4 Koii to stakepotaccountuQLBn4bsxKgSLedRTxsnZUQ9aCBR
                 by clicking the button below to create and access linktree
                 profiles:{" "}
               </Text>
               <Button
                 onClick={handleTransferKoii}
-                className='connect-wallet-button'
+                className="connect-wallet-button"
               >
                 Transfer Koii
               </Button>
@@ -344,13 +348,13 @@ const HomePage = () => {
       </div>
 
       {total !== null && total !== 0 && (
-        <div className='footer'>
+        <div className="footer">
           <p>
             Total{" "}
-            <a className='by-koii' href='https://www.koii.network/'>
+            <a className="by-koii" href="https://www.koii.network/">
               Koii
             </a>{" "}
-            linktrees created: <span className='by-koii total'> {total} </span>{" "}
+            linktrees created: <span className="by-koii total"> {total} </span>{" "}
           </p>
         </div>
       )}
