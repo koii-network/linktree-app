@@ -1,6 +1,13 @@
 import axios from "axios";
 import bs58 from "bs58";
-import { TASK_ADDRESS } from "./config";
+import { TASK_ADDRESS, TRANSFER_AMOUNT } from "./config";
+import {
+  Connection,
+  Keypair,
+  PublicKey,
+  Transaction,
+  SystemProgram,
+} from "@_koi/web3.js";
 
 export async function deleteLinktree(nodeList, publicKey) {
   try {
@@ -183,6 +190,94 @@ export async function updateLinktree(data, publicKey, nodeList, username) {
     if (result?.message) {
       return result;
     }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getAuthList(publicKey, nodeList) {
+  try {
+    const requests = nodeList.map((node) =>
+      axios
+        .get(`${node}/task/${TASK_ADDRESS}/authlist/get/${publicKey}`)
+        .then((res) => res.data)
+        .catch((error) =>
+          console.log(`Error fetching authlist from ${node}:`, error)
+        )
+    );
+
+    const results = await Promise.allSettled(requests);
+
+    for (const result of results) {
+      if (result.status === "fulfilled" && result.value === publicKey) {
+        return true;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.log("Error getting node list:", error);
+  }
+
+  return false;
+}
+
+export async function transferKoii(nodeList) {
+  try {
+    // const connection = new Connection("https://k2-testnet.koii.live");
+    // const blockHash = await connection.getRecentBlockhash();
+    // const feePayer = window.k2.publicKey;
+
+    // const funderKeypair = Keypair.generate();
+
+    // const transaction = new Transaction().add(
+    //   SystemProgram.createAccount({
+    //     fromPubkey: window.k2.publicKey, // payer wallet
+    //     newAccountPubkey: funderKeypair.publicKey,
+    //     lamports:
+    //       TRANSFER_AMOUNT +
+    //       (await connection.getMinimumBalanceForRentExemption(100)) +
+    //       1000,
+    //     space: 100,
+    //     programId: new PublicKey("Koiitask22222222222222222222222222222222222"),
+    //   })
+    // );
+
+    // transaction.recentBlockhash = blockHash.blockhash;
+    // transaction.feePayer = feePayer;
+
+    // await window.k2.signAndSendTransaction(transaction, [funderKeypair]);
+
+    if (true) {
+      try {
+        const authdata = {
+          pubkey: window.k2.publicKey.toString(),
+        };
+        let nodeListIndex = 1;
+        let result;
+
+        while (!result) {
+          result = await axios
+            .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/authlist`, {
+              authdata,
+            })
+            .then((res) => res.data === window.k2.publicKey.toString())
+            .catch((error) =>
+              console.log(
+                `Error fetching authlist from ${nodeList[nodeListIndex]}:`,
+                error
+              )
+            );
+          nodeListIndex++;
+        }
+        if (result.status === "fulfilled" && result.value) {
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.log("Error getting node list:", error);
+      }
+    }
+    return false;
   } catch (error) {
     console.log(error);
   }
