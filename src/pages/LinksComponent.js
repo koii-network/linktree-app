@@ -218,16 +218,25 @@ function LinksComponent() {
                       >
                         {link.label}
                       </a>
-                      {link?.redirectUrl.startsWith("https://twitter.com/") && (
-                        <Box className="hover-div" borderRadius={2}>
+                      {link.redirectUrl.startsWith("https://twitter.com/") && (
+                        <div
+                          className="hover-div"
+                          style={{
+                            borderRadius: "5px",
+                            backgroundColor: "transparent",
+                          }}
+                        >
                           <TwitterTimelineEmbed
                             sourceType="profile"
-                            screenName={link.redirectUrl.split("/").pop()}
+                            screenName={link.redirectUrl
+                              .replace(/\/$/, "")
+                              .split("/")
+                              .pop()}
                             options={{ height: 400, width: 400 }}
                           />
-                        </Box>
+                        </div>
                       )}
-
+                      {/* 
                       {link?.redirectUrl.startsWith("https://youtube.com/") && (
                         <div className="hover-div">
                           <YouTubeEmbed
@@ -249,7 +258,7 @@ function LinksComponent() {
                             height={400}
                           />
                         </div>
-                      )}
+                      )} */}
                       <div
                         style={{ display: "flex", justifyContent: "center" }}
                       ></div>
