@@ -11,6 +11,7 @@
   --background-image: url("/public/images/Desktop L.svg");
   --background-image-md: url("/public/images/Desktop L (1).svg");
   --background-image-sm: url("/public/images/Phone L.svg");
+  --dashboard-icon: black;
 }
 
 [data-theme="neutral"] {
@@ -22,6 +23,7 @@
   --background-image: url("");
   --background-image-md: url("");
   --background-image-sm: url("");
+  --dashboard-icon: black;
 }
 
 [data-theme="dark"] {
@@ -32,6 +34,7 @@
   --background-image: url("/public/images/DesktopD (1).svg");
   --background-image-md: url("/public/images/DesktopD (2).svg");
   --background-image-sm: url("/public/images/Phone D.svg");
+  --dashboard-icon: white;
 }
 
 @keyframes gradient {
@@ -61,6 +64,7 @@
   --background-image-sm: var(--background-image);
   --animation: 10s ease 0s infinite normal none running gradient;
   --background-size: 150% 150%;
+  --dashboard-icon: white;
 }
 
 body {
