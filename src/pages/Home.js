@@ -4,7 +4,7 @@ import { useToast, Text, Button, Box } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
-import { allLinktrees, getLinktree } from "../api";
+import { allLinktrees, getLinktree, transferKoii } from "../api";
 
 const HomePage = () => {
   //Force dark theme by default
@@ -15,6 +15,7 @@ const HomePage = () => {
   const { setPublicKey, apiUrl, nodeList } = useWalletContext();
   const { isFinnieDetected, connect } = useK2Finnie();
   const [total, setTotal] = useState(null);
+  const [isAuth, setIsAuth] = useState(true);
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -73,42 +74,45 @@ const HomePage = () => {
       try {
         if (pubKey) {
           setPublicKey(pubKey);
-
-          const linktree = await getLinktree(pubKey, nodeList);
-          const username =
-            linktree?.data?.data?.linktree?.linktreeAddress ||
-            linktree?.data?.linktree?.linktreeAddress;
-          if (linktree.status === true && !linktree?.data) {
-            toast({
-              title: "No Linktree profile for this public key",
-              description: "You'll be redirected to create a profile",
-              status: "error",
-              duration: 3000,
-              isClosable: true,
-              position: "top",
-            });
-            setTimeout(() => {
-              navigate("/createlinktree");
-            }, 3000);
-          } else if (linktree.data && username) {
-            toast({
-              title: "Linktree profile successfully fetched!",
-              status: "success",
-              duration: 2000,
-              isClosable: true,
-              position: "top",
-            });
-            setTimeout(() => {
-              navigate(`/linktree/${username}`);
-            }, 3000);
-          } else {
-            toast({
-              title: "Error fetching Linktree data",
-              status: "error",
-              duration: 3000,
-              isClosable: true,
-              position: "top",
-            });
+          // check if authentication;
+          const auth = true;
+          if (auth) {
+            const linktree = await getLinktree(pubKey, nodeList);
+            const username =
+              linktree?.data?.data?.linktree?.linktreeAddress ||
+              linktree?.data?.linktree?.linktreeAddress;
+            if (linktree.status === true && !linktree?.data) {
+              toast({
+                title: "No Linktree profile for this public key",
+                description: "You'll be redirected to create a profile",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top",
+              });
+              setTimeout(() => {
+                navigate("/createlinktree");
+              }, 3000);
+            } else if (linktree.data && username) {
+              toast({
+                title: "Linktree profile successfully fetched!",
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+                position: "top",
+              });
+              setTimeout(() => {
+                navigate(`/linktree/${username}`);
+              }, 3000);
+            } else {
+              toast({
+                title: "Error fetching Linktree data",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top",
+              });
+            }
           }
         }
       } catch (err) {
@@ -120,6 +124,34 @@ const HomePage = () => {
           position: "top",
         });
       }
+    }
+  };
+
+  const handleTransferKoii = async () => {
+    try {
+      const isTransfer = await transferKoii(apiUrl);
+      if (isTransfer) {
+        toast({
+          title: "Koii Transfer Successful",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
+        setTimeout(() => {
+          navigate("/createlinktree");
+        }, 3000);
+      } else {
+        throw new Error("An Error Occurred");
+      }
+    } catch {
+      toast({
+        title: "Error transferring koii",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
 
@@ -138,147 +170,176 @@ const HomePage = () => {
       <div className='psuedoBackground'></div>
       <div className='container public-key-input-container'>
         <div className='auth-user'>
-          <>
-            {isMobile ? (
-              <Box display='flex' flexDirection='column' alignItems='center'>
-                <Text
-                  marginBottom='5px'
-                  fontSize='22px'
-                  textAlign='center'
-                  maxWidth='600px'
-                  fontFamily='Sora, sans-serif'
-                  fontWeight='500'
-                >
-                  Welcome to
-                </Text>
-                <Text
-                  marginBottom='10px'
-                  fontSize='24px'
-                  textAlign='center'
-                  maxWidth='600px'
-                  fontFamily='Sora, sans-serif'
-                  fontWeight='500'
-                  color='#FFEE81'
-                >
-                  <a
-                    href='https://www.koii.network/'
-                    target='_blank'
-                    rel='noopener noreferrer'
+          {isAuth ? (
+            <>
+              {isMobile ? (
+                <Box display='flex' flexDirection='column' alignItems='center'>
+                  <Text
+                    marginBottom='5px'
+                    fontSize='22px'
+                    textAlign='center'
+                    maxWidth='600px'
+                    fontFamily='Sora, sans-serif'
+                    fontWeight='500'
                   >
-                    Koii
-                  </a>{" "}
-                  Linktree
-                </Text>
-                <Text
-                  className='typewriterText'
-                  marginBottom='20px'
-                  fontSize='14px'
-                  textAlign='center'
-                  maxWidth='600px'
-                  fontFamily='Sora, sans-serif'
-                  fontWeight='300'
-                >
-                  The first community powered linktree
-                </Text>
-
-                <div id='animated-image-container'>
-                  <img
-                    id='animated-image-frame'
-                    src='/images/o1_al.png'
-                    alt='frame'
-                  />
-                </div>
-
-                <Button
-                  onClick={handleConnectFinnie}
-                  className='connect-wallet-button'
-                  fontFamily='Sora, sans-serif'
-                  width='300px'
-                >
-                  {connectButtonText}
-                </Button>
-              </Box>
-            ) : (
-              <Box display='flex' flexDirection='column'>
-                <Box
-                  display='flex'
-                  flexDirection='row'
-                  alignItems='center'
-                  justifyContent=''
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "100%", // You can adjust this based on your layout
-                    }}
+                    Welcome to
+                  </Text>
+                  <Text
+                    marginBottom='10px'
+                    fontSize='24px'
+                    textAlign='center'
+                    maxWidth='600px'
+                    fontFamily='Sora, sans-serif'
+                    fontWeight='500'
+                    color='#FFEE81'
                   >
-                    <Text
-                      marginBottom='5px'
-                      fontSize='52px'
-                      textAlign='center'
-                      maxWidth='600px'
-                      fontFamily='Sora, sans-serif'
-                      fontWeight='500'
+                    <a
+                      href='https://www.koii.network/'
+                      target='_blank'
+                      rel='noopener noreferrer'
                     >
-                      Welcome to
-                    </Text>
-                    <Text
-                      marginBottom='10px'
-                      fontSize='64px'
-                      textAlign='center'
-                      maxWidth='600px'
-                      fontFamily='Sora, sans-serif'
-                      fontWeight='500'
-                      color='#FFEE81'
-                    >
-                      <a
-                        href='https://www.koii.network/'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        Koii
-                      </a>{" "}
-                      Linktree
-                    </Text>
-
-                    <Text
-                      marginBottom='20px'
-                      fontSize='22px'
-                      textAlign='center'
-                      maxWidth='600px'
-                      fontFamily='Sora, sans-serif'
-                      fontWeight='300'
-                      className='typewriterText'
-                    >
-                      The first community powered linktree
-                    </Text>
-
-                    <Button
-                      onClick={handleConnectFinnie}
-                      className='connect-wallet-button'
-                      fontFamily='Sora, sans-serif'
-                      width='300px'
-                    >
-                      {connectButtonText}
-                    </Button>
-                  </div>
-                  <div
-                    id='animated-image-container'
-                    style={{ marginLeft: "100px" }}
+                      Koii
+                    </a>{" "}
+                    Linktree
+                  </Text>
+                  <Text
+                    className='typewriterText'
+                    marginBottom='20px'
+                    fontSize='14px'
+                    textAlign='center'
+                    maxWidth='600px'
+                    fontFamily='Sora, sans-serif'
+                    fontWeight='300'
                   >
+                    The first community powered linktree
+                  </Text>
+
+                  <div id='animated-image-container'>
                     <img
                       id='animated-image-frame'
                       src='/images/o1_al.png'
                       alt='frame'
                     />
                   </div>
+
+                  <Button
+                    onClick={handleConnectFinnie}
+                    className='connect-wallet-button'
+                    fontFamily='Sora, sans-serif'
+                    width='300px'
+                  >
+                    {connectButtonText}
+                  </Button>
                 </Box>
-              </Box>
-            )}
-          </>
+              ) : (
+                <Box display='flex' flexDirection='column'>
+                  <Box
+                    display='flex'
+                    flexDirection='row'
+                    alignItems='center'
+                    justifyContent=''
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%", // You can adjust this based on your layout
+                      }}
+                    >
+                      <Text
+                        marginBottom='5px'
+                        fontSize='52px'
+                        textAlign='center'
+                        maxWidth='600px'
+                        fontFamily='Sora, sans-serif'
+                        fontWeight='500'
+                      >
+                        Welcome to
+                      </Text>
+                      <Text
+                        marginBottom='10px'
+                        fontSize='64px'
+                        textAlign='center'
+                        maxWidth='600px'
+                        fontFamily='Sora, sans-serif'
+                        fontWeight='500'
+                        color='#FFEE81'
+                      >
+                        <a
+                          href='https://www.koii.network/'
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          Koii
+                        </a>{" "}
+                        Linktree
+                      </Text>
+
+                      <Text
+                        marginBottom='20px'
+                        fontSize='22px'
+                        textAlign='center'
+                        maxWidth='600px'
+                        fontFamily='Sora, sans-serif'
+                        fontWeight='300'
+                        className='typewriterText'
+                      >
+                        The first community powered linktree
+                      </Text>
+
+                      <Button
+                        onClick={handleConnectFinnie}
+                        className='connect-wallet-button'
+                        fontFamily='Sora, sans-serif'
+                        width='300px'
+                      >
+                        {connectButtonText}
+                      </Button>
+                    </div>
+                    <div
+                      id='animated-image-container'
+                      style={{ marginLeft: "100px" }}
+                    >
+                      <img
+                        id='animated-image-frame'
+                        src='/images/o1_al.png'
+                        alt='frame'
+                      />
+                    </div>
+                  </Box>
+                </Box>
+              )}
+            </>
+          ) : (
+            <>
+              <Text
+                marginBottom='10px'
+                fontSize='30px'
+                textAlign='center'
+                maxWidth='600px'
+              >
+                You are not authorized to create and access Linktree profiles
+              </Text>
+              <Text
+                marginBottom='20px'
+                fontSize='18px'
+                textAlign='center'
+                maxWidth='600px'
+              >
+                Transfer 10 Koii to stakepotaccountuQLBn4bsxKgSLedRTxsnZUQ9aCBR
+                by clicking the button below to create and access linktree
+                profiles:{" "}
+              </Text>
+              <Button
+                onClick={handleTransferKoii}
+                className='connect-wallet-button'
+              >
+                Transfer Koii
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
