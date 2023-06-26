@@ -136,7 +136,8 @@ const HomePage = () => {
 
       if (isTransfer) {
         toast({
-          title: "Koii Transfer Successful",
+          title: "Koii Transfer Successful!",
+          description: "You'll be redirected to create a profile",
           status: "success",
           duration: 2000,
           isClosable: true,
@@ -148,7 +149,7 @@ const HomePage = () => {
       } else {
         throw new Error("An Error Occurred");
       }
-    } catch(err) {
+    } catch (err) {
       toast({
         title: "Error transferring KOII",
         status: "error",
