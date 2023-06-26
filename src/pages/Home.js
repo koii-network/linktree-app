@@ -136,7 +136,8 @@ const HomePage = () => {
 
       if (isTransfer) {
         toast({
-          title: "Koii Transfer Successful",
+          title: "Koii Transfer Successful!",
+          description: "You'll be redirected to create a profile",
           status: "success",
           duration: 2000,
           isClosable: true,

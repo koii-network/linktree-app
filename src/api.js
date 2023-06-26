@@ -3,8 +3,7 @@ import bs58 from "bs58";
 import { TASK_ADDRESS, TRANSFER_AMOUNT, RECIPIENT_ADDRESS } from "./config";
 import {
   Connection,
-  Keypair,
-  PublicKey,
+  clusterApiUrl,
   Transaction,
   SystemProgram,
 } from "@_koi/web3.js";
@@ -221,56 +220,50 @@ export async function getAuthList(publicKey, nodeList) {
 
 export async function transferKoii(nodeList) {
   try {
-    const connection = new Connection("https://k2-testnet.koii.live");
+    const connection = new Connection(clusterApiUrl("devnet"));
     const blockHash = await connection.getRecentBlockhash();
     const feePayer = window.k2.publicKey;
-    const funderKeypair = Keypair.generate();
-    const transaction = new Transaction().add(
-      SystemProgram.createAccount({
-        fromPubkey: window.k2.publicKey, // payer wallet
-        newAccountPubkey: funderKeypair.publicKey,
-        lamports:
-          TRANSFER_AMOUNT +
-          (await connection.getMinimumBalanceForRentExemption(100)) +
-          1000,
-        space: 100,
-        programId: new PublicKey("Koiitask22222222222222222222222222222222222"),
-      })
-    );
+
+    const transaction = new Transaction();
     transaction.recentBlockhash = blockHash.blockhash;
     transaction.feePayer = feePayer;
-    const koiiTransferred = await window.k2.signAndSendTransaction(
-      transaction,
-      [funderKeypair]
+
+    transaction.add(
+      SystemProgram.transfer({
+        fromPubkey: window.k2.publicKey,
+        toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
+        lamports: Number(
+          TRANSFER_AMOUNT +
+            (await connection.getMinimumBalanceForRentExemption(100)) +
+            1000
+        ),
+      })
     );
-    console.log(koiiTransferred);
-    if (koiiTransferred) {
-      try {
-        const authdata = {
-          pubkey: window.k2.publicKey.toString(),
-        };
-        let nodeListIndex = 1;
-        let result;
-        while (!result) {
-          result = await axios
-            .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/authlist`, {
-              authdata,
-            })
-            .then((res) => res.data === window.k2.publicKey.toString())
-            .catch((error) =>
-              console.log(
-                `Error fetching authlist from ${nodeList[nodeListIndex]}:`,
-                error
-              )
-            );
-          nodeListIndex++;
-        }
-        if (result.status === "fulfilled" && result.value) {
-          return true;
-        }
-        return false;
-      } catch (error) {
-        console.log("Error getting node list:", error);
+
+    const payload = transaction.serializeMessage();
+    const signature = await window.k2.signAndSendTransaction(payload);
+
+    if (signature) {
+      const authdata = {
+        pubkey: window.k2.publicKey.toString(),
+      };
+      let nodeListIndex = 1;
+      let result;
+      while (!result) {
+        result = await axios
+          .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/authlist`, {
+            authdata,
+          })
+          .then((res) => res.data === window.k2.publicKey.toString())
+          .catch((error) =>
+            console.log(
+              `Error fetching authlist from ${nodeList[nodeListIndex]}:`,
+              error
+            )
+          );
+        console.log(result, "hi");
+        nodeListIndex++;
+        if (result) return result;
       }
     }
   } catch (error) {
