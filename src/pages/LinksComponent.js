@@ -97,10 +97,7 @@ function LinksComponent() {
 
   async function handleEditLinktree() {
     try {
-      if (window?.k2) {
-        await window.k2.signMessage("Edit Linktree");
-        navigate(`/editLinktree/${username}`);
-      }
+      navigate(`/editLinktree/${username}`);
     } catch (error) {
       toast({
         title: "Error authorizing edit",
@@ -112,50 +109,50 @@ function LinksComponent() {
     }
   }
   return (
-    <Box className="container" position="relative">
+    <Box className='container' position='relative'>
       <Box
-        minHeight="70vh"
-        width="100%"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyItems="center"
+        minHeight='70vh'
+        width='100%'
+        display='flex'
+        flexDirection='column'
+        alignItems='center'
+        justifyItems='center'
       >
         {isLoading ? (
           <Box
-            height="100%"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyItems="center"
+            height='100%'
+            display='flex'
+            flexDirection='column'
+            alignItems='center'
+            justifyItems='center'
           >
-            <Spinner height="50px" width="50px" />
+            <Spinner height='50px' width='50px' />
           </Box>
         ) : (
           <Box
-            width="100%"
-            display="flex"
-            alignItems="center"
-            flexDirection="column"
+            width='100%'
+            display='flex'
+            alignItems='center'
+            flexDirection='column'
           >
             {isProfileOwner && userData && (
               <>
                 <Box
-                  position="absolute"
+                  position='absolute'
                   top={{ base: "20px", md: "30px" }}
                   left={{ base: "20px", md: "-5%" }}
                 >
                   <Tooltip
                     hasArrow
-                    label="Delete Your Linktree Profile"
-                    bg="#ecfffe"
-                    fontSize="sm"
-                    color="#171753"
+                    label='Delete Your Linktree Profile'
+                    bg='#ecfffe'
+                    fontSize='sm'
+                    color='#171753'
                   >
                     <IconButton
-                      rounded="full"
+                      rounded='full'
                       alignSelf={{ base: "flex-end", lg: "" }}
-                      marginTop="10px"
+                      marginTop='10px'
                       icon={<DeleteIcon />}
                       backgroundColor={"transparent"}
                       color={"dashboard-icon"}
@@ -166,21 +163,21 @@ function LinksComponent() {
 
                 {
                   <Box
-                    position="absolute"
+                    position='absolute'
                     top={{ base: "20px", md: "30px" }}
                     right={{ base: "20px", md: "-5%" }}
                   >
                     <Tooltip
                       hasArrow
-                      label="Edit Linktree"
-                      bg="#ecfffe"
-                      fontSize="sm"
-                      color="#171753"
+                      label='Edit Linktree'
+                      bg='#ecfffe'
+                      fontSize='sm'
+                      color='#171753'
                     >
                       <IconButton
-                        rounded="full"
+                        rounded='full'
                         alignSelf={{ base: "flex-end", lg: "" }}
-                        marginTop="10px"
+                        marginTop='10px'
                         icon={<SettingsIcon />}
                         backgroundColor={"transparent"}
                         color={"dashboard-icon"}
@@ -197,37 +194,37 @@ function LinksComponent() {
                   <img
                     src={userData?.image}
                     alt={userData?.name}
-                    className="user-image"
+                    className='user-image'
                   />
                 )}
-                <p className="user-name"> {userData?.name} </p>
-                <p className="user-desc">{userData?.description}</p>
+                <p className='user-name'> {userData?.name} </p>
+                <p className='user-desc'>{userData?.description}</p>
 
-                <div className="links">
+                <div className='links'>
                   {userData?.links?.map((link, index) => (
-                    <div className="link-container" key={link?.redirectUrl}>
+                    <div className='link-container' key={link?.redirectUrl}>
                       <a
                         className={`link ${
                           index === 0 ? userData?.animation : ""
                         }`}
                         key={index}
                         href={link?.redirectUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        target='_blank'
+                        rel='noopener noreferrer'
                         style={{ fontSize: index === 0 ? "18px" : "inherit" }}
                       >
                         {link.label}
                       </a>
                       {link.redirectUrl.startsWith("https://twitter.com/") && (
                         <div
-                          className="hover-div"
+                          className='hover-div'
                           style={{
                             borderRadius: "5px",
                             backgroundColor: "transparent",
                           }}
                         >
                           <TwitterTimelineEmbed
-                            sourceType="profile"
+                            sourceType='profile'
                             screenName={link.redirectUrl
                               .replace(/\/$/, "")
                               .split("/")
@@ -270,7 +267,7 @@ function LinksComponent() {
                   <p>
                     <a
                       href={`https://linktree.koii.network/linktree/${username}`}
-                      className="displayLink"
+                      className='displayLink'
                     >
                       Your linktree profile Link
                     </a>
@@ -282,9 +279,9 @@ function LinksComponent() {
           </Box>
         )}
       </Box>
-      <div className="footer">
+      <div className='footer'>
         Linktree by{" "}
-        <a href="https://www.koii.network/" className="by-koii">
+        <a href='https://www.koii.network/' className='by-koii'>
           Koii Network
         </a>
       </div>
