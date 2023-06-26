@@ -221,63 +221,58 @@ export async function getAuthList(publicKey, nodeList) {
 
 export async function transferKoii(nodeList) {
   try {
-    //     const connection = new Connection("https://k2-testnet.koii.live");
-    //     const blockHash = await connection.getRecentBlockhash();
-    //     const feePayer = window.k2.publicKey;
-    //     const funderKeypair = Keypair.generate();
-    // console.log(funderKeypair, 'funderKeypair')
-    //     const transaction = new Transaction().add(
-    //       SystemProgram.createAccount({
-    //         fromPubkey: window.k2.publicKey, // payer wallet
-    //         newAccountPubkey: funderKeypair.publicKey,
-    //         lamports:
-    //           TRANSFER_AMOUNT +
-    //           (await connection.getMinimumBalanceForRentExemption(100)) +
-    //           1000,
-    //         space: 100,
-    //         programId: new PublicKey("Koiitask22222222222222222222222222222222222"),
-    //       })
-    //     );
-    //     transaction.recentBlockhash = blockHash.blockhash;
-    //     transaction.feePayer = feePayer;
-    // console.log(transaction)
-    //     const koiiTransferred = await window.k2.signAndSendTransaction(
-    //       transaction,
-    //       [funderKeypair]
-    //     );
-    //     console.log(koiiTransferred, 'koiiTransferred');
-    // if (koiiTransferred) {
-    //   console.log("first");
-    //   try {
-    //     const authdata = {
-    //       pubkey: window.k2.publicKey.toString(),
-    //     };
-    //     let nodeListIndex = 1;
-    //     let result;
-    //     while (!result) {
-    //       console.log("in here");
-    //       result = await axios
-    //         .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/authlist`, {
-    //           authdata,
-    //         })
-    //         .then((res) => res.data === window.k2.publicKey.toString())
-    //         .catch((error) =>
-    //           console.log(
-    //             `Error fetching authlist from ${nodeList[nodeListIndex]}:`,
-    //             error
-    //           )
-    //         );
-    //       console.log(result, "hi");
-    //       nodeListIndex++;
-    //     }
-    //     if (result.status === "fulfilled" && result.value) {
-    //       return true;
-    //     }
-    //     return false;
-    //   } catch (error) {
-    //     console.log("Error getting node list:", error);
-    //   }
-    // }
+    const connection = new Connection("https://k2-testnet.koii.live");
+    const blockHash = await connection.getRecentBlockhash();
+    const feePayer = window.k2.publicKey;
+    const funderKeypair = Keypair.generate();
+    const transaction = new Transaction().add(
+      SystemProgram.createAccount({
+        fromPubkey: window.k2.publicKey, // payer wallet
+        newAccountPubkey: funderKeypair.publicKey,
+        lamports:
+          TRANSFER_AMOUNT +
+          (await connection.getMinimumBalanceForRentExemption(100)) +
+          1000,
+        space: 100,
+        programId: new PublicKey("Koiitask22222222222222222222222222222222222"),
+      })
+    );
+    transaction.recentBlockhash = blockHash.blockhash;
+    transaction.feePayer = feePayer;
+    const koiiTransferred = await window.k2.signAndSendTransaction(
+      transaction,
+      [funderKeypair]
+    );
+    console.log(koiiTransferred);
+    if (koiiTransferred) {
+      try {
+        const authdata = {
+          pubkey: window.k2.publicKey.toString(),
+        };
+        let nodeListIndex = 1;
+        let result;
+        while (!result) {
+          result = await axios
+            .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/authlist`, {
+              authdata,
+            })
+            .then((res) => res.data === window.k2.publicKey.toString())
+            .catch((error) =>
+              console.log(
+                `Error fetching authlist from ${nodeList[nodeListIndex]}:`,
+                error
+              )
+            );
+          nodeListIndex++;
+        }
+        if (result.status === "fulfilled" && result.value) {
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.log("Error getting node list:", error);
+      }
+    }
   } catch (error) {
     console.log(error);
   }
