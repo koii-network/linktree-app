@@ -79,17 +79,9 @@ const HomePage = () => {
             linktree?.data?.data?.linktree?.linktreeAddress ||
             linktree?.data?.linktree?.linktreeAddress;
           if (linktree.status === true && !linktree?.data) {
-            toast({
-              title: "No Linktree profile for this public key",
-              description: "You'll be redirected to create a profile",
-              status: "error",
-              duration: 3000,
-              isClosable: true,
-              position: "top",
-            });
             setTimeout(() => {
               navigate("/createlinktree");
-            }, 3000);
+            }, 2000);
           } else if (linktree.data && username) {
             toast({
               title: "Linktree profile successfully fetched!",
