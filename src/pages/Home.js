@@ -8,8 +8,7 @@ import { allLinktrees, getLinktree } from "../api";
 
 const HomePage = () => {
   //Force dark theme by default
-  document.documentElement.setAttribute("data-theme", "dark");
-
+  document.documentElement.setAttribute("data-theme", "light");
   const navigate = useNavigate();
   const toast = useToast();
   const { setPublicKey, apiUrl, nodeList } = useWalletContext();
@@ -19,24 +18,30 @@ const HomePage = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   function animatedSection() {
-    let images = [
-      "/images/o2_soma.png",
-      "/images/o3_saim.png",
-      "/images/o1_al.png",
-    ];
+    let images = ["/images/o3_saim.png", "/images/o1_al.png"];
     let currentIndex = 0;
     document.head.appendChild(document.createElement("style")).innerHTML =
-      "#animated-image-frame { animation: rotateAnimation 5s infinite; }";
+      "#animated-image-frame { animation: rotateAnimation 5s infinite linear; animation-delay: 0s; }";
 
-    let intervalId = setInterval(function () {
-      let imgElement = document.getElementById("animated-image-frame");
-      if (!imgElement) {
-        clearInterval(intervalId); // Break the loop if imgElement doesn't exist
-        return;
-      }
-      imgElement.src = images[currentIndex];
-      currentIndex = (currentIndex + 1) % images.length;
-    }, 5000);
+    let imgElement = document.getElementById("animated-image-frame");
+    if (imgElement) imgElement.src = images[currentIndex++];
+
+    // Define the image swapping function
+    function swapImage() {
+      imgElement = document.getElementById("animated-image-frame");
+
+      if (!imgElement) return;
+
+      imgElement.src = images[currentIndex % images.length];
+      currentIndex++;
+      setTimeout(swapImage, 2500);
+    }
+
+    // Immediately call swapImage when the animation starts
+    //swapImage();
+
+    // Set the first swapImage call to occur after 3750 ms
+    setTimeout(swapImage, 1250);
   }
 
   useEffect(() => {
@@ -116,7 +121,7 @@ const HomePage = () => {
   };
 
   const linkToGetFinnie = (
-    <a rel='noreferrer' target='_blank' href={DOWNLOAD_FINNIE_URL}>
+    <a rel="noreferrer" target="_blank" href={DOWNLOAD_FINNIE_URL}>
       Get Finnie
     </a>
   );
@@ -126,78 +131,83 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <div className='Home'>
-      <div className='psuedoBackground'></div>
-      <div className='container public-key-input-container'>
-        <div className='auth-user'>
+    <div className="Home">
+      <div className="psuedoBackground"></div>
+      <div className="container public-key-input-container">
+        <div className="auth-user">
           <>
             {isMobile ? (
-              <Box display='flex' flexDirection='column' alignItems='center'>
+              <Box display="flex" flexDirection="column" alignItems="center">
                 <Text
-                  marginBottom='5px'
-                  fontSize='22px'
-                  textAlign='center'
-                  maxWidth='600px'
-                  fontFamily='Sora, sans-serif'
-                  fontWeight='500'
+                  marginBottom="5px"
+                  fontSize="22px"
+                  textAlign="center"
+                  maxWidth="600px"
+                  fontFamily="Sora, sans-serif"
+                  fontWeight="500"
                 >
                   Welcome to
                 </Text>
                 <Text
-                  marginBottom='10px'
-                  fontSize='24px'
-                  textAlign='center'
-                  maxWidth='600px'
-                  fontFamily='Sora, sans-serif'
-                  fontWeight='500'
-                  color='#FFEE81'
+                  marginBottom="10px"
+                  fontSize="24px"
+                  textAlign="center"
+                  maxWidth="600px"
+                  fontFamily="Sora, sans-serif"
+                  fontWeight="500"
+                  color="#FFEE81"
                 >
                   <a
-                    href='https://www.koii.network/'
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    href="https://www.koii.network/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Koii
                   </a>{" "}
                   Linktree
                 </Text>
                 <Text
-                  className='typewriterText'
-                  marginBottom='20px'
-                  fontSize='14px'
-                  textAlign='center'
-                  maxWidth='600px'
-                  fontFamily='Sora, sans-serif'
-                  fontWeight='300'
+                  className="typewriterText"
+                  marginBottom="20px"
+                  fontSize="14px"
+                  textAlign="center"
+                  maxWidth="600px"
+                  fontFamily="Sora, sans-serif"
+                  fontWeight="300"
                 >
                   The first community powered linktree
                 </Text>
 
-                <div id='animated-image-container'>
+                <div id="animated-image-container">
                   <img
-                    id='animated-image-frame'
-                    src='/images/o1_al.png'
-                    alt='frame'
+                    id="animated-image-frame"
+                    src="/images/o1_al.png"
+                    alt="frame"
                   />
                 </div>
 
                 <Button
                   onClick={handleConnectFinnie}
-                  className='connect-wallet-button'
-                  fontFamily='Sora, sans-serif'
-                  width='300px'
+                  className="connect-wallet-button"
+                  fontFamily="Sora, sans-serif"
+                  width="300px"
                 >
                   {connectButtonText}
                 </Button>
               </Box>
             ) : (
-              <Box display='flex' flexDirection='column'>
-                <Box
-                  display='flex'
-                  flexDirection='row'
-                  alignItems='center'
-                  justifyContent=''
-                >
+              <Box display="flex" flexDirection="column">
+                <Box display="flex" flexDirection="row" alignItems="center">
+                  <div
+                    id="animated-image-container"
+                    style={{ marginRight: "100px" }}
+                  >
+                    <img
+                      id="animated-image-frame"
+                      src="/images/o1_al.png"
+                      alt="frame"
+                    />
+                  </div>
                   <div
                     style={{
                       display: "flex",
@@ -208,28 +218,28 @@ const HomePage = () => {
                     }}
                   >
                     <Text
-                      marginBottom='5px'
-                      fontSize='52px'
-                      textAlign='center'
-                      maxWidth='600px'
-                      fontFamily='Sora, sans-serif'
-                      fontWeight='500'
+                      fontSize="52px"
+                      textAlign="center"
+                      maxWidth="600px"
+                      fontFamily="Sora, sans-serif"
+                      fontWeight="600"
+                      color="#8989C7"
                     >
                       Welcome to
                     </Text>
                     <Text
-                      marginBottom='10px'
-                      fontSize='64px'
-                      textAlign='center'
-                      maxWidth='600px'
-                      fontFamily='Sora, sans-serif'
-                      fontWeight='500'
-                      color='#FFEE81'
+                      fontSize="64px"
+                      textAlign="center"
+                      maxWidth="600px"
+                      fontFamily="Sora, sans-serif"
+                      fontWeight="500"
+                      color="#171753"
+                      marginTop={"-20px"}
                     >
                       <a
-                        href='https://www.koii.network/'
-                        target='_blank'
-                        rel='noopener noreferrer'
+                        href="https://www.koii.network/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Koii
                       </a>{" "}
@@ -237,35 +247,26 @@ const HomePage = () => {
                     </Text>
 
                     <Text
-                      marginBottom='20px'
-                      fontSize='22px'
-                      textAlign='center'
-                      maxWidth='600px'
-                      fontFamily='Sora, sans-serif'
-                      fontWeight='300'
-                      className='typewriterText'
+                      marginBottom="20px"
+                      fontSize="22px"
+                      textAlign="center"
+                      maxWidth="600px"
+                      fontFamily="Sora, sans-serif"
+                      fontWeight="500"
+                      className="typewriterText"
                     >
                       The first community powered linktree
                     </Text>
 
                     <Button
                       onClick={handleConnectFinnie}
-                      className='connect-wallet-button'
-                      fontFamily='Sora, sans-serif'
-                      width='300px'
+                      fontFamily="Sora, sans-serif"
+                      width="300px"
+                      backgroundColor={"#8989C7"}
+                      color={"white"}
                     >
                       {connectButtonText}
                     </Button>
-                  </div>
-                  <div
-                    id='animated-image-container'
-                    style={{ marginLeft: "100px" }}
-                  >
-                    <img
-                      id='animated-image-frame'
-                      src='/images/o1_al.png'
-                      alt='frame'
-                    />
                   </div>
                 </Box>
               </Box>
@@ -275,13 +276,13 @@ const HomePage = () => {
       </div>
 
       {total !== null && total !== 0 && (
-        <div className='footer'>
+        <div className="footer">
           <p>
             Total{" "}
-            <a className='by-koii' href='https://www.koii.network/'>
+            <a className="by-koii" href="https://www.koii.network/">
               Koii
             </a>{" "}
-            linktrees created: <span className='by-koii total'> {total} </span>{" "}
+            linktrees created: <span className="by-koii total"> {total} </span>{" "}
           </p>
         </div>
       )}

@@ -37,18 +37,6 @@
   --dashboard-icon: white;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 15% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 15% 50%;
-  }
-}
-
 [data-theme="gradient"] {
   --koii-blue: #171753;
   --koii-white: #ecfffe;
@@ -65,6 +53,53 @@
   --animation: 10s ease 0s infinite normal none running gradient;
   --background-size: 150% 150%;
   --dashboard-icon: white;
+}
+
+[data-theme="dark_create"] {
+  --koii-blue: #171753;
+  --koii-white: #ecfffe;
+  --koii-button-white: #171753;
+  --koii-mint: #5ed9d1;
+  --background-image: url("/public/images/backgrounds/bg_create_dark.svg");
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --dashboard-icon: white;
+}
+
+[data-theme="light_create"] {
+  --koii-blue: #ecfffe;
+  --koii-mint: #5ed9d1;
+  --koii-white: #171753;
+  --koii-mint: #8989c7;
+  --background-image: url("/public/images/backgrounds/bg_create_default.svg");
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --dashboard-icon: black;
+}
+
+[data-theme="gradient_create"] {
+  --koii-blue: #171753;
+  --koii-white: #ecfffe;
+  --koii-button-white: #ecfffe;
+  --koii-mint: #5ed9d1;
+  --background-image: url("/public/images/backgrounds/bg_create_gradient.svg");
+
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+
+  --dashboard-icon: white;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 15% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 15% 50%;
+  }
 }
 
 body {

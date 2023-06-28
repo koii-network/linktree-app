@@ -315,7 +315,6 @@ p {
 }
 
 #animated-image-frame {
-  transition: transform 0.5s;
   width: 100%;
   height: auto;
   border: 3px solid black;
@@ -329,10 +328,6 @@ p {
   100% {
     transform: rotateY(360deg) translateZ(0px);
   }
-}
-
-#animated-image-frame {
-  animation: rotateAnimation 3000ms linear infinite;
 }
 
 .typewriterText {
