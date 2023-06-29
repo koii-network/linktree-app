@@ -28,6 +28,8 @@ import {
   Tooltip,
   Select,
   Center,
+  Radio,
+  RadioGroup,
 } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
@@ -232,7 +234,7 @@ const CreateLinktree = () => {
       <Box
         py={{ base: "8rem", md: "5rem" }}
         px={8}
-        width={{ base: "100%", md: "80%" }}
+        minWidth={{ base: "100%", md: "80%" }}
         className="createLinktree"
       >
         <Flex>
@@ -336,6 +338,7 @@ const CreateLinktree = () => {
                           <Field
                             name="name"
                             label="Full Name"
+                            color="var(--koii-blue)"
                             as={Input}
                             className="input-border"
                             style={{
@@ -392,6 +395,7 @@ const CreateLinktree = () => {
                     backgroundColor="white"
                     name="description"
                     label="Bio"
+                    color="black"
                     as={Textarea}
                     height="150px"
                     className="input-border"
@@ -414,6 +418,7 @@ const CreateLinktree = () => {
                       return (
                         <input
                           style={{
+                            color: "black",
                             background: "white",
                             borderRadius: "20px",
                           }}
@@ -482,6 +487,7 @@ const CreateLinktree = () => {
                               Link Label<span className="error">*</span>
                             </Text>
                             <Field
+                              color="black"
                               backgroundColor="white"
                               name={`links.${index}.label`}
                               label="Link Name"
@@ -500,6 +506,7 @@ const CreateLinktree = () => {
                               Link URL<span className="error">*</span>
                             </Text>
                             <Field
+                              color="black"
                               backgroundColor="white"
                               className="input-border"
                               name={`links.${index}.redirectUrl`}
@@ -544,11 +551,13 @@ const CreateLinktree = () => {
                     <Button
                       mt={4}
                       leftIcon={<AddIcon />}
-                      color="var(--koii-white)"
+                      color="black"
                       rounded="full"
                       borderColor="var(--koii-white)"
                       variant="outline"
                       onClick={() => push(linksGroup)}
+                      padding={6}
+                      backgroundColor={"white"}
                     >
                       Add Link
                     </Button>
@@ -588,98 +597,58 @@ const CreateLinktree = () => {
                 Color Themes
               </Text>
               <Flex color="white">
-                <>
-                  <Card
-                    className="card"
-                    maxW="sm"
-                    marginRight="20px"
-                    backgroundColor="#C7F2EF"
-                    color="black"
-                    outline={
-                      choosenTheme === "Mint" ? "3px solid black" : undefined
-                    }
+                <Stack spacing={5}>
+                  <RadioGroup
+                    onChange={handleThemeSelection}
+                    value={choosenTheme}
                   >
-                    <CardBody>
-                      <Stack mt="6" spacing="3">
-                        <Heading size="md">Koii Mint</Heading>
-                        <Text>A refreshing breeze.</Text>
-                      </Stack>
-                    </CardBody>
-                    <CardFooter>
-                      <ButtonGroup spacing="2">
-                        <Button
-                          variant="solid"
-                          backgroundColor="#8989C7"
-                          borderRadius="5px"
-                          onClick={() => handleThemeSelection("Mint")}
-                        >
-                          Choose
-                        </Button>
-                      </ButtonGroup>
-                    </CardFooter>
-                  </Card>
-                  <br />
-                  <Card
-                    className="card"
-                    maxW="sm"
-                    marginRight="20px"
-                    backgroundColor="#171753"
-                    color="white"
-                    outline={
-                      choosenTheme === "Dark" ? "3px solid white" : undefined
-                    }
-                  >
-                    <CardBody>
-                      <Stack mt="6" spacing="3">
-                        <Heading size="md">Koii Dark</Heading>
-                        <Text>Secrets in shadows.</Text>
-                      </Stack>
-                    </CardBody>
-                    <CardFooter>
-                      <ButtonGroup spacing="2">
-                        <Button
-                          variant="solid"
-                          backgroundColor="#5ED9D1"
-                          borderRadius="5px"
-                          onClick={() => handleThemeSelection("Dark")}
-                        >
-                          Choose
-                        </Button>
-                      </ButtonGroup>
-                    </CardFooter>
-                  </Card>
+                    <Stack direction="row">
+                      <Radio value="Mint" colorScheme="teal" size="lg">
+                        <Box
+                          p="4"
+                          width={50}
+                          borderRadius={20}
+                          color="black"
+                          borderWidth={choosenTheme === "Mint" ? "2px" : "1px"}
+                          borderColor={
+                            choosenTheme === "Mint" ? "black" : "gray.200"
+                          }
+                          backgroundColor="#C7F2EF"
+                        ></Box>
+                      </Radio>
 
-                  <br />
+                      <Radio value="Dark" colorScheme="purple" size="lg">
+                        <Box
+                          p="4"
+                          width={50}
+                          borderRadius={20}
+                          color="white"
+                          borderWidth={choosenTheme === "Dark" ? "2px" : "1px"}
+                          borderColor={
+                            choosenTheme === "Dark" ? "white" : "gray.200"
+                          }
+                          backgroundColor="#171753"
+                        ></Box>
+                      </Radio>
 
-                  <Card
-                    className="card"
-                    maxW="sm"
-                    marginRight="10px"
-                    background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
-                    outline={
-                      choosenTheme === "Gradient" ? "3px solid pink" : undefined
-                    }
-                    color="white"
-                  >
-                    <CardBody>
-                      <Stack mt="6" spacing="3">
-                        <Heading size="md">Koii Gradient</Heading>
-                        <Text>Blending hues like a playful artist.</Text>
-                      </Stack>
-                    </CardBody>
-                    <CardFooter>
-                      <ButtonGroup spacing="2">
-                        <Button
-                          variant="solid"
-                          backgroundColor="#FFA6A6"
-                          onClick={() => handleThemeSelection("Gradient")}
-                        >
-                          Choose
-                        </Button>
-                      </ButtonGroup>
-                    </CardFooter>
-                  </Card>
-                </>
+                      <Radio value="Gradient" colorScheme="pink" size="lg">
+                        <Box
+                          width={50}
+                          borderRadius={20}
+                          p="4"
+                          color="white"
+                          borderWidth={
+                            choosenTheme === "Gradient" ? "2px" : "1px"
+                          }
+                          borderColor={
+                            choosenTheme === "Gradient" ? "pink" : "gray.200"
+                          }
+                          background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
+                        ></Box>
+                      </Radio>
+                    </Stack>
+                  </RadioGroup>
+                </Stack>
               </Flex>
               <Text
                 fontSize="12px"
@@ -720,37 +689,6 @@ const CreateLinktree = () => {
                 >
                   Label
                 </Button>
-              </Box>
-              <Text
-                fontSize="12px"
-                fontFamily="Sora"
-                fontStyle="normal"
-                fontWeight={400}
-                lineHeight="21px"
-                letterSpacing="0.36px"
-                mt={5}
-                mb={3}
-              >
-                Primary Link Animation
-              </Text>
-              <Box>
-                <Select
-                  placeholder="None"
-                  onChange={handleOptionChange}
-                  backgroundColor="white"
-                  color={"black"}
-                >
-                  <option value="fade-in">Fade</option>
-                  <option value="pulse">Pulse</option>
-
-                  <option value="bounce">Bounce</option>
-                </Select>
-
-                <Center>
-                  <Button mt={5} className={choosenAnimation}>
-                    Example!
-                  </Button>
-                </Center>
               </Box>
               <Button
                 w="full"
