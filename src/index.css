@@ -3,6 +3,11 @@
   src: url("/public/fonts/sora/Sora-VariableFont_wght.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "SourceSansPro";
+  src: url("/public/fonts/sora/Sora-VariableFont_wght.ttf") format("truetype");
+}
+
 :root {
   --koii-blue: #ecfffe;
   --koii-mint: #5ed9d1;

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast, Text, Button, Box } from "@chakra-ui/react";
+import { useToast, Text, Button, Box, Image } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
 import { allLinktrees, getLinktree } from "../api";
+import koiiChatFish from "./images/koiiChat.svg";
 
 const HomePage = () => {
   //Force dark theme by default
@@ -27,21 +28,20 @@ const HomePage = () => {
     if (imgElement) imgElement.src = images[currentIndex++];
 
     // Define the image swapping function
-    function swapImage() {
-      imgElement = document.getElementById("animated-image-frame");
+    function preSwapImage() {
+      function swapImage() {
+        imgElement = document.getElementById("animated-image-frame");
 
-      if (!imgElement) return;
+        if (!imgElement) return;
 
-      imgElement.src = images[currentIndex % images.length];
-      currentIndex++;
-      setTimeout(swapImage, 2500);
+        imgElement.src = images[currentIndex % images.length];
+        currentIndex++;
+        setTimeout(swapImage, 2500);
+      }
+
+      setTimeout(swapImage, 1250);
     }
-
-    // Immediately call swapImage when the animation starts
-    //swapImage();
-
-    // Set the first swapImage call to occur after 3750 ms
-    setTimeout(swapImage, 1250);
+    preSwapImage();
   }
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const HomePage = () => {
   useEffect(() => {
     function handleResize() {
       if (document.documentElement.clientWidth < 700) {
-        setIsMobile(true);
+        setIsMobile(false);
       } else {
         setIsMobile(false);
       }
@@ -137,7 +137,9 @@ const HomePage = () => {
         <div className="auth-user">
           <>
             {isMobile ? (
-              <Box display="flex" flexDirection="column" alignItems="center">
+              <> </>
+            ) : (
+              /*               <Box display="flex" flexDirection="column" alignItems="left">
                 <Text
                   marginBottom="5px"
                   fontSize="22px"
@@ -194,10 +196,14 @@ const HomePage = () => {
                 >
                   {connectButtonText}
                 </Button>
-              </Box>
-            ) : (
+              </Box> */
               <Box display="flex" flexDirection="column">
-                <Box display="flex" flexDirection="row" alignItems="center">
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  alignItems="center"
+                  marginTop={50}
+                >
                   <div
                     id="animated-image-container"
                     style={{ marginRight: "100px" }}
@@ -213,10 +219,16 @@ const HomePage = () => {
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
-                      alignItems: "center",
+                      alignItems: "flex-start",
                       height: "100%", // You can adjust this based on your layout
                     }}
                   >
+                    <Image
+                      src={koiiChatFish}
+                      alt="Koii Chat Fish"
+                      maxW="60px" // Set the maximum width to control the size
+                      h="auto" // Allow the height to adjust automatically
+                    />
                     <Text
                       fontSize="52px"
                       textAlign="center"
@@ -261,9 +273,10 @@ const HomePage = () => {
                     <Button
                       onClick={handleConnectFinnie}
                       fontFamily="Sora, sans-serif"
-                      width="300px"
+                      width="200px"
                       backgroundColor={"#8989C7"}
                       color={"white"}
+                      borderRadius={20}
                     >
                       {connectButtonText}
                     </Button>
@@ -282,7 +295,7 @@ const HomePage = () => {
             <a className="by-koii" href="https://www.koii.network/">
               Koii
             </a>{" "}
-            linktrees created: <span className="by-koii total"> {total} </span>{" "}
+            Linktrees created: {total}{" "}
           </p>
         </div>
       )}

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Formik, ErrorMessage, Field, FieldArray } from "formik";
 import { array, object, string, mixed, boolean } from "yup";
 import { Web3Storage } from "web3.storage";
-import defaultProfile from "./defaultProfile.png";
+import defaultProfile from "./images/defaultProfile.png";
+import koiiDecor from "./images/Decor 1.svg";
 
 import {
   Box,
@@ -226,368 +227,176 @@ const CreateLinktree = () => {
     setChoosenAnimation(selectedValue);
   };
   return (
-    <Box py={{ base: "8rem", md: "5rem" }} px={8} className="createLinktree">
-      <Text
-        fontSize={{ base: "3xl", md: "4xl" }}
-        fontWeight={{ base: "bold", md: "normal" }}
-        my={5}
+    <Flex justify="center" align="center">
+      <Box
+        py={{ base: "8rem", md: "5rem" }}
+        px={8}
+        width={{ base: "100%", md: "80%" }}
+        className="createLinktree"
       >
-        Create Your Koii Linktree Profile
-      </Text>
-
-      <Text
-        fontSize={{ base: "xl", md: "2xl" }}
-        fontWeight={{ base: "bold", md: "normal" }}
-        my={5}
-      >
-        Choose a theme
-      </Text>
-      <Flex color="white">
-        <>
-          <Card
-            className="card"
-            maxW="sm"
-            marginRight="20px"
-            backgroundColor="#C7F2EF"
-            color="black"
-            outline={choosenTheme === "Mint" ? "3px solid black" : undefined}
+        <Flex>
+          <Image
+            src={koiiDecor}
+            alt="Koii Chat Fish"
+            maxW="60px" // Set the maximum width to control the size
+            h="auto" // Allow the height to adjust automatically
+          />
+          <Text
+            my={5}
+            ml={3}
+            color="#171753"
+            fontSize="32px"
+            fontFamily="Sora"
+            fontStyle="normal"
+            fontWeight="600"
+            lineHeight="40px"
           >
-            <CardBody>
-              <Image borderRadius="10px" src="/images/Koii-Mint.png" />
-              <Stack mt="6" spacing="3">
-                <Heading size="md">Koii Mint</Heading>
-                <Text>A refreshing breeze.</Text>
-              </Stack>
-            </CardBody>
-            <CardFooter>
-              <ButtonGroup spacing="2">
-                <Button
-                  variant="solid"
-                  backgroundColor="#8989C7"
-                  borderRadius="5px"
-                  onClick={() => handleThemeSelection("Mint")}
-                >
-                  Choose
-                </Button>
-              </ButtonGroup>
-            </CardFooter>
-          </Card>
-          <br />
-          <Card
-            className="card"
-            maxW="sm"
-            marginRight="20px"
-            backgroundColor="#171753"
-            color="white"
-            outline={choosenTheme === "Dark" ? "3px solid white" : undefined}
-          >
-            <CardBody>
-              <Image
-                borderRadius="10px"
-                src="/images/Koii-Dark.png"
-                alt="Green double couch with wooden legs"
-              />
-              <Stack mt="6" spacing="3">
-                <Heading size="md">Koii Dark</Heading>
-                <Text>Secrets in shadows.</Text>
-              </Stack>
-            </CardBody>
-            <CardFooter>
-              <ButtonGroup spacing="2">
-                <Button
-                  variant="solid"
-                  backgroundColor="#5ED9D1"
-                  borderRadius="5px"
-                  onClick={() => handleThemeSelection("Dark")}
-                >
-                  Choose
-                </Button>
-              </ButtonGroup>
-            </CardFooter>
-          </Card>
+            Create Your Koii Linktree Profile
+          </Text>
+        </Flex>
 
-          <br />
+        <Text
+          fontSize={{ base: "xl", md: "2xl" }}
+          fontWeight={{ base: "bold", md: "bold" }}
+          my={5}
+        >
+          Profile Settings
+        </Text>
 
-          <Card
-            className="card"
-            maxW="sm"
-            marginRight="10px"
-            background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
-            outline={choosenTheme === "Gradient" ? "3px solid pink" : undefined}
-            color="white"
-          >
-            <CardBody>
-              <Image
-                borderRadius="10px"
-                src="/images/Koii-Gradient.png"
-                alt="Green double couch with wooden legs"
-              />
-              <Stack mt="6" spacing="3">
-                <Heading size="md">Koii Gradient</Heading>
-                <Text>Blending hues like a playful artist.</Text>
-              </Stack>
-            </CardBody>
-            <CardFooter>
-              <ButtonGroup spacing="2">
-                <Button
-                  variant="solid"
-                  backgroundColor="#FFA6A6"
-                  onClick={() => handleThemeSelection("Gradient")}
-                >
-                  Choose
-                </Button>
-              </ButtonGroup>
-            </CardFooter>
-          </Card>
-        </>
-      </Flex>
+        <Formik
+          initialValues={{
+            name: "",
+            description: "",
+            image: null,
+            background: "",
+            links: [linksGroup],
+            linktreeAddress: "",
+          }}
+          validationSchema={object({
+            name: string().required("Full name is required"),
+            description: string()
+              .min(5, "Bio is too short!")
+              .max(400, "Bio is too Long")
+              .required("A short bio is required"),
+            linktreeAddress: string()
+              .min(5, "Address is too short!")
+              .max(200, "Address is too Long")
+              .required("An address is required."),
+            image: mixed().nullable().required("Upload a profile image"),
+            links: array(
+              object({
+                label: string().required("Link label is required"),
+                redirectUrl: string().required("Link URL is required").matches(
+                  "^(http(s)://.)",
 
-      <Text
-        fontSize={{ base: "xl", md: "2xl" }}
-        fontWeight={{ base: "bold", md: "normal" }}
-        my={5}
-      >
-        Enter your details
-      </Text>
-
-      <Formik
-        initialValues={{
-          name: "",
-          description: "",
-          image: null,
-          background: "",
-          links: [linksGroup],
-          linktreeAddress: "",
-        }}
-        validationSchema={object({
-          name: string().required("Full name is required"),
-          description: string()
-            .min(5, "Bio is too short!")
-            .max(400, "Bio is too Long")
-            .required("A short bio is required"),
-          linktreeAddress: string()
-            .min(5, "Address is too short!")
-            .max(200, "Address is too Long")
-            .required("An address is required."),
-          image: mixed().nullable().required("Upload a profile image"),
-          links: array(
-            object({
-              label: string().required("Link label is required"),
-              redirectUrl: string().required("Link URL is required").matches(
-                "^(http(s)://.)",
-
-                "Enter correct url!"
-              ),
-              key: string(),
-              isFavorite: boolean(),
-            })
-          )
-            .min(1, "At least one link is required!")
-            .required("Add a social link"),
-        })}
-        onSubmit={handleSubmit}
-      >
-        {({ values, handleSubmit, isValid }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <Box mb={3}>
-                <Text>
-                  Full Name<span className="error">*</span>
-                </Text>
-                <Field
-                  name="name"
-                  label="Full Name"
-                  as={Input}
-                  className="input-border"
-                />
-                <Text className="error">
-                  <ErrorMessage name="name" />
-                </Text>
-              </Box>
-
+                  "Enter correct url!"
+                ),
+                key: string(),
+                isFavorite: boolean(),
+              })
+            )
+              .min(1, "At least one link is required!")
+              .required("Add a social link"),
+          })}
+          onSubmit={handleSubmit}
+        >
+          {({ values, handleSubmit, isValid }) => (
+            <form onSubmit={handleSubmit}>
               <div>
-                <Text>
-                  Short Bio<span className="error">*</span>
-                </Text>
-                <Field
-                  name="description"
-                  label="Bio"
-                  as={Textarea}
-                  height="150px"
-                  className="input-border"
-                />
-                <Text className="error">
-                  <ErrorMessage name="description" />
-                </Text>
-              </div>
-
-              {image ? (
-                <PreviewImage
-                  className={{ margin: "auto" }}
-                  width={100}
-                  height={100}
-                  file={image}
-                />
-              ) : (
-                <Box mt={5} display="flex" justifyContent="center">
-                  <img src={defaultProfile} alt="User" className="user-image" />
-                </Box>
-              )}
-
-              <div
-                style={{
-                  backgroundColor: "#efefef",
-                  padding: "32px",
-                  borderRadius: "20px",
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "30px",
-                }}
-              >
-                <Field name="image">
-                  {({ form, field }) => {
-                    const { setFieldValue } = form;
-                    return (
-                      <input
-                        type="file"
-                        className="form-control"
-                        required
-                        onChange={async (e) => {
-                          setFiles(e.target.files);
-                          setImage(e.target.files[0]);
-                          setImageName(e.target.files[0].name);
-                          setFieldValue("image", e.target.files[0].name);
-                        }}
+                <Flex>
+                  {image ? (
+                    <PreviewImage
+                      className={{ margin: "auto" }}
+                      width={100}
+                      height={100}
+                      file={image}
+                    />
+                  ) : (
+                    <Box mt={5} display="flex">
+                      <img
+                        src={defaultProfile}
+                        alt="User"
+                        className="user-image"
                       />
-                    );
-                  }}
-                </Field>
-                <Text className="error">
-                  <ErrorMessage name="image" />
-                </Text>
-              </div>
-            </div>
-
-            <FieldArray name="links">
-              {({ push, remove }) => (
-                <div>
-                  <div>
-                    <Text fontSize="2xl" mt={5}>
-                      Add Social Links
-                    </Text>
-                    <Text fontSize="base" color={"#cacaf0"} mb={5}>
-                      Note — The first link will be marked as favorite
-                    </Text>
-                  </div>
-                  {values.links.map((_, index) => (
-                    <Box>
-                      {index === 0 && (
-                        <Box className="chooseAnimation">Favorite Link</Box>
-                      )}
-                      <Flex
-                        flexDirection={{ base: "column", md: "row" }}
-                        key={index}
-                        mt={2}
-                        alignItems={{ base: "end", md: "center" }}
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
                       >
-                        <Box w={{ base: "100%", md: "45%" }}>
-                          <Text>
-                            Link Label<span className="error">*</span>
-                          </Text>
-                          <Field
-                            backgroundColor="white"
-                            name={`links.${index}.label`}
-                            label="Link Name"
-                            as={Input}
-                            className="input-border"
-                          />
-
-                          <Text className="error">
-                            <ErrorMessage name={`links.${index}.label`} />ㅤ
-                          </Text>
-                        </Box>
-                        <Spacer />
-                        <Box w={{ base: "100%", md: "45%" }}>
-                          <Text>
-                            Link URL<span className="error">*</span>
-                          </Text>
-                          <Field
-                            backgroundColor="white"
-                            className="input-border"
-                            name={`links.${index}.redirectUrl`}
-                            label="Link URL"
-                            as={Input}
-                          />
-                          <Text className="error">
-                            <ErrorMessage name={`links.${index}.redirectUrl`} />
-                            ㅤ
-                          </Text>
-                        </Box>
-                        <Spacer />
-                        {index === 0 ? (
-                          <div>{/* You can put the Tooltip back here */}</div>
-                        ) : (
-                          <div>
-                            <IconButton
-                              rounded="full"
-                              icon={<DeleteIcon />}
-                              colorScheme="red"
-                              marginTop="10px"
-                              alignSelf={{ base: "flex-end", lg: "" }}
-                              onClick={() => remove(index)}
+                        <Flex flexDirection={"column"}>
+                          <Box mb={3}>
+                            <Text>
+                              Full Name<span className="error">*</span>
+                            </Text>
+                            <Field
+                              name="name"
+                              label="Full Name"
+                              as={Input}
+                              className="input-border"
                             />
-                          </div>
-                        )}
-                      </Flex>
-                      {index === 0 && (
-                        <>
-                          <Box>
-                            <Select
-                              placeholder="None"
-                              onChange={handleOptionChange}
-                              backgroundColor="white"
-                            >
-                              <option value="fade-in">Fade</option>
-                              <option value="pulse">Pulse</option>
-                              <option value="spin">Spin</option>
-                              <option value="bounce">Bounce</option>
-                              <option value="rainbow">Rainbow</option>
-                            </Select>
-
-                            <Center>
-                              <Button mt={5} className={choosenAnimation}>
-                                Example!
-                              </Button>
-                            </Center>
+                            <Text className="error">
+                              <ErrorMessage name="name" />
+                            </Text>
                           </Box>
-                        </>
-                      )}
+
+                          <div
+                            style={{
+                              padding: "32px",
+                              borderRadius: "20px",
+                              display: "flex",
+                              justifyContent: "center",
+                              marginTop: "30px",
+                            }}
+                          >
+                            <Field name="image">
+                              {({ form, field }) => {
+                                const { setFieldValue } = form;
+                                return (
+                                  <input
+                                    type="file"
+                                    className="form-control"
+                                    required
+                                    onChange={async (e) => {
+                                      setFiles(e.target.files);
+                                      setImage(e.target.files[0]);
+                                      setImageName(e.target.files[0].name);
+                                      setFieldValue(
+                                        "image",
+                                        e.target.files[0].name
+                                      );
+                                    }}
+                                  />
+                                );
+                              }}
+                            </Field>
+                            <Text className="error">
+                              <ErrorMessage name="image" />
+                            </Text>
+                          </div>
+                        </Flex>
+                      </Box>
                     </Box>
-                  ))}
-                  <Button
-                    mt={4}
-                    leftIcon={<AddIcon />}
-                    color="var(--koii-white)"
-                    rounded="full"
-                    borderColor="var(--koii-white)"
-                    variant="outline"
-                    onClick={() => push(linksGroup)}
-                  >
-                    Add Link
-                  </Button>
-                  {/* Other "Add Link" buttons go here */}
+                  )}
+                </Flex>
+
+                <div>
+                  <Text>
+                    Short Bio<span className="error">*</span>
+                  </Text>
+                  <Field
+                    name="description"
+                    label="Bio"
+                    as={Textarea}
+                    height="150px"
+                    className="input-border"
+                  />
+                  <Text className="error">
+                    <ErrorMessage name="description" />
+                  </Text>
                 </div>
-              )}
-            </FieldArray>
 
-            <Box mt={10}>
-              <Text fontSize="2xl" mt={5}>
-                Linktree Username
-              </Text>
-
-              <Box display="flex" alignItems="center" justifyContent="center">
                 <Text fontSize="m" mr={2}>
-                  linktree.koii.network/
+                  Username:
                 </Text>
                 <Field name="linktreeAddress">
                   {({ form, field }) => {
@@ -607,29 +416,251 @@ const CreateLinktree = () => {
                     );
                   }}
                 </Field>
+              </div>
+
+              <FieldArray name="links">
+                {({ push, remove }) => (
+                  <div>
+                    <div>
+                      <Text fontSize="2xl" mt={5}>
+                        Add Your Links
+                      </Text>
+                      <Text fontSize="base" color={"#cacaf0"} mb={5}>
+                        Note — The first link will be marked as favorite
+                      </Text>
+                    </div>
+                    {values.links.map((_, index) => (
+                      <Box>
+                        {index === 0 && (
+                          <Box className="chooseAnimation">Favorite Link</Box>
+                        )}
+                        <Flex
+                          flexDirection={{ base: "column", md: "row" }}
+                          key={index}
+                          mt={2}
+                          alignItems={{ base: "end", md: "center" }}
+                        >
+                          <Box w={{ base: "100%", md: "45%" }}>
+                            <Text>
+                              Link Label<span className="error">*</span>
+                            </Text>
+                            <Field
+                              backgroundColor="white"
+                              name={`links.${index}.label`}
+                              label="Link Name"
+                              as={Input}
+                              className="input-border"
+                            />
+
+                            <Text className="error">
+                              <ErrorMessage name={`links.${index}.label`} />ㅤ
+                            </Text>
+                          </Box>
+                          <Spacer />
+                          <Box w={{ base: "100%", md: "45%" }}>
+                            <Text>
+                              Link URL<span className="error">*</span>
+                            </Text>
+                            <Field
+                              backgroundColor="white"
+                              className="input-border"
+                              name={`links.${index}.redirectUrl`}
+                              label="Link URL"
+                              as={Input}
+                            />
+                            <Text className="error">
+                              <ErrorMessage
+                                name={`links.${index}.redirectUrl`}
+                              />
+                              ㅤ
+                            </Text>
+                          </Box>
+                          <Spacer />
+                          {index === 0 ? (
+                            <div>{/* You can put the Tooltip back here */}</div>
+                          ) : (
+                            <div>
+                              <IconButton
+                                rounded="full"
+                                icon={<DeleteIcon />}
+                                colorScheme="red"
+                                marginTop="10px"
+                                alignSelf={{ base: "flex-end", lg: "" }}
+                                onClick={() => remove(index)}
+                              />
+                            </div>
+                          )}
+                        </Flex>
+                        {index === 0 && (
+                          <>
+                            <Box>
+                              <Select
+                                placeholder="None"
+                                onChange={handleOptionChange}
+                                backgroundColor="white"
+                              >
+                                <option value="fade-in">Fade</option>
+                                <option value="pulse">Pulse</option>
+                                <option value="spin">Spin</option>
+                                <option value="bounce">Bounce</option>
+                                <option value="rainbow">Rainbow</option>
+                              </Select>
+
+                              <Center>
+                                <Button mt={5} className={choosenAnimation}>
+                                  Example!
+                                </Button>
+                              </Center>
+                            </Box>
+                          </>
+                        )}
+                      </Box>
+                    ))}
+                    <Button
+                      mt={4}
+                      leftIcon={<AddIcon />}
+                      color="var(--koii-white)"
+                      rounded="full"
+                      borderColor="var(--koii-white)"
+                      variant="outline"
+                      onClick={() => push(linksGroup)}
+                    >
+                      Add Link
+                    </Button>
+                    {/* Other "Add Link" buttons go here */}
+                  </div>
+                )}
+              </FieldArray>
+
+              <Box mt={10}>
+                <Text fontSize="2xl" mt={5}>
+                  Linktree Username
+                </Text>
+
+                <Text className="error">
+                  <ErrorMessage name="linktreeAddress" />
+                </Text>
+                <Text className="error">{usernameError}</Text>
               </Box>
 
-              <Text className="error">
-                <ErrorMessage name="linktreeAddress" />
-              </Text>
-              <Text className="error">{usernameError}</Text>
-            </Box>
+              <Button
+                w="full"
+                rounded="full"
+                color="var(--koii-blue)"
+                bg="var(--koii-white)"
+                my={10}
+                type="submit"
+                isDisabled={disabled}
+              >
+                {isLoading ? <Spinner /> : "Submit"}
+              </Button>
+            </form>
+          )}
+        </Formik>
 
-            <Button
-              w="full"
-              rounded="full"
-              color="var(--koii-blue)"
-              bg="var(--koii-white)"
-              my={10}
-              type="submit"
-              isDisabled={disabled}
+        <Flex color="white">
+          <>
+            <Card
+              className="card"
+              maxW="sm"
+              marginRight="20px"
+              backgroundColor="#C7F2EF"
+              color="black"
+              outline={choosenTheme === "Mint" ? "3px solid black" : undefined}
             >
-              {isLoading ? <Spinner /> : "Submit"}
-            </Button>
-          </form>
-        )}
-      </Formik>
-    </Box>
+              <CardBody>
+                <Image borderRadius="10px" src="/images/Koii-Mint.png" />
+                <Stack mt="6" spacing="3">
+                  <Heading size="md">Koii Mint</Heading>
+                  <Text>A refreshing breeze.</Text>
+                </Stack>
+              </CardBody>
+              <CardFooter>
+                <ButtonGroup spacing="2">
+                  <Button
+                    variant="solid"
+                    backgroundColor="#8989C7"
+                    borderRadius="5px"
+                    onClick={() => handleThemeSelection("Mint")}
+                  >
+                    Choose
+                  </Button>
+                </ButtonGroup>
+              </CardFooter>
+            </Card>
+            <br />
+            <Card
+              className="card"
+              maxW="sm"
+              marginRight="20px"
+              backgroundColor="#171753"
+              color="white"
+              outline={choosenTheme === "Dark" ? "3px solid white" : undefined}
+            >
+              <CardBody>
+                <Image
+                  borderRadius="10px"
+                  src="/images/Koii-Dark.png"
+                  alt="Green double couch with wooden legs"
+                />
+                <Stack mt="6" spacing="3">
+                  <Heading size="md">Koii Dark</Heading>
+                  <Text>Secrets in shadows.</Text>
+                </Stack>
+              </CardBody>
+              <CardFooter>
+                <ButtonGroup spacing="2">
+                  <Button
+                    variant="solid"
+                    backgroundColor="#5ED9D1"
+                    borderRadius="5px"
+                    onClick={() => handleThemeSelection("Dark")}
+                  >
+                    Choose
+                  </Button>
+                </ButtonGroup>
+              </CardFooter>
+            </Card>
+
+            <br />
+
+            <Card
+              className="card"
+              maxW="sm"
+              marginRight="10px"
+              background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
+              outline={
+                choosenTheme === "Gradient" ? "3px solid pink" : undefined
+              }
+              color="white"
+            >
+              <CardBody>
+                <Image
+                  borderRadius="10px"
+                  src="/images/Koii-Gradient.png"
+                  alt="Green double couch with wooden legs"
+                />
+                <Stack mt="6" spacing="3">
+                  <Heading size="md">Koii Gradient</Heading>
+                  <Text>Blending hues like a playful artist.</Text>
+                </Stack>
+              </CardBody>
+              <CardFooter>
+                <ButtonGroup spacing="2">
+                  <Button
+                    variant="solid"
+                    backgroundColor="#FFA6A6"
+                    onClick={() => handleThemeSelection("Gradient")}
+                  >
+                    Choose
+                  </Button>
+                </ButtonGroup>
+              </CardFooter>
+            </Card>
+          </>
+        </Flex>
+      </Box>
+    </Flex>
   );
 };
 
