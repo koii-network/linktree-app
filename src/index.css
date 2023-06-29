@@ -61,7 +61,7 @@
 }
 
 [data-theme="dark_create"] {
-  --koii-blue: #171753;
+  --koii-blue: #ecfffe;
   --koii-white: #ecfffe;
   --koii-button-white: #171753;
   --koii-mint: #5ed9d1;
@@ -72,7 +72,7 @@
 }
 
 [data-theme="light_create"] {
-  --koii-blue: #ecfffe;
+  --koii-blue: #171753;
   --koii-mint: #5ed9d1;
   --koii-white: #171753;
   --koii-mint: #8989c7;

@@ -54,7 +54,7 @@ const PreviewImage = ({ file }) => {
   };
 
   return (
-    <Box mt={5} display="flex" justifyContent="center">
+    <Box display="flex" justifyContent="center">
       <img src={preview} alt="User" className="user-image" />
     </Box>
   );
@@ -119,6 +119,7 @@ const CreateLinktree = () => {
   };
 
   useEffect(() => {
+    handleThemeSelection("Mint");
     async function getAuth() {
       if (!publicKey) {
         toast({
@@ -244,7 +245,7 @@ const CreateLinktree = () => {
           <Text
             my={5}
             ml={3}
-            color="#171753"
+            color="var(--koii-blue)"
             fontSize="32px"
             fontFamily="Sora"
             fontStyle="normal"
@@ -273,11 +274,11 @@ const CreateLinktree = () => {
             linktreeAddress: "",
           }}
           validationSchema={object({
-            name: string().required("Full name is required"),
+            name: string().required("Name is required"),
             description: string()
               .min(5, "Bio is too short!")
               .max(400, "Bio is too Long")
-              .required("A short bio is required"),
+              .required("A bio is required"),
             linktreeAddress: string()
               .min(5, "Address is too short!")
               .max(200, "Address is too Long")
@@ -302,88 +303,93 @@ const CreateLinktree = () => {
         >
           {({ values, handleSubmit, isValid }) => (
             <form onSubmit={handleSubmit}>
-              <div>
-                <Flex>
-                  {image ? (
-                    <PreviewImage
-                      className={{ margin: "auto" }}
-                      width={100}
-                      height={100}
-                      file={image}
-                    />
-                  ) : (
-                    <Box mt={5} display="flex">
+              <Box>
+                <Box mt={5} display="flex">
+                  <div>
+                    {image ? (
+                      <PreviewImage
+                        className={{ margin: "auto" }}
+                        width={100}
+                        height={100}
+                        file={image}
+                      />
+                    ) : (
                       <img
                         src={defaultProfile}
                         alt="User"
                         className="user-image"
                       />
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <Flex flexDirection={"column"}>
-                          <Box mb={3}>
-                            <Text>
-                              Full Name<span className="error">*</span>
-                            </Text>
-                            <Field
-                              name="name"
-                              label="Full Name"
-                              as={Input}
-                              className="input-border"
-                            />
-                            <Text className="error">
-                              <ErrorMessage name="name" />
-                            </Text>
-                          </Box>
+                    )}
+                  </div>
 
-                          <div
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Flex ml={5} flexDirection={"column"}>
+                      <Box mb={3}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <Text mr={3}>
+                            Name<span className="error">*</span>
+                          </Text>
+                          <Field
+                            name="name"
+                            label="Full Name"
+                            as={Input}
+                            className="input-border"
                             style={{
-                              padding: "32px",
-                              borderRadius: "20px",
-                              display: "flex",
-                              justifyContent: "center",
-                              marginTop: "30px",
+                              borderRadius: "30px",
+                              backgroundColor: "white",
                             }}
-                          >
-                            <Field name="image">
-                              {({ form, field }) => {
-                                const { setFieldValue } = form;
-                                return (
-                                  <input
-                                    type="file"
-                                    className="form-control"
-                                    required
-                                    onChange={async (e) => {
-                                      setFiles(e.target.files);
-                                      setImage(e.target.files[0]);
-                                      setImageName(e.target.files[0].name);
-                                      setFieldValue(
-                                        "image",
-                                        e.target.files[0].name
-                                      );
-                                    }}
-                                  />
-                                );
-                              }}
-                            </Field>
-                            <Text className="error">
-                              <ErrorMessage name="image" />
-                            </Text>
-                          </div>
-                        </Flex>
+                          />
+                        </div>
+
+                        <Text className="error">
+                          <ErrorMessage name="name" />
+                        </Text>
                       </Box>
-                    </Box>
-                  )}
-                </Flex>
+
+                      <div
+                        style={{
+                          borderRadius: "20px",
+                        }}
+                      >
+                        <Field name="image">
+                          {({ form, field }) => {
+                            const { setFieldValue } = form;
+                            return (
+                              <input
+                                type="file"
+                                required
+                                onChange={async (e) => {
+                                  setFiles(e.target.files);
+                                  setImage(e.target.files[0]);
+                                  setImageName(e.target.files[0].name);
+                                  setFieldValue(
+                                    "image",
+                                    e.target.files[0].name
+                                  );
+                                }}
+                              />
+                            );
+                          }}
+                        </Field>
+                        <Text className="error">
+                          <ErrorMessage name="image" />
+                        </Text>
+                      </div>
+                    </Flex>
+                  </Box>
+                </Box>
 
                 <div>
-                  <Text>
-                    Short Bio<span className="error">*</span>
+                  <Text mt={10}>
+                    Bio<span className="error">*</span>
                   </Text>
                   <Field
+                    borderRadius="30px"
+                    backgroundColor="white"
                     name="description"
                     label="Bio"
                     as={Textarea}
@@ -395,44 +401,75 @@ const CreateLinktree = () => {
                   </Text>
                 </div>
 
-                <Text fontSize="m" mr={2}>
-                  Username:
+                <Text fontSize="m" mt={10} mr={2}>
+                  Linktree URL:
                 </Text>
-                <Field name="linktreeAddress">
-                  {({ form, field }) => {
-                    const { setFieldValue } = form;
-                    return (
-                      <input
-                        type="text"
-                        className="input-border input-container"
-                        required
-                        name="linktreeAddress"
-                        onChange={async (e) => {
-                          // handleChangeUserName(e);
-                          setFieldValue("linktreeAddress", e.target.value);
-                        }}
-                        onKeyUp={handleChangeUserName}
-                      />
-                    );
-                  }}
-                </Field>
-              </div>
+                <Flex alignItems={"center"}>
+                  <Text mr={3} color={"#4D3D8D"}>
+                    linktree.koii.network/
+                  </Text>
+                  <Field name="linktreeAddress">
+                    {({ form, field }) => {
+                      const { setFieldValue } = form;
+                      return (
+                        <input
+                          style={{
+                            background: "white",
+                            borderRadius: "20px",
+                          }}
+                          type="text"
+                          className="input-border input-container"
+                          required
+                          name="linktreeAddress"
+                          onChange={async (e) => {
+                            // handleChangeUserName(e);
+                            setFieldValue("linktreeAddress", e.target.value);
+                          }}
+                          onKeyUp={handleChangeUserName}
+                        />
+                      );
+                    }}
+                  </Field>
+                </Flex>
+              </Box>
 
               <FieldArray name="links">
                 {({ push, remove }) => (
                   <div>
                     <div>
-                      <Text fontSize="2xl" mt={5}>
+                      <Text
+                        fontSize="18px"
+                        fontFamily="Sora"
+                        fontStyle="normal"
+                        fontWeight={600}
+                        lineHeight="21px"
+                        letterSpacing="0.36px"
+                        mt={5}
+                        mb={3}
+                      >
                         Add Your Links
-                      </Text>
-                      <Text fontSize="base" color={"#cacaf0"} mb={5}>
-                        Note — The first link will be marked as favorite
                       </Text>
                     </div>
                     {values.links.map((_, index) => (
                       <Box>
                         {index === 0 && (
-                          <Box className="chooseAnimation">Favorite Link</Box>
+                          <Box className="chooseAnimation">
+                            <Text
+                              fontSize="16px"
+                              fontFamily="Sora"
+                              fontStyle="normal"
+                              fontWeight={400}
+                              lineHeight="20px"
+                              letterSpacing="-0.16px"
+                            >
+                              Your Primary Link
+                            </Text>
+
+                            <Text fontSize="base" color={"#cacaf0"} mb={5}>
+                              Your primary link will stand out with a different
+                              color{" "}
+                            </Text>
+                          </Box>
                         )}
                         <Flex
                           flexDirection={{ base: "column", md: "row" }}
@@ -450,6 +487,7 @@ const CreateLinktree = () => {
                               label="Link Name"
                               as={Input}
                               className="input-border"
+                              borderRadius={30}
                             />
 
                             <Text className="error">
@@ -467,6 +505,7 @@ const CreateLinktree = () => {
                               name={`links.${index}.redirectUrl`}
                               label="Link URL"
                               as={Input}
+                              borderRadius={30}
                             />
                             <Text className="error">
                               <ErrorMessage
@@ -477,43 +516,29 @@ const CreateLinktree = () => {
                           </Box>
                           <Spacer />
                           {index === 0 ? (
-                            <div>{/* You can put the Tooltip back here */}</div>
+                            <div>
+                              {" "}
+                              <IconButton
+                                rounded="full"
+                                icon={<DeleteIcon />}
+                                opacity={0}
+                                colorScheme="red"
+                                alignSelf={{ base: "flex-end", lg: "" }}
+                              />
+                            </div>
                           ) : (
                             <div>
                               <IconButton
                                 rounded="full"
                                 icon={<DeleteIcon />}
                                 colorScheme="red"
-                                marginTop="10px"
                                 alignSelf={{ base: "flex-end", lg: "" }}
                                 onClick={() => remove(index)}
                               />
                             </div>
                           )}
                         </Flex>
-                        {index === 0 && (
-                          <>
-                            <Box>
-                              <Select
-                                placeholder="None"
-                                onChange={handleOptionChange}
-                                backgroundColor="white"
-                              >
-                                <option value="fade-in">Fade</option>
-                                <option value="pulse">Pulse</option>
-                                <option value="spin">Spin</option>
-                                <option value="bounce">Bounce</option>
-                                <option value="rainbow">Rainbow</option>
-                              </Select>
-
-                              <Center>
-                                <Button mt={5} className={choosenAnimation}>
-                                  Example!
-                                </Button>
-                              </Center>
-                            </Box>
-                          </>
-                        )}
+                        {index === 0 && <></>}
                       </Box>
                     ))}
                     <Button
@@ -533,16 +558,200 @@ const CreateLinktree = () => {
               </FieldArray>
 
               <Box mt={10}>
-                <Text fontSize="2xl" mt={5}>
-                  Linktree Username
-                </Text>
-
                 <Text className="error">
                   <ErrorMessage name="linktreeAddress" />
                 </Text>
                 <Text className="error">{usernameError}</Text>
               </Box>
 
+              <Text
+                fontSize="18px"
+                fontFamily="Sora"
+                fontStyle="normal"
+                fontWeight={600}
+                lineHeight="21px"
+                letterSpacing="0.36px"
+                mt={5}
+                mb={3}
+              >
+                Personalize Your Linktree
+              </Text>
+              <Text
+                fontSize="12px"
+                fontFamily="Sora"
+                fontStyle="normal"
+                fontWeight={400}
+                lineHeight="21px"
+                letterSpacing="0.36px"
+                mb={3}
+              >
+                Color Themes
+              </Text>
+              <Flex color="white">
+                <>
+                  <Card
+                    className="card"
+                    maxW="sm"
+                    marginRight="20px"
+                    backgroundColor="#C7F2EF"
+                    color="black"
+                    outline={
+                      choosenTheme === "Mint" ? "3px solid black" : undefined
+                    }
+                  >
+                    <CardBody>
+                      <Stack mt="6" spacing="3">
+                        <Heading size="md">Koii Mint</Heading>
+                        <Text>A refreshing breeze.</Text>
+                      </Stack>
+                    </CardBody>
+                    <CardFooter>
+                      <ButtonGroup spacing="2">
+                        <Button
+                          variant="solid"
+                          backgroundColor="#8989C7"
+                          borderRadius="5px"
+                          onClick={() => handleThemeSelection("Mint")}
+                        >
+                          Choose
+                        </Button>
+                      </ButtonGroup>
+                    </CardFooter>
+                  </Card>
+                  <br />
+                  <Card
+                    className="card"
+                    maxW="sm"
+                    marginRight="20px"
+                    backgroundColor="#171753"
+                    color="white"
+                    outline={
+                      choosenTheme === "Dark" ? "3px solid white" : undefined
+                    }
+                  >
+                    <CardBody>
+                      <Stack mt="6" spacing="3">
+                        <Heading size="md">Koii Dark</Heading>
+                        <Text>Secrets in shadows.</Text>
+                      </Stack>
+                    </CardBody>
+                    <CardFooter>
+                      <ButtonGroup spacing="2">
+                        <Button
+                          variant="solid"
+                          backgroundColor="#5ED9D1"
+                          borderRadius="5px"
+                          onClick={() => handleThemeSelection("Dark")}
+                        >
+                          Choose
+                        </Button>
+                      </ButtonGroup>
+                    </CardFooter>
+                  </Card>
+
+                  <br />
+
+                  <Card
+                    className="card"
+                    maxW="sm"
+                    marginRight="10px"
+                    background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
+                    outline={
+                      choosenTheme === "Gradient" ? "3px solid pink" : undefined
+                    }
+                    color="white"
+                  >
+                    <CardBody>
+                      <Stack mt="6" spacing="3">
+                        <Heading size="md">Koii Gradient</Heading>
+                        <Text>Blending hues like a playful artist.</Text>
+                      </Stack>
+                    </CardBody>
+                    <CardFooter>
+                      <ButtonGroup spacing="2">
+                        <Button
+                          variant="solid"
+                          backgroundColor="#FFA6A6"
+                          onClick={() => handleThemeSelection("Gradient")}
+                        >
+                          Choose
+                        </Button>
+                      </ButtonGroup>
+                    </CardFooter>
+                  </Card>
+                </>
+              </Flex>
+              <Text
+                fontSize="12px"
+                fontFamily="Sora"
+                fontStyle="normal"
+                fontWeight={400}
+                lineHeight="21px"
+                letterSpacing="0.36px"
+                mt={5}
+                mb={3}
+              >
+                Primary Link Style
+              </Text>
+              <Box>
+                <Button
+                  backgroundColor="#172053"
+                  color="#BEF0ED"
+                  width={150}
+                  borderRadius={30}
+                  mr={10}
+                >
+                  Label
+                </Button>
+                <Button
+                  width={150}
+                  backgroundColor="#BEF0ED"
+                  color="#4D3D8D"
+                  borderRadius={30}
+                  mr={10}
+                >
+                  Label
+                </Button>
+                <Button
+                  width={150}
+                  backgroundColor="#9BE7C4"
+                  color="#171753"
+                  borderRadius={30}
+                >
+                  Label
+                </Button>
+              </Box>
+              <Text
+                fontSize="12px"
+                fontFamily="Sora"
+                fontStyle="normal"
+                fontWeight={400}
+                lineHeight="21px"
+                letterSpacing="0.36px"
+                mt={5}
+                mb={3}
+              >
+                Primary Link Animation
+              </Text>
+              <Box>
+                <Select
+                  placeholder="None"
+                  onChange={handleOptionChange}
+                  backgroundColor="white"
+                  color={"black"}
+                >
+                  <option value="fade-in">Fade</option>
+                  <option value="pulse">Pulse</option>
+
+                  <option value="bounce">Bounce</option>
+                </Select>
+
+                <Center>
+                  <Button mt={5} className={choosenAnimation}>
+                    Example!
+                  </Button>
+                </Center>
+              </Box>
               <Button
                 w="full"
                 rounded="full"
@@ -552,113 +761,11 @@ const CreateLinktree = () => {
                 type="submit"
                 isDisabled={disabled}
               >
-                {isLoading ? <Spinner /> : "Submit"}
+                {isLoading ? <Spinner /> : "Register My KoiiLink"}
               </Button>
             </form>
           )}
         </Formik>
-
-        <Flex color="white">
-          <>
-            <Card
-              className="card"
-              maxW="sm"
-              marginRight="20px"
-              backgroundColor="#C7F2EF"
-              color="black"
-              outline={choosenTheme === "Mint" ? "3px solid black" : undefined}
-            >
-              <CardBody>
-                <Image borderRadius="10px" src="/images/Koii-Mint.png" />
-                <Stack mt="6" spacing="3">
-                  <Heading size="md">Koii Mint</Heading>
-                  <Text>A refreshing breeze.</Text>
-                </Stack>
-              </CardBody>
-              <CardFooter>
-                <ButtonGroup spacing="2">
-                  <Button
-                    variant="solid"
-                    backgroundColor="#8989C7"
-                    borderRadius="5px"
-                    onClick={() => handleThemeSelection("Mint")}
-                  >
-                    Choose
-                  </Button>
-                </ButtonGroup>
-              </CardFooter>
-            </Card>
-            <br />
-            <Card
-              className="card"
-              maxW="sm"
-              marginRight="20px"
-              backgroundColor="#171753"
-              color="white"
-              outline={choosenTheme === "Dark" ? "3px solid white" : undefined}
-            >
-              <CardBody>
-                <Image
-                  borderRadius="10px"
-                  src="/images/Koii-Dark.png"
-                  alt="Green double couch with wooden legs"
-                />
-                <Stack mt="6" spacing="3">
-                  <Heading size="md">Koii Dark</Heading>
-                  <Text>Secrets in shadows.</Text>
-                </Stack>
-              </CardBody>
-              <CardFooter>
-                <ButtonGroup spacing="2">
-                  <Button
-                    variant="solid"
-                    backgroundColor="#5ED9D1"
-                    borderRadius="5px"
-                    onClick={() => handleThemeSelection("Dark")}
-                  >
-                    Choose
-                  </Button>
-                </ButtonGroup>
-              </CardFooter>
-            </Card>
-
-            <br />
-
-            <Card
-              className="card"
-              maxW="sm"
-              marginRight="10px"
-              background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
-              outline={
-                choosenTheme === "Gradient" ? "3px solid pink" : undefined
-              }
-              color="white"
-            >
-              <CardBody>
-                <Image
-                  borderRadius="10px"
-                  src="/images/Koii-Gradient.png"
-                  alt="Green double couch with wooden legs"
-                />
-                <Stack mt="6" spacing="3">
-                  <Heading size="md">Koii Gradient</Heading>
-                  <Text>Blending hues like a playful artist.</Text>
-                </Stack>
-              </CardBody>
-              <CardFooter>
-                <ButtonGroup spacing="2">
-                  <Button
-                    variant="solid"
-                    backgroundColor="#FFA6A6"
-                    onClick={() => handleThemeSelection("Gradient")}
-                  >
-                    Choose
-                  </Button>
-                </ButtonGroup>
-              </CardFooter>
-            </Card>
-          </>
-        </Flex>
       </Box>
     </Flex>
   );
