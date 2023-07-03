@@ -9,7 +9,6 @@ const HomeComponent = ({
   connectButtonText,
   total,
 }) => {
-  console.log(total);
   return (
     <div className='Home'>
       <div className='psuedoBackground'></div>

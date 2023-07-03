@@ -35,7 +35,7 @@ export async function allLinktrees(nodeList) {
     let result;
 
     if (nodeList.length) {
-      while (!result || result?.length === 0) {
+      while (!result && nodeList[nodeListIndex]) {
         result = await axios
           .get(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/list`)
           .then((res) => res.data)
@@ -63,7 +63,10 @@ export async function getLinktreeWithUsername(username, nodeList) {
       value: [],
     };
 
-    while (result?.value || result?.value?.length === 0) {
+    while (
+      (result?.value || result?.value?.length === 0) &&
+      nodeList[nodeListIndex]
+    ) {
       result = await axios
         .get(
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/username/${username}`
@@ -97,7 +100,10 @@ export async function getLinktree(publicKey, nodeList) {
       value: [],
     };
 
-    while (result?.value || result?.value?.length === 0) {
+    while (
+      (result?.value || result?.value?.length === 0) &&
+      nodeList[nodeListIndex]
+    ) {
       result = await axios
         .get(
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`
@@ -137,7 +143,7 @@ export async function setLinktree(data, publicKey, nodeList, username) {
     let nodeListIndex = 1;
     let result;
 
-    while (!result) {
+    while (!result && nodeList[nodeListIndex]) {
       result = await axios
         .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
           payload,
@@ -168,7 +174,7 @@ export async function updateLinktree(data, publicKey, nodeList, username) {
     let nodeListIndex = 1;
     let result;
 
-    while (!result) {
+    while (!result && nodeList[nodeListIndex]) {
       result = await axios
         .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
           payload,
