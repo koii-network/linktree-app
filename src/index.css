@@ -4,8 +4,8 @@
 }
 
 @font-face {
-  font-family: "SourceSansPro";
-  src: url("/public/fonts/sora/Sora-VariableFont_wght.ttf") format("truetype");
+  font-family: "SourcePro";
+  src: url("/public/fonts/sourcepro/sourcepro.ttf") format("truetype");
 }
 
 :root {

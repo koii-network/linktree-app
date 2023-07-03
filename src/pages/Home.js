@@ -290,13 +290,13 @@ const HomePage = () => {
 
       {total !== null && total !== 0 && (
         <div className='footer'>
-          <p>
+          <Text>
             Total{" "}
             <a className='by-koii' href='https://www.koii.network/'>
               Koii
             </a>{" "}
             Linktrees created: {total}{" "}
-          </p>
+          </Text>
         </div>
       )}
     </div>
