@@ -126,14 +126,14 @@ export async function getLinktree(publicKey, nodeList) {
 
 export async function setLinktree(data, publicKey, nodeList, username) {
   const messageString = JSON.stringify(data);
-  const signatureRaw = await window.k2.signMessage(messageString);
-  const payload = {
-    data,
-    publicKey: publicKey,
-    signature: bs58.encode(signatureRaw.signature),
-    username,
-  };
   try {
+    const signatureRaw = await window.k2.signMessage(messageString);
+    const payload = {
+      data,
+      publicKey: publicKey,
+      signature: bs58.encode(signatureRaw.signature),
+      username,
+    };
     let nodeListIndex = 1;
     let result;
 
@@ -157,14 +157,14 @@ export async function setLinktree(data, publicKey, nodeList, username) {
 
 export async function updateLinktree(data, publicKey, nodeList, username) {
   const messageString = JSON.stringify(data);
-  const signatureRaw = await window.k2.signMessage(messageString);
-  const payload = {
-    data,
-    publicKey: publicKey,
-    signature: bs58.encode(signatureRaw.signature),
-    username,
-  };
   try {
+    const signatureRaw = await window.k2.signMessage(messageString);
+    const payload = {
+      data,
+      publicKey: publicKey,
+      signature: bs58.encode(signatureRaw.signature),
+      username,
+    };
     let nodeListIndex = 1;
     let result;
 

@@ -17,9 +17,9 @@ function LinksComponent() {
   const toast = useToast();
   const location = useLocation();
   const query = location.pathname.slice(1);
-  const [userData, setUserData] = useState({});
 
-  const { publicKey, apiUrl, nodeList } = useWalletContext();
+  const { publicKey, apiUrl, nodeList, setUserData, userData } =
+    useWalletContext();
 
   useEffect(() => {
     themeApplier(userData?.theme);

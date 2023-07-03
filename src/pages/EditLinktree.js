@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Formik, ErrorMessage, Field, FieldArray } from "formik";
 import { array, object, string, mixed, boolean } from "yup";
 import { Web3Storage } from "web3.storage";
-import { useLocation } from "react-router-dom";
 import {
   Box,
   Button,
@@ -19,7 +18,7 @@ import {
 import { DeleteIcon, AddIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import uuid from "react-uuid";
-import { updateLinktree, getLinktreeWithUsername } from "../api";
+import { updateLinktree } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 import { Oval } from "react-loader-spinner";
@@ -35,20 +34,15 @@ function makeStorageClient() {
 }
 
 const EditLinktree = () => {
-  const location = useLocation();
-  const [image, setImage] = useState(null);
   const [files, setFiles] = useState([]);
   const [imageName, setImageName] = useState(null);
-  const [isProfileOwner, setIsProfileOwner] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [choosenTheme, setChoosenTheme] = useState("Dark");
   const [choosenAnimation, setChoosenAnimation] = useState("none");
-  const query = location.pathname.slice(14);
-  const [userData, setUserData] = useState(null);
 
   const toast = useToast();
   const navigate = useNavigate();
-  const { publicKey, apiUrl, nodeList } = useWalletContext();
+  const { publicKey, nodeList, userData } = useWalletContext();
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
@@ -66,19 +60,8 @@ const EditLinktree = () => {
   });
 
   useEffect(() => {
-    async function getUserData() {
-      const userResponse = await getLinktreeWithUsername(query, nodeList);
-      const isProfileOwner =
-        window?.k2 &&
-        publicKey &&
-        window?.k2?.publicKey?.toString() === userResponse.data.publicKey;
-      setIsProfileOwner(isProfileOwner);
-      setUserData(userResponse?.data?.data?.linktree);
-      return userResponse;
-    }
     async function getData() {
-      const userData = await getUserData();
-      if (userData?.status) {
+      if (userData) {
         setIsLoading(false);
       } else {
         toast({
@@ -91,7 +74,7 @@ const EditLinktree = () => {
       }
     }
     getData();
-  }, [query, publicKey, toast, navigate, apiUrl, nodeList]);
+  }, [userData, toast]);
 
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
@@ -163,7 +146,6 @@ const EditLinktree = () => {
       return;
     }
     let imageLink;
-    console.log(values?.image);
     if (values?.image && files.length > 0) {
       values.image = files[0].name;
       const imageCID = await uploadToIPFS(files);
