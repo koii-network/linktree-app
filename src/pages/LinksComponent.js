@@ -18,7 +18,7 @@ function LinksComponent() {
   const navigate = useNavigate();
   const toast = useToast();
   const location = useLocation();
-  const query = location.pathname.slice(10);
+  const query = location.pathname.slice(1);
   const [userData, setUserData] = useState({});
 
   const { publicKey, apiUrl, nodeList } = useWalletContext();
@@ -266,7 +266,7 @@ function LinksComponent() {
                 {publicKey && (
                   <p>
                     <a
-                      href={`https://linktree.koii.network/linktree/${username}`}
+                      href={`https://linktree.koii.network/${username}`}
                       className='displayLink'
                     >
                       Your linktree profile Link

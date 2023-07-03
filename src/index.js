@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "linktree/:id",
+    path: "/:id",
     element: <LinksComponent />,
   },
   {

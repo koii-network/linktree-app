@@ -96,7 +96,7 @@ const HomePage = () => {
               position: "top",
             });
             setTimeout(() => {
-              navigate(`/linktree/${username}`);
+              navigate(`/${username}`);
             }, 3000);
           } else {
             toast({
@@ -121,7 +121,7 @@ const HomePage = () => {
   };
 
   const linkToGetFinnie = (
-    <a rel="noreferrer" target="_blank" href={DOWNLOAD_FINNIE_URL}>
+    <a rel='noreferrer' target='_blank' href={DOWNLOAD_FINNIE_URL}>
       Get Finnie
     </a>
   );
@@ -131,10 +131,10 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <div className="Home">
-      <div className="psuedoBackground"></div>
-      <div className="container public-key-input-container">
-        <div className="auth-user">
+    <div className='Home'>
+      <div className='psuedoBackground'></div>
+      <div className='container public-key-input-container'>
+        <div className='auth-user'>
           <>
             {isMobile ? (
               <> </>
@@ -197,21 +197,21 @@ const HomePage = () => {
                   {connectButtonText}
                 </Button>
               </Box> */
-              <Box display="flex" flexDirection="column">
+              <Box display='flex' flexDirection='column'>
                 <Box
-                  display="flex"
-                  flexDirection="row"
-                  alignItems="center"
+                  display='flex'
+                  flexDirection='row'
+                  alignItems='center'
                   marginTop={50}
                 >
                   <div
-                    id="animated-image-container"
+                    id='animated-image-container'
                     style={{ marginRight: "100px" }}
                   >
                     <img
-                      id="animated-image-frame"
-                      src="/images/o1_al.png"
-                      alt="frame"
+                      id='animated-image-frame'
+                      src='/images/o1_al.png'
+                      alt='frame'
                     />
                   </div>
                   <div
@@ -225,33 +225,33 @@ const HomePage = () => {
                   >
                     <Image
                       src={koiiChatFish}
-                      alt="Koii Chat Fish"
-                      maxW="60px" // Set the maximum width to control the size
-                      h="auto" // Allow the height to adjust automatically
+                      alt='Koii Chat Fish'
+                      maxW='60px' // Set the maximum width to control the size
+                      h='auto' // Allow the height to adjust automatically
                     />
                     <Text
-                      fontSize="52px"
-                      textAlign="center"
-                      maxWidth="600px"
-                      fontFamily="Sora, sans-serif"
-                      fontWeight="600"
-                      color="#8989C7"
+                      fontSize='52px'
+                      textAlign='center'
+                      maxWidth='600px'
+                      fontFamily='Sora, sans-serif'
+                      fontWeight='600'
+                      color='#8989C7'
                     >
                       Welcome to
                     </Text>
                     <Text
-                      fontSize="64px"
-                      textAlign="center"
-                      maxWidth="600px"
-                      fontFamily="Sora, sans-serif"
-                      fontWeight="500"
-                      color="#171753"
+                      fontSize='64px'
+                      textAlign='center'
+                      maxWidth='600px'
+                      fontFamily='Sora, sans-serif'
+                      fontWeight='500'
+                      color='#171753'
                       marginTop={"-20px"}
                     >
                       <a
-                        href="https://www.koii.network/"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href='https://www.koii.network/'
+                        target='_blank'
+                        rel='noopener noreferrer'
                       >
                         Koii
                       </a>{" "}
@@ -259,21 +259,21 @@ const HomePage = () => {
                     </Text>
 
                     <Text
-                      marginBottom="20px"
-                      fontSize="22px"
-                      textAlign="center"
-                      maxWidth="600px"
-                      fontFamily="Sora, sans-serif"
-                      fontWeight="500"
-                      className="typewriterText"
+                      marginBottom='20px'
+                      fontSize='22px'
+                      textAlign='center'
+                      maxWidth='600px'
+                      fontFamily='Sora, sans-serif'
+                      fontWeight='500'
+                      className='typewriterText'
                     >
                       The first community powered linktree
                     </Text>
 
                     <Button
                       onClick={handleConnectFinnie}
-                      fontFamily="Sora, sans-serif"
-                      width="200px"
+                      fontFamily='Sora, sans-serif'
+                      width='200px'
                       backgroundColor={"#8989C7"}
                       color={"white"}
                       borderRadius={20}
@@ -289,10 +289,10 @@ const HomePage = () => {
       </div>
 
       {total !== null && total !== 0 && (
-        <div className="footer">
+        <div className='footer'>
           <p>
             Total{" "}
-            <a className="by-koii" href="https://www.koii.network/">
+            <a className='by-koii' href='https://www.koii.network/'>
               Koii
             </a>{" "}
             Linktrees created: {total}{" "}

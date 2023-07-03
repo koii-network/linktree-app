@@ -56,8 +56,8 @@ const PreviewImage = ({ file }) => {
   };
 
   return (
-    <Box display="flex" justifyContent="center">
-      <img src={preview} alt="User" className="user-image" />
+    <Box display='flex' justifyContent='center'>
+      <img src={preview} alt='User' className='user-image' />
     </Box>
   );
 };
@@ -200,7 +200,7 @@ const CreateLinktree = () => {
         position: "top",
       });
       setTimeout(() => {
-        navigate(`/linktree/${values?.linktreeAddress}`);
+        navigate(`/${values?.linktreeAddress}`);
       }, 10000);
     } else {
       toast({
@@ -230,29 +230,29 @@ const CreateLinktree = () => {
     setChoosenAnimation(selectedValue);
   };
   return (
-    <Flex justify="center" align="center">
+    <Flex justify='center' align='center'>
       <Box
         py={{ base: "8rem", md: "5rem" }}
         px={8}
         minWidth={{ base: "100%", md: "80%" }}
-        className="createLinktree"
+        className='createLinktree'
       >
         <Flex>
           <Image
             src={koiiDecor}
-            alt="Koii Chat Fish"
-            maxW="60px" // Set the maximum width to control the size
-            h="auto" // Allow the height to adjust automatically
+            alt='Koii Chat Fish'
+            maxW='60px' // Set the maximum width to control the size
+            h='auto' // Allow the height to adjust automatically
           />
           <Text
             my={5}
             ml={3}
-            color="var(--koii-blue)"
-            fontSize="32px"
-            fontFamily="Sora"
-            fontStyle="normal"
-            fontWeight="600"
-            lineHeight="40px"
+            color='var(--koii-blue)'
+            fontSize='32px'
+            fontFamily='Sora'
+            fontStyle='normal'
+            fontWeight='600'
+            lineHeight='40px'
           >
             Create Your Koii Linktree Profile
           </Text>
@@ -306,7 +306,7 @@ const CreateLinktree = () => {
           {({ values, handleSubmit, isValid }) => (
             <form onSubmit={handleSubmit}>
               <Box>
-                <Box mt={5} display="flex">
+                <Box mt={5} display='flex'>
                   <div>
                     {image ? (
                       <PreviewImage
@@ -318,29 +318,29 @@ const CreateLinktree = () => {
                     ) : (
                       <img
                         src={defaultProfile}
-                        alt="User"
-                        className="user-image"
+                        alt='User'
+                        className='user-image'
                       />
                     )}
                   </div>
 
                   <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+                    display='flex'
+                    alignItems='center'
+                    justifyContent='center'
                   >
                     <Flex ml={5} flexDirection={"column"}>
                       <Box mb={3}>
                         <div style={{ display: "flex", alignItems: "center" }}>
                           <Text mr={3}>
-                            Name<span className="error">*</span>
+                            Name<span className='error'>*</span>
                           </Text>
                           <Field
-                            name="name"
-                            label="Full Name"
-                            color="var(--koii-blue)"
+                            name='name'
+                            label='Full Name'
+                            color='var(--koii-blue)'
                             as={Input}
-                            className="input-border"
+                            className='input-border'
                             style={{
                               borderRadius: "30px",
                               backgroundColor: "white",
@@ -348,8 +348,8 @@ const CreateLinktree = () => {
                           />
                         </div>
 
-                        <Text className="error">
-                          <ErrorMessage name="name" />
+                        <Text className='error'>
+                          <ErrorMessage name='name' />
                         </Text>
                       </Box>
 
@@ -358,12 +358,12 @@ const CreateLinktree = () => {
                           borderRadius: "20px",
                         }}
                       >
-                        <Field name="image">
+                        <Field name='image'>
                           {({ form, field }) => {
                             const { setFieldValue } = form;
                             return (
                               <input
-                                type="file"
+                                type='file'
                                 required
                                 onChange={async (e) => {
                                   setFiles(e.target.files);
@@ -378,8 +378,8 @@ const CreateLinktree = () => {
                             );
                           }}
                         </Field>
-                        <Text className="error">
-                          <ErrorMessage name="image" />
+                        <Text className='error'>
+                          <ErrorMessage name='image' />
                         </Text>
                       </div>
                     </Flex>
@@ -388,31 +388,31 @@ const CreateLinktree = () => {
 
                 <div>
                   <Text mt={10}>
-                    Bio<span className="error">*</span>
+                    Bio<span className='error'>*</span>
                   </Text>
                   <Field
-                    borderRadius="30px"
-                    backgroundColor="white"
-                    name="description"
-                    label="Bio"
-                    color="black"
+                    borderRadius='30px'
+                    backgroundColor='white'
+                    name='description'
+                    label='Bio'
+                    color='black'
                     as={Textarea}
-                    height="150px"
-                    className="input-border"
+                    height='150px'
+                    className='input-border'
                   />
-                  <Text className="error">
-                    <ErrorMessage name="description" />
+                  <Text className='error'>
+                    <ErrorMessage name='description' />
                   </Text>
                 </div>
 
-                <Text fontSize="m" mt={10} mr={2}>
+                <Text fontSize='m' mt={10} mr={2}>
                   Linktree URL:
                 </Text>
                 <Flex alignItems={"center"}>
                   <Text mr={3} color={"#4D3D8D"}>
                     linktree.koii.network/
                   </Text>
-                  <Field name="linktreeAddress">
+                  <Field name='linktreeAddress'>
                     {({ form, field }) => {
                       const { setFieldValue } = form;
                       return (
@@ -422,10 +422,10 @@ const CreateLinktree = () => {
                             background: "white",
                             borderRadius: "20px",
                           }}
-                          type="text"
-                          className="input-border input-container"
+                          type='text'
+                          className='input-border input-container'
                           required
-                          name="linktreeAddress"
+                          name='linktreeAddress'
                           onChange={async (e) => {
                             // handleChangeUserName(e);
                             setFieldValue("linktreeAddress", e.target.value);
@@ -438,17 +438,17 @@ const CreateLinktree = () => {
                 </Flex>
               </Box>
 
-              <FieldArray name="links">
+              <FieldArray name='links'>
                 {({ push, remove }) => (
                   <div>
                     <div>
                       <Text
-                        fontSize="18px"
-                        fontFamily="Sora"
-                        fontStyle="normal"
+                        fontSize='18px'
+                        fontFamily='Sora'
+                        fontStyle='normal'
                         fontWeight={600}
-                        lineHeight="21px"
-                        letterSpacing="0.36px"
+                        lineHeight='21px'
+                        letterSpacing='0.36px'
                         mt={5}
                         mb={3}
                       >
@@ -458,19 +458,19 @@ const CreateLinktree = () => {
                     {values.links.map((_, index) => (
                       <Box>
                         {index === 0 && (
-                          <Box className="chooseAnimation">
+                          <Box className='chooseAnimation'>
                             <Text
-                              fontSize="16px"
-                              fontFamily="Sora"
-                              fontStyle="normal"
+                              fontSize='16px'
+                              fontFamily='Sora'
+                              fontStyle='normal'
                               fontWeight={400}
-                              lineHeight="20px"
-                              letterSpacing="-0.16px"
+                              lineHeight='20px'
+                              letterSpacing='-0.16px'
                             >
                               Your Primary Link
                             </Text>
 
-                            <Text fontSize="base" color={"#cacaf0"} mb={5}>
+                            <Text fontSize='base' color={"#cacaf0"} mb={5}>
                               Your primary link will stand out with a different
                               color{" "}
                             </Text>
@@ -484,37 +484,37 @@ const CreateLinktree = () => {
                         >
                           <Box w={{ base: "100%", md: "45%" }}>
                             <Text>
-                              Link Label<span className="error">*</span>
+                              Link Label<span className='error'>*</span>
                             </Text>
                             <Field
-                              color="black"
-                              backgroundColor="white"
+                              color='black'
+                              backgroundColor='white'
                               name={`links.${index}.label`}
-                              label="Link Name"
+                              label='Link Name'
                               as={Input}
-                              className="input-border"
+                              className='input-border'
                               borderRadius={30}
                             />
 
-                            <Text className="error">
+                            <Text className='error'>
                               <ErrorMessage name={`links.${index}.label`} />ㅤ
                             </Text>
                           </Box>
                           <Spacer />
                           <Box w={{ base: "100%", md: "45%" }}>
                             <Text>
-                              Link URL<span className="error">*</span>
+                              Link URL<span className='error'>*</span>
                             </Text>
                             <Field
-                              color="black"
-                              backgroundColor="white"
-                              className="input-border"
+                              color='black'
+                              backgroundColor='white'
+                              className='input-border'
                               name={`links.${index}.redirectUrl`}
-                              label="Link URL"
+                              label='Link URL'
                               as={Input}
                               borderRadius={30}
                             />
-                            <Text className="error">
+                            <Text className='error'>
                               <ErrorMessage
                                 name={`links.${index}.redirectUrl`}
                               />
@@ -526,19 +526,19 @@ const CreateLinktree = () => {
                             <div>
                               {" "}
                               <IconButton
-                                rounded="full"
+                                rounded='full'
                                 icon={<DeleteIcon />}
                                 opacity={0}
-                                colorScheme="red"
+                                colorScheme='red'
                                 alignSelf={{ base: "flex-end", lg: "" }}
                               />
                             </div>
                           ) : (
                             <div>
                               <IconButton
-                                rounded="full"
+                                rounded='full'
                                 icon={<DeleteIcon />}
-                                colorScheme="red"
+                                colorScheme='red'
                                 alignSelf={{ base: "flex-end", lg: "" }}
                                 onClick={() => remove(index)}
                               />
@@ -551,10 +551,10 @@ const CreateLinktree = () => {
                     <Button
                       mt={4}
                       leftIcon={<AddIcon />}
-                      color="black"
-                      rounded="full"
-                      borderColor="var(--koii-white)"
-                      variant="outline"
+                      color='black'
+                      rounded='full'
+                      borderColor='var(--koii-white)'
+                      variant='outline'
                       onClick={() => push(linksGroup)}
                       padding={6}
                       backgroundColor={"white"}
@@ -567,83 +567,83 @@ const CreateLinktree = () => {
               </FieldArray>
 
               <Box mt={10}>
-                <Text className="error">
-                  <ErrorMessage name="linktreeAddress" />
+                <Text className='error'>
+                  <ErrorMessage name='linktreeAddress' />
                 </Text>
-                <Text className="error">{usernameError}</Text>
+                <Text className='error'>{usernameError}</Text>
               </Box>
 
               <Text
-                fontSize="18px"
-                fontFamily="Sora"
-                fontStyle="normal"
+                fontSize='18px'
+                fontFamily='Sora'
+                fontStyle='normal'
                 fontWeight={600}
-                lineHeight="21px"
-                letterSpacing="0.36px"
+                lineHeight='21px'
+                letterSpacing='0.36px'
                 mt={5}
                 mb={3}
               >
                 Personalize Your Linktree
               </Text>
               <Text
-                fontSize="12px"
-                fontFamily="Sora"
-                fontStyle="normal"
+                fontSize='12px'
+                fontFamily='Sora'
+                fontStyle='normal'
                 fontWeight={400}
-                lineHeight="21px"
-                letterSpacing="0.36px"
+                lineHeight='21px'
+                letterSpacing='0.36px'
                 mb={3}
               >
                 Color Themes
               </Text>
-              <Flex color="white">
+              <Flex color='white'>
                 <Stack spacing={5}>
                   <RadioGroup
                     onChange={handleThemeSelection}
                     value={choosenTheme}
                   >
-                    <Stack direction="row">
-                      <Radio value="Mint" colorScheme="teal" size="lg">
+                    <Stack direction='row'>
+                      <Radio value='Mint' colorScheme='teal' size='lg'>
                         <Box
-                          p="4"
+                          p='4'
                           width={50}
                           borderRadius={20}
-                          color="black"
+                          color='black'
                           borderWidth={choosenTheme === "Mint" ? "2px" : "1px"}
                           borderColor={
                             choosenTheme === "Mint" ? "black" : "gray.200"
                           }
-                          backgroundColor="#C7F2EF"
+                          backgroundColor='#C7F2EF'
                         ></Box>
                       </Radio>
 
-                      <Radio value="Dark" colorScheme="purple" size="lg">
+                      <Radio value='Dark' colorScheme='purple' size='lg'>
                         <Box
-                          p="4"
+                          p='4'
                           width={50}
                           borderRadius={20}
-                          color="white"
+                          color='white'
                           borderWidth={choosenTheme === "Dark" ? "2px" : "1px"}
                           borderColor={
                             choosenTheme === "Dark" ? "white" : "gray.200"
                           }
-                          backgroundColor="#171753"
+                          backgroundColor='#171753'
                         ></Box>
                       </Radio>
 
-                      <Radio value="Gradient" colorScheme="pink" size="lg">
+                      <Radio value='Gradient' colorScheme='pink' size='lg'>
                         <Box
                           width={50}
                           borderRadius={20}
-                          p="4"
-                          color="white"
+                          p='4'
+                          color='white'
                           borderWidth={
                             choosenTheme === "Gradient" ? "2px" : "1px"
                           }
                           borderColor={
                             choosenTheme === "Gradient" ? "pink" : "gray.200"
                           }
-                          background="linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)"
+                          background='linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)'
                         ></Box>
                       </Radio>
                     </Stack>
@@ -651,12 +651,12 @@ const CreateLinktree = () => {
                 </Stack>
               </Flex>
               <Text
-                fontSize="12px"
-                fontFamily="Sora"
-                fontStyle="normal"
+                fontSize='12px'
+                fontFamily='Sora'
+                fontStyle='normal'
                 fontWeight={400}
-                lineHeight="21px"
-                letterSpacing="0.36px"
+                lineHeight='21px'
+                letterSpacing='0.36px'
                 mt={5}
                 mb={3}
               >
@@ -664,8 +664,8 @@ const CreateLinktree = () => {
               </Text>
               <Box>
                 <Button
-                  backgroundColor="#172053"
-                  color="#BEF0ED"
+                  backgroundColor='#172053'
+                  color='#BEF0ED'
                   width={150}
                   borderRadius={30}
                   mr={10}
@@ -674,8 +674,8 @@ const CreateLinktree = () => {
                 </Button>
                 <Button
                   width={150}
-                  backgroundColor="#BEF0ED"
-                  color="#4D3D8D"
+                  backgroundColor='#BEF0ED'
+                  color='#4D3D8D'
                   borderRadius={30}
                   mr={10}
                 >
@@ -683,20 +683,20 @@ const CreateLinktree = () => {
                 </Button>
                 <Button
                   width={150}
-                  backgroundColor="#9BE7C4"
-                  color="#171753"
+                  backgroundColor='#9BE7C4'
+                  color='#171753'
                   borderRadius={30}
                 >
                   Label
                 </Button>
               </Box>
               <Button
-                w="full"
-                rounded="full"
-                color="var(--koii-blue)"
-                bg="var(--koii-white)"
+                w='full'
+                rounded='full'
+                color='var(--koii-blue)'
+                bg='var(--koii-white)'
                 my={10}
-                type="submit"
+                type='submit'
                 isDisabled={disabled}
               >
                 {isLoading ? <Spinner /> : "Register My KoiiLink"}

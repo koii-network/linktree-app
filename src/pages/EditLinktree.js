@@ -213,7 +213,7 @@ const EditLinktree = () => {
         position: "top",
       });
       setTimeout(() => {
-        navigate(`/linktree/${values?.linktreeAddress}`);
+        navigate(`/${values?.linktreeAddress}`);
       }, 10000);
     } else {
       toast({
