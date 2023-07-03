@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TASK_ADDRESS } from "./config";
+import { TASK_ADDRESS } from "../config";
 
 export const truncateAddress = (address) => {
   const firstSlice = address.slice(0, 6);

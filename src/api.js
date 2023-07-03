@@ -34,20 +34,23 @@ export async function allLinktrees(nodeList) {
     let nodeListIndex = 1;
     let result;
 
-    while (result?.value) {
-      result = await axios
-        .get(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/list`)
-        .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching authlist:`, error));
-      nodeListIndex++;
-    }
+    if (nodeList.length) {
+      while (!result || result?.length === 0) {
+        result = await axios
+          .get(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/list`)
+          .then((res) => res.data)
+          .catch((error) => console.log(`Error fetching authlist:`, error));
 
-    if (result?.value) {
-      const linktrees = [...result.value];
-      const total = linktrees.length;
-      return total;
+        nodeListIndex++;
+      }
+
+      if (result) {
+        const linktrees = [...result];
+        const total = linktrees.length;
+        return total;
+      }
+      return;
     }
-    return;
   } catch (error) {
     console.log("Error getting node list:", error);
   }

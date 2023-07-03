@@ -8,6 +8,7 @@ export const WalletContextProvider = ({ children }) => {
   const [publicKey, setPublicKey] = useState("");
   const [apiUrl, setApiUrl] = useState("");
   const [nodeList, setNodeList] = useState([]);
+  const [isFinnieDetected, setIsFinnieDetected] = useState(false);
   useEffect(() => {
     async function getRandomeNode() {
       try {
@@ -37,6 +38,8 @@ export const WalletContextProvider = ({ children }) => {
         apiUrl,
         setApiUrl,
         nodeList,
+        isFinnieDetected,
+        setIsFinnieDetected,
       }}
     >
       {children}
