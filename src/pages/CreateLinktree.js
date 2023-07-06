@@ -911,7 +911,7 @@ const CreateLinktree = () => {
                   </RadioGroup>
                 </Flex>
               </Box>
-              <Flex w='100%' alignItems='center'>
+              <Flex w='100%' alignItems='center' flexDirection='column'>
                 <Button
                   w='full'
                   maxW='254px'
@@ -926,6 +926,9 @@ const CreateLinktree = () => {
                 >
                   {isLoading ? <Spinner /> : "Register My KoiiLink"}
                 </Button>
+                <Text color='var(--koii-border-color)'>
+                  4 KOII would be withdrawn to create a linktree profile
+                </Text>
               </Flex>
             </form>
           )}
