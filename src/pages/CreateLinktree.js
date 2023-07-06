@@ -303,8 +303,13 @@ const CreateLinktree = () => {
                   display='flex'
                   width='100%'
                   gap={{ base: "20px", md: "40px" }}
+                  flexDirection={{ base: "column", md: "row" }}
                 >
-                  <Box maxWidth='20%' width='100%'>
+                  <Box
+                    maxWidth={{ base: "auto", md: "20%" }}
+                    mx={{ base: "auto", md: "0" }}
+                    width='100%'
+                  >
                     {image ? (
                       <PreviewImage
                         className={{ margin: "auto" }}
@@ -325,7 +330,7 @@ const CreateLinktree = () => {
                     display='flex'
                     alignItems='center'
                     justifyContent='center'
-                    maxW='80%'
+                    maxW={{ md: "80%" }}
                     width='100%'
                   >
                     <Flex flexDirection={"column"} width='100%'>
@@ -341,10 +346,11 @@ const CreateLinktree = () => {
                           <Text
                             wordBreak='keep-all'
                             color='var(--koii-create-text)'
+                            width={{ base: "120px", md: "auto" }}
                           >
                             Your Name
                           </Text>
-                          <Box width='75%'>
+                          <Box width={{ base: "100%", md: "75%" }}>
                             <Field
                               name='name'
                               label='Full Name'
