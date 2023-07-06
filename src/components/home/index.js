@@ -85,11 +85,13 @@ const HomeComponent = ({
                   alignItems='center'
                   marginTop={50}
                   justifyContent='center'
+                  minHeight='500px'
                 >
                   <Box
                     id='animated-image-container'
                     marginRight='100px'
                     height='500px'
+                    display={{ base: "none", md: "block" }}
                   >
                     <img
                       id='animated-image-frame'
