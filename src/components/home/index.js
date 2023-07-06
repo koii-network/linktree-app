@@ -2,6 +2,8 @@ import React from "react";
 import "../../App.css";
 import { Text, Button, Box, Image } from "@chakra-ui/react";
 import koiiChatFish from "../../pages/images/koiiChat.svg";
+import { DOWNLOAD_FINNIE_URL } from "../../config";
+import GetFinnieModal from "../modals";
 
 const HomeComponent = ({
   isMobile,
@@ -82,17 +84,23 @@ const HomeComponent = ({
                   flexDirection='row'
                   alignItems='center'
                   marginTop={50}
+                  justifyContent='center'
                 >
-                  <div
+                  <Box
                     id='animated-image-container'
-                    style={{ marginRight: "100px" }}
+                    marginRight='100px'
+                    height='500px'
                   >
                     <img
                       id='animated-image-frame'
                       src='/images/o1_al.png'
                       alt='frame'
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
                     />
-                  </div>
+                  </Box>
                   <div
                     style={{
                       display: "flex",
@@ -152,13 +160,17 @@ const HomeComponent = ({
                     <Button
                       onClick={handleConnectFinnie}
                       fontFamily='Sora, sans-serif'
-                      width='200px'
+                      maxWidth='225px'
+                      w='100%'
                       backgroundColor={"#8989C7"}
                       color={"white"}
                       borderRadius={20}
+                      border='1.5px solid #8989C7'
+                      boxShadow='0px 4px 4px 0px #17175380'
                     >
                       {connectButtonText}
                     </Button>
+                    <GetFinnieModal />
                   </div>
                 </Box>
               </Box>

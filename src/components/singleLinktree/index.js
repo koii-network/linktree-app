@@ -14,8 +14,69 @@ function SingleLinktree({
   noProfileText,
   username,
 }) {
+  const labelBackground = `var(--koii-${
+    userData?.choosenLabelTheme || "label-one"
+  }-color)`;
+  const labelText = `var(--koii-${
+    userData?.choosenLabelTheme || "label-one"
+  }-text-color)`;
   return (
-    <Box className='container' position='relative'>
+    <Box position='relative' width='100%'>
+      {isProfileOwner && userData && (
+        <>
+          <Box
+            position='absolute'
+            top={{ base: "20px", md: "32px" }}
+            right={{ base: "20px", md: "80px" }}
+          >
+            <Tooltip
+              hasArrow
+              label='Delete Your Linktree Profile'
+              bg='#ecfffe'
+              fontSize='sm'
+              color='#171753'
+            >
+              <IconButton
+                rounded='full'
+                alignSelf={{ base: "flex-end", lg: "" }}
+                marginTop='10px'
+                icon={<DeleteIcon />}
+                backgroundColor={"var(--koii-button-icon)"}
+                color={"dashboard-icon"}
+                onClick={handleDeleteLinktree}
+                boxShadow='0px 2px 4px 0px #00000029'
+              />
+            </Tooltip>
+          </Box>
+
+          {
+            <Box
+              position='absolute'
+              top={{ base: "20px", md: "32px" }}
+              right={{ base: "20px", md: "32px" }}
+            >
+              <Tooltip
+                hasArrow
+                label='Edit Linktree'
+                bg='#ecfffe'
+                fontSize='sm'
+                color='#171753'
+              >
+                <IconButton
+                  rounded='full'
+                  alignSelf={{ base: "flex-end", lg: "" }}
+                  marginTop='10px'
+                  icon={<SettingsIcon />}
+                  backgroundColor={"var(--koii-button-icon)"}
+                  color={"dashboard-icon"}
+                  onClick={handleEditLinktree}
+                  boxShadow='0px 2px 4px 0px #00000029'
+                />
+              </Tooltip>
+            </Box>
+          }
+        </>
+      )}
       <Box
         minHeight='70vh'
         width='100%'
@@ -23,6 +84,7 @@ function SingleLinktree({
         flexDirection='column'
         alignItems='center'
         justifyItems='center'
+        className='container'
       >
         {isLoading ? (
           <Box
@@ -41,59 +103,6 @@ function SingleLinktree({
             alignItems='center'
             flexDirection='column'
           >
-            {isProfileOwner && userData && (
-              <>
-                <Box
-                  position='absolute'
-                  top={{ base: "20px", md: "30px" }}
-                  left={{ base: "20px", md: "-5%" }}
-                >
-                  <Tooltip
-                    hasArrow
-                    label='Delete Your Linktree Profile'
-                    bg='#ecfffe'
-                    fontSize='sm'
-                    color='#171753'
-                  >
-                    <IconButton
-                      rounded='full'
-                      alignSelf={{ base: "flex-end", lg: "" }}
-                      marginTop='10px'
-                      icon={<DeleteIcon />}
-                      backgroundColor={"transparent"}
-                      color={"dashboard-icon"}
-                      onClick={handleDeleteLinktree}
-                    />
-                  </Tooltip>
-                </Box>
-
-                {
-                  <Box
-                    position='absolute'
-                    top={{ base: "20px", md: "30px" }}
-                    right={{ base: "20px", md: "-5%" }}
-                  >
-                    <Tooltip
-                      hasArrow
-                      label='Edit Linktree'
-                      bg='#ecfffe'
-                      fontSize='sm'
-                      color='#171753'
-                    >
-                      <IconButton
-                        rounded='full'
-                        alignSelf={{ base: "flex-end", lg: "" }}
-                        marginTop='10px'
-                        icon={<SettingsIcon />}
-                        backgroundColor={"transparent"}
-                        color={"dashboard-icon"}
-                        onClick={handleEditLinktree}
-                      />
-                    </Tooltip>
-                  </Box>
-                }
-              </>
-            )}
             {userData && (
               <>
                 {userData?.image && (
@@ -117,7 +126,11 @@ function SingleLinktree({
                         href={link?.redirectUrl}
                         target='_blank'
                         rel='noopener noreferrer'
-                        style={{ fontSize: index === 0 ? "18px" : "inherit" }}
+                        style={{
+                          fontSize: index === 0 ? "18px" : "inherit",
+                          color: index === 0 ? labelText : "inherit",
+                          background: index === 0 ? labelBackground : "inherit",
+                        }}
                       >
                         {link.label}
                       </a>
