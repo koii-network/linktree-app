@@ -128,9 +128,9 @@ const CreateLinktree = () => {
           isClosable: true,
           position: "top",
         });
-        // setTimeout(() => {
-        //   navigate("/");
-        // }, 3000);
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
         return;
       }
     }
@@ -149,9 +149,9 @@ const CreateLinktree = () => {
         position: "top",
       });
       setIsLoading(false);
-      // setTimeout(() => {
-      //   navigate("/");
-      // }, 3000);
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
       return;
     }
     const imageCID = await uploadToIPFS(files);
