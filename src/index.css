@@ -118,8 +118,7 @@
   --koii-input-bg-color: #ffffff80;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ffa54b, #ffa54b);
-  --koii-label-two-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
-    linear-gradient(0deg, #ecfffe, #ecfffe);
+  --koii-label-two-color: linear-gradient(0deg, #ecfffe, #ecfffe);
   --koii-label-three-color: #ffa54b;
   --koii-label-one-text-color: #171753;
   --koii-label-two-text-color: #171753;
@@ -175,6 +174,36 @@
     linear-gradient(0deg, #ffee81, #ffee81);
   --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
     linear-gradient(0deg, #6b5fa5, #6b5fa5);
+  --koii-label-one-text-color: #4d3d8d;
+  --koii-label-two-text-color: #353570;
+  --koii-label-three-text-color: #ecfffe;
+}
+
+[data-theme="gradient_two_create"] {
+  --koii-create-topic: #353570;
+  --koii-create-text: #353570;
+  --koii-blue: #353570;
+  --koii-white: #ecfffe;
+  --koii-button-white: #ecfffe;
+  --koii-button-upload: #171753;
+  --koii-button-upload-bg: #ffa6a6;
+  --koii-mint: #5ed9d1;
+  --background-image: url("/public/images/backgrounds/bg_create_gradient_two.svg");
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --dashboard-icon: white;
+  --koii-border-color: #ecfffe;
+  --koii-input-bg-color: linear-gradient(
+    0deg,
+    rgba(255, 166, 166, 0.1),
+    rgba(255, 166, 166, 0.1)
+  );
+  --koii-label-one-color: linear-gradient(0deg, #ffa6a6, #ffa6a6);
+  --koii-label-two-color: linear-gradient(0deg, #ffee81, #ffee81);
+
+  --koii-label-three-color: linear-gradient(0deg, #9be7c4, #9be7c4),
+    linear-gradient(0deg, #ffee81, #ffee81);
+
   --koii-label-one-text-color: #4d3d8d;
   --koii-label-two-text-color: #353570;
   --koii-label-three-text-color: #ecfffe;

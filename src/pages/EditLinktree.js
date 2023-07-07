@@ -108,6 +108,12 @@ const EditLinktree = () => {
       case "Gradient":
         document.documentElement.setAttribute("data-theme", "gradient_create");
         break;
+      case "Gradient-Two":
+        document.documentElement.setAttribute(
+          "data-theme",
+          "gradient_two_create"
+        );
+        break;
       default:
         break;
     }
@@ -464,19 +470,19 @@ const EditLinktree = () => {
                         <Text color='var(--koii-create-text)'>Bio</Text>
                         <Field
                           borderRadius='30px'
-                          backgroundColor='white'
                           name='description'
                           label='Bio'
-                          color='black'
+                          background='var(--koii-input-bg-color)'
+                          color='var(--koii-create-text)'
                           as={Textarea}
                           height='150px'
                           className='input-border'
                           border='1.5px solid #6B5FA5'
                         />
-                        <Text className='error'>
-                          <ErrorMessage name='description' />
-                        </Text>
                       </Box>
+                      <Text className='error'>
+                        <ErrorMessage name='description' />
+                      </Text>
 
                       <Text
                         fontSize='m'
@@ -549,7 +555,11 @@ const EditLinktree = () => {
 
                                   <Text
                                     mb={5}
-                                    color='var(--koii-border-color)'
+                                    color={
+                                      choosenTheme === "Gradient-Two"
+                                        ? "#353570"
+                                        : "var(--koii-border-color)"
+                                    }
                                     fontSize='12px'
                                   >
                                     Your primary link will stand out with a
@@ -841,6 +851,30 @@ const EditLinktree = () => {
                                   background='linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)'
                                 ></Box>
                               </Radio>
+                              <Radio
+                                value='Gradient-Two'
+                                colorScheme='teal'
+                                size='lg'
+                                borderColor='var(--koii-border-color)'
+                              >
+                                <Box
+                                  p='4'
+                                  width={50}
+                                  borderRadius={20}
+                                  color='black'
+                                  borderWidth={
+                                    choosenTheme === "Gradient-Two"
+                                      ? "2px"
+                                      : "1px"
+                                  }
+                                  borderColor={
+                                    choosenTheme === "Gradient-Two"
+                                      ? "black"
+                                      : "var(--koii-border-color)"
+                                  }
+                                  background='linear-gradient(180deg, #FFEE81 0.01%, #FFA6A6 100%)'
+                                ></Box>
+                              </Radio>
                             </Stack>
                           </RadioGroup>
                         </Stack>
@@ -942,8 +976,16 @@ const EditLinktree = () => {
                         maxW='254px'
                         rounded='full'
                         mx='auto'
-                        color='var(--koii-button-upload)'
-                        bg='var(--koii-button-upload-bg)'
+                        color={
+                          choosenTheme === "Gradient-Two"
+                            ? "#353570"
+                            : "var(--koii-button-upload)"
+                        }
+                        bg={
+                          choosenTheme === "Gradient-Two"
+                            ? "#FFEE81"
+                            : "var(--koii-button-upload)"
+                        }
                         my={10}
                         type='submit'
                       >
