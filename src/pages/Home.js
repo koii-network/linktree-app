@@ -1,43 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast, Text, Button, Box } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
 import { allLinktrees, getLinktree } from "../api";
+import { animatedSection } from "../helpers/animations";
+import HomeComponent from "../components/home";
 
 const HomePage = () => {
   //Force dark theme by default
-  document.documentElement.setAttribute("data-theme", "dark");
-
+  document.documentElement.setAttribute("data-theme", "light");
   const navigate = useNavigate();
   const toast = useToast();
-  const { setPublicKey, apiUrl, nodeList } = useWalletContext();
-  const { isFinnieDetected, connect } = useK2Finnie();
+  const { setPublicKey, nodeList, setIsFinnieDetected, isFinnieDetected } =
+    useWalletContext();
+  const { connect } = useK2Finnie({ setIsFinnieDetected });
   const [total, setTotal] = useState(null);
 
   const [isMobile, setIsMobile] = useState(false);
-
-  function animatedSection() {
-    let images = [
-      "/images/o2_soma.png",
-      "/images/o3_saim.png",
-      "/images/o1_al.png",
-    ];
-    let currentIndex = 0;
-    document.head.appendChild(document.createElement("style")).innerHTML =
-      "#animated-image-frame { animation: rotateAnimation 5s infinite; }";
-
-    let intervalId = setInterval(function () {
-      let imgElement = document.getElementById("animated-image-frame");
-      if (!imgElement) {
-        clearInterval(intervalId); // Break the loop if imgElement doesn't exist
-        return;
-      }
-      imgElement.src = images[currentIndex];
-      currentIndex = (currentIndex + 1) % images.length;
-    }, 5000);
-  }
 
   useEffect(() => {
     animatedSection();
@@ -48,12 +29,12 @@ const HomePage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [apiUrl, nodeList]);
+  }, [nodeList]);
 
   useEffect(() => {
     function handleResize() {
       if (document.documentElement.clientWidth < 700) {
-        setIsMobile(true);
+        setIsMobile(false);
       } else {
         setIsMobile(false);
       }
@@ -91,7 +72,7 @@ const HomePage = () => {
               position: "top",
             });
             setTimeout(() => {
-              navigate(`/linktree/${username}`);
+              navigate(`/${username}`);
             }, 3000);
           } else {
             toast({
@@ -126,166 +107,12 @@ const HomePage = () => {
     : linkToGetFinnie;
 
   return (
-    <div className='Home'>
-      <div className='psuedoBackground'></div>
-      <div className='container public-key-input-container'>
-        <div className='auth-user'>
-          <>
-            {isMobile ? (
-              <Box display='flex' flexDirection='column' alignItems='center'>
-                <Text
-                  marginBottom='5px'
-                  fontSize='22px'
-                  textAlign='center'
-                  maxWidth='600px'
-                  fontFamily='Sora, sans-serif'
-                  fontWeight='500'
-                >
-                  Welcome to
-                </Text>
-                <Text
-                  marginBottom='10px'
-                  fontSize='24px'
-                  textAlign='center'
-                  maxWidth='600px'
-                  fontFamily='Sora, sans-serif'
-                  fontWeight='500'
-                  color='#FFEE81'
-                >
-                  <a
-                    href='https://www.koii.network/'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    Koii
-                  </a>{" "}
-                  Linktree
-                </Text>
-                <Text
-                  className='typewriterText'
-                  marginBottom='20px'
-                  fontSize='14px'
-                  textAlign='center'
-                  maxWidth='600px'
-                  fontFamily='Sora, sans-serif'
-                  fontWeight='300'
-                >
-                  The first community powered linktree
-                </Text>
-
-                <div id='animated-image-container'>
-                  <img
-                    id='animated-image-frame'
-                    src='/images/o1_al.png'
-                    alt='frame'
-                  />
-                </div>
-
-                <Button
-                  onClick={handleConnectFinnie}
-                  className='connect-wallet-button'
-                  fontFamily='Sora, sans-serif'
-                  width='300px'
-                >
-                  {connectButtonText}
-                </Button>
-              </Box>
-            ) : (
-              <Box display='flex' flexDirection='column'>
-                <Box
-                  display='flex'
-                  flexDirection='row'
-                  alignItems='center'
-                  justifyContent=''
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "100%", // You can adjust this based on your layout
-                    }}
-                  >
-                    <Text
-                      marginBottom='5px'
-                      fontSize='52px'
-                      textAlign='center'
-                      maxWidth='600px'
-                      fontFamily='Sora, sans-serif'
-                      fontWeight='500'
-                    >
-                      Welcome to
-                    </Text>
-                    <Text
-                      marginBottom='10px'
-                      fontSize='64px'
-                      textAlign='center'
-                      maxWidth='600px'
-                      fontFamily='Sora, sans-serif'
-                      fontWeight='500'
-                      color='#FFEE81'
-                    >
-                      <a
-                        href='https://www.koii.network/'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        Koii
-                      </a>{" "}
-                      Linktree
-                    </Text>
-
-                    <Text
-                      marginBottom='20px'
-                      fontSize='22px'
-                      textAlign='center'
-                      maxWidth='600px'
-                      fontFamily='Sora, sans-serif'
-                      fontWeight='300'
-                      className='typewriterText'
-                    >
-                      The first community powered linktree
-                    </Text>
-
-                    <Button
-                      onClick={handleConnectFinnie}
-                      className='connect-wallet-button'
-                      fontFamily='Sora, sans-serif'
-                      width='300px'
-                    >
-                      {connectButtonText}
-                    </Button>
-                  </div>
-                  <div
-                    id='animated-image-container'
-                    style={{ marginLeft: "100px" }}
-                  >
-                    <img
-                      id='animated-image-frame'
-                      src='/images/o1_al.png'
-                      alt='frame'
-                    />
-                  </div>
-                </Box>
-              </Box>
-            )}
-          </>
-        </div>
-      </div>
-
-      {total !== null && total !== 0 && (
-        <div className='footer'>
-          <p>
-            Total{" "}
-            <a className='by-koii' href='https://www.koii.network/'>
-              Koii
-            </a>{" "}
-            linktrees created: <span className='by-koii total'> {total} </span>{" "}
-          </p>
-        </div>
-      )}
-    </div>
+    <HomeComponent
+      isMobile={isMobile}
+      handleConnectFinnie={handleConnectFinnie}
+      connectButtonText={connectButtonText}
+      total={total}
+    />
   );
 };
 

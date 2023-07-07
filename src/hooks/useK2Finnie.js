@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useK2Finnie = () => {
-  const [isFinnieDetected, setIsFinnieDetected] = useState(false);
+export const useK2Finnie = ({ setIsFinnieDetected }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [k2PubKey, setK2PubKey] = useState(null);
   const [doesK2AccountExist, setDoesK2AccountExist] = useState(null);
@@ -47,11 +46,11 @@ export const useK2Finnie = () => {
   };
 
   return {
-    isFinnieDetected,
     isConnected,
     k2PubKey,
     doesK2AccountExist,
     connect,
     connected: !!window?.k2?.publicKey,
+    setIsFinnieDetected,
   };
 };

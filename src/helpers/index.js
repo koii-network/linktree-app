@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TASK_ADDRESS } from "./config";
+import { TASK_ADDRESS } from "../config";
 
 export const truncateAddress = (address) => {
   const firstSlice = address.slice(0, 6);
@@ -63,6 +63,9 @@ export function themeApplier(userTheme) {
       break;
     case "Dark":
       document.documentElement.setAttribute("data-theme", "dark");
+      break;
+    case "Gradient-Two":
+      document.documentElement.setAttribute("data-theme", "gradient_two");
       break;
     default:
       break;

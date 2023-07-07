@@ -3,6 +3,11 @@
   src: url("/public/fonts/sora/Sora-VariableFont_wght.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "SourcePro";
+  src: url("/public/fonts/sourcepro/sourcepro.ttf") format("truetype");
+}
+
 :root {
   --koii-blue: #ecfffe;
   --koii-mint: #5ed9d1;
@@ -24,6 +29,28 @@
   --background-image-md: url("");
   --background-image-sm: url("");
   --dashboard-icon: black;
+  --koii-button-icon: #bef0ed;
+}
+
+[data-theme="mint"] {
+  --koii-blue: #ecfffe;
+  --koii-mint: #5ed9d1;
+  --koii-white: #171753;
+  --koii-mint: #8989c7;
+  --background-image: url("/public/images/Desktop L.svg");
+  --background-image-md: url("/public/images/Desktop L (1).svg");
+  --background-image-sm: url("/public/images/Phone L.svg");
+  --dashboard-icon: black;
+  --koii-button-icon: #bef0ed;
+  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
+    linear-gradient(0deg, #171753, #171753);
+  --koii-label-two-color: linear-gradient(0deg, #8989c7, #8989c7),
+    linear-gradient(0deg, #bef0ed, #bef0ed);
+  --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
+    linear-gradient(0deg, #6b5fa5, #6b5fa5);
+  --koii-label-one-text-color: #bef0ed;
+  --koii-label-two-text-color: #4d3d8d;
+  --koii-label-three-text-color: #171753;
 }
 
 [data-theme="dark"] {
@@ -35,18 +62,15 @@
   --background-image-md: url("/public/images/DesktopD (2).svg");
   --background-image-sm: url("/public/images/Phone D.svg");
   --dashboard-icon: white;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 15% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 15% 50%;
-  }
+  --koii-button-icon: #ffc78f;
+  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
+    linear-gradient(0deg, #ffa54b, #ffa54b);
+  --koii-label-two-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
+    linear-gradient(0deg, #ecfffe, #ecfffe);
+  --koii-label-three-color: #ffa54b;
+  --koii-label-one-text-color: #171753;
+  --koii-label-two-text-color: #171753;
+  --koii-label-three-text-color: #171753;
 }
 
 [data-theme="gradient"] {
@@ -65,6 +89,163 @@
   --animation: 10s ease 0s infinite normal none running gradient;
   --background-size: 150% 150%;
   --dashboard-icon: white;
+  --koii-button-icon: #8989c7;
+  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
+    linear-gradient(0deg, #ecfffe, #ecfffe);
+  --koii-label-two-color: linear-gradient(0deg, #9be7c4, #9be7c4),
+    linear-gradient(0deg, #ffee81, #ffee81);
+  --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
+    linear-gradient(0deg, #6b5fa5, #6b5fa5);
+  --koii-label-one-text-color: #4d3d8d;
+  --koii-label-two-text-color: #353570;
+  --koii-label-three-text-color: #ecfffe;
+}
+
+[data-theme="gradient_two"] {
+  --koii-blue: #171753;
+  --koii-white: #ecfffe;
+  --koii-button-white: #ecfffe;
+  --koii-mint: #5ed9d1;
+  --background-image: linear-gradient(180deg, #ffee81 0.01%, #ffa6a6 100%);
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --animation: 10s ease 0s infinite normal none running gradient;
+  --background-size: 150% 150%;
+  --dashboard-icon: white;
+  --koii-button-icon: #8989c7;
+  --koii-label-one-color: linear-gradient(0deg, #ffa6a6, #ffa6a6);
+  --koii-label-two-color: linear-gradient(0deg, #ffee81, #ffee81);
+
+  --koii-label-three-color: linear-gradient(0deg, #9be7c4, #9be7c4),
+    linear-gradient(0deg, #ffee81, #ffee81);
+
+  --koii-label-one-text-color: #4d3d8d;
+  --koii-label-two-text-color: #353570;
+  --koii-label-three-text-color: #ecfffe;
+}
+
+[data-theme="dark_create"] {
+  --koii-blue: #171753;
+  --koii-white: #ecfffe;
+  --koii-button-white: #171753;
+  --koii-mint: #5ed9d1;
+  --background-image: url("/public/images/backgrounds/bg_create_dark.svg");
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --dashboard-icon: white;
+  --koii-button-upload: #171753;
+  --koii-button-upload-bg: #ffa54b;
+  --koii-create-topic: #5ed9d1;
+  --koii-create-text: #ecfffe;
+  --koii-border-color: #ffa54b;
+  --koii-input-bg-color: #ffffff80;
+  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
+    linear-gradient(0deg, #ffa54b, #ffa54b);
+  --koii-label-two-color: linear-gradient(0deg, #ecfffe, #ecfffe);
+  --koii-label-three-color: #ffa54b;
+  --koii-label-one-text-color: #171753;
+  --koii-label-two-text-color: #171753;
+  --koii-label-three-text-color: #171753;
+}
+
+[data-theme="light_create"] {
+  --koii-create-topic: #4d3d8d;
+  --koii-create-text: #171753;
+  --koii-blue: #171753;
+  --koii-mint: #5ed9d1;
+  --koii-white: #171753;
+  --koii-button-upload: #ecfffe;
+  --koii-mint: #8989c7;
+  --koii-button-upload-bg: #6b5fa5;
+  --background-image: url("/public/images/backgrounds/bg_create_default.svg");
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --dashboard-icon: black;
+  --koii-border-color: #6b5fa5;
+  --koii-input-bg-color: #5ed9d11a;
+  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
+    linear-gradient(0deg, #171753, #171753);
+  --koii-label-two-color: linear-gradient(0deg, #8989c7, #8989c7),
+    linear-gradient(0deg, #bef0ed, #bef0ed);
+  --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
+    linear-gradient(0deg, #6b5fa5, #6b5fa5);
+  --koii-label-one-text-color: #bef0ed;
+  --koii-label-two-text-color: #4d3d8d;
+  --koii-label-three-text-color: #171753;
+}
+
+[data-theme="gradient_create"] {
+  --koii-create-topic: #171753;
+  --koii-create-text: #171753;
+  --koii-blue: #171753;
+  --koii-white: #ecfffe;
+  --koii-button-white: #ecfffe;
+  --koii-button-upload: #353570;
+  --koii-button-upload-bg: linear-gradient(0deg, #5ed9d1, #5ed9d1),
+    linear-gradient(0deg, #ecfffe, #ecfffe);
+  --koii-mint: #5ed9d1;
+  --background-image: url("/public/images/backgrounds/bg_create_gradient.svg");
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --dashboard-icon: white;
+  --koii-border-color: #ecfffe;
+  --koii-input-bg-color: linear-gradient(0deg, #ecfffe, #ecfffe),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
+  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
+    linear-gradient(0deg, #ecfffe, #ecfffe);
+  --koii-label-two-color: linear-gradient(0deg, #9be7c4, #9be7c4),
+    linear-gradient(0deg, #ffee81, #ffee81);
+  --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
+    linear-gradient(0deg, #6b5fa5, #6b5fa5);
+  --koii-label-one-text-color: #4d3d8d;
+  --koii-label-two-text-color: #353570;
+  --koii-label-three-text-color: #ecfffe;
+}
+
+[data-theme="gradient_two_create"] {
+  --koii-create-topic: #353570;
+  --koii-create-text: #353570;
+  --koii-blue: #353570;
+  --koii-white: #ecfffe;
+  --koii-button-white: #ecfffe;
+  --koii-button-upload: #171753;
+  --koii-button-upload-bg: #ffa6a6;
+  --koii-mint: #5ed9d1;
+  --background-image: url("/public/images/backgrounds/bg_create_gradient_two.svg");
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --dashboard-icon: white;
+  --koii-border-color: #ecfffe;
+  --koii-input-bg-color: linear-gradient(
+    0deg,
+    rgba(255, 166, 166, 0.1),
+    rgba(255, 166, 166, 0.1)
+  );
+  --koii-label-one-color: linear-gradient(0deg, #ffa6a6, #ffa6a6);
+  --koii-label-two-color: linear-gradient(0deg, #ffee81, #ffee81);
+
+  --koii-label-three-color: linear-gradient(0deg, #9be7c4, #9be7c4),
+    linear-gradient(0deg, #ffee81, #ffee81);
+
+  --koii-label-one-text-color: #4d3d8d;
+  --koii-label-two-text-color: #353570;
+  --koii-label-three-text-color: #ecfffe;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 15% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 15% 50%;
+  }
+}
+
+#root {
+  width: 100%;
 }
 
 body {
@@ -81,6 +262,7 @@ body {
   color: var(--koii-white) !important;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .toggle-theme {

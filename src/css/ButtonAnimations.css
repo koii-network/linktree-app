@@ -1,6 +1,6 @@
 .fade-in {
   animation-name: fade-in;
-  animation-duration: 3s;
+  animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-direction: alternate-reverse;
 }
@@ -25,7 +25,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
