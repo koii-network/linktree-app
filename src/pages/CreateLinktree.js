@@ -228,7 +228,7 @@ const CreateLinktree = () => {
   return (
     <Flex justify='center' align='center' width='100%'>
       <Box
-        py={{ base: "8rem", md: "5rem" }}
+        py={{ base: "2rem", md: "5rem" }}
         px={8}
         margin='auto'
         maxWidth={{ base: "100%", md: "800px" }}
@@ -245,11 +245,11 @@ const CreateLinktree = () => {
             my={5}
             ml={3}
             color='var(--koii-create-topic)'
-            fontSize='32px'
+            fontSize={{ base: "24px", md: "32px" }}
             fontFamily='Sora'
             fontStyle='normal'
             fontWeight='600'
-            lineHeight='40px'
+            lineHeight={{ base: "24px", md: "40px" }}
           >
             Create Your Koii Linktree Profile
           </Text>
@@ -864,7 +864,7 @@ const CreateLinktree = () => {
                 display='flex'
                 alignItems={{ base: "flex-start", md: "center" }}
                 justifyItemsItems={{ base: "flex-start", md: "center" }}
-                gap='30px'
+                gap={{ base: "10px", md: "30px" }}
                 flexDirection={{ base: "column", md: "row" }}
                 width='100%'
                 mt='30px'
@@ -876,7 +876,6 @@ const CreateLinktree = () => {
                   fontWeight={400}
                   lineHeight='21px'
                   letterSpacing='0.36px'
-                  mb={3}
                   color='var(--koii-create-text)'
                   width='50%'
                 >
@@ -891,7 +890,7 @@ const CreateLinktree = () => {
                       <Radio
                         value='label-one'
                         colorScheme='teal'
-                        size='lg'
+                        size={{ base: "md", md: "lg" }}
                         borderColor='var(--koii-border-color)'
                       >
                         <Button
@@ -911,7 +910,7 @@ const CreateLinktree = () => {
                       <Radio
                         value='label-two'
                         colorScheme='purple'
-                        size='lg'
+                        size={{ base: "md", md: "lg" }}
                         borderColor='var(--koii-border-color)'
                       >
                         <Button
@@ -931,7 +930,7 @@ const CreateLinktree = () => {
                       <Radio
                         value='label-three'
                         colorScheme='pink'
-                        size='lg'
+                        size={{ base: "md", md: "lg" }}
                         borderColor='var(--koii-border-color)'
                       >
                         <Button

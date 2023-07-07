@@ -249,7 +249,7 @@ const EditLinktree = () => {
         <>
           <Flex justify='center' align='center' width='100%'>
             <Box
-              py={{ base: "8rem", md: "5rem" }}
+              py={{ base: "3rem", md: "5rem" }}
               px={8}
               margin='auto'
               maxWidth={{ base: "100%", md: "800px" }}
@@ -266,8 +266,8 @@ const EditLinktree = () => {
                 <Button
                   leftIcon={
                     <ChevronLeftIcon
-                      height='30px'
-                      width='30px'
+                      height={{ base: "20px", md: "30px" }}
+                      width={{ base: "20px", md: "30px" }}
                       marginRight='-8px'
                     />
                   }
@@ -279,8 +279,8 @@ const EditLinktree = () => {
                   display='flex'
                   alignItems='center'
                   justifyItems='center'
-                  height='50px'
-                  width='50px'
+                  height={{ base: "40px", md: "50px" }}
+                  width={{ base: "30px", md: "50px" }}
                   color='var(--koii-create-topic)'
                   rounded='full'
                   borderColor='var(--koii-create-topic)'
@@ -884,7 +884,7 @@ const EditLinktree = () => {
                       display='flex'
                       alignItems={{ base: "flex-start", md: "center" }}
                       justifyItemsItems={{ base: "flex-start", md: "center" }}
-                      gap='30px'
+                      gap={{ base: "10px", md: "30px" }}
                       flexDirection={{ base: "column", md: "row" }}
                       width='100%'
                       mt='30px'
@@ -896,7 +896,6 @@ const EditLinktree = () => {
                         fontWeight={400}
                         lineHeight='21px'
                         letterSpacing='0.36px'
-                        mb={3}
                         color='var(--koii-create-text)'
                         width='50%'
                       >
