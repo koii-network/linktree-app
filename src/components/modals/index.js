@@ -101,8 +101,7 @@ function GetFinnieModal() {
           </ModalHeader>
           {/* <ModalCloseButton /> */}
           <ModalBody maxW='416px' mx='auto' padding='20px 24px 40px'>
-            explain why you should get finnie and how linktree will be so cool
-            when you do! Hello
+            You need a finnie wallet to add create and access linktree profiles.
           </ModalBody>
           <ModalFooter>
             <Box
