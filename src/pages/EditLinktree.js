@@ -984,7 +984,7 @@ const EditLinktree = () => {
                         bg={
                           choosenTheme === "Gradient-Two"
                             ? "#FFEE81"
-                            : "var(--koii-button-upload)"
+                            : "var(--koii-button-upload-bg)"
                         }
                         my={10}
                         type='submit'

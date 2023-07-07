@@ -101,6 +101,29 @@
   --koii-label-three-text-color: #ecfffe;
 }
 
+[data-theme="gradient_two"] {
+  --koii-blue: #171753;
+  --koii-white: #ecfffe;
+  --koii-button-white: #ecfffe;
+  --koii-mint: #5ed9d1;
+  --background-image: url("/public/images/backgrounds/bg_create_gradient_two.svg");
+  --background-image-md: var(--background-image);
+  --background-image-sm: var(--background-image);
+  --animation: 10s ease 0s infinite normal none running gradient;
+  --background-size: 150% 150%;
+  --dashboard-icon: white;
+  --koii-button-icon: #8989c7;
+  --koii-label-one-color: linear-gradient(0deg, #ffa6a6, #ffa6a6);
+  --koii-label-two-color: linear-gradient(0deg, #ffee81, #ffee81);
+
+  --koii-label-three-color: linear-gradient(0deg, #9be7c4, #9be7c4),
+    linear-gradient(0deg, #ffee81, #ffee81);
+
+  --koii-label-one-text-color: #4d3d8d;
+  --koii-label-two-text-color: #353570;
+  --koii-label-three-text-color: #ecfffe;
+}
+
 [data-theme="dark_create"] {
   --koii-blue: #171753;
   --koii-white: #ecfffe;

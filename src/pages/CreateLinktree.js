@@ -963,7 +963,7 @@ const CreateLinktree = () => {
                   bg={
                     choosenTheme === "Gradient-Two"
                       ? "#FFEE81"
-                      : "var(--koii-button-upload)"
+                      : "var(--koii-button-upload-bg)"
                   }
                   mx='auto'
                   my={10}

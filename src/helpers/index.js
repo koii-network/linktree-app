@@ -64,6 +64,9 @@ export function themeApplier(userTheme) {
     case "Dark":
       document.documentElement.setAttribute("data-theme", "dark");
       break;
+    case "Gradient-Two":
+      document.documentElement.setAttribute("data-theme", "gradient_two");
+      break;
     default:
       break;
   }
