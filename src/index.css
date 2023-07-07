@@ -106,7 +106,7 @@
   --koii-white: #ecfffe;
   --koii-button-white: #ecfffe;
   --koii-mint: #5ed9d1;
-  --background-image: url("/public/images/backgrounds/bg_create_gradient_two.svg");
+  --background-image: linear-gradient(180deg, #ffee81 0.01%, #ffa6a6 100%);
   --background-image-md: var(--background-image);
   --background-image-sm: var(--background-image);
   --animation: 10s ease 0s infinite normal none running gradient;
