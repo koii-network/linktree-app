@@ -37,7 +37,7 @@ export async function deleteLinktree(nodeList, publicKey) {
 
 export async function allLinktrees(nodeList) {
   try {
-    let nodeListIndex = 1;
+    let nodeListIndex = 0;
     let result;
 
     if (nodeList.length) {
@@ -64,7 +64,7 @@ export async function allLinktrees(nodeList) {
 
 export async function getLinktreeWithUsername(username, nodeList) {
   try {
-    let nodeListIndex = 1;
+    let nodeListIndex = 0;
     let result = {
       value: [],
     };
@@ -73,16 +73,18 @@ export async function getLinktreeWithUsername(username, nodeList) {
       (result?.value || result?.value?.length === 0) &&
       nodeList[nodeListIndex]
     ) {
-      result = await axios
+      const data = await axios
         .get(
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/username/${username}`
         )
         .then((res) => res.data)
         .catch((error) => console.log(`Error fetching authlist:`, error));
+      if (data && data?.length !== 0) result = data;
       nodeListIndex++;
     }
 
     if (result && result?.length !== 0) {
+      console.log(result);
       return {
         data: result,
         status: true,
@@ -101,21 +103,23 @@ export async function getLinktreeWithUsername(username, nodeList) {
 
 export async function getLinktree(publicKey, nodeList) {
   try {
-    let nodeListIndex = 1;
+    console.log(nodeList);
+    let nodeListIndex = 0;
     let result = {
       value: [],
     };
 
     while (
-      (result?.value || result?.value?.length === 0) &&
+      (!result || result?.value || result?.value?.length === 0) &&
       nodeList[nodeListIndex]
     ) {
-      result = await axios
+      const data = await axios
         .get(
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`
         )
         .then((res) => res.data)
         .catch((error) => console.log(`Error fetching authlist:`, error));
+      if (data && data?.length !== 0) result = data;
       nodeListIndex++;
     }
 

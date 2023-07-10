@@ -81,7 +81,7 @@ function SingleLinktree({
         </>
       )}
       <Box
-        minHeight='70vh'
+        minHeight='82vh'
         width='100%'
         display='flex'
         flexDirection='column'
@@ -202,9 +202,19 @@ function SingleLinktree({
           </Box>
         )}
       </Box>
-      <div className='footer'>
+      <div
+        className='footer'
+        style={{
+          color: "#171753",
+        }}
+      >
         Linktree by{" "}
-        <a href='https://www.koii.network/' className='by-koii'>
+        <a
+          href='https://www.koii.network/'
+          style={{
+            color: "var(--koii-border-color)",
+          }}
+        >
           Koii Network
         </a>
       </div>

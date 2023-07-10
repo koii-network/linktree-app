@@ -42,6 +42,7 @@
   --background-image-sm: url("/public/images/Phone L.svg");
   --dashboard-icon: black;
   --koii-button-icon: #bef0ed;
+  --koii-border-color: #6b5fa5;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #171753, #171753);
   --koii-label-two-color: linear-gradient(0deg, #8989c7, #8989c7),
@@ -66,6 +67,7 @@
   --background-image-sm: url("/public/images/Phone D.svg");
   --dashboard-icon: white;
   --koii-button-icon: #ffc78f;
+  --koii-border-color: #ffa54b;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ffa54b, #ffa54b);
   --koii-label-two-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
@@ -96,6 +98,7 @@
   --background-size: 150% 150%;
   --dashboard-icon: white;
   --koii-button-icon: #8989c7;
+  --koii-border-color: #ecfffe;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ecfffe, #ecfffe);
   --koii-label-two-color: linear-gradient(0deg, #9be7c4, #9be7c4),
@@ -115,13 +118,12 @@
   --koii-white: #ecfffe;
   --koii-button-white: #ecfffe;
   --koii-mint: #5ed9d1;
-  --background-image: linear-gradient(180deg, #ffee81 0.01%, #ffa6a6 100%);
+  --background-image: url("/public/images/profile-background-image.svg");
   --background-image-md: var(--background-image);
   --background-image-sm: var(--background-image);
-  --animation: 10s ease 0s infinite normal none running gradient;
-  --background-size: 150% 150%;
   --dashboard-icon: white;
   --koii-button-icon: #8989c7;
+  --koii-border-color: #ecfffe;
   --koii-label-one-color: linear-gradient(0deg, #ffa6a6, #ffa6a6);
   --koii-label-two-color: linear-gradient(0deg, #ffee81, #ffee81);
 
