@@ -51,6 +51,9 @@
   --koii-label-one-text-color: #bef0ed;
   --koii-label-two-text-color: #4d3d8d;
   --koii-label-three-text-color: #171753;
+  --koii-label-one-border-color: #5ed9d1;
+  --koii-label-two-border-color: #8989c7;
+  --koii-label-three-border-color: #6b5fa5;
 }
 
 [data-theme="dark"] {
@@ -71,6 +74,9 @@
   --koii-label-one-text-color: #171753;
   --koii-label-two-text-color: #171753;
   --koii-label-three-text-color: #171753;
+  --koii-label-one-border-color: #ffa54b;
+  --koii-label-two-border-color: #5ed9d1;
+  --koii-label-three-border-color: #ffa54b;
 }
 
 [data-theme="gradient"] {
@@ -99,6 +105,9 @@
   --koii-label-one-text-color: #4d3d8d;
   --koii-label-two-text-color: #353570;
   --koii-label-three-text-color: #ecfffe;
+  --koii-label-one-border-color: #ecfffe;
+  --koii-label-two-border-color: #9be7c4;
+  --koii-label-three-border-color: #ecfffe;
 }
 
 [data-theme="gradient_two"] {
@@ -122,6 +131,9 @@
   --koii-label-one-text-color: #4d3d8d;
   --koii-label-two-text-color: #353570;
   --koii-label-three-text-color: #ecfffe;
+  --koii-label-one-border-color: #ecfffe;
+  --koii-label-two-border-color: #5ed9d1;
+  --koii-label-three-border-color: #ffee81;
 }
 
 [data-theme="dark_create"] {
@@ -146,6 +158,10 @@
   --koii-label-one-text-color: #171753;
   --koii-label-two-text-color: #171753;
   --koii-label-three-text-color: #171753;
+
+  --koii-label-one-border-color: #ffa54b;
+  --koii-label-two-border-color: #5ed9d1;
+  --koii-label-three-border-color: #ffa54b;
 }
 
 [data-theme="light_create"] {
@@ -163,15 +179,17 @@
   --dashboard-icon: black;
   --koii-border-color: #6b5fa5;
   --koii-input-bg-color: #5ed9d11a;
-  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
-    linear-gradient(0deg, #171753, #171753);
-  --koii-label-two-color: linear-gradient(0deg, #8989c7, #8989c7),
-    linear-gradient(0deg, #bef0ed, #bef0ed);
+  --koii-label-one-color: linear-gradient(0deg, #171753, #171753);
+  --koii-label-two-color: linear-gradient(0deg, #bef0ed, #bef0ed);
   --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
     linear-gradient(0deg, #6b5fa5, #6b5fa5);
   --koii-label-one-text-color: #bef0ed;
   --koii-label-two-text-color: #4d3d8d;
   --koii-label-three-text-color: #171753;
+
+  --koii-label-one-border-color: #5ed9d1;
+  --koii-label-two-border-color: #8989c7;
+  --koii-label-three-border-color: #6b5fa5;
 }
 
 [data-theme="gradient_create"] {
@@ -193,13 +211,16 @@
     linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ecfffe, #ecfffe);
-  --koii-label-two-color: linear-gradient(0deg, #9be7c4, #9be7c4),
-    linear-gradient(0deg, #ffee81, #ffee81);
+  --koii-label-two-color: #ffee81;
   --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
     linear-gradient(0deg, #6b5fa5, #6b5fa5);
   --koii-label-one-text-color: #4d3d8d;
   --koii-label-two-text-color: #353570;
   --koii-label-three-text-color: #ecfffe;
+
+  --koii-label-one-border-color: #ecfffe;
+  --koii-label-two-border-color: #9be7c4;
+  --koii-label-three-border-color: #ecfffe;
 }
 
 [data-theme="gradient_two_create"] {
@@ -230,6 +251,10 @@
   --koii-label-one-text-color: #4d3d8d;
   --koii-label-two-text-color: #353570;
   --koii-label-three-text-color: #ecfffe;
+
+  --koii-label-one-border-color: #ecfffe;
+  --koii-label-two-border-color: #5ed9d1;
+  --koii-label-three-border-color: #ffee81;
 }
 
 @keyframes gradient {

@@ -693,7 +693,11 @@ const CreateLinktree = () => {
                       leftIcon={<AddIcon />}
                       rounded='full'
                       borderColor='var(--koii-border-color)'
-                      color='var(--koii-border-color)'
+                      color={
+                        choosenTheme === "Gradient-Two"
+                          ? "#353570"
+                          : "var(--koii-border-color)"
+                      }
                       variant='outline'
                       onClick={() => push(linksGroup)}
                       padding={6}
@@ -891,17 +895,17 @@ const CreateLinktree = () => {
                         value='label-one'
                         colorScheme='teal'
                         size={{ base: "md", md: "lg" }}
-                        borderColor='var(--koii-border-color)'
+                        borderColor='var(--koii-label-one-border-color)'
                       >
                         <Button
                           backgroundColor='var(--koii-label-one-color)'
                           background='var(--koii-label-one-color)'
-                          color='var(--koii-label-two-text-color)'
+                          color='var(--koii-label-one-text-color)'
                           width={100}
                           borderRadius={30}
                           mr={10}
                           borderWidth='2px'
-                          borderColor='var(--koii-border-color)'
+                          borderColor='var(--koii-label-one-border-color)'
                         >
                           {values?.links[0]?.label || "Label"}
                         </Button>
@@ -911,7 +915,7 @@ const CreateLinktree = () => {
                         value='label-two'
                         colorScheme='purple'
                         size={{ base: "md", md: "lg" }}
-                        borderColor='var(--koii-border-color)'
+                        borderColor='var(--koii-label-two-border-color)'
                       >
                         <Button
                           width={100}
@@ -921,7 +925,7 @@ const CreateLinktree = () => {
                           borderRadius={30}
                           mr={10}
                           borderWidth='2px'
-                          borderColor='var(--koii-border-color)'
+                          borderColor='var(--koii-label-two-border-color)'
                         >
                           {values?.links[0]?.label || "Label"}
                         </Button>
@@ -931,7 +935,7 @@ const CreateLinktree = () => {
                         value='label-three'
                         colorScheme='pink'
                         size={{ base: "md", md: "lg" }}
-                        borderColor='var(--koii-border-color)'
+                        borderColor='var(--koii-label-three-border-color)'
                       >
                         <Button
                           width={100}
@@ -940,7 +944,7 @@ const CreateLinktree = () => {
                           color='var(--koii-label-three-text-color)'
                           borderRadius={30}
                           borderWidth='2px'
-                          borderColor='var(--koii-border-color)'
+                          borderColor='var(--koii-label-three-border-color)'
                         >
                           {values?.links[0]?.label || "Label"}
                         </Button>

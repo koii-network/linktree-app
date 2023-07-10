@@ -20,6 +20,9 @@ function SingleLinktree({
   const labelText = `var(--koii-${
     userData?.choosenLabelTheme || "label-one"
   }-text-color)`;
+  const labelBorder = `var(--koii-${
+    userData?.choosenLabelTheme || "label-one"
+  }-border-color)`;
   return (
     <Box position='relative' width='100%'>
       {isProfileOwner && userData && (
@@ -130,6 +133,7 @@ function SingleLinktree({
                           fontSize: index === 0 ? "18px" : "inherit",
                           color: index === 0 ? labelText : "inherit",
                           background: index === 0 ? labelBackground : "inherit",
+                          borderColor: index === 0 ? labelBorder : "inherit",
                         }}
                       >
                         {link.label}
