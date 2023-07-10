@@ -2,7 +2,6 @@ import React from "react";
 import "../../App.css";
 import { Text, Button, Box, Image } from "@chakra-ui/react";
 import koiiChatFish from "../../pages/images/koiiChat.svg";
-import { DOWNLOAD_FINNIE_URL } from "../../config";
 import GetFinnieModal from "../modals";
 
 const HomeComponent = ({

@@ -42,6 +42,7 @@
   --background-image-sm: url("/public/images/Phone L.svg");
   --dashboard-icon: black;
   --koii-button-icon: #bef0ed;
+  --koii-border-color: #6b5fa5;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #171753, #171753);
   --koii-label-two-color: linear-gradient(0deg, #8989c7, #8989c7),
@@ -51,6 +52,9 @@
   --koii-label-one-text-color: #bef0ed;
   --koii-label-two-text-color: #4d3d8d;
   --koii-label-three-text-color: #171753;
+  --koii-label-one-border-color: #5ed9d1;
+  --koii-label-two-border-color: #8989c7;
+  --koii-label-three-border-color: #6b5fa5;
 }
 
 [data-theme="dark"] {
@@ -63,6 +67,7 @@
   --background-image-sm: url("/public/images/Phone D.svg");
   --dashboard-icon: white;
   --koii-button-icon: #ffc78f;
+  --koii-border-color: #ffa54b;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ffa54b, #ffa54b);
   --koii-label-two-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
@@ -71,6 +76,9 @@
   --koii-label-one-text-color: #171753;
   --koii-label-two-text-color: #171753;
   --koii-label-three-text-color: #171753;
+  --koii-label-one-border-color: #ffa54b;
+  --koii-label-two-border-color: #5ed9d1;
+  --koii-label-three-border-color: #ffa54b;
 }
 
 [data-theme="gradient"] {
@@ -90,6 +98,7 @@
   --background-size: 150% 150%;
   --dashboard-icon: white;
   --koii-button-icon: #8989c7;
+  --koii-border-color: #ecfffe;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ecfffe, #ecfffe);
   --koii-label-two-color: linear-gradient(0deg, #9be7c4, #9be7c4),
@@ -99,6 +108,9 @@
   --koii-label-one-text-color: #4d3d8d;
   --koii-label-two-text-color: #353570;
   --koii-label-three-text-color: #ecfffe;
+  --koii-label-one-border-color: #ecfffe;
+  --koii-label-two-border-color: #9be7c4;
+  --koii-label-three-border-color: #ecfffe;
 }
 
 [data-theme="gradient_two"] {
@@ -106,13 +118,12 @@
   --koii-white: #ecfffe;
   --koii-button-white: #ecfffe;
   --koii-mint: #5ed9d1;
-  --background-image: linear-gradient(180deg, #ffee81 0.01%, #ffa6a6 100%);
+  --background-image: url("/public/images/profile-background-image.svg");
   --background-image-md: var(--background-image);
   --background-image-sm: var(--background-image);
-  --animation: 10s ease 0s infinite normal none running gradient;
-  --background-size: 150% 150%;
   --dashboard-icon: white;
   --koii-button-icon: #8989c7;
+  --koii-border-color: #ecfffe;
   --koii-label-one-color: linear-gradient(0deg, #ffa6a6, #ffa6a6);
   --koii-label-two-color: linear-gradient(0deg, #ffee81, #ffee81);
 
@@ -122,6 +133,9 @@
   --koii-label-one-text-color: #4d3d8d;
   --koii-label-two-text-color: #353570;
   --koii-label-three-text-color: #ecfffe;
+  --koii-label-one-border-color: #ecfffe;
+  --koii-label-two-border-color: #5ed9d1;
+  --koii-label-three-border-color: #ffee81;
 }
 
 [data-theme="dark_create"] {
@@ -146,6 +160,10 @@
   --koii-label-one-text-color: #171753;
   --koii-label-two-text-color: #171753;
   --koii-label-three-text-color: #171753;
+
+  --koii-label-one-border-color: #ffa54b;
+  --koii-label-two-border-color: #5ed9d1;
+  --koii-label-three-border-color: #ffa54b;
 }
 
 [data-theme="light_create"] {
@@ -163,15 +181,17 @@
   --dashboard-icon: black;
   --koii-border-color: #6b5fa5;
   --koii-input-bg-color: #5ed9d11a;
-  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
-    linear-gradient(0deg, #171753, #171753);
-  --koii-label-two-color: linear-gradient(0deg, #8989c7, #8989c7),
-    linear-gradient(0deg, #bef0ed, #bef0ed);
+  --koii-label-one-color: linear-gradient(0deg, #171753, #171753);
+  --koii-label-two-color: linear-gradient(0deg, #bef0ed, #bef0ed);
   --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
     linear-gradient(0deg, #6b5fa5, #6b5fa5);
   --koii-label-one-text-color: #bef0ed;
   --koii-label-two-text-color: #4d3d8d;
   --koii-label-three-text-color: #171753;
+
+  --koii-label-one-border-color: #5ed9d1;
+  --koii-label-two-border-color: #8989c7;
+  --koii-label-three-border-color: #6b5fa5;
 }
 
 [data-theme="gradient_create"] {
@@ -193,13 +213,16 @@
     linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ecfffe, #ecfffe);
-  --koii-label-two-color: linear-gradient(0deg, #9be7c4, #9be7c4),
-    linear-gradient(0deg, #ffee81, #ffee81);
+  --koii-label-two-color: #ffee81;
   --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
     linear-gradient(0deg, #6b5fa5, #6b5fa5);
   --koii-label-one-text-color: #4d3d8d;
   --koii-label-two-text-color: #353570;
   --koii-label-three-text-color: #ecfffe;
+
+  --koii-label-one-border-color: #ecfffe;
+  --koii-label-two-border-color: #9be7c4;
+  --koii-label-three-border-color: #ecfffe;
 }
 
 [data-theme="gradient_two_create"] {
@@ -230,6 +253,10 @@
   --koii-label-one-text-color: #4d3d8d;
   --koii-label-two-text-color: #353570;
   --koii-label-three-text-color: #ecfffe;
+
+  --koii-label-one-border-color: #ecfffe;
+  --koii-label-two-border-color: #5ed9d1;
+  --koii-label-three-border-color: #ffee81;
 }
 
 @keyframes gradient {
