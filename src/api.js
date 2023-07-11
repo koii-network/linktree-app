@@ -82,7 +82,12 @@ export async function getLinktreeWithUsername(username, nodeList) {
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/username/${username}`
         )
         .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching authlist:`, error));
+        .catch((error) =>
+          console.log(
+            `Error fetching linktree with username from ${nodeList[nodeListIndex]}:`,
+            error
+          )
+        );
       console.log(
         `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/username/${username}`,
         nodeList[nodeListIndex],
@@ -129,7 +134,12 @@ export async function getLinktree(publicKey, nodeList) {
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`
         )
         .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching linktree:`, error));
+        .catch((error) =>
+          console.log(
+            `Error fetching linktree with public Key from ${nodeList[nodeListIndex]}:`,
+            error
+          )
+        );
       if (data && data?.length !== 0) result = data;
       nodeListIndex++;
     }
@@ -171,7 +181,7 @@ export async function setLinktree(data, publicKey, nodeList, username) {
           payload,
         })
         .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching authlist:`, error));
+        .catch((error) => console.log(`Error setting linktree:`, error));
       nodeListIndex++;
     }
 
@@ -202,7 +212,7 @@ export async function updateLinktree(data, publicKey, nodeList, username) {
           payload,
         })
         .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching authlist:`, error));
+        .catch((error) => console.log(`Error updating linktree:`, error));
       nodeListIndex++;
     }
 
