@@ -46,7 +46,10 @@ export async function allLinktrees(nodeList) {
           .get(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/list`)
           .then((res) => res.data)
           .catch((error) => console.log(`Error fetching authlist:`, error));
-
+        console.log(
+          `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/list`,
+          result
+        );
         nodeListIndex++;
       }
 
@@ -69,6 +72,7 @@ export async function getLinktreeWithUsername(username, nodeList) {
       value: [],
     };
 
+    console.log(nodeList);
     while (
       (result?.value || result?.value?.length === 0) &&
       nodeList[nodeListIndex]
@@ -78,8 +82,20 @@ export async function getLinktreeWithUsername(username, nodeList) {
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/username/${username}`
         )
         .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching authlist:`, error));
-      if (data && data?.length !== 0) result = data;
+        .catch((error) =>
+          console.log(
+            `Error fetching linktree with username from ${nodeList[nodeListIndex]}:`,
+            error
+          )
+        );
+      console.log(
+        `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/username/${username}`,
+        nodeList[nodeListIndex],
+        data
+      );
+      if (data && data?.length !== 0) {
+        result = data;
+      }
       nodeListIndex++;
     }
 
@@ -118,7 +134,12 @@ export async function getLinktree(publicKey, nodeList) {
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`
         )
         .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching authlist:`, error));
+        .catch((error) =>
+          console.log(
+            `Error fetching linktree with public Key from ${nodeList[nodeListIndex]}:`,
+            error
+          )
+        );
       if (data && data?.length !== 0) result = data;
       nodeListIndex++;
     }
@@ -143,7 +164,7 @@ export async function getLinktree(publicKey, nodeList) {
 export async function setLinktree(data, publicKey, nodeList, username) {
   const messageString = JSON.stringify(data);
   try {
-    await transferKoii(nodeList);
+    // await transferKoii(nodeList);
     const signatureRaw = await window.k2.signMessage(messageString);
     const payload = {
       data,
@@ -160,7 +181,7 @@ export async function setLinktree(data, publicKey, nodeList, username) {
           payload,
         })
         .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching authlist:`, error));
+        .catch((error) => console.log(`Error setting linktree:`, error));
       nodeListIndex++;
     }
 
@@ -191,7 +212,7 @@ export async function updateLinktree(data, publicKey, nodeList, username) {
           payload,
         })
         .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching authlist:`, error));
+        .catch((error) => console.log(`Error updating linktree:`, error));
       nodeListIndex++;
     }
 
@@ -205,78 +226,78 @@ export async function updateLinktree(data, publicKey, nodeList, username) {
   }
 }
 
-export async function getAuthList(publicKey, nodeList) {
-  try {
-    const requests = nodeList.map((node) =>
-      axios
-        .get(`${node}/task/${TASK_ADDRESS}/authlist/get/${publicKey}`)
-        .then((res) => res.data)
-        .catch((error) =>
-          console.log(`Error fetching authlist from ${node}:`, error)
-        )
-    );
+// export async function getAuthList(publicKey, nodeList) {
+//   try {
+//     const requests = nodeList.map((node) =>
+//       axios
+//         .get(`${node}/task/${TASK_ADDRESS}/authlist/get/${publicKey}`)
+//         .then((res) => res.data)
+//         .catch((error) =>
+//           console.log(`Error fetching authlist from ${node}:`, error)
+//         )
+//     );
 
-    const results = await Promise.allSettled(requests);
+//     const results = await Promise.allSettled(requests);
 
-    for (const result of results) {
-      if (result.status === "fulfilled" && result.value === publicKey) {
-        return true;
-      }
-    }
-    return false;
-  } catch (error) {
-    console.log("Error getting node list:", error);
-  }
-}
+//     for (const result of results) {
+//       if (result.status === "fulfilled" && result.value === publicKey) {
+//         return true;
+//       }
+//     }
+//     return false;
+//   } catch (error) {
+//     console.log("Error getting node list:", error);
+//   }
+// }
 
-export async function transferKoii(nodeList) {
-  try {
-    const connection = new Connection(clusterApiUrl("devnet"));
-    const blockHash = await connection.getRecentBlockhash();
-    const feePayer = window.k2.publicKey;
+// export async function transferKoii(nodeList) {
+//   try {
+//     const connection = new Connection(clusterApiUrl("devnet"));
+//     const blockHash = await connection.getRecentBlockhash();
+//     const feePayer = window.k2.publicKey;
 
-    const transaction = new Transaction();
-    transaction.recentBlockhash = blockHash.blockhash;
-    transaction.feePayer = feePayer;
+//     const transaction = new Transaction();
+//     transaction.recentBlockhash = blockHash.blockhash;
+//     transaction.feePayer = feePayer;
 
-    transaction.add(
-      SystemProgram.transfer({
-        fromPubkey: window.k2.publicKey,
-        toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
-        lamports: Number(
-          TRANSFER_AMOUNT +
-            (await connection.getMinimumBalanceForRentExemption(100)) +
-            1000
-        ),
-      })
-    );
+//     transaction.add(
+//       SystemProgram.transfer({
+//         fromPubkey: window.k2.publicKey,
+//         toPubkey: new window.solanaWeb3.PublicKey(RECIPIENT_ADDRESS),
+//         lamports: Number(
+//           TRANSFER_AMOUNT +
+//             (await connection.getMinimumBalanceForRentExemption(100)) +
+//             1000
+//         ),
+//       })
+//     );
 
-    const payload = transaction.serializeMessage();
-    const signature = await window.k2.signAndSendTransaction(payload);
+//     const payload = transaction.serializeMessage();
+//     const signature = await window.k2.signAndSendTransaction(payload);
 
-    if (signature) {
-      const authdata = {
-        pubkey: window.k2.publicKey.toString(),
-      };
-      let nodeListIndex = 1;
-      let result;
-      while (!result) {
-        result = await axios
-          .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/authlist`, {
-            authdata,
-          })
-          .then((res) => res.data === window.k2.publicKey.toString())
-          .catch((error) =>
-            console.log(
-              `Error fetching authlist from ${nodeList[nodeListIndex]}:`,
-              error
-            )
-          );
-        nodeListIndex++;
-        if (result) return result;
-      }
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+//     if (signature) {
+//       const authdata = {
+//         pubkey: window.k2.publicKey.toString(),
+//       };
+//       let nodeListIndex = 1;
+//       let result;
+//       while (!result) {
+//         result = await axios
+//           .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/authlist`, {
+//             authdata,
+//           })
+//           .then((res) => res.data === window.k2.publicKey.toString())
+//           .catch((error) =>
+//             console.log(
+//               `Error fetching authlist from ${nodeList[nodeListIndex]}:`,
+//               error
+//             )
+//           );
+//         nodeListIndex++;
+//         if (result) return result;
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
