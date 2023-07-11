@@ -37,7 +37,7 @@ export async function deleteLinktree(nodeList, publicKey) {
 
 export async function allLinktrees(nodeList) {
   try {
-    let nodeListIndex = 0;
+    let nodeListIndex = 2;
     let result;
 
     if (nodeList.length) {
@@ -46,7 +46,10 @@ export async function allLinktrees(nodeList) {
           .get(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/list`)
           .then((res) => res.data)
           .catch((error) => console.log(`Error fetching authlist:`, error));
-
+        console.log(
+          `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/list`,
+          result
+        );
         nodeListIndex++;
       }
 
@@ -64,11 +67,12 @@ export async function allLinktrees(nodeList) {
 
 export async function getLinktreeWithUsername(username, nodeList) {
   try {
-    let nodeListIndex = 0;
+    let nodeListIndex = 2;
     let result = {
       value: [],
     };
 
+    console.log(nodeList);
     while (
       (result?.value || result?.value?.length === 0) &&
       nodeList[nodeListIndex]
@@ -79,7 +83,14 @@ export async function getLinktreeWithUsername(username, nodeList) {
         )
         .then((res) => res.data)
         .catch((error) => console.log(`Error fetching authlist:`, error));
-      if (data && data?.length !== 0) result = data;
+      console.log(
+        `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/username/${username}`,
+        nodeList[nodeListIndex],
+        data
+      );
+      if (data && data?.length !== 0) {
+        result = data;
+      }
       nodeListIndex++;
     }
 
@@ -118,7 +129,7 @@ export async function getLinktree(publicKey, nodeList) {
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`
         )
         .then((res) => res.data)
-        .catch((error) => console.log(`Error fetching authlist:`, error));
+        .catch((error) => console.log(`Error fetching linktree:`, error));
       if (data && data?.length !== 0) result = data;
       nodeListIndex++;
     }
