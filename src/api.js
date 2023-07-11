@@ -144,7 +144,7 @@ export async function getLinktree(publicKey, nodeList) {
       nodeListIndex++;
     }
 
-    if (result && result?.length !== 0) {
+    if (result && result?.length !== 0 && !result.value) {
       return {
         data: result,
         status: true,
