@@ -99,7 +99,7 @@ export async function getLinktreeWithUsername(username, nodeList) {
       nodeListIndex++;
     }
 
-    if (result && result?.length !== 0) {
+    if (result && result?.length !== 0 && !result?.value) {
       console.log(result);
       return {
         data: result,

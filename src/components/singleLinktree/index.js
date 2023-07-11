@@ -30,7 +30,7 @@ function SingleLinktree({
           <Box
             position='absolute'
             top={{ base: "20px", md: "32px" }}
-            right={{ base: "20px", md: "80px" }}
+            right={{ base: "70px", md: "80px" }}
           >
             <Tooltip
               hasArrow
@@ -41,7 +41,7 @@ function SingleLinktree({
             >
               <IconButton
                 rounded='full'
-                alignSelf={{ base: "flex-end", lg: "" }}
+                // alignSelf={{ base: "flex-end", lg: "" }}
                 marginTop='10px'
                 icon={<DeleteIcon />}
                 backgroundColor={"var(--koii-button-icon)"}
