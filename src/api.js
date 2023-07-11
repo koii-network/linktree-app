@@ -37,7 +37,7 @@ export async function deleteLinktree(nodeList, publicKey) {
 
 export async function allLinktrees(nodeList) {
   try {
-    let nodeListIndex = 2;
+    let nodeListIndex = 0;
     let result;
 
     if (nodeList.length) {
@@ -67,7 +67,7 @@ export async function allLinktrees(nodeList) {
 
 export async function getLinktreeWithUsername(username, nodeList) {
   try {
-    let nodeListIndex = 2;
+    let nodeListIndex = 0;
     let result = {
       value: [],
     };
