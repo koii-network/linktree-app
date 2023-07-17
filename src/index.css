@@ -86,23 +86,15 @@
   --koii-white: #ecfffe;
   --koii-button-white: #ecfffe;
   --koii-mint: #5ed9d1;
-  --background-image: linear-gradient(
-    43deg,
-    rgb(65, 88, 208) 0%,
-    rgb(200, 80, 192) 66%,
-    rgb(255, 204, 112) 100%
-  );
+  --background-image: url("/public/images/bg_create_gradient.svg");
   --background-image-md: var(--background-image);
   --background-image-sm: var(--background-image);
-  --animation: 10s ease 0s infinite normal none running gradient;
-  --background-size: 150% 150%;
   --dashboard-icon: white;
   --koii-button-icon: #8989c7;
   --koii-border-color: #ecfffe;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ecfffe, #ecfffe);
-  --koii-label-two-color: linear-gradient(0deg, #9be7c4, #9be7c4),
-    linear-gradient(0deg, #ffee81, #ffee81);
+  --koii-label-two-color: #ffee81;
   --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
     linear-gradient(0deg, #6b5fa5, #6b5fa5);
   --koii-label-one-text-color: #4d3d8d;
@@ -164,6 +156,8 @@
   --koii-label-one-border-color: #ffa54b;
   --koii-label-two-border-color: #5ed9d1;
   --koii-label-three-border-color: #ffa54b;
+  --koii-profile-bg-color: transparent;
+  --koii-profile-color: #5ed9d1;
 }
 
 [data-theme="light_create"] {
@@ -192,6 +186,8 @@
   --koii-label-one-border-color: #5ed9d1;
   --koii-label-two-border-color: #8989c7;
   --koii-label-three-border-color: #6b5fa5;
+  --koii-profile-bg-color: #ffffff;
+  --koii-profile-color: #6b5fa5 !important;
 }
 
 [data-theme="gradient_create"] {
@@ -211,8 +207,6 @@
   --koii-border-color: #ecfffe;
   --koii-input-bg-color: linear-gradient(0deg, #ecfffe, #ecfffe),
     linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
-  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
-    linear-gradient(0deg, #ecfffe, #ecfffe);
   --koii-label-two-color: #ffee81;
   --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
     linear-gradient(0deg, #6b5fa5, #6b5fa5);
@@ -223,6 +217,8 @@
   --koii-label-one-border-color: #ecfffe;
   --koii-label-two-border-color: #9be7c4;
   --koii-label-three-border-color: #ecfffe;
+  --koii-profile-bg-color: transparent;
+  --koii-profile-color: #6b5fa5;
 }
 
 [data-theme="gradient_two_create"] {
@@ -257,6 +253,8 @@
   --koii-label-one-border-color: #ecfffe;
   --koii-label-two-border-color: #5ed9d1;
   --koii-label-three-border-color: #ffee81;
+  --koii-profile-bg-color: #ffa6a6;
+  --koii-profile-color: #ffee81;
 }
 
 @keyframes gradient {

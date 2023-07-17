@@ -5,7 +5,7 @@ export function animatedSection() {
     "#animated-image-frame { animation: rotateAnimation 5s infinite linear; animation-delay: 0s; }";
 
   let imgElement = document.getElementById("animated-image-frame");
-  if (imgElement) imgElement.src = images[currentIndex++];
+  if (imgElement) imgElement.style.backgroundImage = images[currentIndex++];
 
   // Define the image swapping function
   function preSwapImage() {
