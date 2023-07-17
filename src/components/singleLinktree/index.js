@@ -132,8 +132,14 @@ function SingleLinktree({
                         style={{
                           fontSize: index === 0 ? "18px" : "inherit",
                           color: index === 0 ? labelText : "inherit",
-                          background: index === 0 ? labelBackground : "inherit",
-                          borderColor: index === 0 ? labelBorder : "inherit",
+                          background:
+                            index === 0
+                              ? labelBackground
+                              : "var(--koii-button-bg)",
+                          borderColor:
+                            index === 0
+                              ? labelBorder
+                              : "var(--koii-button-text)",
                         }}
                       >
                         {link.label}
