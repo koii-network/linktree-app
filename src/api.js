@@ -151,7 +151,7 @@ export async function getLinktree(publicKey, nodeList) {
 export async function setLinktree(data, publicKey, nodeList, username) {
   const messageString = JSON.stringify(data);
   try {
-    // const koiiTransfer = await transferKoii(nodeList);
+    const koiiTransfer = await transferKoii(nodeList);
     const signatureRaw = await window.k2.signMessage(messageString);
     const payload = {
       data,
