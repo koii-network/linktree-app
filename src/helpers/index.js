@@ -71,3 +71,25 @@ export function themeApplier(userTheme) {
       break;
   }
 }
+
+export function createThemeApplier(theme) {
+  switch (theme) {
+    case "Dark":
+      document.documentElement.setAttribute("data-theme", "dark_create");
+      break;
+    case "Mint":
+      document.documentElement.setAttribute("data-theme", "light_create");
+      break;
+    case "Gradient":
+      document.documentElement.setAttribute("data-theme", "gradient_create");
+      break;
+    case "Gradient-Two":
+      document.documentElement.setAttribute(
+        "data-theme",
+        "gradient_two_create"
+      );
+      break;
+    default:
+      break;
+  }
+}

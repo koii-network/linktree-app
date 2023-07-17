@@ -12,12 +12,14 @@ p {
 }
 
 .user-image {
-  width: 130px;
-  height: 130px;
+  width: 126px;
+  height: 126px;
   object-fit: cover;
   border-radius: 50%;
-  border: 5px solid var(--koii-border-color);
-  margin: -8px;
+  border: 1.5px solid var(--koii-border-color);
+  background: var(--koii-profile-bg-color);
+  color: var(--koii-profile-color);
+  padding: 0;
 }
 
 .user-name {

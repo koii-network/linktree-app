@@ -77,11 +77,15 @@ const share = async () => {
           if (localExistingLinktree) {
             if (localExistingLinktree.data.timestamp < value.data.timestamp) {
               console.log('Updating linktree data');
-              await db.setLinktree(value.publicKey, value.data);
+              let proofs = {
+                publicKey: value.publicKey,
+                signature: value.signature,
+              };
+              await db.setLinktree(value.publicKey, value);
+              await db.setProofs(value.publicKey, proofs);
             }
           } else {
-            console.log('Updating linktree data');
-            await db.setLinktree(value.publicKey, value.data);
+            console.log('Linktree data already updated');
           }
         } catch (e) {
           console.error('ERROR', e);
