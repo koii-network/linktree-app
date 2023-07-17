@@ -121,12 +121,7 @@ export async function getLinktree(publicKey, nodeList) {
           `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`
         )
         .then((res) => res.data)
-        .catch((error) =>
-          console.log(
-            `Error fetching linktree with public Key from ${nodeList[nodeListIndex]}:`,
-            error
-          )
-        );
+        .catch((error) => console.log(`Error fetching linktree data:`, error));
       if (data && data?.length !== 0) result = data;
       nodeListIndex++;
     }
