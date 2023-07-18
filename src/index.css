@@ -43,6 +43,8 @@
   --dashboard-icon: black;
   --koii-button-icon: #bef0ed;
   --koii-border-color: #6b5fa5;
+  --koii-button-bg: #6b5fa5;
+  --koii-button-text: #ecfffe;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #171753, #171753);
   --koii-label-two-color: linear-gradient(0deg, #8989c7, #8989c7),
@@ -68,6 +70,8 @@
   --dashboard-icon: white;
   --koii-button-icon: #ffc78f;
   --koii-border-color: #ffa54b;
+  --koii-button-bg: #5ed9d1;
+  --koii-button-text: #171753;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ffa54b, #ffa54b);
   --koii-label-two-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
@@ -92,6 +96,8 @@
   --dashboard-icon: white;
   --koii-button-icon: #8989c7;
   --koii-border-color: #ecfffe;
+  --koii-button-bg: #ecfffe;
+  --koii-button-text: #353570;
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ecfffe, #ecfffe);
   --koii-label-two-color: #ffee81;
@@ -116,6 +122,8 @@
   --dashboard-icon: white;
   --koii-button-icon: #8989c7;
   --koii-border-color: #ecfffe;
+  --koii-button-bg: #ffee81;
+  --koii-button-text: #171753;
   --koii-label-one-color: linear-gradient(0deg, #ffa6a6, #ffa6a6);
   --koii-label-two-color: linear-gradient(0deg, #ffee81, #ffee81);
 
