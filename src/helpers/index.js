@@ -93,3 +93,15 @@ export function createThemeApplier(theme) {
       break;
   }
 }
+
+export function getRadioButtonScheme(theme) {
+  if (theme === "Dark") {
+    return "yellow";
+  } else if (theme === "Gradient") {
+    return "teal";
+  } else if (theme === "Gradient-Two") {
+    return "yellow";
+  } else {
+    return "purple";
+  }
+}

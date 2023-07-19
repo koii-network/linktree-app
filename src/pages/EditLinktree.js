@@ -9,7 +9,11 @@ import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 import { Oval } from "react-loader-spinner";
 import { useDropzone } from "react-dropzone";
-import { themeApplier, createThemeApplier } from "../helpers";
+import {
+  themeApplier,
+  createThemeApplier,
+  getRadioButtonScheme,
+} from "../helpers";
 import LinktreeEditForm from "../components/form/edit-form";
 
 document.documentElement.setAttribute("data-theme", "dark");
@@ -26,6 +30,7 @@ const EditLinktree = () => {
   const [imageName, setImageName] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [choosenTheme, setChoosenTheme] = useState("Dark");
+  const [radioColorScheme, setRadioColorScheme] = useState("yellow");
   const [choosenLabelTheme, setChoosenLabelTheme] = useState(
     userData?.choosenLabelTheme || "label-one"
   );
@@ -83,6 +88,8 @@ const EditLinktree = () => {
   function handleThemeSelection(theme) {
     setChoosenTheme(theme);
     createThemeApplier(theme);
+    const colorScheme = getRadioButtonScheme(theme);
+    setRadioColorScheme(colorScheme);
   }
 
   const uploadToIPFS = async (image) => {
@@ -265,6 +272,7 @@ const EditLinktree = () => {
                 files={files}
                 getInputProps={getInputProps}
                 getRootProps={getRootProps}
+                colorScheme={radioColorScheme}
               />
             </Box>
           </Flex>
@@ -282,6 +290,7 @@ const EditLinktree = () => {
             secondaryColor='#ffffff'
             strokeWidth={2}
             strokeWidthSecondary={2}
+            colorScheme={getRadioButtonScheme(userData?.theme)}
           />
         </Box>
       )}

@@ -13,7 +13,7 @@
   --koii-mint: #5ed9d1;
   --koii-white: #171753;
   --koii-mint: #8989c7;
-  --background-image: url("/public/images/Desktop L.svg");
+  --background-image: url("/public/images/welcome_page_bg.svg");
   --background-image-md: url("/public/images/Desktop L (1).svg");
   --background-image-sm: url("/public/images/Phone L.svg");
   --dashboard-icon: black;
@@ -176,7 +176,12 @@
   --koii-create-topic: #5ed9d1;
   --koii-create-text: #ecfffe;
   --koii-border-color: #ffa54b;
-  --koii-input-bg-color: #ffffff80;
+  --koii-radio-color: yellow;
+  --koii-input-bg-color: linear-gradient(
+    0deg,
+    rgba(94, 217, 209, 0.1),
+    rgba(94, 217, 209, 0.1)
+  );
   --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1),
     linear-gradient(0deg, #ffa54b, #ffa54b);
   --koii-label-two-color: linear-gradient(0deg, #ecfffe, #ecfffe);
@@ -207,6 +212,7 @@
   --dashboard-icon: black;
   --koii-border-color: #6b5fa5;
   --koii-input-bg-color: #5ed9d11a;
+  --koii-radio-color: yellow;
   --koii-label-one-color: linear-gradient(0deg, #171753, #171753);
   --koii-label-two-color: linear-gradient(0deg, #bef0ed, #bef0ed);
   --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
@@ -233,11 +239,12 @@
   --koii-button-upload-bg: #6b5fa5;
   --koii-choose-color: #5ed9d1;
   --koii-mint: #5ed9d1;
-  --background-image: url("/public/images/backgrounds/bg_create_gradient.svg");
+  --background-image: url("/public/images/gradient_create_background.svg");
   --background-image-md: var(--background-image);
   --background-image-sm: var(--background-image);
   --dashboard-icon: white;
   --koii-border-color: #ecfffe;
+  --koii-radio-color: yellow;
   --koii-input-bg-color: linear-gradient(
     0deg,
     rgba(255, 255, 255, 0.2),
@@ -273,11 +280,8 @@
   --background-image-sm: var(--background-image);
   --dashboard-icon: white;
   --koii-border-color: #ecfffe;
-  --koii-input-bg-color: linear-gradient(
-    0deg,
-    rgba(255, 166, 166, 0.1),
-    rgba(255, 166, 166, 0.1)
-  );
+  --koii-radio-color: yellow;
+  --koii-input-bg-color: rgba(255, 166, 166, 0.1);
   --koii-label-one-color: linear-gradient(0deg, #ffa6a6, #ffa6a6);
   --koii-label-two-color: linear-gradient(0deg, #ffee81, #ffee81);
   --koii-border-theme-color: #ecfffe;

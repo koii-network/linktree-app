@@ -31,6 +31,7 @@ function LinktreeEditForm({
   files,
   getInputProps,
   getRootProps,
+  colorScheme,
 }) {
   const thumbs = files.map((file) => (
     <div key={file.name}>
@@ -136,7 +137,7 @@ function LinktreeEditForm({
                         <Field
                           name='name'
                           label='Full Name'
-                          color='var(--koii-blue)'
+                          color='var(--koii-create-text)'
                           as={Input}
                           className='input-border'
                           style={{
@@ -235,10 +236,10 @@ function LinktreeEditForm({
               <Field
                 name='linktreeAddress'
                 style={{
-                  color: "black",
-                  background: "white",
                   borderRadius: "20px",
+                  color: "var(--koii-create-text)",
                 }}
+                color='var(--koii-create-text)'
                 type='text'
                 className='input-border input-container'
                 required
@@ -325,7 +326,7 @@ function LinktreeEditForm({
                               Link “Label”
                             </Text>
                             <Field
-                              color='black'
+                              color='var(--koii-create-text)'
                               backgroundColor='white'
                               name={`links.${index}.label`}
                               label='Link Name'
@@ -362,7 +363,7 @@ function LinktreeEditForm({
                               Link “URL”
                             </Text>
                             <Field
-                              color='black'
+                              color='var(--koii-create-text)'
                               backgroundColor='white'
                               className='input-border'
                               name={`links.${index}.redirectUrl`}
@@ -451,7 +452,7 @@ function LinktreeEditForm({
                   onClick={() => push(linksGroup)}
                   padding={6}
                   opacity='1'
-                  backgroundColor={"var(--koii-input-bg-color)"}
+                  background={"var(--koii-input-bg-color)"}
                 >
                   Add Link
                 </Button>
@@ -519,7 +520,7 @@ function LinktreeEditForm({
                   <Stack direction='row'>
                     <Radio
                       value='Mint'
-                      colorScheme='teal'
+                      colorScheme={colorScheme}
                       size='lg'
                       borderColor='var(--koii-border-color)'
                     >
@@ -540,7 +541,7 @@ function LinktreeEditForm({
 
                     <Radio
                       value='Dark'
-                      colorScheme='purple'
+                      colorScheme={colorScheme}
                       size='lg'
                       borderColor='var(--koii-border-color)'
                     >
@@ -561,7 +562,7 @@ function LinktreeEditForm({
 
                     <Radio
                       value='Gradient'
-                      colorScheme='pink'
+                      colorScheme={colorScheme}
                       size='lg'
                       borderColor='var(--koii-border-color)'
                     >
@@ -583,7 +584,7 @@ function LinktreeEditForm({
                     </Radio>
                     <Radio
                       value='Gradient-Two'
-                      colorScheme='teal'
+                      colorScheme={colorScheme}
                       size='lg'
                       borderColor='var(--koii-border-color)'
                     >
@@ -637,14 +638,14 @@ function LinktreeEditForm({
                 <Stack direction='row'>
                   <Radio
                     value='label-one'
-                    colorScheme='teal'
+                    colorScheme={colorScheme}
                     size='lg'
                     borderColor='var(--koii-label-one-border-color)'
                   >
                     <Button
                       backgroundColor='var(--koii-label-one-color)'
                       background='var(--koii-label-one-color)'
-                      color='var(--koii-label-two-text-color)'
+                      color='var(--koii-label-one-text-color)'
                       width={100}
                       borderRadius={30}
                       mr={10}
@@ -657,7 +658,7 @@ function LinktreeEditForm({
 
                   <Radio
                     value='label-two'
-                    colorScheme='purple'
+                    colorScheme={colorScheme}
                     size='lg'
                     borderColor='var(--koii-label-two-border-color)'
                   >
@@ -677,7 +678,7 @@ function LinktreeEditForm({
 
                   <Radio
                     value='label-three'
-                    colorScheme='pink'
+                    colorScheme={colorScheme}
                     size='lg'
                     borderColor='var(--koii-label-three-border-color)'
                   >

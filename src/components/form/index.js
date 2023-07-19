@@ -37,6 +37,7 @@ function LinktreeForm({
   isLoading,
   handleLabelSelection,
   handleThemeSelection,
+  colorScheme,
 }) {
   return (
     <Formik
@@ -536,7 +537,7 @@ function LinktreeForm({
                   <Stack direction='row'>
                     <Radio
                       value='Mint'
-                      colorScheme='teal'
+                      colorScheme={colorScheme}
                       size='lg'
                       borderColor='var(--koii-border-color)'
                     >
@@ -557,7 +558,7 @@ function LinktreeForm({
 
                     <Radio
                       value='Dark'
-                      colorScheme='purple'
+                      colorScheme={colorScheme}
                       size='lg'
                       borderColor='var(--koii-border-color)'
                     >
@@ -578,7 +579,7 @@ function LinktreeForm({
 
                     <Radio
                       value='Gradient'
-                      colorScheme='pink'
+                      colorScheme={colorScheme}
                       size='lg'
                       borderColor='var(--koii-border-color)'
                     >
@@ -601,7 +602,7 @@ function LinktreeForm({
 
                     <Radio
                       value='Gradient-Two'
-                      colorScheme='teal'
+                      colorScheme={colorScheme}
                       size='lg'
                       borderColor='var(--koii-border-color)'
                     >
@@ -655,7 +656,7 @@ function LinktreeForm({
                 <Stack direction='row'>
                   <Radio
                     value='label-one'
-                    colorScheme='teal'
+                    colorScheme={colorScheme}
                     size={{ base: "md", md: "lg" }}
                     borderColor='var(--koii-label-one-border-color)'
                   >
@@ -675,7 +676,7 @@ function LinktreeForm({
 
                   <Radio
                     value='label-two'
-                    colorScheme='purple'
+                    colorScheme={colorScheme}
                     size={{ base: "md", md: "lg" }}
                     borderColor='var(--koii-label-two-border-color)'
                   >
@@ -695,7 +696,7 @@ function LinktreeForm({
 
                   <Radio
                     value='label-three'
-                    colorScheme='pink'
+                    colorScheme={colorScheme}
                     size={{ base: "md", md: "lg" }}
                     borderColor='var(--koii-label-three-border-color)'
                   >

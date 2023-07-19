@@ -10,7 +10,7 @@ import { setLinktree, getLinktreeWithUsername } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 import "../css/ButtonAnimations.css";
-import { createThemeApplier } from "../helpers";
+import { createThemeApplier, getRadioButtonScheme } from "../helpers";
 
 function makeStorageClient() {
   return new Web3Storage({
@@ -25,6 +25,7 @@ const CreateLinktree = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [choosenTheme, setChoosenTheme] = useState("Mint");
   const [choosenLabelTheme, setChoosenLabelTheme] = useState("label-one");
+  const [radioColorScheme, setRadioColorScheme] = useState("yellow");
 
   const [usernameError, setUsernameError] = useState("");
   const [disabled, setDisabled] = useState(true);
@@ -32,6 +33,8 @@ const CreateLinktree = () => {
   function handleThemeSelection(theme) {
     setChoosenTheme(theme);
     createThemeApplier(theme);
+    const colorScheme = getRadioButtonScheme(theme);
+    setRadioColorScheme(colorScheme);
   }
 
   const linksGroup = { label: "", redirectUrl: "", key: "", isFavorite: false };
@@ -76,9 +79,9 @@ const CreateLinktree = () => {
           isClosable: true,
           position: "top",
         });
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
+        // setTimeout(() => {
+        //   navigate("/");
+        // }, 3000);
         return;
       }
     }
@@ -226,6 +229,7 @@ const CreateLinktree = () => {
           isLoading={isLoading}
           handleLabelSelection={handleLabelSelection}
           handleThemeSelection={handleThemeSelection}
+          colorScheme={radioColorScheme}
         />
       </Box>
     </Flex>

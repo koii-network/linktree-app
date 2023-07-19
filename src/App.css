@@ -212,7 +212,7 @@ p {
 
 .input-border {
   border-color: var(--koii-border-color) !important;
-  background: var(--koii-input-bg-color) transparent !important;
+  background: var(--koii-input-bg-color) !important;
   height: 40px;
 }
 
