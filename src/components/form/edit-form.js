@@ -532,7 +532,7 @@ function LinktreeEditForm({
                         borderColor={
                           choosenTheme === "Mint"
                             ? "black"
-                            : "var(--koii-border-color)"
+                            : "var(--koii-border-theme-color)"
                         }
                         backgroundColor='#C7F2EF'
                       ></Box>
@@ -553,7 +553,7 @@ function LinktreeEditForm({
                         borderColor={
                           choosenTheme === "Dark"
                             ? "white"
-                            : "var(--koii-border-color)"
+                            : "var(--koii-border-theme-color)"
                         }
                         backgroundColor='#171753'
                       ></Box>
@@ -576,9 +576,9 @@ function LinktreeEditForm({
                         borderColor={
                           choosenTheme === "Gradient"
                             ? "pink"
-                            : "var(--koii-border-color)"
+                            : "var(--koii-border-theme-color)"
                         }
-                        background='linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)'
+                        background='linear-gradient(180deg, #8989C7 0%, #5ED9D1 100%);'
                       ></Box>
                     </Radio>
                     <Radio
@@ -598,7 +598,7 @@ function LinktreeEditForm({
                         borderColor={
                           choosenTheme === "Gradient-Two"
                             ? "black"
-                            : "var(--koii-border-color)"
+                            : "var(--koii-border-theme-color)"
                         }
                         background='linear-gradient(180deg, #FFEE81 0.01%, #FFA6A6 100%)'
                       ></Box>
@@ -649,7 +649,7 @@ function LinktreeEditForm({
                       borderRadius={30}
                       mr={10}
                       borderWidth='2px'
-                      borderColor='var(--koii-label-one-border-color))'
+                      borderColor='var(--koii-label-one-border-color)'
                     >
                       {values?.links[0]?.label || "Label"}
                     </Button>

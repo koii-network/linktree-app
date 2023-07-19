@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Spinner, IconButton, Tooltip } from "@chakra-ui/react";
-import { DeleteIcon, SettingsIcon } from "@chakra-ui/icons";
+import DeleteSvg from "../icons/delete";
+import SettingsSvg from "../icons/settings";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 import "../../css/ButtonAnimations.css";
 
@@ -34,7 +35,7 @@ function SingleLinktree({
           >
             <Tooltip
               hasArrow
-              label='Delete Your Linktree Profile'
+              label='Delete Profile'
               bg='#ecfffe'
               fontSize='sm'
               color='#171753'
@@ -43,9 +44,10 @@ function SingleLinktree({
                 rounded='full'
                 // alignSelf={{ base: "flex-end", lg: "" }}
                 marginTop='10px'
-                icon={<DeleteIcon />}
-                backgroundColor={"var(--koii-button-icon)"}
-                color={"dashboard-icon"}
+                size='sm'
+                icon={<DeleteSvg />}
+                backgroundColor={"var(--koii-icon-bg-color)"}
+                color={"var(--koii-icon-color)"}
                 onClick={handleDeleteLinktree}
                 boxShadow='0px 2px 4px 0px #00000029'
               />
@@ -60,7 +62,7 @@ function SingleLinktree({
             >
               <Tooltip
                 hasArrow
-                label='Edit Linktree'
+                label='Edit Profile'
                 bg='#ecfffe'
                 fontSize='sm'
                 color='#171753'
@@ -69,9 +71,11 @@ function SingleLinktree({
                   rounded='full'
                   alignSelf={{ base: "flex-end", lg: "" }}
                   marginTop='10px'
-                  icon={<SettingsIcon />}
-                  backgroundColor={"var(--koii-button-icon)"}
-                  color={"dashboard-icon"}
+                  size='sm'
+                  pb='-2px'
+                  icon={<SettingsSvg />}
+                  backgroundColor={"var(--koii-icon-bg-color)"}
+                  color={"var(--koii-icon-color)"}
                   onClick={handleEditLinktree}
                   boxShadow='0px 2px 4px 0px #00000029'
                 />
@@ -208,17 +212,12 @@ function SingleLinktree({
           </Box>
         )}
       </Box>
-      <div
-        className='footer'
-        style={{
-          color: "#171753",
-        }}
-      >
+      <div className='footer footer-color'>
         Linktree by{" "}
         <a
           href='https://www.koii.network/'
           style={{
-            color: "var(--koii-border-color)",
+            color: "var(--koii-footer-two-color)",
           }}
         >
           Koii Network

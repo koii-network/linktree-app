@@ -59,7 +59,7 @@ export function themeApplier(userTheme) {
       document.documentElement.setAttribute("data-theme", "gradient");
       break;
     case "Mint":
-      document.documentElement.setAttribute("data-theme", "mint");
+      document.documentElement.setAttribute("data-theme", "gradient_two");
       break;
     case "Dark":
       document.documentElement.setAttribute("data-theme", "dark");

@@ -87,7 +87,7 @@ const updateLinktree = async (publicKey, linktree) => {
       { $set: { linktreeId, linktree, username } },
       {}, // this argument was missing
       function (err, numReplaced) {
-        console.log('replaced---->' + numReplaced);
+        // console.log('replaced---->' + numReplaced);
 
         db.loadDatabase();
       },
@@ -134,7 +134,7 @@ const setProofs = async (pubkey, proofs) => {
   try {
     const proofsId = getProofsId(pubkey);
     const result = await db.insert({ proofsId, proofs });
-    console.log('Proofs set', result);
+    // console.log('Proofs set', result);
     return console.log('Proofs set');
   } catch (err) {
     return undefined;

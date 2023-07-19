@@ -37,6 +37,12 @@
   --koii-mint: #5ed9d1;
   --koii-white: #171753;
   --koii-mint: #8989c7;
+  --koii-topic-color: #171753;
+  --koii-text-color: #8989c7;
+  --koii-icon-bg-color: #bef0ed;
+  --koii-icon-color: #4d3d8d;
+  --koii-footer-color: #171753;
+  --koii-footer-two-color: #6b5fa5;
   --background-image: url("/public/images/Desktop L.svg");
   --background-image-md: url("/public/images/Desktop L (1).svg");
   --background-image-sm: url("/public/images/Phone L.svg");
@@ -64,6 +70,12 @@
   --koii-white: #ecfffe;
   --koii-button-white: #171753;
   --koii-mint: #5ed9d1;
+  --koii-topic-color: #bef0ed;
+  --koii-text-color: #ffc78f;
+  --koii-icon-bg-color: #ffc78f;
+  --koii-icon-color: #4d3d8d;
+  --koii-footer-color: #bef0ed;
+  --koii-footer-two-color: #ffc78f;
   --background-image: url("/public/images/DesktopD (1).svg");
   --background-image-md: url("/public/images/DesktopD (2).svg");
   --background-image-sm: url("/public/images/Phone D.svg");
@@ -90,9 +102,15 @@
   --koii-white: #ecfffe;
   --koii-button-white: #ecfffe;
   --koii-mint: #5ed9d1;
+  --koii-topic-color: #171753;
+  --koii-text-color: #171753;
+  --koii-icon-bg-color: #8989c7;
+  --koii-icon-color: #171753;
   --background-image: url("/public/images/bg_create_gradient.svg");
   --background-image-md: var(--background-image);
   --background-image-sm: var(--background-image);
+  --koii-footer-color: #171753;
+  --koii-footer-two-color: #ecfffe;
   --dashboard-icon: white;
   --koii-button-icon: #8989c7;
   --koii-border-color: #ecfffe;
@@ -116,9 +134,15 @@
   --koii-white: #ecfffe;
   --koii-button-white: #ecfffe;
   --koii-mint: #5ed9d1;
+  --koii-topic-color: #4d3d8d;
+  --koii-text-color: #353570;
+  --koii-icon-bg-color: #ffa6a6;
+  --koii-icon-color: #353570;
   --background-image: url("/public/images/profile-background-image.svg");
   --background-image-md: var(--background-image);
   --background-image-sm: var(--background-image);
+  --koii-footer-color: #353570;
+  --koii-footer-two-color: #ffee81;
   --dashboard-icon: white;
   --koii-button-icon: #8989c7;
   --koii-border-color: #ecfffe;
@@ -160,7 +184,7 @@
   --koii-label-one-text-color: #171753;
   --koii-label-two-text-color: #171753;
   --koii-label-three-text-color: #171753;
-
+  --koii-border-theme-color: #ffa54b;
   --koii-label-one-border-color: #ffa54b;
   --koii-label-two-border-color: #5ed9d1;
   --koii-label-three-border-color: #ffa54b;
@@ -190,6 +214,7 @@
   --koii-label-one-text-color: #bef0ed;
   --koii-label-two-text-color: #4d3d8d;
   --koii-label-three-text-color: #171753;
+  --koii-border-theme-color: #6b5fa5;
 
   --koii-label-one-border-color: #5ed9d1;
   --koii-label-two-border-color: #8989c7;
@@ -204,17 +229,22 @@
   --koii-blue: #171753;
   --koii-white: #ecfffe;
   --koii-button-white: #ecfffe;
-  --koii-button-upload: #353570;
-  --koii-button-upload-bg: linear-gradient(0deg, #5ed9d1, #5ed9d1),
-    linear-gradient(0deg, #ecfffe, #ecfffe);
+  --koii-button-upload: #ecfffe;
+  --koii-button-upload-bg: #6b5fa5;
+  --koii-choose-color: #5ed9d1;
   --koii-mint: #5ed9d1;
   --background-image: url("/public/images/backgrounds/bg_create_gradient.svg");
   --background-image-md: var(--background-image);
   --background-image-sm: var(--background-image);
   --dashboard-icon: white;
   --koii-border-color: #ecfffe;
-  --koii-input-bg-color: linear-gradient(0deg, #ecfffe, #ecfffe),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
+  --koii-input-bg-color: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.2)
+  );
+  --koii-border-theme-color: #6b5fa5;
+  --koii-label-one-color: linear-gradient(0deg, #5ed9d1, #5ed9d1);
   --koii-label-two-color: #ffee81;
   --koii-label-three-color: linear-gradient(0deg, #8989c7, #8989c7),
     linear-gradient(0deg, #6b5fa5, #6b5fa5);
@@ -250,7 +280,7 @@
   );
   --koii-label-one-color: linear-gradient(0deg, #ffa6a6, #ffa6a6);
   --koii-label-two-color: linear-gradient(0deg, #ffee81, #ffee81);
-
+  --koii-border-theme-color: #ecfffe;
   --koii-label-three-color: linear-gradient(0deg, #9be7c4, #9be7c4),
     linear-gradient(0deg, #ffee81, #ffee81);
 
