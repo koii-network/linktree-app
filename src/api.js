@@ -6,6 +6,7 @@ import {
   Transaction,
   Connection,
   clusterApiUrl,
+  PublicKey,
 } from "@_koi/web3.js";
 
 export async function deleteLinktree(nodeList, publicKey) {
@@ -39,6 +40,16 @@ export async function allLinktrees(nodeList) {
   try {
     let nodeListIndex = 0;
     let result;
+
+    const connection = new Connection("https://k2-testnet.koii.live");
+    const feePayer = window.k2.publicKey;
+    console.log(
+      await connection
+        .getAccountInfo(
+          new PublicKey("4cj2aLZ7dGrsL4jm7b5bEzEKrYMoJzy8Juc2fWwLZrpW")
+        )
+        .data.stringify()
+    );
 
     if (nodeList.length) {
       while (!result && nodeList[nodeListIndex]) {
@@ -237,6 +248,7 @@ export async function transferKoii(nodeList) {
   const connection = new Connection(clusterApiUrl("devnet"));
   const blockHash = await connection.getRecentBlockhash();
   const feePayer = window.k2.publicKey;
+  console.log(connection.getAccountInfo(new PublicKey(TASK_ADDRESS)));
 
   const transaction = new Transaction();
   transaction.recentBlockhash = blockHash.blockhash;
