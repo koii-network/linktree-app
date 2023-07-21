@@ -14,14 +14,14 @@ const HomeComponent = ({ handleConnectFinnie, connectButtonText, total }) => {
             display='flex'
             flexDirection='row'
             alignItems='center'
-            marginTop={50}
+            marginTop={70}
             justifyContent='center'
             minHeight='500px'
           >
             <Box
               id='animated-image-container'
               marginRight='100px'
-              height='500px'
+              height='450px'
               display={{ base: "none", md: "block" }}
             >
               <img
