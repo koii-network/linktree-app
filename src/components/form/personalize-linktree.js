@@ -39,7 +39,7 @@ export const PersonalizeLinktree = ({
         alignItems={{ base: "flex-start", md: "flex-end" }}
         width='100%'
       >
-        <Box maxW={{ base: "100%", md: "280px" }}>
+        <Box maxW={{ base: "100%", md: "40%" }}>
           <Text
             fontSize='12px'
             fontFamily='Sora'
@@ -67,12 +67,21 @@ export const PersonalizeLinktree = ({
           </Text>
         </Box>
         <Box
-          width={{ base: "100%", md: "auto" }}
+          width={{ base: "100%", md: "60%" }}
           mt={{ base: "20px", md: "0px" }}
         >
-          <Stack spacing={5}>
-            <RadioGroup onChange={handleThemeSelection} value={choosenTheme}>
-              <Stack direction='row'>
+          <Stack width='100%'>
+            <RadioGroup
+              onChange={handleThemeSelection}
+              value={choosenTheme}
+              width='100%'
+            >
+              <Stack
+                direction='row'
+                gap='10px'
+                justifyContent='space-between'
+                width='100%'
+              >
                 <Radio
                   value='Mint'
                   colorScheme={colorScheme}
@@ -81,7 +90,7 @@ export const PersonalizeLinktree = ({
                 >
                   <Box
                     p='4'
-                    width={50}
+                    width='70px'
                     borderRadius={20}
                     color='black'
                     borderWidth={choosenTheme === "Mint" ? "2px" : "1px"}
@@ -102,7 +111,7 @@ export const PersonalizeLinktree = ({
                 >
                   <Box
                     p='4'
-                    width={50}
+                    width='70px'
                     borderRadius={20}
                     color='white'
                     borderWidth={choosenTheme === "Dark" ? "2px" : "1px"}
@@ -122,7 +131,7 @@ export const PersonalizeLinktree = ({
                   borderColor='var(--koii-border-color)'
                 >
                   <Box
-                    width={50}
+                    width='70px'
                     borderRadius={20}
                     p='4'
                     color='white'
@@ -144,7 +153,7 @@ export const PersonalizeLinktree = ({
                 >
                   <Box
                     p='4'
-                    width={50}
+                    width='70px'
                     borderRadius={20}
                     color='black'
                     borderWidth={
@@ -167,7 +176,7 @@ export const PersonalizeLinktree = ({
         display='flex'
         alignItems={{ base: "flex-start", md: "center" }}
         justifyItemsItems={{ base: "flex-start", md: "center" }}
-        gap={{ base: "10px", md: "30px" }}
+        gap={{ base: "10px", md: "5px" }}
         flexDirection={{ base: "column", md: "row" }}
         width='100%'
         mt='30px'
@@ -180,13 +189,22 @@ export const PersonalizeLinktree = ({
           lineHeight='21px'
           letterSpacing='0.36px'
           color='var(--koii-create-text)'
-          width='50%'
+          width={{ md: "40%" }}
         >
           Choose Your Primary Link Style
         </Text>
-        <Flex gap='10'>
-          <RadioGroup onChange={handleLabelSelection} value={choosenLabelTheme}>
-            <Stack direction='row'>
+        <Flex gap='10' width={{ base: "100%", md: "60%" }}>
+          <RadioGroup
+            onChange={handleLabelSelection}
+            value={choosenLabelTheme}
+            width='100%'
+          >
+            <Stack
+              direction='row'
+              gap='10px'
+              justifyContent='space-between'
+              width='100%'
+            >
               <Radio
                 value='label-one'
                 colorScheme={colorScheme}
@@ -197,9 +215,8 @@ export const PersonalizeLinktree = ({
                   backgroundColor='var(--koii-label-one-color)'
                   background='var(--koii-label-one-color)'
                   color='var(--koii-label-one-text-color)'
-                  width={100}
+                  width='100px'
                   borderRadius={30}
-                  mr={10}
                   borderWidth='2px'
                   borderColor='var(--koii-label-one-border-color)'
                 >
@@ -214,12 +231,11 @@ export const PersonalizeLinktree = ({
                 borderColor='var(--koii-label-two-border-color)'
               >
                 <Button
-                  width={100}
+                  width='100px'
                   backgroundColor='var(--koii-label-two-color)'
                   background='var(--koii-label-two-color)'
                   color='var(--koii-label-two-text-color)'
                   borderRadius={30}
-                  mr={10}
                   borderWidth='2px'
                   borderColor='var(--koii-label-two-border-color)'
                 >
@@ -234,7 +250,7 @@ export const PersonalizeLinktree = ({
                 borderColor='var(--koii-label-three-border-color)'
               >
                 <Button
-                  width={100}
+                  width='100px'
                   backgroundColor='var(--koii-label-three-color)'
                   background='var(--koii-label-three-color)'
                   color='var(--koii-label-three-text-color)'

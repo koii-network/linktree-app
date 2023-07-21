@@ -144,7 +144,6 @@ export async function getLinktree(publicKey, nodeList) {
 }
 
 export async function setLinktree(data, publicKey, nodeList, username) {
-  console.log("check data", data);
   const messageString = JSON.stringify(data);
   try {
     const koiiTransfer = await transferKoii(nodeList);

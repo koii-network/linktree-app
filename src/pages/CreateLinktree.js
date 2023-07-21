@@ -194,7 +194,7 @@ const CreateLinktree = () => {
           />
           <Text
             my={5}
-            ml={3}
+            ml={2}
             color='var(--koii-create-topic)'
             fontSize={{ base: "24px", md: "32px" }}
             fontFamily='Sora'

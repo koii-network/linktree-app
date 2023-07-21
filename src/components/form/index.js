@@ -84,18 +84,9 @@ function LinktreeForm({
               gap={{ base: "20px", md: "40px" }}
               flexDirection={{ base: "column", md: "row" }}
             >
-              <Box
-                maxWidth={{ base: "auto", md: "20%" }}
-                mx={{ base: "auto", md: "0" }}
-                width='100%'
-              >
+              <Box maxWidth={{ base: "auto", md: "20%" }} width='100%'>
                 {image ? (
-                  <PreviewImage
-                    className={{ margin: "auto" }}
-                    width={100}
-                    height={100}
-                    file={image}
-                  />
+                  <PreviewImage width={100} height={100} file={image} />
                 ) : (
                   <div className='user-image'>
                     <ProfileImageSvg />
@@ -110,8 +101,11 @@ function LinktreeForm({
                 maxW={{ md: "80%" }}
                 width='100%'
               >
-                <Flex flexDirection={"column"} width='100%'>
-                  <Box mb={3}>
+                <Flex
+                  flexDirection={{ base: "column-reverse", md: "column" }}
+                  width='100%'
+                >
+                  <Box mb={{ base: 3 }}>
                     <div
                       style={{
                         display: "flex",
@@ -148,7 +142,7 @@ function LinktreeForm({
                     </Text>
                   </Box>
 
-                  <div>
+                  <Box mb={{ base: 3, md: 0 }}>
                     <div
                       style={{
                         display: "flex",
@@ -194,7 +188,7 @@ function LinktreeForm({
                     <Text className='error'>
                       <ErrorMessage name='image' />
                     </Text>
-                  </div>
+                  </Box>
                 </Flex>
               </Box>
             </Box>

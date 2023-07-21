@@ -11,7 +11,7 @@ export const PreviewImage = ({ file }) => {
   };
 
   return (
-    <Box display='flex' justifyContent='center'>
+    <Box display='flex'>
       <img src={preview} alt='User' className='user-image' />
     </Box>
   );
