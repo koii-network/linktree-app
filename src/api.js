@@ -6,7 +6,6 @@ import {
   Transaction,
   Connection,
   clusterApiUrl,
-  PublicKey,
 } from "@_koi/web3.js";
 
 export async function deleteLinktree(nodeList, publicKey) {
@@ -40,16 +39,6 @@ export async function allLinktrees(nodeList) {
   try {
     let nodeListIndex = 0;
     let result;
-
-    const connection = new Connection("https://k2-testnet.koii.live");
-    const feePayer = window.k2.publicKey;
-    console.log(
-      await connection
-        .getAccountInfo(
-          new PublicKey("4cj2aLZ7dGrsL4jm7b5bEzEKrYMoJzy8Juc2fWwLZrpW")
-        )
-        .data.stringify()
-    );
 
     if (nodeList.length) {
       while (!result && nodeList[nodeListIndex]) {
@@ -155,6 +144,7 @@ export async function getLinktree(publicKey, nodeList) {
 }
 
 export async function setLinktree(data, publicKey, nodeList, username) {
+  console.log("check data", data);
   const messageString = JSON.stringify(data);
   try {
     const koiiTransfer = await transferKoii(nodeList);
@@ -202,15 +192,13 @@ export async function updateLinktree(data, publicKey, nodeList, username) {
 
     while (!result && nodeList[nodeListIndex]) {
       result = await axios
-        .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
+        .put(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
           payload,
         })
         .then((res) => res.data)
         .catch((error) => console.log(`Error updating linktree:`, error));
       nodeListIndex++;
     }
-
-    await deleteLinktree(nodeList, publicKey);
 
     if (result?.message) {
       return result;
@@ -248,7 +236,6 @@ export async function transferKoii(nodeList) {
   const connection = new Connection(clusterApiUrl("devnet"));
   const blockHash = await connection.getRecentBlockhash();
   const feePayer = window.k2.publicKey;
-  console.log(connection.getAccountInfo(new PublicKey(TASK_ADDRESS)));
 
   const transaction = new Transaction();
   transaction.recentBlockhash = blockHash.blockhash;

@@ -182,7 +182,6 @@ function LinktreeEditForm({
                             >
                               <input
                                 type='file'
-                                required
                                 {...getInputProps()}
                                 style={{
                                   display: "none",

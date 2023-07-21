@@ -322,7 +322,7 @@ function LinktreeForm({
                       <Flex
                         width='100%'
                         flexDirection={{ base: "column", md: "row" }}
-                        key={index}
+                        key={index + 1}
                         mt={2}
                         alignItems={{ base: "end", md: "center" }}
                       >

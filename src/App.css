@@ -110,7 +110,8 @@ p {
   display: block;
   text-align: center;
   padding: 0.8rem;
-  outline: 2px solid var(--koii-white);
+  border-width: 1px;
+  border-style: solid;
   border-radius: 50px;
   width: 300px;
   color: #171753;
