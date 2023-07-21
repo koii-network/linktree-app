@@ -38,6 +38,7 @@ export const PersonalizeLinktree = ({
         flexDirection={{ base: "column", md: "row" }}
         alignItems={{ base: "flex-start", md: "flex-end" }}
         width='100%'
+        gap={{ base: "10px", md: "5px" }}
       >
         <Box maxW={{ base: "100%", md: "40%" }}>
           <Text
@@ -94,11 +95,7 @@ export const PersonalizeLinktree = ({
                     borderRadius={20}
                     color='black'
                     borderWidth={choosenTheme === "Mint" ? "2px" : "1px"}
-                    borderColor={
-                      choosenTheme === "Mint"
-                        ? "black"
-                        : "var(--koii-border-color)"
-                    }
+                    borderColor={"var(--koii-border-color)"}
                     backgroundColor='#C7F2EF'
                   ></Box>
                 </Radio>
@@ -115,11 +112,7 @@ export const PersonalizeLinktree = ({
                     borderRadius={20}
                     color='white'
                     borderWidth={choosenTheme === "Dark" ? "2px" : "1px"}
-                    borderColor={
-                      choosenTheme === "Dark"
-                        ? "white"
-                        : "var(--koii-border-color)"
-                    }
+                    borderColor={"var(--koii-border-color)"}
                     backgroundColor='#171753'
                   ></Box>
                 </Radio>
@@ -136,12 +129,8 @@ export const PersonalizeLinktree = ({
                     p='4'
                     color='white'
                     borderWidth={choosenTheme === "Gradient" ? "2px" : "1px"}
-                    borderColor={
-                      choosenTheme === "Gradient"
-                        ? "pink"
-                        : "var(--koii-border-color)"
-                    }
-                    background='linear-gradient(90deg, rgba(212,141,160,1) 0%, rgba(155,38,142,0.46406687675070024) 100%, rgba(046,161,165,1) 100%)'
+                    borderColor={"var(--koii-border-color)"}
+                    background='linear-gradient(180deg, #8989C7 0%, #5ED9D1 100%)'
                   ></Box>
                 </Radio>
 
@@ -159,11 +148,7 @@ export const PersonalizeLinktree = ({
                     borderWidth={
                       choosenTheme === "Gradient-Two" ? "2px" : "1px"
                     }
-                    borderColor={
-                      choosenTheme === "Gradient-Two"
-                        ? "black"
-                        : "var(--koii-border-color)"
-                    }
+                    borderColor={"var(--koii-border-color)"}
                     background='linear-gradient(180deg, #FFEE81 0.01%, #FFA6A6 100%)'
                   ></Box>
                 </Radio>

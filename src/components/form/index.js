@@ -238,6 +238,7 @@ function LinktreeForm({
                       className='input-border input-container'
                       required
                       name='linktreeAddress'
+                      borderWidth='1.5px'
                       onChange={async (e) => {
                         // handleChangeUserName(e);
                         setFieldValue("linktreeAddress", e.target.value);
@@ -334,8 +335,12 @@ function LinktreeForm({
                               Link “Label”
                             </Text>
                             <Field
-                              color='black'
-                              backgroundColor='white'
+                              color='var(--koii-create-text)'
+                              background='var(--koii-input-bg-color)'
+                              style={{
+                                borderRadius: "20px",
+                                color: "var(--koii-create-text)",
+                              }}
                               name={`links.${index}.label`}
                               label='Link Name'
                               as={Input}
@@ -371,8 +376,12 @@ function LinktreeForm({
                               Link “URL”
                             </Text>
                             <Field
-                              color='black'
-                              backgroundColor='white'
+                              color='var(--koii-create-text)'
+                              background='var(--koii-input-bg-color)'
+                              style={{
+                                borderRadius: "20px",
+                                color: "var(--koii-create-text)",
+                              }}
                               className='input-border'
                               name={`links.${index}.redirectUrl`}
                               label='Link URL'

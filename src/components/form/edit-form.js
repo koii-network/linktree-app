@@ -242,6 +242,7 @@ function LinktreeEditForm({
                 color='var(--koii-create-text)'
                 type='text'
                 className='input-border input-container'
+                borderWidth='1.5px'
                 required
                 value={userData?.linktreeAddress}
               />

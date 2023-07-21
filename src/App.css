@@ -217,6 +217,14 @@ p {
   height: 40px;
 }
 
+/* .input-border:-webkit-autofill,
+.input-border:-webkit-autofill:hover,
+.input-border:-webkit-autofill:focus,
+.input-border:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--koii-border-color) !important;
+  -webkit-back: 0 0 0 0px var(--koii-input-bg-color) inset !important;
+} */
+
 .custom-file-upload {
   background: var(--koii-button-upload-bg);
   padding: 12px 20px;

@@ -186,15 +186,8 @@ const CreateLinktree = () => {
         className='createLinktree'
       >
         <Flex>
-          <Image
-            src={koiiDecor}
-            alt='Koii Chat Fish'
-            maxW='60px' // Set the maximum width to control the size
-            h='auto' // Allow the height to adjust automatically
-          />
           <Text
             my={5}
-            ml={2}
             color='var(--koii-create-topic)'
             fontSize={{ base: "24px", md: "32px" }}
             fontFamily='Sora'
