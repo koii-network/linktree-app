@@ -59,7 +59,7 @@ export function themeApplier(userTheme) {
       document.documentElement.setAttribute("data-theme", "gradient");
       break;
     case "Mint":
-      document.documentElement.setAttribute("data-theme", "mint");
+      document.documentElement.setAttribute("data-theme", "gradient_two");
       break;
     case "Dark":
       document.documentElement.setAttribute("data-theme", "dark");
@@ -69,5 +69,39 @@ export function themeApplier(userTheme) {
       break;
     default:
       break;
+  }
+}
+
+export function createThemeApplier(theme) {
+  switch (theme) {
+    case "Dark":
+      document.documentElement.setAttribute("data-theme", "dark_create");
+      break;
+    case "Mint":
+      document.documentElement.setAttribute("data-theme", "light_create");
+      break;
+    case "Gradient":
+      document.documentElement.setAttribute("data-theme", "gradient_create");
+      break;
+    case "Gradient-Two":
+      document.documentElement.setAttribute(
+        "data-theme",
+        "gradient_two_create"
+      );
+      break;
+    default:
+      break;
+  }
+}
+
+export function getRadioButtonScheme(theme) {
+  if (theme === "Dark") {
+    return "yellow";
+  } else if (theme === "Gradient") {
+    return "teal";
+  } else if (theme === "Gradient-Two") {
+    return "yellow";
+  } else {
+    return "purple";
   }
 }

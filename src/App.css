@@ -12,28 +12,30 @@ p {
 }
 
 .user-image {
-  width: 130px;
-  height: 130px;
+  width: 126px;
+  height: 126px;
   object-fit: cover;
   border-radius: 50%;
-  border: 5px solid var(--koii-border-color);
-  margin: -8px;
+  border: 1.5px solid var(--koii-border-color);
+  background: var(--koii-profile-bg-color);
+  color: var(--koii-profile-color);
+  padding: 0;
 }
 
 .user-name {
   font-weight: 500;
   margin-top: 1rem;
   font-size: 32px;
-  color: var(--koii-white);
+  color: var(--koii-topic-color);
 }
 
 .user-desc {
-  margin-top: 0.7rem;
+  margin-top: 10px;
   font-weight: 300;
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-  color: var(--koii-white);
+  color: var(--koii-text-color);
   max-width: 700px;
   width: 100%;
 }
@@ -81,23 +83,36 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.connect-container {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  height: 100%;
 }
 
 .links {
-  margin-top: 2rem;
+  margin-top: 22px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-items: center;
 }
+.footer-color {
+  color: var(--koii-footer-color);
+}
 
 .link {
   display: block;
   text-align: center;
   padding: 0.8rem;
-  outline: 2px solid var(--koii-white);
-  border-radius: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 50px;
   width: 300px;
   color: #171753;
   background-color: var(--koii-mint);
@@ -125,10 +140,9 @@ p {
 .footer {
   color: var(--koii-white);
   font-size: 14px;
-  margin-top: 4rem;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
   text-align: center;
-  font-weight: bold;
 }
 
 .by-koii {
@@ -140,7 +154,8 @@ p {
 }
 
 .public-key-input-container {
-  padding-top: 5rem;
+  padding-top: 1rem;
+  height: 90vh;
 }
 
 .input-container {
@@ -198,8 +213,17 @@ p {
 
 .input-border {
   border-color: var(--koii-border-color) !important;
-  background: var(--koii-input-bg-color) transparent !important;
+  background: var(--koii-input-bg-color) !important;
   height: 40px;
+}
+
+.input-border:-webkit-autofill,
+.input-border:-webkit-autofill:hover,
+.input-border:-webkit-autofill:focus,
+.input-border:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--koii-create-text) !important;
+  transition: all 5000s ease-in-out 0s;
+  transition-property: var(--koii-input-bg-color), color;
 }
 
 .custom-file-upload {

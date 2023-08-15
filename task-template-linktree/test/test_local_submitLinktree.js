@@ -15,7 +15,7 @@ async function main() {
     // const {publicKey, secretKey} = nacl.sign.keyPair.fromSecretKey(
     //   new Uint8Array(JSON.parse(fs.readFileSync("./test_wallet.json", 'utf-8')))
     // );
-    console.log('publicKey', bs58.encode(publicKey));
+    // console.log('publicKey', bs58.encode(publicKey));
     const data = {
       uuid: uuidv4(),
       linktree: {

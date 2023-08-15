@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
+import { Oval } from "react-loader-spinner";
 import { useWalletContext } from "../contexts";
 import { useK2Finnie } from "../hooks";
 import { DOWNLOAD_FINNIE_URL } from "../config";
@@ -9,16 +10,16 @@ import { animatedSection } from "../helpers/animations";
 import HomeComponent from "../components/home";
 
 const HomePage = () => {
-  //Force dark theme by default
-  document.documentElement.setAttribute("data-theme", "light");
   const navigate = useNavigate();
   const toast = useToast();
   const { setPublicKey, nodeList, setIsFinnieDetected, isFinnieDetected } =
     useWalletContext();
   const { connect } = useK2Finnie({ setIsFinnieDetected });
   const [total, setTotal] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [isMobile, setIsMobile] = useState(false);
+  //Force light theme by default
+  document.documentElement.setAttribute("data-theme", "light");
 
   useEffect(() => {
     animatedSection();
@@ -31,24 +32,8 @@ const HomePage = () => {
       });
   }, [nodeList]);
 
-  useEffect(() => {
-    function handleResize() {
-      if (document.documentElement.clientWidth < 700) {
-        setIsMobile(false);
-      } else {
-        setIsMobile(false);
-      }
-    }
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   const handleConnectFinnie = async () => {
+    setIsLoading(true);
     if (isFinnieDetected) {
       const pubKey = await connect();
       try {
@@ -94,6 +79,7 @@ const HomePage = () => {
         });
       }
     }
+    setIsLoading(false);
   };
 
   const linkToGetFinnie = (
@@ -102,13 +88,29 @@ const HomePage = () => {
     </a>
   );
 
-  const connectButtonText = isFinnieDetected
-    ? "Connect Finnie"
-    : linkToGetFinnie;
+  const connectButtonText = isFinnieDetected ? (
+    isLoading ? (
+      <Oval
+        height={16}
+        width={16}
+        color='#6B5FA5'
+        wrapperStyle={{}}
+        wrapperClass=''
+        visible={true}
+        ariaLabel='oval-loading'
+        secondaryColor='#6B5FA5'
+        strokeWidth={2}
+        strokeWidthSecondary={2}
+      />
+    ) : (
+      "Connect Finnie"
+    )
+  ) : (
+    linkToGetFinnie
+  );
 
   return (
     <HomeComponent
-      isMobile={isMobile}
       handleConnectFinnie={handleConnectFinnie}
       connectButtonText={connectButtonText}
       total={total}

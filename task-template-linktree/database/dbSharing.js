@@ -16,7 +16,7 @@ const bs58 = require('bs58');
  */
 const share = async () => {
   try {
-    console.log('start dbSharing');
+    // console.log('start dbSharing');
 
     // find another node
     const nodesUrl = `${SERVICE_URL}/nodes/${TASK_ID}`;
@@ -37,7 +37,7 @@ const share = async () => {
       return e.data.url;
     });
 
-    console.log('node List: ', nodeUrlList);
+    // console.log('node List: ', nodeUrlList);
 
     // fetch local linktrees
     let allLinktrees = await db.getAllLinktrees();
@@ -45,7 +45,7 @@ const share = async () => {
 
     // for each node, get all linktrees
     for (let url of nodeUrlList) {
-      console.log(url);
+      // console.log(url);
       const res = await axios.get(`${url}/task/${TASK_ID}/linktree/list`);
       if (res.status != 200) {
         console.error('ERROR', res.status);
@@ -77,11 +77,15 @@ const share = async () => {
           if (localExistingLinktree) {
             if (localExistingLinktree.data.timestamp < value.data.timestamp) {
               console.log('Updating linktree data');
-              await db.setLinktree(value.publicKey, value.data);
+              let proofs = {
+                publicKey: value.publicKey,
+                signature: value.signature,
+              };
+              await db.setLinktree(value.publicKey, value);
+              await db.setProofs(value.publicKey, proofs);
             }
           } else {
-            console.log('Updating linktree data');
-            await db.setLinktree(value.publicKey, value.data);
+            console.log('Linktree data already updated');
           }
         } catch (e) {
           console.error('ERROR', e);
