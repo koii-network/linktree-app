@@ -1,4 +1,7 @@
-const { namespaceWrapper, taskNodeAdministered } = require('../environment/namespaceWrapper');
+const {
+  namespaceWrapper,
+  taskNodeAdministered,
+} = require('../environment/namespaceWrapper');
 const dotenv = require('dotenv');
 dotenv.config();
 const createFile = require('../helpers/createFile.js');
@@ -29,8 +32,8 @@ const main = async () => {
   if (taskNodeAdministered) {
     keypair = await namespaceWrapper.getSubmitterAccount();
   } else {
-  // TEST For local testing, hardcode the keypair
-  keypair = Keypair.generate();
+    // TEST For local testing, hardcode the keypair
+    keypair = Keypair.generate();
   }
 
   // Get linktree list fron localdb
@@ -59,7 +62,7 @@ const main = async () => {
 
   await createFile(path, submission_value);
 
-  if (storageClient) {
+  if (storageClient && fs.existsSync('./Linktree/proofs.json')) {
     const file = await getFilesFromPath(path);
     const proof_cid = await storageClient.put(file);
     console.log('User Linktrees proof uploaded to IPFS: ', proof_cid);
