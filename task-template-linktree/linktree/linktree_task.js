@@ -1,10 +1,10 @@
-const { namespaceWrapper, taskNodeAdministered } = require('../environment/namespaceWrapper');
+const {
+  namespaceWrapper,
+  taskNodeAdministered,
+} = require('../environment/namespaceWrapper');
 const dotenv = require('dotenv');
 dotenv.config();
-const createFile = require('../helpers/createFile.js');
-const deleteFile = require('../helpers/deleteFile');
-const fs = require('fs');
-const { Web3Storage, getFilesFromPath } = require('web3.storage');
+const { Web3Storage } = require('web3.storage');
 const storageClient = new Web3Storage({
   token: process.env.SECRET_WEB3_STORAGE_KEY,
 });
@@ -29,8 +29,8 @@ const main = async () => {
   if (taskNodeAdministered) {
     keypair = await namespaceWrapper.getSubmitterAccount();
   } else {
-  // TEST For local testing, hardcode the keypair
-  keypair = Keypair.generate();
+    // TEST For local testing, hardcode the keypair
+    keypair = Keypair.generate();
   }
 
   // Get linktree list fron localdb
@@ -51,25 +51,21 @@ const main = async () => {
   };
 
   // upload the proofs of the linktree on web3.storage
-  const path = `./Linktree/proofs.json`;
+  try {
+    const filename = `proofs.json`;
 
-  if (!fs.existsSync('./Linktree')) fs.mkdirSync('./Linktree');
-
-  console.log('PATH', path);
-
-  await createFile(path, submission_value);
-
-  if (storageClient) {
-    const file = await getFilesFromPath(path);
-    const proof_cid = await storageClient.put(file);
+    // Uploading the image to IPFS
+    const gameSalesJson = JSON.stringify(submission_value);
+    const file = new File([gameSalesJson], filename, {
+      type: 'application/json',
+    });
+    const proof_cid = await storageClient.put([file]);
     console.log('User Linktrees proof uploaded to IPFS: ', proof_cid);
 
-    // deleting the file from fs once it is uploaded to IPFS
-    await deleteFile(path);
-
     return proof_cid;
-  } else {
-    console.log('NODE DO NOT HAVE ACCESS TO WEB3.STORAGE');
+  } catch (err) {
+    console.log('Error submission_value', err);
+    return null;
   }
 };
 
