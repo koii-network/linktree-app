@@ -106,7 +106,7 @@ class CoreLogic {
   async submitTask(roundNumber) {
     // console.log('submitTask called with round', roundNumber);
     try {
-      console.log('inside try');
+      // console.log('inside try');
       // console.log(
       //   await namespaceWrapper.getSlot(),
       //   'current slot while calling submit',
