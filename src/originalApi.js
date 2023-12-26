@@ -43,9 +43,7 @@ export async function allLinktrees(nodeList) {
     if (nodeList.length) {
       while (!result && nodeList[nodeListIndex]) {
         result = await axios
-          .get(
-            `https://tasknet.koii.live/task/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/linktree/list`
-          )
+          .get(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/list`)
           .then((res) => res.data)
           .catch((error) => console.log(`Error fetching all linktree:`, error));
         nodeListIndex++;
@@ -75,7 +73,7 @@ export async function getLinktreeWithUsername(username, nodeList) {
     ) {
       const data = await axios
         .get(
-          `https://tasknet.koii.live/task/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/linktree/get/username/${username}`
+          `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/username/${username}`
         )
         .then((res) => res.data)
         .catch((error) =>
@@ -120,7 +118,7 @@ export async function getLinktree(publicKey, nodeList) {
     ) {
       const data = await axios
         .get(
-          `https://tasknet.koii.live/task/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/linktree/get/${publicKey}`
+          `${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree/get/${publicKey}`
         )
         .then((res) => res.data)
         .catch((error) => console.log(`Error fetching linktree data:`, error));
@@ -162,12 +160,9 @@ export async function setLinktree(data, publicKey, nodeList, username) {
     while (!result && nodeList[nodeListIndex]) {
       console.log("check one", !result && nodeList[nodeListIndex]);
       result = await axios
-        .post(
-          `https://tasknet.koii.live/task/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/linktree`,
-          {
-            payload,
-          }
-        )
+        .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
+          payload,
+        })
         .then((res) => res.data)
         .catch((error) => console.log(`Error setting linktree:`, error));
       nodeListIndex++;
@@ -196,12 +191,9 @@ export async function updateLinktree(data, publicKey, nodeList, username) {
 
     while (!result && nodeList[nodeListIndex]) {
       result = await axios
-        .put(
-          `https://tasknet.koii.live/task/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/linktree`,
-          {
-            payload,
-          }
-        )
+        .put(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/linktree`, {
+          payload,
+        })
         .then((res) => res.data)
         .catch((error) => console.log(`Error updating linktree:`, error));
       nodeListIndex++;
@@ -271,12 +263,9 @@ export async function transferKoii(nodeList) {
     let result;
     while (!result) {
       result = await axios
-        .post(
-          `https://tasknet.koii.live/task/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/authlist`,
-          {
-            authdata,
-          }
-        )
+        .post(`${nodeList[nodeListIndex]}/task/${TASK_ADDRESS}/authlist`, {
+          authdata,
+        })
         .then((res) => res.data === window.k2.publicKey.toString())
         .catch((error) =>
           console.log(

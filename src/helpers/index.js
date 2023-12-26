@@ -32,8 +32,7 @@ export const getNodeList = async () => {
   let nodeList = [];
   const fallbackNodes = [
     `https://tasknet.koii.live/task/${TASK_ADDRESS}`,
-    `https://tasknet-ports-2.koii.live/task/${TASK_ADDRESS}`,
-    `https://tasknet-ports-2.koii.live/task/${TASK_ADDRESS}`,
+    `https://tasknet-2.koii.live/task/${TASK_ADDRESS}`,
   ];
 
   try {
