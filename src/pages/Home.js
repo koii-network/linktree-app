@@ -8,6 +8,7 @@ import { DOWNLOAD_FINNIE_URL } from "../config";
 import { allLinktrees, getLinktree } from "../api";
 import { animatedSection } from "../helpers/animations";
 import HomeComponent from "../components/home";
+import Login from "../magic/Login";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -83,8 +84,8 @@ const HomePage = () => {
   };
 
   const linkToGetFinnie = (
-    <a rel='noreferrer' target='_blank' href={DOWNLOAD_FINNIE_URL}>
-      Get Finnie
+    <a rel="noreferrer" target="_blank" href={DOWNLOAD_FINNIE_URL}>
+      Connect via Magic
     </a>
   );
 
@@ -93,12 +94,12 @@ const HomePage = () => {
       <Oval
         height={16}
         width={16}
-        color='#6B5FA5'
+        color="#6B5FA5"
         wrapperStyle={{}}
-        wrapperClass=''
+        wrapperClass=""
         visible={true}
-        ariaLabel='oval-loading'
-        secondaryColor='#6B5FA5'
+        ariaLabel="oval-loading"
+        secondaryColor="#6B5FA5"
         strokeWidth={2}
         strokeWidthSecondary={2}
       />
@@ -108,6 +109,8 @@ const HomePage = () => {
   ) : (
     linkToGetFinnie
   );
+
+  <Login />;
 
   return (
     <HomeComponent
