@@ -12,6 +12,7 @@ import { useWalletContext } from "../contexts";
 import "../css/ButtonAnimations.css";
 import { createThemeApplier, getRadioButtonScheme } from "../helpers";
 import TransferTokens from "../components/modals/magic/TransferTokens";
+import MasterMagic from "../components/modals/magic/MasterMagic";
 
 function makeStorageClient() {
   return new Web3Storage({
@@ -288,7 +289,7 @@ const CreateLinktree = () => {
               handleThemeSelection={handleThemeSelection}
               colorScheme={radioColorScheme}
             />
-            <TransferTokens />
+            <MasterMagic />
           </>
         ) : (
           <>
@@ -309,7 +310,6 @@ const CreateLinktree = () => {
               handleThemeSelection={handleThemeSelection}
               colorScheme={radioColorScheme}
             />
-            <TransferTokens />
           </>
         )}
       </Box>
