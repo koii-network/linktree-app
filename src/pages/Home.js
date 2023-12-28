@@ -8,13 +8,19 @@ import { DOWNLOAD_FINNIE_URL } from "../config";
 import { allLinktrees, getLinktree } from "../api";
 import { animatedSection } from "../helpers/animations";
 import HomeComponent from "../components/home";
-import Login from "../magic/Login";
+import magic from "../components/modals/magic/magic";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { setPublicKey, nodeList, setIsFinnieDetected, isFinnieDetected } =
-    useWalletContext();
+  const {
+    setPublicKey,
+    magicData,
+    nodeList,
+    setIsFinnieDetected,
+    isFinnieDetected,
+    publicKey,
+  } = useWalletContext();
   const { connect } = useK2Finnie({ setIsFinnieDetected });
   const [total, setTotal] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +38,10 @@ const HomePage = () => {
         console.log(error);
       });
   }, [nodeList]);
+
+  useEffect(() => {
+    handleConnectMagic();
+  }, [magicData]);
 
   const handleConnectFinnie = async () => {
     setIsLoading(true);
@@ -83,9 +93,26 @@ const HomePage = () => {
     setIsLoading(false);
   };
 
+  const handleConnectMagic = async () => {
+    if (magicData != false) {
+      setIsLoading(true);
+      const linktree = await getLinktree(publicKey, nodeList);
+
+      const username =
+        linktree?.data?.data?.linktree?.linktreeAddress ||
+        linktree?.data?.linktree?.linktreeAddress;
+
+      setTimeout(() => {
+        navigate("/createlinktree");
+      }, 4000);
+
+      setIsLoading(false);
+    }
+  };
+
   const linkToGetFinnie = (
     <a rel="noreferrer" target="_blank" href={DOWNLOAD_FINNIE_URL}>
-      Connect via Magic
+      Connect via Finnie
     </a>
   );
 
@@ -109,8 +136,6 @@ const HomePage = () => {
   ) : (
     linkToGetFinnie
   );
-
-  <Login />;
 
   return (
     <HomeComponent

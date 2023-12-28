@@ -10,6 +10,9 @@ export const WalletContextProvider = ({ children }) => {
   const [nodeList, setNodeList] = useState([]);
   const [isFinnieDetected, setIsFinnieDetected] = useState(false);
   const [userData, setUserData] = useState(false);
+  const [magicData, setMagicData] = useState(false);
+  const [magicConnection, setMagicConnection] = useState(false);
+
   useEffect(() => {
     async function getRandomeNode() {
       try {
@@ -43,6 +46,10 @@ export const WalletContextProvider = ({ children }) => {
         setIsFinnieDetected,
         userData,
         setUserData,
+        magicData,
+        setMagicData,
+        magicConnection,
+        setMagicConnection,
       }}
     >
       {children}

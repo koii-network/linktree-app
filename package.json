@@ -8,6 +8,7 @@
     "@chakra-ui/react": "^2.6.1",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@magic-ext/solana": "^18.3.0",
     "@rainbow-me/rainbowkit": "^0.12.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

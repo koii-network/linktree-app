@@ -181,6 +181,42 @@ export async function setLinktree(data, publicKey, nodeList, username) {
   }
 }
 
+export async function setLinktreeMagic(data, publicKey, nodeList, username) {
+  const messageString = JSON.stringify(data);
+  try {
+    const koiiTransfer = await transferKoii(nodeList);
+    const signatureRaw = await window.k2.signMessage(messageString);
+    const payload = {
+      data,
+      publicKey: publicKey,
+      signature: bs58.encode(signatureRaw.signature),
+      username,
+    };
+    let nodeListIndex = 0;
+    let result;
+
+    while (!result && nodeList[nodeListIndex]) {
+      console.log("check one", !result && nodeList[nodeListIndex]);
+      result = await axios
+        .post(
+          `https://tasknet.koii.live/task/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/linktree`,
+          {
+            payload,
+          }
+        )
+        .then((res) => res.data)
+        .catch((error) => console.log(`Error setting linktree:`, error));
+      nodeListIndex++;
+    }
+
+    if (result?.message) {
+      return result;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function updateLinktree(data, publicKey, nodeList, username) {
   const messageString = JSON.stringify(data);
   try {

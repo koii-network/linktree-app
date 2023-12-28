@@ -10,6 +10,8 @@ import CreateLinktree from "./pages/CreateLinktree";
 import { ChakraProvider } from "@chakra-ui/react";
 import Dashboard from "./pages/Dashboard";
 import EditLinktree from "./pages/EditLinktree";
+import { Buffer } from "buffer";
+window.Buffer = Buffer;
 
 const router = createBrowserRouter([
   {

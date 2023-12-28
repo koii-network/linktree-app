@@ -6,28 +6,28 @@ import GetFinnieModal from "../modals";
 
 const HomeComponent = ({ handleConnectFinnie, connectButtonText, total }) => {
   return (
-    <div className='Home'>
-      <div className='psuedoBackground'></div>
-      <div className='container public-key-input-container connect-container'>
-        <div className='auth-user'>
+    <div className="Home">
+      <div className="psuedoBackground"></div>
+      <div className="container public-key-input-container connect-container">
+        <div className="auth-user">
           <Box
-            display='flex'
-            flexDirection='row'
-            alignItems='center'
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
             marginTop={70}
-            justifyContent='center'
-            minHeight='500px'
+            justifyContent="center"
+            minHeight="500px"
           >
             <Box
-              id='animated-image-container'
-              marginRight='100px'
-              height='450px'
+              id="animated-image-container"
+              marginRight="100px"
+              height="450px"
               display={{ base: "none", md: "block" }}
             >
               <img
-                id='animated-image-frame'
-                src='/images/o1_al.png'
-                alt='frame'
+                id="animated-image-frame"
+                src="/images/o1_al.png"
+                alt="frame"
                 style={{
                   width: "100%",
                   height: "100%",
@@ -45,33 +45,33 @@ const HomeComponent = ({ handleConnectFinnie, connectButtonText, total }) => {
             >
               <Image
                 src={koiiChatFish}
-                alt='Koii Chat Fish'
-                maxW='60px' // Set the maximum width to control the size
-                h='auto' // Allow the height to adjust automatically
+                alt="Koii Chat Fish"
+                maxW="60px" // Set the maximum width to control the size
+                h="auto" // Allow the height to adjust automatically
               />
               <Text
                 fontSize={{ base: "26px", md: "52px" }}
-                textAlign='center'
-                maxWidth='600px'
-                fontFamily='Sora, sans-serif'
-                fontWeight='600'
-                color='#8989C7'
+                textAlign="center"
+                maxWidth="600px"
+                fontFamily="Sora, sans-serif"
+                fontWeight="600"
+                color="#8989C7"
               >
                 Welcome to
               </Text>
               <Text
                 fontSize={{ base: "30px", md: "64px" }}
-                textAlign='center'
-                maxWidth='600px'
-                fontFamily='Sora, sans-serif'
-                fontWeight='500'
-                color='#171753'
+                textAlign="center"
+                maxWidth="600px"
+                fontFamily="Sora, sans-serif"
+                fontWeight="500"
+                color="#171753"
                 marginTop={"-20px"}
               >
                 <a
-                  href='https://www.koii.network/'
-                  target='_blank'
-                  rel='noopener noreferrer'
+                  href="https://www.koii.network/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Koii
                 </a>{" "}
@@ -79,28 +79,28 @@ const HomeComponent = ({ handleConnectFinnie, connectButtonText, total }) => {
               </Text>
 
               <Text
-                marginBottom='20px'
+                marginBottom="20px"
                 fontSize={{ base: "13px", md: "22px" }}
-                textAlign='center'
+                textAlign="center"
                 maxWidth={{ base: "auto", md: "600px" }}
-                width='100%'
-                fontFamily='Sora, sans-serif'
-                fontWeight='500'
-                className='typewriterText'
+                width="100%"
+                fontFamily="Sora, sans-serif"
+                fontWeight="500"
+                className="typewriterText"
               >
                 The first community powered linktree
               </Text>
 
               <Button
                 onClick={handleConnectFinnie}
-                fontFamily='Sora, sans-serif'
-                maxWidth='225px'
-                w='100%'
+                fontFamily="Sora, sans-serif"
+                maxWidth="225px"
+                w="100%"
                 backgroundColor={"#8989C7"}
                 color={"white"}
                 borderRadius={20}
-                border='1.5px solid #8989C7'
-                boxShadow='0px 4px 4px 0px #17175380'
+                border="1.5px solid #8989C7"
+                boxShadow="0px 4px 4px 0px #17175380"
               >
                 {connectButtonText}
               </Button>
@@ -111,10 +111,10 @@ const HomeComponent = ({ handleConnectFinnie, connectButtonText, total }) => {
       </div>
 
       {total !== null && total !== 0 && total && (
-        <div className='footer'>
-          <Text color='#171753'>
+        <div className="footer">
+          <Text color="#171753">
             Total{" "}
-            <a className='by-koii' href='https://www.koii.network/'>
+            <a className="by-koii" href="https://www.koii.network/">
               Koii Linktrees
             </a>{" "}
             created: {total}{" "}

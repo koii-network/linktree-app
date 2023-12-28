@@ -6,11 +6,12 @@ import LinktreeForm from "../components/form";
 import { Box, Flex, Text, Image } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import uuid from "react-uuid";
-import { setLinktree, getLinktreeWithUsername } from "../api";
+import { setLinktree, getLinktreeWithUsername, setLinktreeMagic } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "../contexts";
 import "../css/ButtonAnimations.css";
 import { createThemeApplier, getRadioButtonScheme } from "../helpers";
+import TransferTokens from "../components/modals/magic/TransferTokens";
 
 function makeStorageClient() {
   return new Web3Storage({
@@ -41,7 +42,8 @@ const CreateLinktree = () => {
   const linksGroup = { label: "", redirectUrl: "", key: "", isFavorite: false };
   const toast = useToast();
   const navigate = useNavigate();
-  const { publicKey, apiUrl, nodeList } = useWalletContext();
+  const { publicKey, apiUrl, nodeList, magicData } = useWalletContext();
+  console.log(magicData);
 
   const uploadToIPFS = async (image) => {
     try {
@@ -162,6 +164,65 @@ const CreateLinktree = () => {
     setIsLoading(false);
   };
 
+  const handleSubmitMagic = async (values, actions) => {
+    setIsLoading(true);
+
+    const imageCID = await uploadToIPFS(files);
+    if (imageCID === null) {
+      setIsLoading(false);
+      return toast({
+        title: "Try again",
+        description: "Error uploading image",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+
+    values.links = insertKey(values.links);
+    const payload = {
+      uuid: uuid(),
+      linktree: {
+        ...values,
+        image: `https://${imageCID}.ipfs.dweb.link/${imageName}`,
+        background: "",
+        theme: choosenTheme,
+        choosenLabelTheme: choosenLabelTheme,
+      },
+      timestamp: Date.now(),
+    };
+
+    const res = await setLinktreeMagic(
+      payload,
+      publicKey,
+      nodeList,
+      values?.linktreeAddress
+    );
+    if (res?.message === "Proof and linktree registered successfully") {
+      toast({
+        title:
+          "Successfully created Linktree profile! Redirecting in 10 seconds...",
+        status: "success",
+        duration: 7000,
+        isClosable: true,
+        position: "top",
+      });
+      setTimeout(() => {
+        navigate(`/${values?.linktreeAddress}`);
+      }, 10000);
+    } else {
+      toast({
+        title: "Error creating Linktree profile!",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+    setIsLoading(false);
+  };
+
   const handleChangeUserName = async (e) => {
     const userData = await getLinktreeWithUsername(e.target.value, nodeList);
     if (userData?.data?.username) {
@@ -177,22 +238,22 @@ const CreateLinktree = () => {
     setChoosenLabelTheme(e);
   };
   return (
-    <Flex justify='center' align='center' width='100%'>
+    <Flex justify="center" align="center" width="100%">
       <Box
         py={{ base: "2rem", md: "5rem" }}
         px={8}
-        margin='auto'
+        margin="auto"
         maxWidth={{ base: "100%", md: "800px" }}
-        className='createLinktree'
+        className="createLinktree"
       >
         <Flex>
           <Text
             my={5}
-            color='var(--koii-create-topic)'
+            color="var(--koii-create-topic)"
             fontSize={{ base: "24px", md: "32px" }}
-            fontFamily='Sora'
-            fontStyle='normal'
-            fontWeight='600'
+            fontFamily="Sora"
+            fontStyle="normal"
+            fontWeight="600"
             lineHeight={{ base: "24px", md: "40px" }}
           >
             Create Your Koii Linktree Profile
@@ -203,28 +264,54 @@ const CreateLinktree = () => {
           fontSize={{ base: "xl", md: "2xl" }}
           fontWeight={{ base: "bold", md: "bold" }}
           my={5}
-          color='var(--koii-create-topic)'
+          color="var(--koii-create-topic)"
         >
           Profile Settings
         </Text>
 
-        <LinktreeForm
-          choosenLabelTheme={choosenLabelTheme}
-          choosenTheme={choosenTheme}
-          linksGroup={linksGroup}
-          image={image}
-          handleSubmit={handleSubmit}
-          setFiles={setFiles}
-          setImage={setImage}
-          setImageName={setImageName}
-          handleChangeUserName={handleChangeUserName}
-          usernameError={usernameError}
-          disabled={disabled}
-          isLoading={isLoading}
-          handleLabelSelection={handleLabelSelection}
-          handleThemeSelection={handleThemeSelection}
-          colorScheme={radioColorScheme}
-        />
+        {magicData ? (
+          <>
+            <LinktreeForm
+              choosenLabelTheme={choosenLabelTheme}
+              choosenTheme={choosenTheme}
+              linksGroup={linksGroup}
+              image={image}
+              handleSubmit={handleSubmitMagic}
+              setFiles={setFiles}
+              setImage={setImage}
+              setImageName={setImageName}
+              handleChangeUserName={handleChangeUserName}
+              usernameError={usernameError}
+              disabled={disabled}
+              isLoading={isLoading}
+              handleLabelSelection={handleLabelSelection}
+              handleThemeSelection={handleThemeSelection}
+              colorScheme={radioColorScheme}
+            />
+            <TransferTokens />
+          </>
+        ) : (
+          <>
+            <LinktreeForm
+              choosenLabelTheme={choosenLabelTheme}
+              choosenTheme={choosenTheme}
+              linksGroup={linksGroup}
+              image={image}
+              handleSubmit={handleSubmit}
+              setFiles={setFiles}
+              setImage={setImage}
+              setImageName={setImageName}
+              handleChangeUserName={handleChangeUserName}
+              usernameError={usernameError}
+              disabled={disabled}
+              isLoading={isLoading}
+              handleLabelSelection={handleLabelSelection}
+              handleThemeSelection={handleThemeSelection}
+              colorScheme={radioColorScheme}
+            />
+            <TransferTokens />
+          </>
+        )}
       </Box>
     </Flex>
   );
