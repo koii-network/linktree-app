@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useWalletContext } from "../../../contexts";
 import { Magic } from "magic-sdk";
 import { SolanaExtension } from "@magic-ext/solana";
 import * as web3 from "@_koi/web3.js";
 import { Box, Text, Button, Flex, Heading } from "@chakra-ui/react";
-
+import bs58 from "bs58";
+import axios from "axios";
 const rpcUrl = "https://testnet.koii.live";
 
 const magic = new Magic("pk_live_CBCF36F8BBB76143", {
@@ -15,6 +18,9 @@ const magic = new Magic("pk_live_CBCF36F8BBB76143", {
 });
 
 export default function MasterMagic() {
+  const { magicPayload } = useWalletContext();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [publicAddress, setPublicAddress] = useState("");
   const [destinationAddress, setDestinationAddress] = useState(
@@ -91,7 +97,79 @@ export default function MasterMagic() {
     console.log(signature);
   };
 
-  const handleSignMessage = async () => {
+  const handleSignMessage = async (data) => {
+    try {
+      /* data = {
+        uuid: "27c2c465-f80c-488c-65b6-3834ed9b14d2",
+        linktree: {
+          name: "Example Test",
+          description: "Test example test",
+          image:
+            "https: //bafybeide7e4di2yfzn7escwqwemh4beee7jzr4mwes5rqxaumrx2ckl7vu.ipfs.dweb.link/photo.jpg",
+          background: "",
+          links: [
+            {
+              label: "https: //www.youtube.com/",
+              redirectUrl: "https: //www.youtube.com/",
+              key: "57fb402d-276c-766c-50c0-e7e77b9d132e",
+              isFavorite: true,
+            },
+          ],
+          linktreeAddress: "potatokingdom31",
+          theme: "Mint",
+          choosenLabelTheme: "label-one",
+        },
+        timestamp: 1703802587522,
+      }; */
+
+      data = magicPayload;
+
+      const metadata = await magic.user.getMetadata();
+      const payer = new web3.PublicKey(metadata.publicAddress);
+
+      const messageString = JSON.stringify(data);
+
+      // Use Magic to sign the message
+      const signedMessage = await magic.solana.signMessage(
+        new TextEncoder().encode(messageString)
+      );
+
+      console.log(signedMessage);
+
+      // Prepare the payload
+      const payload = {
+        data,
+        publicKey: payer,
+        signature: bs58.encode(signedMessage),
+        username: magicPayload.linktree.linktreeAddress,
+      };
+
+      let result = await axios
+        .post(
+          `https://tasknet.koii.live/task/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/linktree`,
+          { payload }
+        )
+        .then((res) => res.data)
+        //After 5 seconds, navigate to www.google.com
+        .then(() => {
+          setTimeout(function () {
+            navigate("/" + magicPayload.linktree.linktreeAddress);
+          }, 5000);
+        })
+        .catch((error) => {
+          console.log(`Error:`, error);
+          return null;
+        });
+
+      if (result?.message) {
+        return result;
+      }
+    } catch (error) {
+      console.error("Error in handleSignMessage:", error);
+    }
+  };
+
+  /*   const handleSignMessage = async () => {
     setSendingTransaction(true);
     const metadata = await magic.user.getMetadata();
     const recipientPubKey = new web3.PublicKey(destinationAddress);
@@ -150,7 +228,7 @@ export default function MasterMagic() {
     const signature = await connection.sendRawTransaction(tx.serialize());
 
     console.log(signature);
-  };
+  }; */
 
   return (
     <Box>
@@ -225,23 +303,28 @@ export default function MasterMagic() {
               setSendAmount(event.target.value);
             }}
           /> */}
-          <Button
-            onClick={handleSignTransaction}
-            color="white"
-            bgColor={"#353570"}
-            minWidth={"35%"}
-          >
-            Send 4 Koii Fee
-          </Button>
-          <Button
-            onClick={handleSignMessage}
-            mt={5}
-            color={"white"}
-            bgColor={"#353570"}
-            minWidth={"35%"}
-          >
-            Send Linktree Data
-          </Button>
+
+          {magicPayload && (
+            <>
+              {/*             <Button
+                onClick={handleSignTransaction}
+                color="white"
+                bgColor={"#353570"}
+                minWidth={"35%"}
+              >
+                Step 2: Send 4.00 KOII Fee
+              </Button> */}
+              <Button
+                onClick={handleSignMessage}
+                mt={5}
+                color={"white"}
+                bgColor={"#353570"}
+                minWidth={"35%"}
+              >
+                Confirm and Publish
+              </Button>
+            </>
+          )}
         </Flex>
       )}
     </Box>

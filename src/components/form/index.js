@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -18,6 +18,7 @@ import { PreviewImage } from "./preview-image";
 import UploadSvg from "../icons/upload";
 import ProfileImageSvg from "../icons/profile-image";
 import { PersonalizeLinktree } from "./personalize-linktree";
+import { useWalletContext } from "../../contexts";
 
 function LinktreeForm({
   choosenLabelTheme,
@@ -35,7 +36,10 @@ function LinktreeForm({
   handleLabelSelection,
   handleThemeSelection,
   colorScheme,
+  registerLinkText,
 }) {
+  const { magicPayload } = useWalletContext();
+
   return (
     <Formik
       initialValues={{
@@ -76,34 +80,34 @@ function LinktreeForm({
     >
       {({ values, handleSubmit, isValid }) => (
         <form onSubmit={handleSubmit}>
-          <Box width='100%'>
+          <Box width="100%">
             <Box
               mt={5}
-              display='flex'
-              width='100%'
+              display="flex"
+              width="100%"
               gap={{ base: "20px", md: "40px" }}
               flexDirection={{ base: "column", md: "row" }}
             >
-              <Box maxWidth={{ base: "auto", md: "20%" }} width='100%'>
+              <Box maxWidth={{ base: "auto", md: "20%" }} width="100%">
                 {image ? (
                   <PreviewImage width={100} height={100} file={image} />
                 ) : (
-                  <div className='user-image'>
+                  <div className="user-image">
                     <ProfileImageSvg />
                   </div>
                 )}
               </Box>
 
               <Box
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
                 maxW={{ md: "80%" }}
-                width='100%'
+                width="100%"
               >
                 <Flex
                   flexDirection={{ base: "column-reverse", md: "column" }}
-                  width='100%'
+                  width="100%"
                 >
                   <Box mb={{ base: 3 }}>
                     <div
@@ -115,30 +119,30 @@ function LinktreeForm({
                       }}
                     >
                       <Text
-                        wordBreak='keep-all'
-                        color='var(--koii-create-text)'
+                        wordBreak="keep-all"
+                        color="var(--koii-create-text)"
                         width={{ base: "120px", md: "auto" }}
                       >
                         Your Name
                       </Text>
                       <Box width={{ base: "100%", md: "75%" }}>
                         <Field
-                          name='name'
-                          label='Full Name'
-                          color='var(--koii-blue)'
+                          name="name"
+                          label="Full Name"
+                          color="var(--koii-blue)"
                           as={Input}
-                          className='input-border'
+                          className="input-border"
                           style={{
                             borderRadius: "30px",
                             backgroundColor: "white",
                           }}
-                          border='1.5px solid #6B5FA5'
+                          border="1.5px solid #6B5FA5"
                         />
                       </Box>
                     </div>
 
-                    <Text className='error'>
-                      <ErrorMessage name='name' />
+                    <Text className="error">
+                      <ErrorMessage name="name" />
                     </Text>
                   </Box>
 
@@ -152,18 +156,18 @@ function LinktreeForm({
                       }}
                     >
                       <Text
-                        wordBreak='keep-all'
-                        color='var(--koii-create-text)'
+                        wordBreak="keep-all"
+                        color="var(--koii-create-text)"
                       >
                         Profile Photo
                       </Text>
-                      <Field name='image'>
+                      <Field name="image">
                         {({ form, field }) => {
                           const { setFieldValue } = form;
                           return (
-                            <label class='custom-file-upload'>
+                            <label class="custom-file-upload">
                               <input
-                                type='file'
+                                type="file"
                                 required
                                 onChange={async (e) => {
                                   setFiles(e.target.files);
@@ -185,8 +189,8 @@ function LinktreeForm({
                         }}
                       </Field>
                     </div>
-                    <Text className='error'>
-                      <ErrorMessage name='image' />
+                    <Text className="error">
+                      <ErrorMessage name="image" />
                     </Text>
                   </Box>
                 </Flex>
@@ -194,37 +198,37 @@ function LinktreeForm({
             </Box>
 
             <Box
-              display='flex'
-              gap='12px'
-              justifyContent='flex-start'
-              alignItems='flex-start'
-              marginTop='40px'
+              display="flex"
+              gap="12px"
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              marginTop="40px"
             >
-              <Text color='var(--koii-create-text)'>Bio</Text>
+              <Text color="var(--koii-create-text)">Bio</Text>
               <Field
-                borderRadius='30px'
-                name='description'
-                label='Bio'
-                background='var(--koii-input-bg-color)'
-                color='var(--koii-create-text)'
+                borderRadius="30px"
+                name="description"
+                label="Bio"
+                background="var(--koii-input-bg-color)"
+                color="var(--koii-create-text)"
                 as={Textarea}
-                height='150px'
-                className='input-border'
-                border='1.5px solid #6B5FA5'
+                height="150px"
+                className="input-border"
+                border="1.5px solid #6B5FA5"
               />
             </Box>
-            <Text className='error'>
-              <ErrorMessage name='description' />
+            <Text className="error">
+              <ErrorMessage name="description" />
             </Text>
 
-            <Text fontSize='m' mt={10} mr={2} color='var(--koii-create-topic)'>
+            <Text fontSize="m" mt={10} mr={2} color="var(--koii-create-topic)">
               Linktree URL:
             </Text>
             <Flex alignItems={"center"}>
-              <Text mr={3} color='var(--koii-create-text)'>
+              <Text mr={3} color="var(--koii-create-text)">
                 linktree.koii.network/
               </Text>
-              <Field name='linktreeAddress'>
+              <Field name="linktreeAddress">
                 {({ form, field }) => {
                   const { setFieldValue } = form;
                   return (
@@ -234,11 +238,11 @@ function LinktreeForm({
                         background: "white",
                         borderRadius: "20px",
                       }}
-                      type='text'
-                      className='input-border input-container'
+                      type="text"
+                      className="input-border input-container"
                       required
-                      name='linktreeAddress'
-                      borderWidth='1.5px'
+                      name="linktreeAddress"
+                      borderWidth="1.5px"
                       onChange={async (e) => {
                         // handleChangeUserName(e);
                         setFieldValue("linktreeAddress", e.target.value);
@@ -250,27 +254,27 @@ function LinktreeForm({
               </Field>
             </Flex>
             <Box mt={5}>
-              <Text className='error'>
-                <ErrorMessage name='linktreeAddress' />
+              <Text className="error">
+                <ErrorMessage name="linktreeAddress" />
               </Text>
-              <Text className='error'>{usernameError}</Text>
+              <Text className="error">{usernameError}</Text>
             </Box>
           </Box>
 
-          <FieldArray name='links'>
+          <FieldArray name="links">
             {({ push, remove }) => (
               <div>
                 <div>
                   <Text
-                    fontSize='18px'
-                    fontFamily='Sora'
-                    fontStyle='normal'
+                    fontSize="18px"
+                    fontFamily="Sora"
+                    fontStyle="normal"
                     fontWeight={600}
-                    lineHeight='21px'
-                    letterSpacing='0.36px'
+                    lineHeight="21px"
+                    letterSpacing="0.36px"
                     mt={5}
                     mb={3}
-                    color='var(--koii-create-topic)'
+                    color="var(--koii-create-topic)"
                   >
                     Add Your Links
                   </Text>
@@ -279,28 +283,28 @@ function LinktreeForm({
                   <Box>
                     {values.links.length > 1 && index > 0 && (
                       <Text
-                        padding='0px 0px 10px'
-                        color='var(--koii-create-text)'
+                        padding="0px 0px 10px"
+                        color="var(--koii-create-text)"
                       >
                         Link #{index + 1}
                       </Text>
                     )}
                     {index === 0 && (
-                      <Box className='chooseAnimation'>
+                      <Box className="chooseAnimation">
                         <Text
-                          fontSize='16px'
-                          fontFamily='Sora'
-                          fontStyle='normal'
+                          fontSize="16px"
+                          fontFamily="Sora"
+                          fontStyle="normal"
                           fontWeight={400}
-                          lineHeight='20px'
-                          letterSpacing='-0.16px'
-                          color='var(--koii-create-text)'
+                          lineHeight="20px"
+                          letterSpacing="-0.16px"
+                          color="var(--koii-create-text)"
                         >
                           Your Primary Link
                         </Text>
 
                         <Text
-                          fontSize='12px'
+                          fontSize="12px"
                           mb={5}
                           color={
                             choosenTheme === "Gradient-Two"
@@ -313,9 +317,9 @@ function LinktreeForm({
                         </Text>
                       </Box>
                     )}
-                    <Box width='100%'>
+                    <Box width="100%">
                       <Flex
-                        width='100%'
+                        width="100%"
                         flexDirection={{ base: "column", md: "row" }}
                         key={index + 1}
                         mt={2}
@@ -323,28 +327,28 @@ function LinktreeForm({
                       >
                         <Box w={{ base: "100%", md: "40%" }}>
                           <Box
-                            w='100%'
-                            display='flex'
-                            alignItems='center'
-                            gap='10px'
+                            w="100%"
+                            display="flex"
+                            alignItems="center"
+                            gap="10px"
                           >
                             <Text
-                              color='var(--koii-create-text)'
+                              color="var(--koii-create-text)"
                               width={{ base: "150px", md: "auto" }}
                             >
                               Link “Label”
                             </Text>
                             <Field
-                              color='var(--koii-create-text)'
-                              background='var(--koii-input-bg-color)'
+                              color="var(--koii-create-text)"
+                              background="var(--koii-input-bg-color)"
                               style={{
                                 borderRadius: "20px",
                                 color: "var(--koii-create-text)",
                               }}
                               name={`links.${index}.label`}
-                              label='Link Name'
+                              label="Link Name"
                               as={Input}
-                              className='input-border'
+                              className="input-border"
                               borderRadius={30}
                               width={{ base: "100%", md: "60%" }}
                             />
@@ -353,7 +357,7 @@ function LinktreeForm({
                             w={{ base: "100%", md: "40%" }}
                             display={{ base: "flex", md: "none" }}
                           >
-                            <Text className='error'>
+                            <Text className="error">
                               <ErrorMessage name={`links.${index}.label`} />
                             </Text>
                           </Box>
@@ -364,27 +368,27 @@ function LinktreeForm({
                           mt={{ base: "24px", md: "0px" }}
                         >
                           <Box
-                            w='100%'
-                            display='flex'
-                            alignItems='center'
-                            gap='10px'
+                            w="100%"
+                            display="flex"
+                            alignItems="center"
+                            gap="10px"
                           >
                             <Text
-                              color='var(--koii-create-text)'
+                              color="var(--koii-create-text)"
                               width={{ base: "150px", md: "auto" }}
                             >
                               Link “URL”
                             </Text>
                             <Field
-                              color='var(--koii-create-text)'
-                              background='var(--koii-input-bg-color)'
+                              color="var(--koii-create-text)"
+                              background="var(--koii-input-bg-color)"
                               style={{
                                 borderRadius: "20px",
                                 color: "var(--koii-create-text)",
                               }}
-                              className='input-border'
+                              className="input-border"
                               name={`links.${index}.redirectUrl`}
-                              label='Link URL'
+                              label="Link URL"
                               as={Input}
                               borderRadius={30}
                               width={{
@@ -397,7 +401,7 @@ function LinktreeForm({
                             w={{ base: "100%", md: "58%" }}
                             display={{ base: "flex", md: "none" }}
                           >
-                            <Text className='error'>
+                            <Text className="error">
                               <ErrorMessage
                                 name={`links.${index}.redirectUrl`}
                               />
@@ -408,19 +412,19 @@ function LinktreeForm({
                           <div>
                             {" "}
                             <IconButton
-                              rounded='full'
+                              rounded="full"
                               icon={<DeleteIcon />}
                               opacity={0}
-                              colorScheme='red'
+                              colorScheme="red"
                               alignSelf={{ base: "flex-end", lg: "" }}
                             />
                           </div>
                         ) : (
                           <div>
                             <IconButton
-                              rounded='full'
+                              rounded="full"
                               icon={<DeleteIcon />}
-                              colorScheme='red'
+                              colorScheme="red"
                               alignSelf={{ base: "flex-end", lg: "" }}
                               onClick={() => remove(index)}
                             />
@@ -428,21 +432,21 @@ function LinktreeForm({
                         )}
                       </Flex>
                       <Flex
-                        width='100%'
+                        width="100%"
                         flexDirection={{ base: "column", md: "row" }}
                         key={index}
-                        mt='4px'
+                        mt="4px"
                         display={{ base: "none", md: "flex" }}
                         alignItems={{ base: "end", md: "center" }}
                       >
                         <Box w={{ base: "100%", md: "40%" }}>
-                          <Text className='error'>
+                          <Text className="error">
                             <ErrorMessage name={`links.${index}.label`} />
                           </Text>
                         </Box>
                         <Spacer />
                         <Box w={{ base: "100%", md: "58%" }}>
-                          <Text className='error'>
+                          <Text className="error">
                             <ErrorMessage name={`links.${index}.redirectUrl`} />
                           </Text>
                         </Box>
@@ -451,24 +455,24 @@ function LinktreeForm({
                     </Box>
                     {index === 0 && <></>}
                     {values.links.length > 1 && index === 0 && (
-                      <Text padding='30px 0px 30px'>Other Links</Text>
+                      <Text padding="30px 0px 30px">Other Links</Text>
                     )}
                   </Box>
                 ))}
                 <Button
                   mt={4}
                   leftIcon={<AddIcon />}
-                  rounded='full'
-                  borderColor='var(--koii-border-color)'
+                  rounded="full"
+                  borderColor="var(--koii-border-color)"
                   color={
                     choosenTheme === "Gradient-Two"
                       ? "#353570"
                       : "var(--koii-border-color)"
                   }
-                  variant='outline'
+                  variant="outline"
                   onClick={() => push(linksGroup)}
                   padding={6}
-                  opacity='1'
+                  opacity="1"
                   backgroundColor={"var(--koii-input-bg-color)"}
                 >
                   Add Link
@@ -486,39 +490,53 @@ function LinktreeForm({
             values={values}
             choosenLabelTheme={choosenLabelTheme}
           />
-          <Flex w='100%' alignItems='center' flexDirection='column'>
-            <Button
-              w='full'
-              maxW='254px'
-              rounded='full'
-              color={
-                choosenTheme === "Gradient-Two"
-                  ? "#353570"
-                  : "var(--koii-button-upload)"
-              }
-              bg={
-                choosenTheme === "Gradient-Two"
-                  ? "#FFEE81"
-                  : "var(--koii-button-upload-bg)"
-              }
-              mx='auto'
-              my={10}
-              type='submit'
-              isDisabled={disabled}
-              alignSelf='center'
-            >
-              {isLoading ? <Spinner /> : "Register My KoiiLink"}
-            </Button>
-            <Text
-              color={
-                choosenTheme === "Gradient-Two"
-                  ? "#353570"
-                  : "var(--koii-border-color)"
-              }
-            >
-              4 KOII would be withdrawn to create a linktree profile
-            </Text>
-          </Flex>
+
+          {magicPayload ? (
+            <>
+              <Text marginTop={5} textAlign={"center"}>
+                {" "}
+                Your profile is almost ready!
+              </Text>
+            </>
+          ) : (
+            <>
+              <Flex w="100%" alignItems="center" flexDirection="column">
+                <Button
+                  w="full"
+                  maxW="254px"
+                  rounded="full"
+                  color={
+                    choosenTheme === "Gradient-Two"
+                      ? "#353570"
+                      : "var(--koii-button-upload)"
+                  }
+                  bg={
+                    choosenTheme === "Gradient-Two"
+                      ? "#FFEE81"
+                      : "var(--koii-button-upload-bg)"
+                  }
+                  mx="auto"
+                  my={10}
+                  type="submit"
+                  isDisabled={disabled}
+                  alignSelf="center"
+                >
+                  {}
+
+                  <> {isLoading ? <Spinner /> : registerLinkText}</>
+                </Button>
+                <Text
+                  color={
+                    choosenTheme === "Gradient-Two"
+                      ? "#353570"
+                      : "var(--koii-border-color)"
+                  }
+                >
+                  4 KOII would be withdrawn to create a linktree profile
+                </Text>
+              </Flex>
+            </>
+          )}
         </form>
       )}
     </Formik>

@@ -43,7 +43,14 @@ const CreateLinktree = () => {
   const linksGroup = { label: "", redirectUrl: "", key: "", isFavorite: false };
   const toast = useToast();
   const navigate = useNavigate();
-  const { publicKey, apiUrl, nodeList, magicData } = useWalletContext();
+  const {
+    publicKey,
+    apiUrl,
+    nodeList,
+    magicData,
+    magicPayload,
+    setMagicPayload,
+  } = useWalletContext();
   console.log(magicData);
 
   const uploadToIPFS = async (image) => {
@@ -194,33 +201,8 @@ const CreateLinktree = () => {
       timestamp: Date.now(),
     };
 
-    const res = await setLinktreeMagic(
-      payload,
-      publicKey,
-      nodeList,
-      values?.linktreeAddress
-    );
-    if (res?.message === "Proof and linktree registered successfully") {
-      toast({
-        title:
-          "Successfully created Linktree profile! Redirecting in 10 seconds...",
-        status: "success",
-        duration: 7000,
-        isClosable: true,
-        position: "top",
-      });
-      setTimeout(() => {
-        navigate(`/${values?.linktreeAddress}`);
-      }, 10000);
-    } else {
-      toast({
-        title: "Error creating Linktree profile!",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-        position: "top",
-      });
-    }
+    setMagicPayload(payload);
+
     setIsLoading(false);
   };
 
@@ -288,6 +270,7 @@ const CreateLinktree = () => {
               handleLabelSelection={handleLabelSelection}
               handleThemeSelection={handleThemeSelection}
               colorScheme={radioColorScheme}
+              registerLinkText={"Prepare My KoiiLink"}
             />
             <MasterMagic />
           </>
@@ -309,6 +292,7 @@ const CreateLinktree = () => {
               handleLabelSelection={handleLabelSelection}
               handleThemeSelection={handleThemeSelection}
               colorScheme={radioColorScheme}
+              registerLinkText={"Register My KoiiLink"}
             />
           </>
         )}

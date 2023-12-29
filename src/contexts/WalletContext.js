@@ -12,6 +12,7 @@ export const WalletContextProvider = ({ children }) => {
   const [userData, setUserData] = useState(false);
   const [magicData, setMagicData] = useState(false);
   const [magicConnection, setMagicConnection] = useState(false);
+  const [magicPayload, setMagicPayload] = useState(false);
 
   useEffect(() => {
     async function getRandomeNode() {
@@ -50,6 +51,8 @@ export const WalletContextProvider = ({ children }) => {
         setMagicData,
         magicConnection,
         setMagicConnection,
+        magicPayload,
+        setMagicPayload,
       }}
     >
       {children}
