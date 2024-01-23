@@ -1,0 +1,1 @@
+cp -n .env-local.sample .env-local

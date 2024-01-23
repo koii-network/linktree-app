@@ -1,63 +1,53 @@
-#Provide the taskId if you are updating the task
-task_id: ''
-# Name and desciption of your task
+# Name and metadata of your task
 task_name: 'linktree-task-testing'
-task_description: 'linktree task'
+author: 'Koii'
+description: 'linktree task'
+repositoryUrl: ''
+imageUrl: 'imageUrl'
 
-# network value can be DEVELOPMENT , ARWEAVE or IPFS
-task_executable_network: 'DEVELOPMENT'
+# network value can be DEVELOPMENT , ARWEAVE or IPFS, Recommended IPFS when deploying to testnet as the cli automatically takes care of uploading the executable with the help of web3.js key
+task_executable_network: 'IPFS'
 
-# Provide your web3.storage key as it is needed for uploading your metadata
-secret_web3_storage_key: ''
+# Path to your executable webpack if the selected network is IPFS and in case of DEVELOPMENT  name it as main
+task_audit_program: 'dist/main.js'
 
-# Path to your executable webpack if the selected network is IPFS otherwise leave blank
-task_audit_program: ''
+# Total round time of your task : it must be given in slots and each slot is roughly equal to 408ms
+round_time: 1500
 
-# Provide your transaction ID in case of ARWEAVE and in case of DEVELOPMENT give your executable name as main otherwise leave blank
-task_audit_program_id: 'main'
-
-# Total round time of your task : it must be given in slots and each slot is rougly equal to 4ms
-round_time: 600
-
-audit_window: 200
-submission_window: 200
+audit_window: 350
+submission_window: 350
 
 # Amounts in KOII
 
-minimum_stake_amount: 5
+minimum_stake_amount: 1.9
 
 # total_bounty_amount cannot be grater than bounty_amount_per_round
 # total bounty is not accepted in case of update task
-total_bounty_amount: 10
+total_bounty_amount: 100
 
-bounty_amount_per_round: 1
+bounty_amount_per_round: 100
 
 #Number of times allowed to re-submit the distribution  list in case the distribution list is audited
 allowed_failed_distributions: 3
 
-#Space in MBs
-space: 3
+#Space in MBs for the account size, that holds the task data
+space: 1
 
 # Note that the value field in RequirementTag is optional, so it is up to you to include it or not based on your use case.
 # To add more global variables and task variables, please refer the type,value,description format shown below
 
-author: 'Soma'
-description: 'linktree-task'
-repositoryUrl: 'https://github.com/koii-network/linktree-app'
-imageUrl: 'https://www.koii.network/images/iceberg_desktop.svg'
 requirementsTags:
-  - type: TASK_VARIABLE
-    value: SECRET_WEB3_STORAGE_KEY
-    description: 'used to connect web3.storage'
   - type: CPU
     value: '4-core'
   - type: RAM
     value: '5 GB'
   - type: STORAGE
-    value: 'test'
-  - type: NETWORK
-    value: 'test'
-  - type: ARCHITECTURE
-    value: 'AMD'
-  - type: OS
-    value: 'OSX'
+    value: '5 GB'
+
+# OPTIONAL variables variables for creating task / REQUIRED variables for update task
+
+# OPTIONAL Only provide the taskId if you are updating the task otherwise leave blank
+task_id: ''
+
+# Provide the description for changes made in new version of task
+migrationDescription: ''
