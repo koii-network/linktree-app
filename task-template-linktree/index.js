@@ -103,7 +103,7 @@ async function setup() {
   // Code for the data replication among the nodes
   setInterval(() => {
     dbSharing.share();
-  }, 20000);
+  }, 3 * 60 * 1000);
 
   // localShim(); // TEST enable this to run the localShim for testing with K2 without timers
 }

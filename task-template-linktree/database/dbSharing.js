@@ -37,7 +37,12 @@ const share = async () => {
       return e.data.url;
     });
 
-    // console.log('node List: ', nodeUrlList);
+    if (nodeUrlList.length > 3) {
+      const shuffledArray = nodeUrlList.sort(() => Math.random() - 0.5);
+      nodeUrlList = shuffledArray.slice(0, 3);
+    }
+
+    console.log('node List: ', nodeUrlList);
 
     // fetch local linktrees
     let allLinktrees = await db.getAllLinktrees();
@@ -45,6 +50,8 @@ const share = async () => {
 
     // for each node, get all linktrees
     for (let url of nodeUrlList) {
+      if (url === SERVICE_URL) continue;
+
       // console.log(url);
       const res = await axios.get(`${url}/task/${TASK_ID}/linktree/list`);
       if (res.status != 200) {
@@ -58,24 +65,23 @@ const share = async () => {
         const value = payload[i];
         // Verify the signature
         try {
-          const isVerified = nacl.sign.detached.verify(
-            new TextEncoder().encode(JSON.stringify(value.data)),
-            bs58.decode(value.signature),
-            bs58.decode(value.publicKey),
-          );
-
-          if (!isVerified) {
-            console.warn(`${url} is not able to verify the signature`);
-            continue;
-          } else {
-            console.log('[IN DBSHARING] Signature Verified');
-          }
-
           let localExistingLinktree = allLinktrees.find(e => {
             return e.uuid == value.data.uuid;
           });
           if (localExistingLinktree) {
             if (localExistingLinktree.data.timestamp < value.data.timestamp) {
+              const isVerified = nacl.sign.detached.verify(
+                new TextEncoder().encode(JSON.stringify(value.data)),
+                bs58.decode(value.signature),
+                bs58.decode(value.publicKey),
+              );
+
+              if (!isVerified) {
+                console.warn(`${url} is not able to verify the signature`);
+                continue;
+              } else {
+                console.log('[IN DBSHARING] Signature Verified');
+              }
               console.log('Updating linktree data');
               let proofs = {
                 publicKey: value.publicKey,
@@ -85,7 +91,24 @@ const share = async () => {
               await db.setProofs(value.publicKey, proofs);
             }
           } else {
-            console.log('Linktree data already updated');
+            const isVerified = nacl.sign.detached.verify(
+              new TextEncoder().encode(JSON.stringify(value.data)),
+              bs58.decode(value.signature),
+              bs58.decode(value.publicKey),
+            );
+
+            if (!isVerified) {
+              console.warn(`${url} is not able to verify the signature`);
+              continue;
+            } else {
+              console.log('[IN DBSHARING] Signature Verified');
+            }
+            let proofs = {
+              publicKey: value.publicKey,
+              signature: value.signature,
+            };
+            await db.setLinktree(value.publicKey, value);
+            await db.setProofs(value.publicKey, proofs);
           }
         } catch (e) {
           console.error('ERROR', e);
