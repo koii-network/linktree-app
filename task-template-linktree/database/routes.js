@@ -74,6 +74,12 @@ router.post('/linktree', async (req, res) => {
       publicKey: pubkey,
       signature: signature,
     };
+    const user = await db.getLinktreeWithUsername(linktree.username);
+    console.log({user})
+    if (user) return res.sendStatus(406);
+    const pubKey = await db.getLinktreeWithPubKey(pubkey);
+    console.log(pubKey)
+    if(pubKey)  return res.sendStatus(406);
 
     await db.setLinktree(pubkey, linktree);
 

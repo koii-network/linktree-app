@@ -6,7 +6,7 @@ class CoreLogic {
   }
 
   async task(roundNumber) {
-    await this.linktree.task(roundNumber);
+  
     return;
   }
 
@@ -19,6 +19,7 @@ class CoreLogic {
   }
 
   async submitDistributionList(round) {
+    return;
     // This upload the generated dustribution List
 
     console.log('SubmitDistributionList called');
