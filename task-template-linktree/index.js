@@ -116,7 +116,7 @@ if (taskNodeAdministered) {
 if (app) {
   app.use(express.json());
   app.use(cors());
-  app.options('*', cors());
+
   app.use('/task/GK5QGAve3dMpKJrmuAhFVQGeHnbTPKXgGdrTib9rZ9b5', routes);
   app.get('/syncData', (req, res) => {
     dbSharing.share();
