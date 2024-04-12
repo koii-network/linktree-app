@@ -10,6 +10,7 @@
 
 const coreLogic = require('./environment/coreLogic');
 const dbSharing = require('./database/dbSharing');
+const cors = require("cors")
 // const localShim = require("./localTestingShim"); // TEST to enable testing with K2 without round timers, enable this line and line 59
 const {
   app,
@@ -114,6 +115,8 @@ if (taskNodeAdministered) {
 
 if (app) {
   app.use(express.json());
+  app.use(cors());
+  app.options('*', cors());
   app.use('/task/GK5QGAve3dMpKJrmuAhFVQGeHnbTPKXgGdrTib9rZ9b5', routes);
   app.get('/syncData', (req, res) => {
     dbSharing.share();
