@@ -6,6 +6,14 @@ const cors = require('cors');
 const nacl = require('tweetnacl');
 const bs58 = require('bs58');
 const { namespaceWrapper } = require('../environment/namespaceWrapper');
+const formidable = require('formidable');
+const SpheronClient = require('@spheron/storage');
+const ProtocolEnum = SpheronClient.ProtocolEnum;
+const token = process.env['SPHERON_KEY'];
+const path = require('path');
+const uuid = require('uuid');
+const fetch = require('node-fetch');
+const a = import('./cidUtil.mjs');
 
 router.use(cors());
 
@@ -75,11 +83,11 @@ router.post('/linktree', async (req, res) => {
       signature: signature,
     };
     const user = await db.getLinktreeWithUsername(linktree.username);
-    console.log({user})
+    console.log({ user });
     if (user) return res.sendStatus(406);
     const pubKey = await db.getLinktreeWithPubKey(pubkey);
-    console.log(pubKey)
-    if(pubKey)  return res.sendStatus(406);
+    console.log(pubKey);
+    if (pubKey) return res.sendStatus(406);
 
     await db.setLinktree(pubkey, linktree);
 
@@ -216,5 +224,114 @@ router.get('/nodeurl', async (req, res) => {
 //   return res.status(200).send({message: 'Authlist registered successfully'});
 // }
 // )
+const client = new SpheronClient.SpheronClient({ token });
+const TASK_ID = 'GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L';
+router.post('/upload', async (req, res) => {
+  if (!fs.existsSync(`${__dirname}/../namespace/${TASK_ID}/uploads/`)) {
+    fs.mkdirSync(`${__dirname}/../namespace/${TASK_ID}/uploads`, {
+      recursive: true,
+    });
+  }
+  console.log(formidable);
+  console.log(
+    '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',
+  );
+  console.log(formidable.IncomingForm);
+  const form = new formidable.IncomingForm();
+  form.uploadDir = path.join(`${__dirname}/../namespace/${TASK_ID}/uploads`); // Directory to save uploaded files
+  console.log(form.uploadDir);
+  form.keepExtensions = true; // Keep file extension
+
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      console.error('Error during file upload:', err);
+      res.status(500).send('An error occurred during the file upload.');
+      return;
+    }
+    console.log(files);
+    const oldPath = files.file[0].filepath;
+    const tmpFolderName = uuid.v4();
+    fs.mkdirSync(path.join(form.uploadDir, tmpFolderName));
+    const newPath = path.join(form.uploadDir, tmpFolderName, 'avatar.jpeg');
+
+    // Move the file to the desired directory
+    fs.rename(oldPath, newPath, err => {});
+    let jj;
+    let b = await a;
+    const CID = await b.getCID(
+      form.uploadDir + '/' + tmpFolderName + '/avatar.jpeg',
+    );
+    console.log({ CID });
+    res.json(CID);
+    try {
+      jj = await client.upload(
+        form.uploadDir + '/' + tmpFolderName + '/avatar.jpeg',
+        {
+          protocol: ProtocolEnum.IPFS,
+          name: 'avatar.jpeg',
+          onUploadInitiated: uploadId => {
+            console.log(`Upload with id ${uploadId} started...`);
+          },
+        },
+      );
+    } catch (e) {
+      console.log(e);
+      return res.sendStatus(500);
+    }
+    console.log(jj);
+    try {
+      fs.renameSync(
+        path.join(
+          __dirname,
+          `../namespace/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/uploads/${tmpFolderName}`,
+        ),
+        path.join(
+          __dirname,
+          `../namespace/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/uploads/${jj.cid}`,
+        ),
+      );
+    } catch (e) {
+      fs.rmSync(
+        path.join(
+          __dirname,
+          `../namespace/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/uploads/${tmpFolderName}`,
+        ),
+        { recursive: true, force: true },
+      );
+    }
+    // res.json(jj);
+  });
+});
+router.get('/images/:id', async (req, res) => {
+  let id = req.params.id;
+  const file = path.join(
+    __dirname,
+    `../namespace/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/uploads/`,
+    id,
+    '/avatar.jpeg',
+  );
+  if (fs.existsSync(file)) {
+    console.log(file);
+    return res.sendFile(file);
+  }
+  try {
+    const resp = await fetch(`https://${id}.ipfs.sphn.link/avatar.jpeg`);
+    if (resp.ok) {
+      const buff = await resp.buffer();
+      fs.mkdirSync(
+        path.join(
+          __dirname,
+          `../namespace/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/uploads/`,
+          id,
+        ),
+        { recursive: true },
+      );
+      fs.writeFileSync(file, buff);
+      res.sendFile(file);
+    } else return res.sendStatus(404);
+  } catch (e) {
+    res.sendStatus(404);
+  }
+});
 
 module.exports = router;
