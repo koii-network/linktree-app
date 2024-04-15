@@ -288,7 +288,7 @@ router.post('/upload', async (req, res) => {
         ),
         path.join(
           __dirname,
-          `../namespace/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/uploads/${CID}`,
+          `../namespace/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/uploads/${CID.cid}`,
         ),
       );
     } catch (e) {
