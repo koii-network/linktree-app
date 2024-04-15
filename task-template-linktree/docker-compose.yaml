@@ -20,6 +20,7 @@ services:
     ports:
       - '8080:8080'
       - '10000:10000'
+      - '30017:30017'
 
     env_file: .env-local
 
@@ -30,7 +31,7 @@ services:
     networks:
       - task_net
     volumes:
-      - ./config/koii:/app/config
+      - /home/px/.config/koii:/app/config
       - ./data:/app/data
       - ./namespace:/app/namespace
       - ./dist:/app/executables

@@ -10,6 +10,7 @@
 
 const coreLogic = require('./environment/coreLogic');
 const dbSharing = require('./database/dbSharing');
+const cors = require("cors")
 // const localShim = require("./localTestingShim"); // TEST to enable testing with K2 without round timers, enable this line and line 59
 const {
   app,
@@ -80,30 +81,30 @@ async function setup() {
   console.log('setup function called');
   // Run default setup
   await namespaceWrapper.defaultTaskSetup();
-  process.on('message', m => {
-    // console.log("CHILD got message:", m);
-    if (m.functionCall == 'submitPayload') {
-      console.log('submitPayload called');
-      coreLogic.submitTask(m.roundNumber);
-    } else if (m.functionCall == 'auditPayload') {
-      console.log('auditPayload called');
-      coreLogic.auditTask(m.roundNumber);
-    } else if (m.functionCall == 'executeTask') {
-      console.log('executeTask called');
-      coreLogic.task(m.roundNumber);
-    } else if (m.functionCall == 'generateAndSubmitDistributionList') {
-      console.log('generateAndSubmitDistributionList called');
-      coreLogic.submitDistributionList(m.roundNumber);
-    } else if (m.functionCall == 'distributionListAudit') {
-      console.log('distributionListAudit called');
-      coreLogic.auditDistribution(m.roundNumber);
-    }
-  });
+  // process.on('message', m => {
+  //   // console.log("CHILD got message:", m);
+  //   if (m.functionCall == 'submitPayload') {
+  //     console.log('submitPayload called');
+  //     coreLogic.submitTask(m.roundNumber);
+  //   } else if (m.functionCall == 'auditPayload') {
+  //     console.log('auditPayload called');
+  //     coreLogic.auditTask(m.roundNumber);
+  //   } else if (m.functionCall == 'executeTask') {
+  //     console.log('executeTask called');
+  //     coreLogic.task(m.roundNumber);
+  //   } else if (m.functionCall == 'generateAndSubmitDistributionList') {
+  //     console.log('generateAndSubmitDistributionList called');
+  //     coreLogic.submitDistributionList(m.roundNumber);
+  //   } else if (m.functionCall == 'distributionListAudit') {
+  //     console.log('distributionListAudit called');
+  //     coreLogic.auditDistribution(m.roundNumber);
+  //   }
+  // });
 
   // Code for the data replication among the nodes
-  setInterval(() => {
-    dbSharing.share();
-  }, 20000);
+  // setInterval(() => {
+  //   dbSharing.share();
+  // }, 3 * 60 * 1000);
 
   // localShim(); // TEST enable this to run the localShim for testing with K2 without timers
 }
@@ -114,5 +115,10 @@ if (taskNodeAdministered) {
 
 if (app) {
   app.use(express.json());
-  app.use('/', routes);
+  app.use(cors());
+
+  app.use('/task/GK5QGAve3dMpKJrmuAhFVQGeHnbTPKXgGdrTib9rZ9b5', routes);
+  app.get('/syncData', (req, res) => {
+    dbSharing.share();
+  });
 }

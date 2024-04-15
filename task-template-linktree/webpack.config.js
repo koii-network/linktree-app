@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports={
     entry:"./index.js",
     target: 'node',
@@ -13,5 +14,9 @@ module.exports={
     },
     node:{
       __dirname: true
-    }
+    },
+    output: {
+      filename: 'bafybeig77w37wluy5pl7k5w7kyqnkfv3u354iqlckdmyggiqbepeafjfv4.js',
+      path: path.resolve(__dirname, 'dist'),
+    },
 }

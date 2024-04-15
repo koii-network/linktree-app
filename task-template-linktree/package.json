@@ -19,6 +19,8 @@
   "dependencies": {
     "@_koi/web3.js": "^0.0.6",
     "@_koii/create-task-cli": "^0.1.21",
+    "@helia/http": "^1.0.3",
+    "@helia/unixfs": "^3.0.3",
     "@solana/web3.js": "^1.74.0",
     "axios": "^0.27.2",
     "eth-sig-util": "^3.0.1",

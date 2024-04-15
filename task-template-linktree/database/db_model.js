@@ -32,11 +32,13 @@ const getLinktree = async publicKey => {
 };
 
 const getLinktreeWithUsername = async username => {
+  console.log({ username });
   const db = await namespaceWrapper.getDb();
   try {
-    const resp = await db.findOne({ username });
-    if (resp) {
-      return resp.linktree;
+    const resp = await db.find({ username });
+    console.log({ resp });
+    if (resp.length > 0) {
+      return resp[resp.length - 1].linktree;
     } else {
       return null;
     }
@@ -195,6 +197,14 @@ const getAllNodeProofCids = async () => {
   );
   return NodeproofsList;
 };
+const getLinktreeWithPubKey = async (pubkey) => {
+  const db = await namespaceWrapper.getDb();
+  const NodeproofsListRaw = await db.findOne({
+    "linktree.publicKey":pubkey,
+  });
+ 
+  return NodeproofsListRaw;
+};
 
 // Get the AuthList from the database using the public key, if not found return null
 
@@ -267,4 +277,5 @@ module.exports = {
   getAuthListId,
   getLinktreeWithUsername,
   updateLinktree,
+  getLinktreeWithPubKey
 };
