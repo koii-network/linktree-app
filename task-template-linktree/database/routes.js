@@ -277,7 +277,7 @@ router.post('/upload', async (req, res) => {
       );
     } catch (e) {
       console.log(e);
-      return res.sendStatus(500);
+      // return res.sendStatus(500);
     }
     console.log(jj);
     try {
@@ -288,7 +288,7 @@ router.post('/upload', async (req, res) => {
         ),
         path.join(
           __dirname,
-          `../namespace/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/uploads/${jj.cid}`,
+          `../namespace/GkW95C7wt5CoWDPVbjDM9tL6pyQf3xDfCSG3VaVYho1L/uploads/${CID}`,
         ),
       );
     } catch (e) {
